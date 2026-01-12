@@ -1,0 +1,1068 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAD/TS Compliance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .header h1 {
+            color: #333;
+            font-size: 22px;
+            margin-bottom: 5px;
+        }
+
+        .header .meta {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .summary-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .metric-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .metric-card .label {
+            color: #666;
+            font-size: 12px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .metric-card .value {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .metric-card .percentage {
+            font-size: 14px;
+            color: #999;
+            margin-left: 5px;
+        }
+
+        .metric-card.success .value { color: #10b981; }
+        .metric-card.warning .value { color: #f59e0b; }
+        .metric-card.danger .value { color: #ef4444; }
+
+        .charts-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .chart-card {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        .chart-card h2 {
+            color: #333;
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+
+        .chart-card canvas {
+            max-height: 250px;
+        }
+
+        .teams-section {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+        }
+
+        .teams-section h2 {
+            color: #333;
+            font-size: 18px;
+            margin-bottom: 12px;
+        }
+
+        .team-card {
+            border: 1px solid #e5e7eb;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 10px;
+        }
+
+        .team-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+
+        .team-name {
+            font-size: 18px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .team-stats {
+            display: flex;
+            gap: 20px;
+            font-size: 14px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat .label {
+            color: #666;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+
+        .stat .value {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .team-details {
+            display: none;
+            margin-top: 15px;
+            overflow-x: auto;
+        }
+
+        .team-details.active {
+            display: block;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background: #f3f4f6;
+            padding: 10px;
+            text-align: left;
+            font-weight: 600;
+            color: #374151;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        tr:hover {
+            background: #f9fafb;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .badge.success {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: #e5e7eb;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #10b981, #059669);
+            transition: width 0.3s;
+        }
+
+        .refresh-info {
+            text-align: center;
+            color: white;
+            margin-top: 20px;
+            font-size: 12px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+        }
+
+        .modal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .modal-close {
+            cursor: pointer;
+            font-size: 24px;
+            color: #666;
+        }
+
+        .clickable {
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .clickable:hover {
+            opacity: 0.8;
+        }
+
+        .filter-section {
+            background: white;
+            padding: 12px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .filter-section label {
+            font-weight: 600;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .filter-section select {
+            padding: 8px 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 6px;
+            font-size: 14px;
+            background: white;
+            cursor: pointer;
+            min-width: 120px;
+        }
+
+        .filter-section select:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .filter-section button {
+            padding: 8px 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .filter-section button:hover {
+            transform: translateY(-1px);
+        }
+
+        .filter-section button:active {
+            transform: translateY(0);
+        }
+
+        .loading-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 9999;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .loading-overlay.active {
+            display: flex;
+        }
+
+        .loading-spinner {
+            background: white;
+            padding: 20px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>TAD/TS Compliance Dashboard</h1>
+            <div class="meta">
+                <span id="dateRange">Loading...</span> | 
+                <span>Last Updated: <span id="lastUpdate"></span></span>
+            </div>
+        </div>
+        <div class="filter-section">
+            <label for="sprintSelect">Select Sprint:</label>
+            <select id="sprintSelect">
+                <option value="current">Current Sprint</option>
+                <option value="26.1.1">Sprint 26.1.1</option>
+                <option value="26.1.2">Sprint 26.1.2</option>
+            </select>
+            <button onclick="loadSprintData()">Load Data</button>
+            
+            <label for="statusSelect" style="margin-left: 20px;">Filter by Status:</label>
+            <select id="statusSelect" onchange="applyStatusFilter()">
+                <option value="all">All Statuses</option>
+                <option value="Closed">Closed Only</option>
+                <option value="New">New Only</option>
+                <option value="Closed,New">Closed & New</option>
+            </select>
+        </div>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-spinner">Loading data...</div>
+        </div>
+
+        <div class="summary-grid">
+            <div class="metric-card">
+                <div class="label">Total Issues</div>
+                <div class="value clickable" id="totalIssues" onclick="showStories('all')">-</div>
+            </div>
+            <div class="metric-card success">
+                <div class="label">TAD Complete</div>
+                <div class="value clickable" id="tadComplete" onclick="showStories('tadComplete')">-</div>
+                <span class="percentage" id="tadPct">-</span>
+            </div>
+            <div class="metric-card success">
+                <div class="label">TS Complete</div>
+                <div class="value clickable" id="tsComplete" onclick="showStories('tsComplete')">-</div>
+                <span class="percentage" id="tsPct">-</span>
+            </div>
+            <div class="metric-card warning">
+                <div class="label">Both Complete</div>
+                <div class="value clickable" id="bothComplete" onclick="showStories('bothComplete')">-</div>
+                <span class="percentage" id="bothPct">-</span>
+            </div>
+            <div class="metric-card danger">
+                <div class="label">Missing TAD</div>
+                <div class="value clickable" id="missingTad" onclick="showStories('missingTad')">-</div>
+                <span class="percentage" id="missingTadPct">-</span>
+            </div>
+            <div class="metric-card danger">
+                <div class="label">Missing TS</div>
+                <div class="value clickable" id="missingTs" onclick="showStories('missingTs')">-</div>
+                <span class="percentage" id="missingTsPct">-</span>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                <div class="label">TAD N/A</div>
+                <div class="value clickable" id="tadNA" onclick="showStories('tadNA')">-</div>
+                <span class="percentage" id="tadNAPct">-</span>
+            </div>
+            <div class="metric-card" style="background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);">
+                <div class="label">TS N/A</div>
+                <div class="value clickable" id="tsNA" onclick="showStories('tsNA')">-</div>
+                <span class="percentage" id="tsNAPct">-</span>
+            </div>
+        </div>
+
+        <div class="modal" id="storyModal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modalTitle">Stories</h3>
+                    <span class="modal-close" onclick="closeModal()">&times;</span>
+                </div>
+                <div id="modalBody"></div>
+            </div>
+        </div>
+
+        <div class="charts-section">
+            <div class="chart-card">
+                <h2>Overall Compliance</h2>
+                <canvas id="overallChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Team Comparison - TAD</h2>
+                <canvas id="teamTadChart"></canvas>
+            </div>
+            <div class="chart-card">
+                <h2>Team Comparison - TS</h2>
+                <canvas id="teamTsChart"></canvas>
+            </div>
+        </div>
+
+        <div class="teams-section">
+            <h2>Team Details</h2>
+            <div id="teamsContainer">Loading...</div>
+        </div>
+
+        <div class="refresh-info">
+            Dashboard updates when new report is generated
+        </div>
+    </div>
+
+    <script src="tad-ts-report-data.js"></script>
+    <script>
+        let currentCharts = {};
+
+        // Load sprint data dynamically
+        async function loadSprintData() {
+            const sprintSelect = document.getElementById('sprintSelect');
+            const selectedSprint = sprintSelect.value;
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            
+            loadingOverlay.classList.add('active');
+            
+            try {
+                // Destroy existing charts first
+                Object.values(currentCharts).forEach(chart => {
+                    try {
+                        chart.destroy();
+                    } catch (e) {
+                        console.log('Chart already destroyed');
+                    }
+                });
+                currentCharts = {};
+                
+                // Clear existing data
+                window.reportData = null;
+                
+                // Remove old script if exists
+                const oldScript = document.getElementById('dataScript');
+                if (oldScript) {
+                    oldScript.remove();
+                }
+                
+                // Try to load sprint-specific file first
+                const sprintFile = selectedSprint === 'current' ? 
+                    `tad-ts-report-data.js?t=${Date.now()}` : 
+                    `tad-ts-report-sprint-${selectedSprint}.js?t=${Date.now()}`;
+                
+                // Load the script
+                await new Promise((resolve, reject) => {
+                    const script = document.createElement('script');
+                    script.id = 'dataScript';
+                    script.src = sprintFile;
+                    script.onload = () => {
+                        console.log('Sprint file loaded:', sprintFile);
+                        resolve();
+                    };
+                    script.onerror = () => {
+                        console.log('Sprint file not found, trying default');
+                        // If sprint file doesn't exist, try default file
+                        script.remove();
+                        const defaultScript = document.createElement('script');
+                        defaultScript.id = 'dataScript';
+                        defaultScript.src = `tad-ts-report-data.js?t=${Date.now()}`;
+                        defaultScript.onload = resolve;
+                        defaultScript.onerror = reject;
+                        document.head.appendChild(defaultScript);
+                    };
+                    document.head.appendChild(script);
+                });
+                
+                // Wait for data to be available
+                let retries = 0;
+                while (!window.reportData && retries < 10) {
+                    await new Promise(resolve => setTimeout(resolve, 100));
+                    retries++;
+                }
+                
+                if (window.reportData) {
+                    console.log('Data loaded, updating dashboard');
+                    updateDashboard();
+                } else {
+                    throw new Error('No data loaded after retries');
+                }
+            } catch (error) {
+                console.error('Error loading sprint data:', error);
+                document.getElementById('teamsContainer').innerHTML = 
+                    `<p style="color: #ef4444;">No data available for Sprint ${selectedSprint}. Please run: python sprint-tad-ts-report.py</p>`;
+            } finally {
+                loadingOverlay.classList.remove('active');
+            }
+        }
+
+        // Load the latest report data
+        async function loadReportData() {
+            // First try to load from embedded JS file (works with local files)
+            if (window.reportData) {
+                updateDashboard();
+                return;
+            }
+            
+            // Fallback to fetch (requires web server)
+            try {
+                const response = await fetch('tad-ts-report-data.json');
+                window.reportData = await response.json();
+                updateDashboard();
+            } catch (error) {
+                console.error('Error loading report data:', error);
+                document.getElementById('teamsContainer').innerHTML = 
+                    '<p style="color: #ef4444;">Error loading report data. Please generate a report first by running: py sprint-tad-ts-report.py 2025-12-01 2025-12-03</p>';
+            }
+        }
+
+        function updateDashboard() {
+            if (!window.reportData) return;
+            
+            const reportData = window.reportData;
+
+            // Update header
+            document.getElementById('dateRange').textContent = reportData.dateRange;
+            document.getElementById('lastUpdate').textContent = reportData.generated;
+
+            // Apply status filter if selected
+            applyStatusFilter();
+        }
+
+        function applyStatusFilter() {
+            if (!window.reportData) return;
+            
+            const statusSelect = document.getElementById('statusSelect');
+            const selectedStatus = statusSelect ? statusSelect.value : 'all';
+            
+            // Clone the original data
+            const reportData = JSON.parse(JSON.stringify(window.reportData));
+            
+            // Filter issues by status if not "all"
+            if (selectedStatus !== 'all') {
+                const statusList = selectedStatus.split(',');
+                
+                // Filter each team's issues
+                for (const teamName in reportData.teams) {
+                    const team = reportData.teams[teamName];
+                    const originalIssues = team.issues;
+                    
+                    // Filter issues by status
+                    team.issues = originalIssues.filter(issue => statusList.includes(issue.status));
+                    
+                    // Recalculate team stats
+                    team.total = team.issues.length;
+                    team.tadComplete = team.issues.filter(i => i.tadFound).length;
+                    team.tsComplete = team.issues.filter(i => i.tsFound).length;
+                    team.bothComplete = team.issues.filter(i => i.tadFound && i.tsFound).length;
+                    team.tadPct = team.total > 0 ? (team.tadComplete / team.total * 100) : 0;
+                    team.tsPct = team.total > 0 ? (team.tsComplete / team.total * 100) : 0;
+                }
+                
+                // Remove teams with no issues after filtering
+                for (const teamName in reportData.teams) {
+                    if (reportData.teams[teamName].total === 0) {
+                        delete reportData.teams[teamName];
+                    }
+                }
+                
+                // Recalculate overall summary
+                let total = 0, tadComplete = 0, tsComplete = 0, bothComplete = 0;
+                for (const teamName in reportData.teams) {
+                    const team = reportData.teams[teamName];
+                    total += team.total;
+                    tadComplete += team.tadComplete;
+                    tsComplete += team.tsComplete;
+                    bothComplete += team.bothComplete;
+                }
+                
+                reportData.summary.total = total;
+                reportData.summary.tadComplete = tadComplete;
+                reportData.summary.tsComplete = tsComplete;
+                reportData.summary.bothComplete = bothComplete;
+                reportData.summary.missingTad = total - tadComplete;
+                reportData.summary.missingTs = total - tsComplete;
+                reportData.summary.tadPct = total > 0 ? (tadComplete / total * 100) : 0;
+                reportData.summary.tsPct = total > 0 ? (tsComplete / total * 100) : 0;
+                reportData.summary.bothPct = total > 0 ? (bothComplete / total * 100) : 0;
+                reportData.summary.missingTadPct = total > 0 ? ((total - tadComplete) / total * 100) : 0;
+                reportData.summary.missingTsPct = total > 0 ? ((total - tsComplete) / total * 100) : 0;
+            }
+            
+            // Update summary metrics
+            document.getElementById('totalIssues').textContent = reportData.summary.total;
+            document.getElementById('tadComplete').textContent = reportData.summary.tadComplete;
+            document.getElementById('tadPct').textContent = `${reportData.summary.tadPct.toFixed(1)}%`;
+            document.getElementById('tsComplete').textContent = reportData.summary.tsComplete;
+            document.getElementById('tsPct').textContent = `${reportData.summary.tsPct.toFixed(1)}%`;
+            document.getElementById('bothComplete').textContent = reportData.summary.bothComplete;
+            document.getElementById('bothPct').textContent = `${reportData.summary.bothPct.toFixed(1)}%`;
+            document.getElementById('missingTad').textContent = reportData.summary.missingTad;
+            document.getElementById('missingTadPct').textContent = `${reportData.summary.missingTadPct.toFixed(1)}%`;
+            document.getElementById('missingTs').textContent = reportData.summary.missingTs;
+            document.getElementById('missingTsPct').textContent = `${reportData.summary.missingTsPct.toFixed(1)}%`;
+            document.getElementById('tadNA').textContent = reportData.summary.tadNA || 0;
+            document.getElementById('tadNAPct').textContent = `${(reportData.summary.tadNAPct || 0).toFixed(1)}%`;
+            document.getElementById('tsNA').textContent = reportData.summary.tsNA || 0;
+            document.getElementById('tsNAPct').textContent = `${(reportData.summary.tsNAPct || 0).toFixed(1)}%`;
+
+            // Create charts with filtered data
+            createOverallChart(reportData);
+            createTeamCharts(reportData);
+
+            // Render team cards with filtered data
+            renderTeams(reportData);
+        }
+
+        function updateDashboardOld() {
+            if (!window.reportData) return;
+            
+            const reportData = window.reportData;
+
+            // Update header
+            document.getElementById('dateRange').textContent = reportData.dateRange;
+            document.getElementById('lastUpdate').textContent = reportData.generated;
+
+            // Update summary metrics
+            document.getElementById('totalIssues').textContent = reportData.summary.total;
+            document.getElementById('tadComplete').textContent = reportData.summary.tadComplete;
+            document.getElementById('tadPct').textContent = `${reportData.summary.tadPct.toFixed(1)}%`;
+            document.getElementById('tsComplete').textContent = reportData.summary.tsComplete;
+            document.getElementById('tsPct').textContent = `${reportData.summary.tsPct.toFixed(1)}%`;
+            document.getElementById('bothComplete').textContent = reportData.summary.bothComplete;
+            document.getElementById('bothPct').textContent = `${reportData.summary.bothPct.toFixed(1)}%`;
+            document.getElementById('missingTad').textContent = reportData.summary.missingTad;
+            document.getElementById('missingTadPct').textContent = `${reportData.summary.missingTadPct.toFixed(1)}%`;
+            document.getElementById('missingTs').textContent = reportData.summary.missingTs;
+            document.getElementById('missingTsPct').textContent = `${reportData.summary.missingTsPct.toFixed(1)}%`;
+
+            // Create charts
+            createOverallChart(reportData);
+            createTeamCharts(reportData);
+
+            // Render team cards
+            renderTeams(reportData);
+        }
+
+        function createOverallChart(reportData) {
+            reportData = reportData || window.reportData;
+            const ctx = document.getElementById('overallChart').getContext('2d');
+            if (currentCharts.overall) {
+                currentCharts.overall.destroy();
+            }
+            currentCharts.overall = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['TAD Complete', 'TS Complete', 'Both Complete', 'None'],
+                    datasets: [{
+                        data: [
+                            reportData.summary.tadComplete - reportData.summary.bothComplete,
+                            reportData.summary.tsComplete - reportData.summary.bothComplete,
+                            reportData.summary.bothComplete,
+                            reportData.summary.total - reportData.summary.tadComplete - reportData.summary.tsComplete + reportData.summary.bothComplete
+                        ],
+                        backgroundColor: ['#10b981', '#3b82f6', '#8b5cf6', '#e5e7eb']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom',
+                            labels: {
+                                boxWidth: 15,
+                                padding: 8,
+                                font: {
+                                    size: 11
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function createTeamCharts(reportData) {
+            reportData = reportData || window.reportData;
+            const teams = reportData.teams;
+            const teamNames = Object.keys(teams).sort();
+            
+            // TAD Chart
+            const tadCtx = document.getElementById('teamTadChart').getContext('2d');
+            if (currentCharts.tad) {
+                currentCharts.tad.destroy();
+            }
+            currentCharts.tad = new Chart(tadCtx, {
+                type: 'bar',
+                data: {
+                    labels: teamNames,
+                    datasets: [{
+                        label: 'TAD %',
+                        data: teamNames.map(name => teams[name].tadPct),
+                        backgroundColor: '#10b981'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // TS Chart
+            const tsCtx = document.getElementById('teamTsChart').getContext('2d');
+            if (currentCharts.ts) {
+                currentCharts.ts.destroy();
+            }
+            currentCharts.ts = new Chart(tsCtx, {
+                type: 'bar',
+                data: {
+                    labels: teamNames,
+                    datasets: [{
+                        label: 'TS %',
+                        data: teamNames.map(name => teams[name].tsPct),
+                        backgroundColor: '#3b82f6'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        },
+                        x: {
+                            ticks: {
+                                font: {
+                                    size: 10
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderTeams(reportData) {
+            reportData = reportData || window.reportData;
+            const container = document.getElementById('teamsContainer');
+            const teams = reportData.teams;
+            const teamNames = Object.keys(teams).sort();
+
+            let html = '';
+            
+            // Add N/A Sections at the top
+            const allIssues = teamNames.flatMap(name => teams[name].issues);
+            const tadNAIssues = allIssues.filter(i => i.tadNA);
+            const tsNAIssues = allIssues.filter(i => i.tsNA);
+            
+            if (tadNAIssues.length > 0 || tsNAIssues.length > 0) {
+                html += '<div style="margin-bottom: 30px;">';
+                
+                if (tadNAIssues.length > 0) {
+                    html += `
+                        <div class="team-card" style="border-left: 4px solid #f59e0b;">
+                            <div class="team-header" onclick="toggleTeam('tad-na')">
+                                <div class="team-name">ℹ️ TAD Marked as Not Applicable (${tadNAIssues.length})</div>
+                            </div>
+                            <div class="team-details" id="team-tad-na">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Issue</th>
+                                            <th>Summary</th>
+                                            <th>Team</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tadNAIssues.map(issue => {
+                                            const team = teamNames.find(t => teams[t].issues.includes(issue));
+                                            return `
+                                            <tr>
+                                                <td><a href="https://jira.wolterskluwer.io/jira/browse/${issue.key}" target="_blank">${issue.key}</a></td>
+                                                <td>${issue.summary}</td>
+                                                <td>${team}</td>
+                                                <td style="font-size: 0.85em; color: #666;">${issue.tadNAComment || 'No comment'}</td>
+                                            </tr>
+                                        `}).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                if (tsNAIssues.length > 0) {
+                    html += `
+                        <div class="team-card" style="border-left: 4px solid #f59e0b;">
+                            <div class="team-header" onclick="toggleTeam('ts-na')">
+                                <div class="team-name">ℹ️ Test Strategy Marked as Not Applicable (${tsNAIssues.length})</div>
+                            </div>
+                            <div class="team-details" id="team-ts-na">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Issue</th>
+                                            <th>Summary</th>
+                                            <th>Team</th>
+                                            <th>Comment</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${tsNAIssues.map(issue => {
+                                            const team = teamNames.find(t => teams[t].issues.includes(issue));
+                                            return `
+                                            <tr>
+                                                <td><a href="https://jira.wolterskluwer.io/jira/browse/${issue.key}" target="_blank">${issue.key}</a></td>
+                                                <td>${issue.summary}</td>
+                                                <td>${team}</td>
+                                                <td style="font-size: 0.85em; color: #666;">${issue.tsNAComment || 'No comment'}</td>
+                                            </tr>
+                                        `}).join('')}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    `;
+                }
+                
+                html += '</div>';
+            }
+            
+            // Team cards
+            teamNames.forEach(teamName => {
+                const team = teams[teamName];
+                html += `
+                    <div class="team-card">
+                        <div class="team-header" onclick="toggleTeam('${teamName}')">
+                            <div class="team-name">${teamName}</div>
+                            <div class="team-stats">
+                                <div class="stat">
+                                    <span class="label">Total</span>
+                                    <span class="value">${team.total}</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">TAD</span>
+                                    <span class="value">${team.tadComplete} (${team.tadPct.toFixed(1)}%)</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="label">TS</span>
+                                    <span class="value">${team.tsComplete} (${team.tsPct.toFixed(1)}%)</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${team.tadPct}%"></div>
+                        </div>
+                        <div class="team-details" id="team-${teamName.replace(/\s+/g, '-')}">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Issue</th>
+                                        <th>Type</th>
+                                        <th>Status</th>
+                                        <th>TAD</th>
+                                        <th>TS</th>
+                                        <th>Summary</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    ${team.issues.map(issue => `
+                                        <tr>
+                                            <td><a href="https://jira.wolterskluwer.io/jira/browse/${issue.key}" target="_blank">${issue.key}</a></td>
+                                            <td>${issue.type}</td>
+                                            <td>${issue.status}</td>
+                                            <td>${issue.tadFound ? '<span class="badge success">✓</span>' : (issue.tadNA ? '<span class="badge" style="background: #f59e0b;">N/A</span>' : '<span class="badge danger">✗</span>')}</td>
+                                            <td>${issue.tsFound ? '<span class="badge success">✓</span>' : (issue.tsNA ? '<span class="badge" style="background: #f59e0b;">N/A</span>' : '<span class="badge danger">✗</span>')}</td>
+                                            <td>${issue.summary.substring(0, 60)}${issue.summary.length > 60 ? '...' : ''}</td>
+                                        </tr>
+                                    `).join('')}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function toggleTeam(teamName) {
+            const details = document.getElementById(`team-${teamName.replace(/\s+/g, '-')}`);
+            details.classList.toggle('active');
+        }
+
+        function showStories(type) {
+            if (!window.reportData) return;
+            
+            const teams = window.reportData.teams;
+            const allIssues = Object.keys(teams).flatMap(teamName => 
+                teams[teamName].issues.map(issue => ({...issue, team: teamName}))
+            );
+            
+            let filteredIssues = [];
+            let title = '';
+            
+            switch(type) {
+                case 'all':
+                    filteredIssues = allIssues;
+                    title = 'All Stories';
+                    break;
+                case 'tadComplete':
+                    filteredIssues = allIssues.filter(i => i.tadFound);
+                    title = 'Stories with TAD Complete';
+                    break;
+                case 'tsComplete':
+                    filteredIssues = allIssues.filter(i => i.tsFound);
+                    title = 'Stories with TS Complete';
+                    break;
+                case 'bothComplete':
+                    filteredIssues = allIssues.filter(i => i.tadFound && i.tsFound);
+                    title = 'Stories with Both TAD & TS Complete';
+                    break;
+                case 'missingTad':
+                    filteredIssues = allIssues.filter(i => !i.tadFound && !i.tadNA);
+                    title = 'Stories Missing TAD';
+                    break;
+                case 'missingTs':
+                    filteredIssues = allIssues.filter(i => !i.tsFound && !i.tsNA);
+                    title = 'Stories Missing TS';
+                    break;
+                case 'tadNA':
+                    filteredIssues = allIssues.filter(i => i.tadNA);
+                    title = 'Stories with TAD N/A';
+                    break;
+                case 'tsNA':
+                    filteredIssues = allIssues.filter(i => i.tsNA);
+                    title = 'Stories with TS N/A';
+                    break;
+            }
+            
+            document.getElementById('modalTitle').textContent = `${title} (${filteredIssues.length})`;
+            
+            let html = `<table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f3f4f6;">
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Issue</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Summary</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Team</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Status</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            filteredIssues.forEach(issue => {
+                html += `<tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px;"><a href="https://jira.wolterskluwer.io/jira/browse/${issue.key}" target="_blank">${issue.key}</a></td>
+                    <td style="padding: 8px;">${issue.summary}</td>
+                    <td style="padding: 8px;">${issue.team}</td>
+                    <td style="padding: 8px;">${issue.status}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('storyModal').classList.add('active');
+        }
+        
+        function closeModal() {
+            document.getElementById('storyModal').classList.remove('active');
+        }
+
+        // Load data on page load
+        loadReportData();
+    </script>
+</body>
+</html>

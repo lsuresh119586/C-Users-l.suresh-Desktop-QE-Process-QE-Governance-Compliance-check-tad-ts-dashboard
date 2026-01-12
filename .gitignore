@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+*.pyo
+.vscode/
+*.log
+.DS_Store
+*.md
+!README.md
+sprint_tad_ts_report_*.csv
+sprint_tad_ts_report_*.md
+ts_quality_analysis_*.html
+ts_quality_analysis_*.md
+team_reports_sprint_*.md
+team-compliance-report_*.csv

@@ -1,0 +1,2201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Strategy Quality Analysis - Sprint 26.1.1</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        h2 {
+            color: #764ba2;
+            font-size: 1.8em;
+            margin: 40px 0 20px 0;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #667eea;
+        }
+        
+        h3 {
+            color: #667eea;
+            font-size: 1.3em;
+            margin: 30px 0 15px 0;
+            padding: 10px;
+            background: #f8f9ff;
+            border-left: 4px solid #667eea;
+        }
+        
+        .metadata {
+            text-align: center;
+            color: #666;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: #f8f9ff;
+            border-radius: 10px;
+        }
+        
+        .metadata strong {
+            color: #667eea;
+        }
+        
+        table.data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        table.data-table thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        table.data-table th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.9em;
+            letter-spacing: 0.5px;
+        }
+        
+        table.data-table td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        table.data-table tbody tr:hover {
+            background: #f8f9ff;
+            transition: background 0.3s;
+        }
+        
+        table.data-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+        
+        pre {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 15px 0;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+        
+        pre.gherkin {
+            background: #1e1e1e;
+            border-left: 4px solid #4CAF50;
+        }
+        
+        pre code {
+            font-family: 'Courier New', Consolas, Monaco, monospace;
+            font-size: 0.9em;
+            line-height: 1.5;
+        }
+        
+        ul {
+            margin: 15px 0 15px 30px;
+        }
+        
+        li {
+            margin: 8px 0;
+            line-height: 1.6;
+        }
+        
+        hr {
+            border: none;
+            border-top: 2px solid #e0e0e0;
+            margin: 40px 0;
+        }
+        
+        p {
+            margin: 10px 0;
+            line-height: 1.8;
+        }
+        
+        .critical-gap {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+        
+        .high-priority {
+            color: #f57c00;
+            font-weight: bold;
+        }
+        
+        .medium-priority {
+            color: #fbc02d;
+            font-weight: bold;
+        }
+        
+        .low-priority {
+            color: #388e3c;
+            font-weight: bold;
+        }
+        
+        .summary-box {
+            background: linear-gradient(135deg, #667eea15 0%, #764ba215 100%);
+            border-left: 5px solid #667eea;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .recommendation-box {
+            background: #fff3e0;
+            border-left: 5px solid #ff9800;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+        }
+        
+        .print-button {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+        
+        .print-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.6);
+        }
+        
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .container {
+                box-shadow: none;
+                padding: 20px;
+            }
+            
+            .print-button {
+                display: none;
+            }
+            
+            h2 {
+                page-break-before: always;
+            }
+            
+            h2:first-of-type {
+                page-break-before: avoid;
+            }
+            
+            table, pre {
+                page-break-inside: avoid;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 1.8em;
+            }
+            
+            h2 {
+                font-size: 1.4em;
+            }
+            
+            table.data-table {
+                font-size: 0.8em;
+            }
+            
+            table.data-table th, table.data-table td {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Test Strategy Quality Analysis Report</h1>
+        
+        <div class="metadata">
+            <p><strong>Sprint:</strong> Sprint 26.1.1</p>
+            <p><strong>Generated:</strong> 2026-01-12 15:24:19</p>
+            <p><strong>Analysis Type:</strong> Comprehensive 8-Category Testing Assessment</p>
+        </div>
+        
+        <p><h1>Test Strategy Quality Analysis Report</h1></p>
+<p><strong>Sprint:</strong> Sprint 26.1.1  
+<strong>Generated:</strong> 2026-01-12 15:24:19  
+<strong>Total Stories:</strong> 20  
+<strong>Stories with TS:</strong> 16  
+<strong>Stories Analyzed:</strong> 16  </p>
+<p><hr></p>
+<p><h2>📊 Overall Quality Ratings</h2></p>
+<p>| Rating | Count | Percentage |
+|--------|-------|------------|
+| Excellent | 1 | 6.2% |
+| Good | 0 | 0.0% |
+| Fair | 1 | 6.2% |
+| Poor | 3 | 18.8% |
+| Critical | 11 | 68.8% |
+| N/A | 0 | 0.0% |</p>
+<p><h2>👥 Team-wise Summary</h2></p>
+<p>| Team | Stories | With TS | Avg Score | Excellent | Good | Fair | Poor | Critical |
+|------|---------|---------|-----------|-----------|------|------|------|----------|
+| Matrix | 4 | 2 | 41.7% | 0 | 0 | 1 | 1 | 0 |
+| Nexus | 3 | 3 | 12.2% | 0 | 0 | 0 | 1 | 2 |
+| T360 Chargers | 3 | 1 | 8.3% | 0 | 0 | 0 | 0 | 1 |
+| T360 ICD Chubb | 3 | 3 | 10.0% | 0 | 0 | 0 | 1 | 2 |
+| T360 Mavericks | 3 | 3 | 1.5% | 0 | 0 | 0 | 0 | 3 |
+| T360 Vanguards | 4 | 4 | 23.1% | 1 | 0 | 0 | 0 | 3 |</p>
+<p><hr></p>
+<p><h2>📝 Detailed Story Analysis</h2></p>
+<p><h3>GET-64544: Migrate Scheduling Workflows from JAMS to Modern Scheduler Platform</h3></p>
+<p><strong>Team:</strong> Matrix  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 38.3% (Poor)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Fair | 43% (6/14) | Medium | VALID, SUCCESS, POSITIVE... |
+| Negative Testing | Poor | 29% (4/14) | High | ERROR, FAIL, NEGATIVE... |
+| Boundary Value Testing | Fair | 33% (5/15) | Medium | BOUNDARY, MIN, LIMIT... |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Poor | 27% (3/11) | High | INTEGRATION, USABILITY, DATA INTEGRITY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Negative Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Migrate Scheduling Workflows from JAMS to Modern Scheduler P</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Migrate Scheduling Workflows from JAMS to Modern Scheduler P</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Migrate Scheduling Workflows from JAMS to Modern Scheduler P</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🟡 <strong>Positive Testing:</strong> Enhance existing scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🟡 <strong>Boundary Value Testing:</strong> Enhance existing scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-66026: Introduce “Jobs Scheduler” Menu in T360 with Network & Permission-Based Access C</h3></p>
+<p><strong>Team:</strong> Matrix  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 45.0% (Fair)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Fair | 36% (5/14) | Medium | VALID, SUCCESS, SUCCESSFUL... |
+| Negative Testing | Fair | 36% (5/14) | Medium | ERROR, FAIL, UNAUTHORIZED... |
+| Boundary Value Testing | Poor | 20% (3/15) | High | MIN, MINIMUM, THRESHOLD |
+| Edge Case Testing | Critical Gap | 8% (1/12) | Critical | CONCURREN |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Fair | 45% (5/11) | Medium | INTEGRATION, USABILITY, REGRESSION... |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Boundary Value Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Introduce “Jobs Scheduler” Menu in T360 with Network & Permi</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Introduce “Jobs Scheduler” Menu in T360 with Network & Permi</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>⚠️ <strong>Fair coverage.</strong> Significant improvements needed in multiple categories.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🟡 <strong>Positive Testing:</strong> Enhance existing scenarios</li>
+<li>🟡 <strong>Negative Testing:</strong> Enhance existing scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🟡 <strong>Other Testing:</strong> Enhance existing scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-64548: T360.Scheduler.API – CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus</h3></p>
+<p><strong>Team:</strong> Matrix  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ❌ No  
+<strong>Overall Score:</strong> 0.0% (N/A)  </p>
+<p>⚠️ <strong>No test strategy found</strong>  
+<strong>Recommendation:</strong> Create comprehensive test strategy covering all 8 testing categories.  </p>
+<p><hr></p>
+<p><h3>GET-66018: Scheduler UI – CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus)</h3></p>
+<p><strong>Team:</strong> Matrix  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ❌ No  
+<strong>Overall Score:</strong> 0.0% (N/A)  </p>
+<p>⚠️ <strong>No test strategy found</strong>  
+<strong>Recommendation:</strong> Create comprehensive test strategy covering all 8 testing categories.  </p>
+<p><hr></p>
+<p><h3>GET-64300: CA LegalCollaborator: Enable Corporate Users to Create Case Assessments Without </h3></p>
+<p><strong>Team:</strong> Nexus  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 16.7% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Poor | 29% (4/14) | High | VALID, SUCCESS, CORRECT... |
+| Negative Testing | Poor | 29% (4/14) | High | INVALID, ERROR, VALIDATION... |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 9% (1/11) | Critical | INTEGRATION |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: CA LegalCollaborator: Enable Corporate Users to Create Case </p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: CA LegalCollaborator: Enable Corporate Users to Create Case </p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: CA LegalCollaborator: Enable Corporate Users to Create Case </p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: CA LegalCollaborator: Enable Corporate Users to Create Case </p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: CA LegalCollaborator: Enable Corporate Users to Create Case </p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-50527: INC3102287 - PRB0057529 Analyze and create missing index suggested by DPA</h3></p>
+<p><strong>Team:</strong> Nexus  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Negative Testing | Critical Gap | 7% (1/14) | Critical | MISSING |
+| Boundary Value Testing | Critical Gap | 0% (0/15) | Critical |  |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | Critical Gap | 11% (1/9) | Critical | IE |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Browser Compatibility</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Chrome latest 2 versions
+  - Firefox latest 2 versions
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Browser Compatibility – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: INC3102287 - PRB0057529 Analyze and create missing index sug</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Browser Compatibility:</strong> Add 2 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-63638: LegalCollaborator: Cancel or Update Case Assessment on Company/Panel/TK Change w</h3></p>
+<p><strong>Team:</strong> Nexus  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Description  
+<strong>Overall Score:</strong> 20.0% (Poor)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Poor | 21% (3/14) | High | VALID, SUCCESS, CORRECT |
+| Negative Testing | Poor | 29% (4/14) | High | INVALID, ERROR, VALIDATION... |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Poor | 18% (2/11) | High | INTEGRATION, DATA INTEGRITY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: LegalCollaborator: Cancel or Update Case Assessment on Compa</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: LegalCollaborator: Cancel or Update Case Assessment on Compa</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: LegalCollaborator: Cancel or Update Case Assessment on Compa</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: LegalCollaborator: Cancel or Update Case Assessment on Compa</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: LegalCollaborator: Cancel or Update Case Assessment on Compa</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-65980: [T360 Modernization]UUID:UUID: E100F100S100 - Upgrade DDD Template to .NET 9.0</h3></p>
+<p><strong>Team:</strong> T360 Chargers  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ❌ No  
+<strong>Overall Score:</strong> 0.0% (N/A)  </p>
+<p>⚠️ <strong>No test strategy found</strong>  
+<strong>Recommendation:</strong> Create comprehensive test strategy covering all 8 testing categories.  </p>
+<p><hr></p>
+<p><h3>GET-65633: [Document Modernization]- Dual _Write off </h3></p>
+<p><strong>Team:</strong> T360 Chargers  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 8.3% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Poor | 29% (4/14) | High | VALID, SUCCESS, SUCCESSFUL... |
+| Negative Testing | Critical Gap | 14% (2/14) | Critical | VALIDATION, MISSING |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 9% (1/11) | Critical | DATA INTEGRITY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: [Document Modernization]- Dual _Write off </p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: [Document Modernization]- Dual _Write off </p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: [Document Modernization]- Dual _Write off </p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: [Document Modernization]- Dual _Write off </p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: [Document Modernization]- Dual _Write off </p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-65986: [T360 Modernization] UUID: E100F101-CQRS Template Alignment</h3></p>
+<p><strong>Team:</strong> T360 Chargers  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ❌ No  
+<strong>Overall Score:</strong> 0.0% (N/A)  </p>
+<p>⚠️ <strong>No test strategy found</strong>  
+<strong>Recommendation:</strong> Create comprehensive test strategy covering all 8 testing categories.  </p>
+<p><hr></p>
+<p><h3>GET-64677: Citations - Convert Citations to Interactive Links with Line Item Reference Pane</h3></p>
+<p><strong>Team:</strong> T360 Vanguards  
+<strong>Status:</strong> Code Complete  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Comment  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Convert Citations to Interactive Links with Line</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Convert Citations to Interactive Links with Line</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Convert Citations to Interactive Links with Line</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Convert Citations to Interactive Links with Line</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Convert Citations to Interactive Links with Line</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-64675: Citations - Transform Payload Citations into Numbered References</h3></p>
+<p><strong>Team:</strong> T360 Vanguards  
+<strong>Status:</strong> Code Complete  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Transform Payload Citations into Numbered Refere</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Transform Payload Citations into Numbered Refere</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Transform Payload Citations into Numbered Refere</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Transform Payload Citations into Numbered Refere</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Citations - Transform Payload Citations into Numbered Refere</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-62908: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API & Cannonical</h3></p>
+<p><strong>Team:</strong> T360 Vanguards  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API </p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API </p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API </p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API </p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API </p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-56987: ASVS-Verify that any printable Unicode character, including language neutral cha</h3></p>
+<p><strong>Team:</strong> T360 Vanguards  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 92.2% (Excellent)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Good | 64% (9/14) | Low | VALID, SUCCESS, EXPECTED... |
+| Negative Testing | Good | 57% (8/14) | Low | INVALID, ERROR, FAIL... |
+| Boundary Value Testing | Good | 73% (11/15) | Low | BOUNDARY, MIN, MAX... |
+| Edge Case Testing | Good | 58% (7/12) | Low | EDGE CASE, UNUSUAL, CONCURREN... |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Poor | 18% (2/11) | High | REGRESSION, CONSISTENCY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Other Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: ASVS-Verify that any printable Unicode character, including </p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>✅ <strong>Excellent test strategy!</strong> Minor enhancements only.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> Low (1-2 days)</p>
+<p><hr></p>
+<p><h3>GET-60431: Update Matter AI label</h3></p>
+<p><strong>Team:</strong> T360 Mavericks  
+<strong>Status:</strong> Code Complete  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 0% (0/15) | Critical |  |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | Critical Gap | 0% (0/9) | Critical |  |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Browser Compatibility</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Chrome latest 2 versions
+  - Firefox latest 2 versions
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Browser Compatibility – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Update Matter AI label</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Browser Compatibility:</strong> Add 2 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-62132: Correct AI console Selections issues</h3></p>
+<p><strong>Team:</strong> T360 Mavericks  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Description  
+<strong>Overall Score:</strong> 4.5% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 14% (2/14) | Critical | SUCCESS, SUCCESSFUL |
+| Negative Testing | Critical Gap | 7% (1/14) | Critical | ERROR |
+| Boundary Value Testing | Poor | 20% (3/15) | High | MIN, LIMIT, ZERO |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | Critical Gap | 0% (0/9) | Critical |  |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Browser Compatibility</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Chrome latest 2 versions
+  - Firefox latest 2 versions
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Browser Compatibility – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Correct AI console Selections issues</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Browser Compatibility:</strong> Add 2 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-62748: AI console: Add UI for adding AI methods</h3></p>
+<p><strong>Team:</strong> T360 Mavericks  
+<strong>Status:</strong> In Progress  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Pull Request  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 14% (2/14) | Critical | SUCCESS, SUCCESSFUL |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 7% (1/15) | Critical | MIN |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 9% (1/11) | Critical | USABILITY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: AI console: Add UI for adding AI methods</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: AI console: Add UI for adding AI methods</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: AI console: Add UI for adding AI methods</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: AI console: Add UI for adding AI methods</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: AI console: Add UI for adding AI methods</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-62060: Predictive Insights: Rescoring a matter in bulk via data exchange</h3></p>
+<p><strong>Team:</strong> T360 ICD Chubb  
+<strong>Status:</strong> To Verify  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Comment  
+<strong>Overall Score:</strong> 22.5% (Poor)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Fair | 36% (5/14) | Medium | VALID, SUCCESS, ACCEPTANCE CRITERIA... |
+| Negative Testing | Poor | 21% (3/14) | High | ERROR, FAIL, VALIDATION |
+| Boundary Value Testing | Critical Gap | 0% (0/15) | Critical |  |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | Critical Gap | 11% (1/9) | Critical | IE |
+| Other Testing | Critical Gap | 9% (1/11) | Critical | CONSISTENCY |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Negative Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Predictive Insights: Rescoring a matter in bulk via data exc</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Predictive Insights: Rescoring a matter in bulk via data exc</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Predictive Insights: Rescoring a matter in bulk via data exc</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Browser Compatibility</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Chrome latest 2 versions
+  - Firefox latest 2 versions
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Predictive Insights: Rescoring a matter in bulk via data exc</p>
+<p>  Scenario: Browser Compatibility – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Predictive Insights: Rescoring a matter in bulk via data exc</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🟡 <strong>Positive Testing:</strong> Enhance existing scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Browser Compatibility:</strong> Add 2 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-58776: Claim Authority Exclusion Secure Action & Permission Setup</h3></p>
+<p><strong>Team:</strong> T360 ICD Chubb  
+<strong>Status:</strong> Code Complete  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Comment  
+<strong>Overall Score:</strong> 0.0% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Critical Gap | 14% (2/14) | Critical | CORRECT, PROPER |
+| Negative Testing | Critical Gap | 0% (0/14) | Critical |  |
+| Boundary Value Testing | Critical Gap | 13% (2/15) | Critical | MIN, LIMIT |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | N/A | Not Applicable | N/A | - |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Claim Authority Exclusion Secure Action & Permission Setup</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Claim Authority Exclusion Secure Action & Permission Setup</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Claim Authority Exclusion Secure Action & Permission Setup</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Claim Authority Exclusion Secure Action & Permission Setup</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Claim Authority Exclusion Secure Action & Permission Setup</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h3>GET-58925: Affiliated Vendor can associate one to many on matters - data exchange</h3></p>
+<p><strong>Team:</strong> T360 ICD Chubb  
+<strong>Status:</strong> Code Complete  
+<strong>TS Found:</strong> ✅ Yes  
+<strong>TS Source:</strong> Comment  
+<strong>Overall Score:</strong> 7.5% (Critical)  </p>
+<p>#### Testing Category Coverage</p>
+<p>| Category | Score | Coverage | Priority | Keywords Found |
+|----------|-------|----------|----------|----------------|
+| Positive Testing | Poor | 21% (3/14) | High | VALID, SUCCESS, SUCCESSFUL |
+| Negative Testing | Critical Gap | 14% (2/14) | Critical | FAIL, REJECT |
+| Boundary Value Testing | Critical Gap | 0% (0/15) | Critical |  |
+| Edge Case Testing | Critical Gap | 0% (0/12) | Critical |  |
+| Browser Compatibility | Critical Gap | 11% (1/9) | Critical | IE |
+| Other Testing | Critical Gap | 0% (0/11) | Critical |  |</p>
+<p>#### ⚠️ Critical & High Priority Gaps</p>
+<p><strong>Positive Testing</strong> (Poor):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Valid flows covered
+  - Acceptance criteria validated
+  - Happy path scenarios complete
+  - Expected inputs validated
+  - User journeys fully tested
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Positive Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Negative Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Invalid inputs handled
+  - Error messages covered
+  - Unauthorized access tested
+  - Missing data scenarios
+  - Improper flows handled
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Negative Testing – Invalid Input Handling
+    Given user is on the page with required inputs
+    When user enters invalid data (null, empty, special chars)
+    Then system should display appropriate error message
+    And prevent submission with invalid data
+</code></pre></p>
+<p><strong>Boundary Value Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Min/Max boundaries tested
+  - Min-1 and Max+1 tested
+  - Null/empty scenarios included
+  - Field length limits validated
+  - Special character scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Boundary Testing – Min/Max Values
+    Given input field with defined limits
+    When user enters min-1, min, max, max+1 values
+    Then system should accept valid boundaries
+    And reject values outside boundaries
+</code></pre></p>
+<p><strong>Edge Case Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Unusual inputs covered
+  - Race conditions addressed
+  - Timing issues tested
+  - Concurrent user scenarios
+  - Overflow/underflow scenarios
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Edge Case Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Browser Compatibility</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - Chrome latest 2 versions
+  - Firefox latest 2 versions
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Browser Compatibility – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p><strong>Other Testing</strong> (Critical Gap):
+<ul>
+<li><strong>Missing Criteria:</strong></li>
+</ul>
+  - E2E integration testing
+  - Usability testing
+  - Data integrity
+  - Regression testing
+  - Localization (if applicable)
+<ul>
+<li><strong>Suggested BDD Scenarios:</strong></li>
+</ul>
+<pre class="gherkin"><code>Feature: Affiliated Vendor can associate one to many on matters - dat</p>
+<p>  Scenario: Other Testing – Coverage Enhancement
+    Given [specific context for this category]
+    When [action relevant to category]
+    Then [expected result with validation]
+</code></pre></p>
+<p>#### 💡 Recommendations</p>
+<p>🚨 <strong>Critical gaps identified.</strong> Comprehensive test strategy revision required.  </p>
+<p><strong>Specific Actions:</strong>
+<ul>
+<li>🔴 <strong>Positive Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Negative Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Boundary Value Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Edge Case Testing:</strong> Add 5 scenarios</li>
+<li>🔴 <strong>Browser Compatibility:</strong> Add 2 scenarios</li>
+<li>🔴 <strong>Other Testing:</strong> Add 5 scenarios</li>
+</ul></p>
+<p><strong>Effort Estimate:</strong> High (5-10 days)</p>
+<p><hr></p>
+<p><h2>📋 Executive Summary</h2></p>
+<p><h3>Overall Assessment</h3></p>
+<p><ul>
+<li><strong>Total Stories Analyzed:</strong> 16</li>
+<li><strong>Stories with Excellent TS:</strong> 1</li>
+<li><strong>Stories Needing Improvement:</strong> 14</li>
+<li><strong>Average Quality Score:</strong> 15.9%</li>
+</ul></p>
+<p><h3>Key Findings</h3></p>
+<p><strong>Most Common Gaps:</strong>
+1. <strong>Edge Case Testing:</strong> 15 stories need improvement
+1. <strong>Other Testing:</strong> 15 stories need improvement
+1. <strong>Negative Testing:</strong> 14 stories need improvement</p>
+<p><h3>Recommendations</h3></p>
+<p>1. <strong>Immediate Action:</strong> Address 14 critical/poor stories
+2. <strong>Process Improvement:</strong> Implement TS template covering all 8 categories
+3. <strong>Training:</strong> Conduct workshops on comprehensive test strategy creation
+4. <strong>Review Process:</strong> Add TS quality gate before story completion
+5. <strong>Automation:</strong> Identify scenarios suitable for automation</p>
+<p></p>
+    </div>
+    
+    <button class="print-button" onclick="window.print()">📄 Export to PDF</button>
+    
+    <script>
+        // Add color coding to priority levels
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelectorAll('td, li, p').forEach(function(el) {
+                let text = el.textContent;
+                if (text.includes('Critical Gap')) {
+                    el.classList.add('critical-gap');
+                } else if (text.includes('High Priority')) {
+                    el.classList.add('high-priority');
+                } else if (text.includes('Medium Priority')) {
+                    el.classList.add('medium-priority');
+                } else if (text.includes('Low Priority')) {
+                    el.classList.add('low-priority');
+                }
+            });
+            
+            // Add summary boxes
+            document.querySelectorAll('h2').forEach(function(h2) {
+                if (h2.textContent.includes('Executive Summary')) {
+                    let nextElement = h2.nextElementSibling;
+                    while (nextElement && nextElement.tagName !== 'H2') {
+                        nextElement.classList.add('summary-box');
+                        nextElement = nextElement.nextElementSibling;
+                    }
+                }
+                
+                if (h2.textContent.includes('Recommendations')) {
+                    let nextElement = h2.nextElementSibling;
+                    while (nextElement && nextElement.tagName !== 'H2') {
+                        nextElement.classList.add('recommendation-box');
+                        nextElement = nextElement.nextElementSibling;
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

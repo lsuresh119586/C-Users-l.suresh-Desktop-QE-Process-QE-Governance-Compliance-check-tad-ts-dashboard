@@ -923,6 +923,85 @@
                 html += '</div>';
             }
             
+            // Defect Analysis Section
+            if (reportData.defects && reportData.defects.totalDefects > 0) {
+                html += `
+                    <div style="margin-bottom: 20px;">
+                        <div class="team-card" style="border-left: 4px solid #ef4444;">
+                            <div class="team-header" onclick="toggleTeam('defect-analysis')">
+                                <div class="team-name">🐛 Defects by Safe-SDLC Activity (${reportData.defects.totalDefects} total)</div>
+                            </div>
+                            <div class="team-details active" id="team-defect-analysis">
+                                <div style="overflow-x: auto;">
+                                    <table>
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: left;">Team</th>
+                `;
+                
+                // Add activity columns
+                const activityNames = reportData.defects.activityNames || [];
+                activityNames.forEach(activity => {
+                    // Abbreviate long names
+                    const displayName = activity.length > 20 ? activity.substring(0, 17) + '...' : activity;
+                    html += `<th style="text-align: center;" title="${activity}">${displayName}</th>`;
+                });
+                
+                html += `
+                                                <th style="text-align: center; font-weight: bold;">Total</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                `;
+                
+                // Add team rows
+                const teamMatrix = reportData.defects.teamMatrix || {};
+                const teamDefectDetails = reportData.defects.teamDefectDetails || {};
+                Object.entries(teamMatrix).forEach(([team, counts]) => {
+                    html += `<tr><td style="font-weight: 500;">${team}</td>`;
+                    
+                    activityNames.forEach(activity => {
+                        const count = counts[activity] || 0;
+                        const color = count > 0 ? '#ef4444' : '#9ca3af';
+                        const defects = teamDefectDetails[team] && teamDefectDetails[team][activity] ? teamDefectDetails[team][activity] : [];
+                        const defectsJson = JSON.stringify(defects).replace(/"/g, '&quot;');
+                        
+                        if (count > 0) {
+                            html += `<td style="text-align: center; color: ${color}; font-weight: bold;">
+                                <a href="#" onclick="showDefects('${team}', '${activity}', ${defectsJson}); return false;" 
+                                   style="color: ${color}; text-decoration: underline; cursor: pointer;">${count}</a>
+                            </td>`;
+                        } else {
+                            html += `<td style="text-align: center; color: ${color};">${count}</td>`;
+                        }
+                    });
+                    
+                    const total = counts['TOTAL'] || 0;
+                    html += `<td style="text-align: center; font-weight: bold; color: #ef4444;">${total}</td></tr>`;
+                });
+                
+                // Add totals row
+                html += `<tr style="border-top: 2px solid #e5e7eb; font-weight: bold;">
+                    <td>TOTAL</td>`;
+                
+                const activities = reportData.defects.activities || {};
+                activityNames.forEach(activity => {
+                    const count = activities[activity] || 0;
+                    html += `<td style="text-align: center; color: #ef4444;">${count}</td>`;
+                });
+                
+                html += `<td style="text-align: center; color: #ef4444;">${reportData.defects.totalDefects}</td></tr>`;
+                
+                html += `
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+            
             // Team cards
             teamNames.forEach(teamName => {
                 const team = teams[teamName];
@@ -1051,6 +1130,31 @@
                     <td style="padding: 8px;">${issue.summary}</td>
                     <td style="padding: 8px;">${issue.team}</td>
                     <td style="padding: 8px;">${issue.status}</td>
+                </tr>`;
+            });
+            
+            html += '</tbody></table>';
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('storyModal').classList.add('active');
+        }
+        
+        function showDefects(team, activity, defects) {
+            document.getElementById('modalTitle').textContent = `${team} - ${activity} (${defects.length} defects)`;
+            
+            let html = `<table style="width: 100%; border-collapse: collapse;">
+                <thead>
+                    <tr style="background: #f3f4f6;">
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Defect</th>
+                        <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Summary</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+            
+            defects.forEach(defect => {
+                html += `<tr style="border-bottom: 1px solid #e5e7eb;">
+                    <td style="padding: 8px;"><a href="https://jira.wolterskluwer.io/jira/browse/${defect.key}" target="_blank" style="color: #ef4444; font-weight: 500;">${defect.key}</a></td>
+                    <td style="padding: 8px;">${defect.summary}</td>
                 </tr>`;
             });
             

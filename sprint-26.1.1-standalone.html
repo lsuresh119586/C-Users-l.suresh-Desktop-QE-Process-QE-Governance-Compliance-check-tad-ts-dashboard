@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sprint 26.1.1 - TAD/TS Compliance Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    <script>
+window.reportData = {
+  "dateRange": "Sprint 26.1.1",
+  "generated": "2026-01-09 20:31:46",
+  "summary": {
+    "total": 23,
+    "tadComplete": 21,
+    "tsComplete": 19,
+    "bothComplete": 19,
+    "missingTad": 0,
+    "missingTs": 2,
+    "tadNA": 2,
+    "tsNA": 2,
+    "tadApplicable": 21,
+    "tsApplicable": 21,
+    "tadPct": 100.0,
+    "tsPct": 90.47619047619048,
+    "bothPct": 82.6086956521739,
+    "missingTadPct": 0.0,
+    "missingTsPct": 8.695652173913043,
+    "tadNAPct": 8.695652173913043,
+    "tsNAPct": 8.695652173913043
+  },
+  "teams": {
+    "Matrix": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 2,
+      "tadPct": 100.0,
+      "tsPct": 50.0,
+      "issues": [
+        {
+          "key": "GET-64544",
+          "summary": "Migrate Scheduling Workflows from JAMS to Modern Scheduler Platform",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 7,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-66026",
+          "summary": "Introduce \u201cJobs Scheduler\u201d Menu in T360 with Network & Permission-Based Access Control",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64548",
+          "summary": "T360.Scheduler.API \u2013 CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus)",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-66018",
+          "summary": "Scheduler UI \u2013 CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus)",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "Nexus": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 4,
+      "bothComplete": 4,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-64300",
+          "summary": "CA LegalCollaborator: Enable Corporate Users to Create Case Assessments Without Role Misassignment and Populate CA Manager in Payload",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-3928",
+          "summary": "TEC-301935 - CNA High Priority: Performance: Invoice Search Page Processed - Search Slowness",
+          "type": "Bug",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-50527",
+          "summary": "INC3102287 - PRB0057529 Analyze and create missing index suggested by DPA",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63638",
+          "summary": "LegalCollaborator: Cancel or Update Case Assessment on Company/Panel/TK Change when CA exists prior",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Chargers": {
+      "total": 3,
+      "tadComplete": 1,
+      "tsComplete": 1,
+      "bothComplete": 1,
+      "tadNA": 2,
+      "tsNA": 2,
+      "tadApplicable": 1,
+      "tsApplicable": 1,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-65980",
+          "summary": "[T360 Modernization]UUID:UUID: E100F100S100 - Upgrade DDD Template to .NET 9.0",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": true,
+          "tadNAComment": "Discussed in Refinement, As this is an Enabler story TAD is not applicable.",
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
+        },
+        {
+          "key": "GET-65633",
+          "summary": "[Document Modernization]- Dual _Write off ",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 9,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-65986",
+          "summary": "[T360 Modernization] UUID: E100F101-CQRS Template Alignment",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": true,
+          "tadNAComment": "This is a Enabler story, so TAD not Applicable.",
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
+        }
+      ]
+    },
+    "T360 Vanguards": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 4,
+      "bothComplete": 4,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-64677",
+          "summary": "Citations - Convert Citations to Interactive Links with Line Item Reference Panel",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64675",
+          "summary": "Citations - Transform Payload Citations into Numbered References",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 7,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62908",
+          "summary": "Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API & Cannonical",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-56987",
+          "summary": "ASVS-Verify that any printable Unicode character, including language neutral characters such as spaces and Emojis are permitted in passwords.",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 8,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Mavericks": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 4,
+      "bothComplete": 4,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-60431",
+          "summary": "Update Matter AI label",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62132",
+          "summary": "Correct AI console Selections issues",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62748",
+          "summary": "AI console: Add UI for adding AI methods",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-61996",
+          "summary": "[UAT/TST] The spinner keeps on loading while searching with multiple special symbols in the query",
+          "type": "Bug",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 ICD Chubb": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 4,
+      "bothComplete": 4,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-22095",
+          "summary": "TEC-369708: Chubb Group Claims: ITP rule not working correctly in prod",
+          "type": "Bug",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62060",
+          "summary": "Predictive Insights: Rescoring a matter in bulk via data exchange",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-58776",
+          "summary": "Claim Authority Exclusion Secure Action & Permission Setup",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-58925",
+          "summary": "Affiliated Vendor can associate one to many on matters - data exchange",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    }
+  }
+};
+</script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.15), 0 5px 15px rgba(0,0,0,0.1);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+            background-size: 200% 100%;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        .header h1 {
+            color: #2d3748;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .header h1::before {
+            content: "📊";
+            font-size: 1.2em;
+        }
+
+        .header .subtitle {
+            color: #718096;
+            font-size: 1.2em;
+            margin-bottom: 15px;
+        }
+
+        .header .date {
+            color: #a0aec0;
+            font-size: 0.95em;
+        }
+
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 25px;
+        }
+
+        .metric-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+        }
+
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            box-shadow: 0 2px 8px rgba(102, 126, 234, 0.4);
+        }
+
+        .metric-card::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.03) 0%, transparent 70%);
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+        }
+
+        .metric-card:hover::after {
+            opacity: 1;
+        }
+
+        .metric-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(102, 126, 234, 0.2), 0 5px 15px rgba(0,0,0,0.1);
+            border-color: rgba(102, 126, 234, 0.3);
+        }
+
+        .metric-card .label {
+            color: #718096;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        .metric-card .value {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #2d3748;
+            margin-bottom: 5px;
+            cursor: pointer !important;
+            transition: color 0.3s ease, transform 0.2s ease;
+            user-select: none;
+        }
+
+        .metric-card .value:hover {
+            color: #667eea !important;
+            text-decoration: underline;
+            transform: scale(1.05);
+        }
+
+        .metric-card .value:active {
+            transform: scale(0.95);
+        }
+
+        .metric-card .percentage {
+            font-size: 1.2em;
+            font-weight: 600;
+        }
+
+        .metric-card.success .percentage { color: #48bb78; }
+        .metric-card.warning .percentage { color: #ed8936; }
+        .metric-card.info .percentage { color: #4299e1; }
+
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(500px, 1fr));
+            gap: 25px;
+            margin-bottom: 25px;
+        }
+
+        .chart-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .chart-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12), 0 2px 5px rgba(0,0,0,0.08);
+            transform: translateY(-2px);
+        }
+
+        .chart-card h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .chart-container {
+            position: relative;
+            height: 350px;
+        }
+
+        .table-card {
+            background: white;
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08), 0 1px 3px rgba(0,0,0,0.05);
+            margin-bottom: 25px;
+            border: 1px solid rgba(102, 126, 234, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .table-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,0.12), 0 2px 5px rgba(0,0,0,0.08);
+        }
+
+        .table-card h3 {
+            color: #2d3748;
+            margin-bottom: 20px;
+            font-size: 1.3em;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85em;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            color: #4a5568;
+        }
+
+        tbody tr:hover {
+            background: #f7fafc;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .badge.excellent {
+            background: #c6f6d5;
+            color: #22543d;
+        }
+
+        .badge.good {
+            background: #bee3f8;
+            color: #2c5282;
+        }
+
+        .badge.fair {
+            background: #feebc8;
+            color: #7c2d12;
+        }
+
+        .badge.poor {
+            background: #fed7d7;
+            color: #742a2a;
+        }
+
+        .progress-bar {
+            width: 100%;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 5px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.5s ease;
+        }
+
+        .insights {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 25px;
+        }
+
+        .insights h3 {
+            color: #2d3748;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .insight-item {
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid;
+            background: #f7fafc;
+            border-radius: 4px;
+        }
+
+        .insight-item.success { border-color: #48bb78; }
+        .insight-item.warning { border-color: #ed8936; }
+        .insight-item.info { border-color: #4299e1; }
+
+        .footer {
+            text-align: center;
+            color: white;
+            padding: 20px;
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+            animation: fadeIn 0.3s;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 0;
+            border-radius: 12px;
+            width: 80%;
+            max-width: 800px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            animation: slideIn 0.3s;
+        }
+
+        .modal-header {
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-radius: 12px 12px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .modal-header h2 {
+            margin: 0;
+            font-size: 1.5em;
+        }
+
+        .close {
+            color: white;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .close:hover,
+        .close:focus {
+            transform: scale(1.2);
+        }
+
+        .modal-body {
+            padding: 25px;
+            max-height: 500px;
+            overflow-y: auto;
+        }
+
+        .issue-list {
+            list-style: none;
+            padding: 0;
+        }
+
+        .issue-item {
+            padding: 12px 15px;
+            margin-bottom: 8px;
+            background: #f7fafc;
+            border-left: 4px solid #667eea;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.2s;
+        }
+
+        .issue-item:hover {
+            background: #e6f2ff;
+            transform: translateX(5px);
+        }
+
+        .issue-key {
+            font-weight: bold;
+            color: #667eea;
+            font-size: 1.1em;
+        }
+
+        .issue-summary {
+            flex: 1;
+            margin-left: 15px;
+            color: #4a5568;
+        }
+
+        .issue-status {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.85em;
+            font-weight: 600;
+            background: #e6f2ff;
+            color: #2d5f9f;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header h1 {
+                font-size: 1.8em;
+            }
+            
+            .charts-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .chart-container {
+                height: 250px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            
+            .metric-card,
+            .chart-card,
+            .table-card,
+            .insights {
+                box-shadow: none;
+                border: 1px solid #e2e8f0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Sprint 26.1.1 TAD/TS Compliance Report</h1>
+            <div class="subtitle">Technical Architecture Documents & Test Strategy Analysis</div>
+            <div class="date" id="generatedDate"></div>
+        </div>
+
+        <div class="filter-section">
+            <h3>🔍 Filters</h3>
+            <div class="filter-controls">
+                <div class="filter-group">
+                    <label>Team</label>
+                    <select id="teamFilter" class="filter-select">
+                        <option value="all">All Teams (6)</option>
+                    </select>
+                </div>
+                <button class="reset-button" onclick="resetFilters()">Reset Filters</button>
+            </div>
+        </div>
+
+        <div class="metrics-grid">
+            <div class="metric-card success">
+                <div class="label">Total Issues</div>
+                <div class="value" id="totalIssues">-</div>
+                <div class="percentage">6 Teams Analyzed</div>
+            </div>
+
+            <div class="metric-card success">
+                <div class="label">TAD Compliance</div>
+                <div class="value" id="tadCompliant">-</div>
+                <div class="percentage" id="tadPercentage">-</div>
+            </div>
+
+            <div class="metric-card info">
+                <div class="label">TS Compliance</div>
+                <div class="value" id="tsCompliant">-</div>
+                <div class="percentage" id="tsPercentage">-</div>
+            </div>
+
+            <div class="metric-card warning">
+                <div class="label">Both TAD & TS</div>
+                <div class="value" id="bothCompliant">-</div>
+                <div class="percentage" id="bothPercentage">-</div>
+            </div>
+
+            <div class="metric-card" style="border-top-color: #f56565;">
+                <div class="label">Pending TAD</div>
+                <div class="value" id="pendingTAD" style="color: #f56565;">-</div>
+                <div class="percentage" id="pendingTADPercentage">-</div>
+            </div>
+
+            <div class="metric-card" style="border-top-color: #ed8936;">
+                <div class="label">Pending TS</div>
+                <div class="value" id="pendingTS" style="color: #ed8936;">-</div>
+                <div class="percentage" id="pendingTSPercentage">-</div>
+            </div>
+
+            <div class="metric-card" style="border-top-color: #9f7aea;">
+                <div class="label">TAD Not Applicable</div>
+                <div class="value" id="tadNA" style="color: #9f7aea;">-</div>
+                <div class="percentage" id="tadNAPercentage">-</div>
+            </div>
+
+            <div class="metric-card" style="border-top-color: #38b2ac;">
+                <div class="label">TS Not Applicable</div>
+                <div class="value" id="tsNA" style="color: #38b2ac;">-</div>
+                <div class="percentage" id="tsNAPercentage">-</div>
+            </div>
+        </div>
+
+        <div class="charts-grid">
+            <div class="chart-card">
+                <h3>📊 Team Compliance Scores</h3>
+                <div class="chart-container">
+                    <canvas id="teamScoresChart"></canvas>
+                </div>
+            </div>
+
+            <div class="chart-card">
+                <h3>🎯 Overall Compliance Distribution</h3>
+                <div class="chart-container">
+                    <canvas id="compliancePieChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <div class="chart-card">
+            <h3>📈 Team Performance Breakdown</h3>
+            <div class="chart-container">
+                <canvas id="teamBreakdownChart"></canvas>
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h3>📋 Test Case Summary - Sprint 26.1.1</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Team Name</th>
+                        <th>Total Cases</th>
+                        <th>Automated Cases</th>
+                        <th>Cases with Attachments</th>
+                        <th>Cases without Attachments</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Chubb</strong></td>
+                        <td>17</td>
+                        <td>17</td>
+                        <td>17</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Matrix</strong></td>
+                        <td>14</td>
+                        <td>14</td>
+                        <td>5</td>
+                        <td>9</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Mavericks</strong></td>
+                        <td>21</td>
+                        <td>21</td>
+                        <td>20</td>
+                        <td>1</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Vanguards</strong></td>
+                        <td>59</td>
+                        <td>59</td>
+                        <td>27</td>
+                        <td>32</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chargers</strong></td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nexus</strong></td>
+                        <td>29</td>
+                        <td>18</td>
+                        <td>12</td>
+                        <td>17</td>
+                    </tr>
+                    <tr style="background: #f0f4ff; font-weight: bold;">
+                        <td><strong>TOTAL</strong></td>
+                        <td><strong>143</strong></td>
+                        <td><strong>131</strong></td>
+                        <td><strong>84</strong></td>
+                        <td><strong>59</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div style="margin-top: 20px; padding: 15px; background: #f7fafc; border-radius: 8px; color: #4a5568;">
+                <strong>Summary:</strong> Total cases: 143 | Automated: 131 (92%) | Cases with attachments: 84 (59%) | Cases without attachments: 59 (41%)
+            </div>
+        </div>
+
+        <div class="table-card">
+            <h3>🏆 Team Rankings & Detailed Metrics</h3>
+            <table id="teamTable">
+                <thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Team</th>
+                        <th>Issues</th>
+                        <th>TAD %</th>
+                        <th>TS %</th>
+                        <th>Both %</th>
+                        <th>Avg Score</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody id="teamTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <div class="insights">
+            <h3>💡 Key Insights & Recommendations</h3>
+            <div id="insightsContainer"></div>
+        </div>
+
+        <div class="footer">
+            Generated on <span id="footerDate"></span> | TAD/TS Compliance Monitoring System
+        </div>
+    </div>
+
+    <!-- Modal for Issue List -->
+    <div id="issueModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Issues</h2>
+                <span class="close" onclick="closeModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <ul id="issueList" class="issue-list"></ul>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Load data from the JS file (already loaded via script tag)
+        function loadData() {
+            try {
+                // Data is already loaded from tad-ts-report-data.js as window.reportData
+                if (window.reportData) {
+                    console.log('Loaded data:', window.reportData);
+                    return Promise.resolve(window.reportData);
+                } else {
+                    throw new Error('window.reportData not found');
+                }
+            } catch (error) {
+                console.error('Error loading data:', error);
+                document.body.innerHTML = '<div style="color:white;padding:50px;text-align:center;"><h1>Error Loading Data</h1><p>' + error.message + '</p><p>Please ensure tad-ts-report-data.js exists in the same folder.</p></div>';
+                return Promise.reject(error);
+            }
+        }
+
+        function getRating(avgScore) {
+            if (avgScore >= 1.8) return { text: 'Excellent', class: 'excellent' };
+            if (avgScore >= 1.5) return { text: 'Good', class: 'good' };
+            if (avgScore >= 1.0) return { text: 'Fair', class: 'fair' };
+            return { text: 'Needs Improvement', class: 'poor' };
+        }
+
+        // Store data globally for modal access
+        let globalData = null;
+        let fullData = null;
+        let currentFilter = 'all';
+
+        // Modal functions
+        function showModal(title, issues) {
+            console.log('showModal called with title:', title);
+            console.log('Number of issues:', issues.length);
+            
+            const modal = document.getElementById('issueModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const issueList = document.getElementById('issueList');
+            
+            if (!modal || !modalTitle || !issueList) {
+                console.error('Modal elements not found!');
+                return;
+            }
+            
+            modalTitle.textContent = title;
+            issueList.innerHTML = '';
+            
+            issues.forEach(issue => {
+                const li = document.createElement('li');
+                li.className = 'issue-item';
+                li.innerHTML = `
+                    <span class="issue-key">${issue.key}</span>
+                    <span class="issue-summary">${issue.summary}</span>
+                    <span class="issue-status">${issue.status}</span>
+                `;
+                issueList.appendChild(li);
+            });
+            
+            modal.style.display = 'block';
+            console.log('Modal displayed');
+        }
+
+        function closeModal() {
+            document.getElementById('issueModal').style.display = 'none';
+        }
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('issueModal');
+            if (event.target == modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        function getAllIssues(teamsData) {
+            const allIssues = [];
+            Object.values(teamsData).forEach(team => {
+                allIssues.push(...team.issues);
+            });
+            return allIssues;
+        }
+
+        function getIssuesWithTAD(teamsData) {
+            const issues = [];
+            Object.values(teamsData).forEach(team => {
+                team.issues.forEach(issue => {
+                    if (issue.tadFound) issues.push(issue);
+                });
+            });
+            return issues;
+        }
+
+        function getIssuesWithTS(teamsData) {
+            const issues = [];
+            Object.values(teamsData).forEach(team => {
+                team.issues.forEach(issue => {
+                    if (issue.tsFound) issues.push(issue);
+                });
+            });
+            return issues;
+        }
+
+        function getIssuesWithBoth(teamsData) {
+            const issues = [];
+            Object.values(teamsData).forEach(team => {
+                team.issues.forEach(issue => {
+                    if (issue.tadFound && issue.tsFound) issues.push(issue);
+                });
+            });
+            return issues;
+        }
+
+        function getIssuesWithoutTAD(teamsData) {
+            const issues = [];
+            Object.values(teamsData).forEach(team => {
+                team.issues.forEach(issue => {
+                    if (!issue.tadFound && !issue.tadNA) issues.push(issue);
+                });
+            });
+            return issues;
+        }
+
+        function getIssuesWithoutTS(teamsData) {
+            const issues = [];
+            Object.values(teamsData).forEach(team => {
+                team.issues.forEach(issue => {
+                    if (!issue.tsFound && !issue.tsNA) issues.push(issue);
+                });
+            });
+            return issues;
+        }
+
+        function renderDashboard(data, filterTeam = 'all') {
+            const targetTeams = ["T360 Vanguards", "Nexus", "T360 Mavericks", "Matrix", "T360 ICD Chubb", "T360 Chargers"];
+            
+            // Filter teams data based on selection
+            const teamsData = {};
+            let totalIssues = 0;
+            let totalTAD = 0;
+            let totalTS = 0;
+            let totalBoth = 0;
+            let totalTADApplicable = 0;
+            let totalTSApplicable = 0;
+
+            targetTeams.forEach(teamName => {
+                if (data.teams[teamName]) {
+                    // Apply team filter
+                    if (filterTeam === 'all' || filterTeam === teamName) {
+                        teamsData[teamName] = data.teams[teamName];
+                        totalIssues += data.teams[teamName].total;
+                        totalTAD += data.teams[teamName].tadComplete;
+                        totalTS += data.teams[teamName].tsComplete;
+                        totalBoth += data.teams[teamName].bothComplete;
+                        totalTADApplicable += data.teams[teamName].tadApplicable || data.teams[teamName].total;
+                        totalTSApplicable += data.teams[teamName].tsApplicable || data.teams[teamName].total;
+                    }
+                }
+            });
+
+            // Store globally for modal access
+            globalData = { teamsData };
+
+            // Update metrics with click handlers
+            const totalIssuesEl = document.getElementById('totalIssues');
+            if (totalIssuesEl) {
+                totalIssuesEl.textContent = totalIssues;
+                totalIssuesEl.style.cursor = 'pointer';
+                totalIssuesEl.onclick = function() {
+                    console.log('Total issues clicked');
+                    showModal(`All Issues (${totalIssues})`, getAllIssues(teamsData));
+                };
+                totalIssuesEl.title = 'Click to view all issues';
+            }
+
+            const tadCompliantEl = document.getElementById('tadCompliant');
+            if (tadCompliantEl) {
+                tadCompliantEl.textContent = totalTAD;
+                tadCompliantEl.style.cursor = 'pointer';
+                tadCompliantEl.onclick = function() {
+                    console.log('TAD clicked');
+                    showModal(`Issues with TAD (${totalTAD})`, getIssuesWithTAD(teamsData));
+                };
+                tadCompliantEl.title = 'Click to view issues with TAD';
+            }
+
+            // Calculate TAD percentage based on applicable issues (excluding N/A)
+            const tadPct = totalTADApplicable > 0 ? ((totalTAD/totalTADApplicable)*100).toFixed(1) : '0.0';
+            document.getElementById('tadPercentage').textContent = `${tadPct}% (of ${totalTADApplicable} applicable)`;
+            
+            const tsCompliantEl = document.getElementById('tsCompliant');
+            if (tsCompliantEl) {
+                tsCompliantEl.textContent = totalTS;
+                tsCompliantEl.style.cursor = 'pointer';
+                tsCompliantEl.onclick = function() {
+                    console.log('TS clicked');
+                    showModal(`Issues with TS (${totalTS})`, getIssuesWithTS(teamsData));
+                };
+                tsCompliantEl.title = 'Click to view issues with TS';
+            }
+
+            // Calculate TS percentage based on applicable issues (excluding N/A)
+            const tsPct = totalTSApplicable > 0 ? ((totalTS/totalTSApplicable)*100).toFixed(1) : '0.0';
+            document.getElementById('tsPercentage').textContent = `${tsPct}% (of ${totalTSApplicable} applicable)`;
+            
+            const bothCompliantEl = document.getElementById('bothCompliant');
+            if (bothCompliantEl) {
+                bothCompliantEl.textContent = totalBoth;
+                bothCompliantEl.style.cursor = 'pointer';
+                bothCompliantEl.onclick = function() {
+                    console.log('Both clicked');
+                    showModal(`Issues with Both TAD & TS (${totalBoth})`, getIssuesWithBoth(teamsData));
+                };
+                bothCompliantEl.title = 'Click to view issues with both TAD & TS';
+            }
+
+            document.getElementById('bothPercentage').textContent = `${((totalBoth/totalIssues)*100).toFixed(1)}%`;
+
+            // Calculate filtered metrics from teamsData
+            let pendingTAD = 0;
+            let pendingTS = 0;
+            let tadNA = 0;
+            let tsNA = 0;
+            
+            Object.values(teamsData).forEach(team => {
+                pendingTAD += team.missingTad || 0;
+                pendingTS += team.missingTs || 0;
+                tadNA += team.tadNA || 0;
+                tsNA += team.tsNA || 0;
+            });
+
+            // Add Pending TAD metric (truly missing, excluding N/A)
+            const pendingTADEl = document.getElementById('pendingTAD');
+            if (pendingTADEl) {
+                pendingTADEl.textContent = pendingTAD;
+                pendingTADEl.style.cursor = 'pointer';
+                pendingTADEl.onclick = function() {
+                    console.log('Pending TAD clicked');
+                    showModal(`Issues Missing TAD (${pendingTAD})`, getIssuesWithoutTAD(teamsData));
+                };
+                pendingTADEl.title = 'Click to view issues missing TAD';
+            }
+            document.getElementById('pendingTADPercentage').textContent = `${((pendingTAD/totalIssues)*100).toFixed(1)}%`;
+
+            // Add Pending TS metric (truly missing, excluding N/A)
+            const pendingTSEl = document.getElementById('pendingTS');
+            if (pendingTSEl) {
+                pendingTSEl.textContent = pendingTS;
+                pendingTSEl.style.cursor = 'pointer';
+                pendingTSEl.onclick = function() {
+                    console.log('Pending TS clicked');
+                    showModal(`Issues Missing TS (${pendingTS})`, getIssuesWithoutTS(teamsData));
+                };
+                pendingTSEl.title = 'Click to view issues missing TS';
+            }
+            document.getElementById('pendingTSPercentage').textContent = `${((pendingTS/totalIssues)*100).toFixed(1)}%`;
+
+            // Add TAD N/A metric
+            const tadNAEl = document.getElementById('tadNA');
+            if (tadNAEl) {
+                tadNAEl.textContent = tadNA;
+                tadNAEl.style.cursor = 'pointer';
+                tadNAEl.onclick = function() {
+                    console.log('TAD N/A clicked');
+                    const naIssues = getAllIssues(teamsData).filter(issue => issue.tadNA);
+                    showModal(`Issues with TAD Marked N/A (${tadNA})`, naIssues);
+                };
+                tadNAEl.title = 'Click to view issues with TAD marked as not applicable';
+            }
+            document.getElementById('tadNAPercentage').textContent = `${((tadNA/totalIssues)*100).toFixed(1)}%`;
+
+            // Add TS N/A metric
+            const tsNAEl = document.getElementById('tsNA');
+            if (tsNAEl) {
+                tsNAEl.textContent = tsNA;
+                tsNAEl.style.cursor = 'pointer';
+                tsNAEl.onclick = function() {
+                    console.log('TS N/A clicked');
+                    const naIssues = getAllIssues(teamsData).filter(issue => issue.tsNA);
+                    showModal(`Issues with TS Marked N/A (${tsNA})`, naIssues);
+                };
+                tsNAEl.title = 'Click to view issues with TS marked as not applicable';
+            }
+            document.getElementById('tsNAPercentage').textContent = `${((tsNA/totalIssues)*100).toFixed(1)}%`;
+
+            // Update dates
+            const now = new Date().toLocaleString();
+            document.getElementById('generatedDate').textContent = `Generated: ${now}`;
+            document.getElementById('footerDate').textContent = now;
+
+            // Prepare team rankings
+            const teamRankings = Object.entries(teamsData).map(([name, stats]) => {
+                // Calculate avgScore as average of TAD% and TS% (from 0 to 2, where 2 is 100% on both)
+                const avgScore = ((stats.tadPct + stats.tsPct) / 100) || 0;
+                // Calculate bothPct excluding N/A issues (only count issues applicable for both TAD and TS)
+                // An issue is applicable for both if it's not N/A for TAD AND not N/A for TS
+                const bothApplicable = stats.total - Math.max(stats.tadNA || 0, stats.tsNA || 0);
+                const bothPct = bothApplicable > 0 ? (stats.bothComplete / bothApplicable * 100) : 0;
+                return {
+                    name,
+                    total: stats.total,
+                    tadPct: stats.tadPct,
+                    tsPct: stats.tsPct,
+                    bothPct,
+                    avgScore,
+                    rating: getRating(avgScore)
+                };
+            }).sort((a, b) => b.avgScore - a.avgScore);
+
+            // Render team table
+            const tbody = document.getElementById('teamTableBody');
+            tbody.innerHTML = teamRankings.map((team, index) => `
+                <tr>
+                    <td><strong>${index + 1}</strong></td>
+                    <td class="team-name">${team.name}</td>
+                    <td>${team.total}</td>
+                    <td>
+                        ${team.tadPct.toFixed(1)}%
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${team.tadPct}%"></div>
+                        </div>
+                    </td>
+                    <td>
+                        ${team.tsPct.toFixed(1)}%
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${team.tsPct}%"></div>
+                        </div>
+                    </td>
+                    <td>${team.bothPct.toFixed(1)}%</td>
+                    <td><strong>${team.avgScore.toFixed(2)}</strong></td>
+                    <td><span class="badge ${team.rating.class}">${team.rating.text}</span></td>
+                </tr>
+            `).join('');
+
+            // Render charts
+            renderTeamScoresChart(teamRankings);
+            renderCompliancePieChart(totalTAD, totalTS, totalBoth, totalIssues);
+            renderTeamBreakdownChart(teamRankings);
+
+            // Render insights - pass applicable totals
+            renderInsights(teamRankings, totalTAD, totalTS, totalBoth, totalIssues, totalTADApplicable, totalTSApplicable);
+        }
+
+        function renderTeamScoresChart(teams) {
+            const ctx = document.getElementById('teamScoresChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: teams.map(t => t.name),
+                    datasets: [{
+                        label: 'Average Score',
+                        data: teams.map(t => t.avgScore),
+                        backgroundColor: 'rgba(102, 126, 234, 0.8)',
+                        borderColor: 'rgba(102, 126, 234, 1)',
+                        borderWidth: 2,
+                        borderRadius: 8
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 2,
+                            ticks: {
+                                stepSize: 0.5
+                            }
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderCompliancePieChart(tad, ts, both, total) {
+            const ctx = document.getElementById('compliancePieChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Both TAD & TS', 'TAD Only', 'TS Only', 'Neither'],
+                    datasets: [{
+                        data: [
+                            both,
+                            tad - both,
+                            ts - both,
+                            total - tad - ts + both
+                        ],
+                        backgroundColor: [
+                            'rgba(72, 187, 120, 0.8)',
+                            'rgba(66, 153, 225, 0.8)',
+                            'rgba(237, 137, 54, 0.8)',
+                            'rgba(245, 101, 101, 0.8)'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderTeamBreakdownChart(teams) {
+            const ctx = document.getElementById('teamBreakdownChart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: teams.map(t => t.name),
+                    datasets: [
+                        {
+                            label: 'TAD %',
+                            data: teams.map(t => t.tadPct),
+                            backgroundColor: 'rgba(66, 153, 225, 0.8)',
+                            borderRadius: 6
+                        },
+                        {
+                            label: 'TS %',
+                            data: teams.map(t => t.tsPct),
+                            backgroundColor: 'rgba(237, 137, 54, 0.8)',
+                            borderRadius: 6
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100
+                        }
+                    },
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+        }
+
+        function renderInsights(teams, totalTAD, totalTS, totalBoth, totalIssues, totalTADApplicable, totalTSApplicable) {
+            const container = document.getElementById('insightsContainer');
+            const insights = [];
+
+            // Calculate truly missing (excluding N/A)
+            const trulyMissingTAD = totalTADApplicable - totalTAD;
+            const trulyMissingTS = totalTSApplicable - totalTS;
+            const tadNA = totalIssues - totalTADApplicable;
+            const tsNA = totalIssues - totalTSApplicable;
+
+            // Top performers - enhanced with specific scores
+            const topTeams = teams.slice(0, 3);
+            if (topTeams.length > 0 && topTeams[0].avgScore >= 1.8) {
+                const topList = topTeams.map(t => {
+                    const tadP = t.stats.tadPct.toFixed(0);
+                    const tsP = t.stats.tsPct.toFixed(0);
+                    return `${t.name} (TAD: ${tadP}%, TS: ${tsP}%)`;
+                }).join(', ');
+                insights.push({
+                    type: 'success',
+                    text: `🏆 Top Performers: ${topList}. Excellent compliance across the board!`
+                });
+            }
+
+            // Overall compliance - use applicable counts
+            const tadPct = totalTADApplicable > 0 ? ((totalTAD / totalTADApplicable) * 100).toFixed(1) : '0.0';
+            const tsPct = totalTSApplicable > 0 ? ((totalTS / totalTSApplicable) * 100).toFixed(1) : '0.0';
+            const bothApplicable = Math.min(totalTADApplicable, totalTSApplicable);
+            const overallPct = bothApplicable > 0 ? ((totalBoth / bothApplicable) * 100).toFixed(1) : '0.0';
+            
+            if (parseFloat(tadPct) >= 90 && parseFloat(tsPct) >= 90) {
+                insights.push({
+                    type: 'success',
+                    text: `✅ Outstanding compliance: TAD at ${tadPct}% (${totalTAD}/${totalTADApplicable}) and TS at ${tsPct}% (${totalTS}/${totalTSApplicable}). Sprint is well-documented!`
+                });
+            } else if (overallPct >= 60) {
+                insights.push({
+                    type: 'success',
+                    text: `✅ Good compliance at ${overallPct}% for both TAD and TS. TAD: ${tadPct}%, TS: ${tsPct}%. Keep improving!`
+                });
+            } else if (overallPct >= 40) {
+                insights.push({
+                    type: 'warning',
+                    text: `⚠️ Moderate compliance at ${overallPct}%. TAD: ${tadPct}%, TS: ${tsPct}%. Focus on improving documentation practices.`
+                });
+            } else {
+                insights.push({
+                    type: 'warning',
+                    text: `⚠️ Compliance needs attention at ${overallPct}%. Immediate action required to meet standards.`
+                });
+            }
+
+            // Missing items - specific actionable insights
+            if (trulyMissingTAD > 0) {
+                insights.push({
+                    type: 'warning',
+                    text: `📝 ${trulyMissingTAD} issue${trulyMissingTAD > 1 ? 's' : ''} missing TAD. Action needed: Complete technical architecture documentation for pending items.`
+                });
+            }
+
+            if (trulyMissingTS > 0) {
+                insights.push({
+                    type: 'warning',
+                    text: `🧪 ${trulyMissingTS} issue${trulyMissingTS > 1 ? 's' : ''} missing TS. Action needed: Develop test strategies for these stories before implementation.`
+                });
+            }
+
+            // N/A status information
+            if (tadNA > 0 || tsNA > 0) {
+                const naText = [];
+                if (tadNA > 0) naText.push(`${tadNA} TAD N/A`);
+                if (tsNA > 0) naText.push(`${tsNA} TS N/A`);
+                insights.push({
+                    type: 'info',
+                    text: `ℹ️ Not Applicable: ${naText.join(', ')}. These are enabler stories or bugs linked to stories, appropriately excluded from compliance metrics.`
+                });
+            }
+
+            // Teams needing improvement - more specific
+            const improvementTeams = teams.filter(t => t.avgScore < 1.5);
+            if (improvementTeams.length > 0) {
+                const teamDetails = improvementTeams.map(t => {
+                    const issues = [];
+                    if (t.stats.tadPct < 80) issues.push('TAD');
+                    if (t.stats.tsPct < 80) issues.push('TS');
+                    return `${t.name} (${issues.join(' & ')})`;
+                }).join(', ');
+                insights.push({
+                    type: 'info',
+                    text: `📋 Teams needing support: ${teamDetails}. Recommendation: Allocate time for documentation and provide mentorship.`
+                });
+            }
+
+            // TAD vs TS gap analysis - enhanced
+            const gap = Math.abs(parseFloat(tadPct) - parseFloat(tsPct));
+            if (gap > 15) {
+                const higher = parseFloat(tadPct) > parseFloat(tsPct) ? 'TAD' : 'TS';
+                const lower = parseFloat(tadPct) > parseFloat(tsPct) ? 'TS' : 'TAD';
+                const higherPct = Math.max(parseFloat(tadPct), parseFloat(tsPct)).toFixed(1);
+                const lowerPct = Math.min(parseFloat(tadPct), parseFloat(tsPct)).toFixed(1);
+                insights.push({
+                    type: 'info',
+                    text: `📊 Documentation gap: ${higher} at ${higherPct}% vs ${lower} at ${lowerPct}%. Recommendation: ${lower === 'TAD' ? 'Prioritize architecture documentation before coding' : 'Develop test strategies earlier in the sprint'}.`
+                });
+            } else if (parseFloat(tadPct) >= 90 && parseFloat(tsPct) >= 90) {
+                insights.push({
+                    type: 'success',
+                    text: `🎯 Balanced excellence: TAD and TS compliance are both above 90% with minimal gap (${gap.toFixed(1)}%). Perfect synchronization!`
+                });
+            }
+
+            // Perfect compliance celebration
+            if (trulyMissingTAD === 0 && trulyMissingTS === 0 && totalIssues > 10) {
+                insights.push({
+                    type: 'success',
+                    text: `🌟 Perfect Sprint! All ${totalIssues} issues have complete TAD/TS documentation (excluding ${tadNA + tsNA > 0 ? 'N/A items' : 'none'}). This is the standard we strive for!`
+                });
+            }
+
+            container.innerHTML = insights.map(insight => `
+                <div class="insight-item ${insight.type}">
+                    ${insight.text}
+                </div>
+            `).join('');
+        }
+
+        function applyFilters() {
+            if (!fullData) return;
+            const teamFilter = document.getElementById('teamFilter').value;
+            currentFilter = teamFilter;
+            renderDashboard(fullData, teamFilter);
+        }
+
+        function resetFilters() {
+            document.getElementById('teamFilter').value = 'all';
+            currentFilter = 'all';
+            if (fullData) {
+                renderDashboard(fullData, 'all');
+            }
+        }
+
+        function populateTeamFilter(data) {
+            const targetTeams = ["T360 Vanguards", "Nexus", "T360 Mavericks", "Matrix", "T360 ICD Chubb", "T360 Chargers"];
+            const teamFilter = document.getElementById('teamFilter');
+            
+            targetTeams.forEach(teamName => {
+                if (data.teams[teamName]) {
+                    const option = document.createElement('option');
+                    option.value = teamName;
+                    option.textContent = `${teamName} (${data.teams[teamName].total})`;
+                    teamFilter.appendChild(option);
+                }
+            });
+
+            teamFilter.addEventListener('change', applyFilters);
+        }
+
+        // Load and render data
+        loadData().then(data => {
+            if (data) {
+                fullData = data;
+                populateTeamFilter(data);
+                renderDashboard(data, 'all');
+            } else {
+                alert('Failed to load report data. Please ensure tad-ts-report-data.json exists.');
+            }
+        });
+    </script>
+</body>
+</html>

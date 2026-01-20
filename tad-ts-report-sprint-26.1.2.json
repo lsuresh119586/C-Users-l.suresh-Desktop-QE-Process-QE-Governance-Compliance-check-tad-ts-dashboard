@@ -1,4 +1,4 @@
-window.reportData = {
+{
   "dateRange": "Sprint 26.1.2",
   "generated": "2026-01-20 13:12:24",
   "summary": {
@@ -553,4 +553,4 @@ window.reportData = {
       ]
     }
   }
-};
+}

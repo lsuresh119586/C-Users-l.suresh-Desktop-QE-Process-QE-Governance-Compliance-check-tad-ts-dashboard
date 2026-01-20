@@ -368,8 +368,7 @@
             <h1>TAD/TS Compliance Dashboard</h1>
             <div class="meta">
                 <span id="dateRange">Loading...</span> | 
-                <span>Data Generated: <span id="dataGenerated"></span></span> | 
-                <span>Page Refreshed: <span id="lastUpdate"></span></span> |
+                <span>Last Updated: <span id="lastUpdate"></span></span> |
                 <a href="ts_quality_analysis_20260112_152419.html" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">
                     📊 Quality Analysis Report
                 </a>
@@ -650,11 +649,10 @@
             
             const reportData = window.reportData;
 
-            // Update header with data generated time
+            // Update header
             document.getElementById('dateRange').textContent = reportData.dateRange;
-            document.getElementById('dataGenerated').textContent = reportData.generated;
             
-            // Update page refresh time
+            // Update timestamp
             updatePageRefreshTime();
 
             // Apply status filter if selected

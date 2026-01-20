@@ -2,32 +2,32 @@ window.reportData = {
   "dateRange": "Sprint 26.1.2",
   "generated": "2026-01-20 18:44:14",
   "summary": {
-    "total": 23,
+    "total": 22,
     "tadComplete": 17,
     "tsComplete": 16,
     "bothComplete": 16,
-    "missingTad": 1,
-    "missingTs": 2,
+    "missingTad": 0,
+    "missingTs": 1,
     "tadNA": 5,
     "tsNA": 5,
-    "tadApplicable": 18,
-    "tsApplicable": 18,
-    "tadPct": 94.44444444444444,
-    "tsPct": 88.88888888888889,
-    "bothPct": 69.56521739130435,
-    "missingTadPct": 4.3478260869565215,
-    "missingTsPct": 8.695652173913043,
-    "tadNAPct": 21.73913043478261,
-    "tsNAPct": 21.73913043478261
+    "tadApplicable": 17,
+    "tsApplicable": 17,
+    "tadPct": 100.0,
+    "tsPct": 94.11764705882352,
+    "bothPct": 72.72727272727273,
+    "missingTadPct": 0.0,
+    "missingTsPct": 4.545454545454546,
+    "tadNAPct": 22.727272727272727,
+    "tsNAPct": 22.727272727272727
   },
   "defects": {
-    "totalDefects": 10,
+    "totalDefects": 9,
     "activities": {
       "QE Feature Testing": 5,
       "QE Performance Testing": 2,
       "QE Regression Testing": 0,
       "Deployment Verification": 1,
-      "QE Integration Testing": 1,
+      "QE Integration Testing": 0,
       "Production": 1
     },
     "teamMatrix": {
@@ -36,9 +36,9 @@ window.reportData = {
         "QE Performance Testing": 1,
         "QE Regression Testing": 0,
         "Deployment Verification": 1,
-        "QE Integration Testing": 1,
+        "QE Integration Testing": 0,
         "Production": 1,
-        "TOTAL": 4
+        "TOTAL": 3
       },
       "T360 Vanguards": {
         "QE Feature Testing": 3,
@@ -118,12 +118,7 @@ window.reportData = {
             "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New"
           }
         ],
-        "QE Integration Testing": [
-          {
-            "key": "GET-68812",
-            "summary": "LegalCollaborator: Case Assessment is not created while adding lawfirm company to the matter both TST & UAT"
-          }
-        ],
+        "QE Integration Testing": [],
         "Production": [
           {
             "key": "GET-44294",
@@ -143,18 +138,18 @@ window.reportData = {
   },
   "teams": {
     "Nexus": {
-      "total": 5,
+      "total": 4,
       "tadComplete": 4,
       "tsComplete": 4,
       "bothComplete": 4,
       "tadNA": 0,
       "tsNA": 0,
-      "tadApplicable": 5,
-      "tsApplicable": 5,
-      "missingTad": 1,
-      "missingTs": 1,
-      "tadPct": 80.0,
-      "tsPct": 80.0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
       "issues": [
         {
           "key": "GET-61103",
@@ -165,20 +160,6 @@ window.reportData = {
           "tadFound": true,
           "tsFound": true,
           "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-68812",
-          "summary": "LegalCollaborator: Case Assessment is not created while adding lawfirm company to the matter both TST & UAT",
-          "type": "Bug",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

@@ -1,0 +1,5333 @@
+{
+  "dateRange": "2025-08-01 to 2025-08-31",
+  "generated": "2026-01-09 14:19:53",
+  "summary": {
+    "total": 576,
+    "tadComplete": 24,
+    "tsComplete": 68,
+    "bothComplete": 19,
+    "missingTad": 552,
+    "missingTs": 508,
+    "tadPct": 4.166666666666666,
+    "tsPct": 11.805555555555555,
+    "bothPct": 3.298611111111111,
+    "missingTadPct": 95.83333333333334,
+    "missingTsPct": 88.19444444444444
+  },
+  "teams": {
+    "PP Pioneers": {
+      "total": 39,
+      "tadComplete": 2,
+      "tsComplete": 5,
+      "bothComplete": 1,
+      "tadPct": 5.128205128205128,
+      "tsPct": 12.82051282051282,
+      "issues": [
+        {
+          "key": "ELM-29286",
+          "summary": "   TEC-412439 Duplicate Budget Issue - CIC Patch",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-36239",
+          "summary": "Switch a public matter to private with PABU (With mapping), PIC is non-provisioned is not updating iManage",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36269",
+          "summary": "Updating existing secured provisioned PIC to non provisioned user is not removing the user in iManage",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33028",
+          "summary": "Invoicing Fix - DOM Changes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33029",
+          "summary": "COA Fix tests failure due to  DOM Changes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33154",
+          "summary": "CP Tech Debt automation for sprint 2025.3.2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33387",
+          "summary": "CP Tech Debt automation for sprint 2025.3.5",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36164",
+          "summary": "Adding inactive RIT is getting added/ Deactivating Existing RIT is not getting removed in iManage ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2162",
+          "summary": "CS - Error manager to contain details of the error",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34286",
+          "summary": "Process Hibernate Audit Entries Job is taking longer than expected to execute",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26297",
+          "summary": "   Sharedoc Windows2012 box - Upgrade to Windows22 - LNP",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29902",
+          "summary": " TEC-421587 Self Hosted client - Passport CP Tunnel disconnect ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-34292",
+          "summary": "Process Hibernate Audit Entries Job created duplicate records in p_audit_object table",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34293",
+          "summary": "ProcessHAE creating entry in p_audit_object table for organization entity with object_name column as blank",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-83",
+          "summary": "Evaluate tools available and useful for Staging and Production and include in future images",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1662",
+          "summary": "CP - All Log4J remediations will be completed",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2167",
+          "summary": "Unit Testing Strategy for Passport",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2168",
+          "summary": "Need to have a Plan for using CT with whatever we have for Tests",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2381",
+          "summary": "Apache configuration should match with windows configurations",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2628",
+          "summary": "ARD SP - EVS ePacket Validation Service",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2629",
+          "summary": "SWAG SP - EVS ePacket Validation Service",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2820",
+          "summary": "Passport Eclipse Plugin - update to latest Eclipse",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2821",
+          "summary": "Passport Package/Bundle exploder for tracking contents",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33004",
+          "summary": "CP Groovy files - Passport framework changes consumption",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31607",
+          "summary": "  TEC-432100 -  Tunnel Server Restart Pipeline ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-35474",
+          "summary": "Passport Framework - eDocs - Document Name Link for eDocs is not working",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-23366",
+          "summary": "PRB0056618 - PTASK0032152 create a test case for running the clear entity event history job and users try to access the system while the job was running",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-17595",
+          "summary": "PRB0056131 - PTASK0031121  Provide a mechanism to verify deployment parameters (which includes JVM Settings) across environments for a given client.",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-3187",
+          "summary": "INC2613569 - PRB0055638 Develop Pipeline for PSG Data Migration Needs",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31357",
+          "summary": "CP - document attachment downloads in COA - Lawfirm User - eDocs ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 7
+        },
+        {
+          "key": "ELM-2141",
+          "summary": "Caching mechanism to be moved to a pluggable, interface driven approach",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-22080",
+          "summary": "Pipeline: downstream impacts from change to deploy-passport-k8s-service-general-blue-green.yml",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11761",
+          "summary": "Remediation: Insufficient CPU",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1762",
+          "summary": "Passport Self Healing: Auto Restart of Passport JVM When Certain Conditions Exist",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23904",
+          "summary": "SWAG Passport Tech Debt - Jackrabbit to be upgraded to Jackrabbit Oak",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23905",
+          "summary": "ARD Passport Tech Debt - Jackrabbit to be upgraded to Jackrabbit Oak",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23695",
+          "summary": "ARD Passport - Lucene and Jack Rabbit Upgrade",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2453",
+          "summary": "Automating Test case back log in Passport",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2454",
+          "summary": "Converting voyager tests into ITF for API and Toska/Aura for UI ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "PP Spartacles": {
+      "total": 58,
+      "tadComplete": 4,
+      "tsComplete": 11,
+      "bothComplete": 3,
+      "tadPct": 6.896551724137931,
+      "tsPct": 18.96551724137931,
+      "issues": [
+        {
+          "key": "ELM-36431",
+          "summary": "PP 25.2 -Multi-Select Filter- User able to select 11 items",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34146",
+          "summary": "PP 25.2_LC 1.2.0 : Invoice landed in error manager for Base application exception",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34495",
+          "summary": "IIC: 25.2-RTD is displayed when the user tries to create matter with matter management large DB",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34798",
+          "summary": "PP 25.2_GCM 1.3.3-Invoice Correction By Business Unit_Invoice not rejected for Auto-reject after adjusted invoice completes workflow",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-34760",
+          "summary": "PP 25.2_GEBTCM 1.3.3- 98BI invoice with country code \"AGO\" landed in error manager ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34158",
+          "summary": "LC Module: PP 21.1_LC 1.2.0 : Invoice landed in error manager",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35029",
+          "summary": "Predictive Insights - Configuration is not getting saved showing ERROR:400 NULL",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-35450",
+          "summary": "25.2: AFA-Years of experience fails to trigger for warn action",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-35709",
+          "summary": "Passport| Passport 25.1.1 Invoice with 1000 line items is taking 10 hours 54 minutes to process",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35890",
+          "summary": "Manage User menu is displayed to the Attorney users",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-35117",
+          "summary": "25.2: Invoice moved into error manager with exception ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34164",
+          "summary": "PC: Invoice moved in to error manager for the invoices posted against the panel counsel in 25.2 Passport",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35306",
+          "summary": "PP-19.2: Tableau dashboards are still visible under home page",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-35968",
+          "summary": "Stack trace thrown while Post Upgrade Run",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35367",
+          "summary": "AFA-Blended Hourly Rate rule fails to work with Adjust action with latest drools",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34143",
+          "summary": "LVBA Module - The Cap amount and the adjustment are not correctly displayed when cap amount is exhausting for Decrease by% -By firm-Billed invoice total ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-35891",
+          "summary": "UI is misaligned with Analytics consumer role",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34151",
+          "summary": "URP-The instance id[UUID] length is 74 characters displayed in IdP Tab in  Analytics Configuration Page",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34011",
+          "summary": "Drools: Stack Trace is displayed under Designer -> RulesGroup List page after drools upgrade",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-35476",
+          "summary": "PP-25.1+PI: Tableau dashboards are displayed when the user deploys PI module on top of patch",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-36455",
+          "summary": "Datadog Validation - Unable to view supervisor or custodian records in Legal Hold",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31899",
+          "summary": "[25.1] [OC] [Module Recert] - Unable to Delete Narrative from matter in OC ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-35655",
+          "summary": "[TO-801] - Train Fix - Budgets counts named query is taking long time",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35290",
+          "summary": "[TO-4016] - Train Fix: Accruals counts named query is taking long time",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31992",
+          "summary": "[TEC-432131] - Train Fix: Passport-BancoPopular-21.2-Fix for AFAFactService in AFA Module",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-36195",
+          "summary": "Datadog Validation - Getting Stack trace and blank screen after LH installation",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33615",
+          "summary": "[TEC-359820] -Eng Analysis - FDIC Tableau dashboards not working",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28197",
+          "summary": "[CDE] - Easy access to my recently reviewed invoices ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-11643",
+          "summary": "[Drools Upgrade] - Upgrade Analyzer",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-29548",
+          "summary": "[CDE] - Easy access to my recently reviewed invoices - Tools ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-21620",
+          "summary": "Passport ICD Module - PK Fix",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-11742",
+          "summary": "Remediation: Blocking/Locking around Entity Event History tables",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-16695",
+          "summary": "[ PP 24.2.3][TEC-409859] Issue found during the testing the card ELM-13786",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5970",
+          "summary": "[PP 24.2.1][TEC-362333][Pre-existing] Exception thrown when the user tries to sort the Object attribute column added to the list page.",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-22012",
+          "summary": "[PP 24.2.2][TEC-408420] Invalid email format-Event Invite/Cancel notification when multiple email address separated with multiple commas and semi-colon\u00a0",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28443",
+          "summary": "   Eng. Analysis: [ELM-22326] Throwing unable to process the records Instead of first and last name is missing ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28440",
+          "summary": "   [03 PPOD]AP Post Failure ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28445",
+          "summary": "   [01 PPOD ]Eng Analysis Raymond James | TT-40460 | Items 197082: Automation of Acknowledgement Letters: Stack Trace error | Document Assembly Template ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10797",
+          "summary": "[Tracking] Remediation: Incorrect SSO Deployment",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28442",
+          "summary": "   [01 PPOD ]Eng Analysis Raymond James | TT-40460 | Items 197082: Automation of Acknowledgement Letters: Stack Trace error | Document Assembly Template ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-17967",
+          "summary": "[PP 24.2.4][TEC-409860] High Chart - Value is not displaying full when we have higher amount for Top 10 organizaiton by Rolling Spend",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11768",
+          "summary": "Remediation: Extreme Query Performance issues taking server down",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10796",
+          "summary": "Remediation: EEH not updating after deployments",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28446",
+          "summary": "[08 PPOD ]Eng. Analysis: [ELM-22012] Invalid email format-Event Invite/Cancel notification when multiple email address separated with multiple commas and semi-colon",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28441",
+          "summary": "   Eng. Analysis: [ELM-22326] Throwing unable to process the records Instead of first and last name is missing ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11940",
+          "summary": "Mitigation: Expired Certificate for IDP and SP",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-21331",
+          "summary": "[PP 24.2.4][TEC-409861] Percentage Changed value is not updating for past date record.",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-21025",
+          "summary": "[24.2.2][TEC-409856] Notifications fail to send for Event Invite and cancellation, PSR related notification when comma, semi-colon is used as separator between emails including the Outlook format.",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28444",
+          "summary": "   [08 PPOD ]Eng. Analysis: [ELM-22012] Invalid email format-Event Invite/Cancel notification when multiple email address separated with multiple commas and semi-colon ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28439",
+          "summary": "   [11 PPOD]High Chart - Value is not displaying full when we have higher amount for Top 10 organizaiton by Rolling Spend ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-100",
+          "summary": "Third-party pay - GEBTCM - Valid Org Country Code in 98BI/XML2.1",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24532",
+          "summary": "   Backport for Warnings - Workflow Template Updates, Security Updates, Spreadsheet Loader Imports ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 38
+        },
+        {
+          "key": "ELM-10593",
+          "summary": "[Word Card] TEC-354303 - UPS - Multiple vulnerability found in Netsparker scan",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-8818",
+          "summary": "Drools Upgrade - Enable backward compatibility patch for UBS",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-13663",
+          "summary": "PRB0056735 - Jackrabbit Configuration Check on Passport Startup",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-12052",
+          "summary": "PRB0056016 / PTASK0030793 - Legalhold deletion is not capturing the associated records deletion in their respective audit table. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10516",
+          "summary": "[Analysis] - Multitenant SSO in Containers",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30560",
+          "summary": "[TEC-427058] - Train Fix: Accruals Submission issue and for resolved and reopened matters ACM 3.2.2 ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "PP Genesis": {
+      "total": 133,
+      "tadComplete": 16,
+      "tsComplete": 26,
+      "bothComplete": 13,
+      "tadPct": 12.030075187969924,
+      "tsPct": 19.548872180451127,
+      "issues": [
+        {
+          "key": "ELM-34108",
+          "summary": "IManage 4.0.3: IManage : While Adding doc getting this error and then refreshed and checked the doc is added. ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35734",
+          "summary": "SPOL 4.0.1 - Migrate a matter which is in the same site getting 400 error in the output sheet",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-34270",
+          "summary": "eDocs : 2.4.0 : DM Authorization Page throws stack trace",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34661",
+          "summary": "Documents are displayed in CP , when Collaboration flag is set to \"No\" during large file checkin",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34028",
+          "summary": "eDocs : 2.3.0 : Document status does not change upon check-in when Collaboration field is empty",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-35739",
+          "summary": "eDocs : 2.4.0 : Folder Path Issues",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-35895",
+          "summary": "Stack Trace Error on 'Doc' Tab After PABU change and that matter is in inprogress state",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34402",
+          "summary": "eDocs : 2.4.0 : Huge Files stuck in Document Upload Queue and not progressing",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35727",
+          "summary": "SPOL 4.0.1- Error while Pabu Change with Checkout Document/Count Mismatch \u2013 Document and Folder Not Displayed in document tab.",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-34400",
+          "summary": "eDocs 2.4.0: Stack trace error occurs when downloading documents with newly added extensions from the Main Documents tab",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33397",
+          "summary": "eDocs : 2.3.0 : Unable to download document with name contains []",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34072",
+          "summary": "eDoc 2.3.0 \u2013 Document added under Invoice in PP not displaying in CP",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-33465",
+          "summary": "eDocs 2.3.0: Navigation option missing on Document List page",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 8
+        },
+        {
+          "key": "ELM-34112",
+          "summary": "IManage 4.0.3: \"Bad Request\" Error When Renaming Document or Folder",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33849",
+          "summary": "eDocs : Folder Path displays blank value",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-34610",
+          "summary": "eDocs - Error during File Rename - JSONObject[\"supportedDocTypes\"] not found",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-33914",
+          "summary": "eDoc 2.3.0: Organization field value disappears on document checkout; selection dropdown shows unmapped organization",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34219",
+          "summary": "eDocs : 2.4.0 : DM Authorization Page refreshes multiple times on save",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34033",
+          "summary": "eDocs : 2.3.0 : Need to analyse how Date Time is stored in eDocs",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34032",
+          "summary": "eDoc 2.3.0- \"Collaboration\" field appears in \"Add Document\" form for Organization, People, and Invoice objects in Documents tab",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34089",
+          "summary": "OC| Getting Heap memory issue with 100 MB file uplaod with 150 concurrent users",
+          "type": "Bug",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35871",
+          "summary": "CP-side eDocs screen File Download Corrupted/Missing Versions",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-35828",
+          "summary": "eDoc: Green Validation Message Should Not Be Displayed for Files at Sync Size Limit",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35918",
+          "summary": "Edoc 2.4.0 - Download doc after check-in a document the file size and the downloaded file size is different",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-33791",
+          "summary": "eDoc 2.3.0- Unable to Undo Checkout on a Folder as Admin \u2013 Error Message Displayed",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36448",
+          "summary": "SPOL 4.0.2- when a matter fails while migration the matter remains in source path, but in the Remarks field throws \"doc.movement.failed.source.exists\"",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33396",
+          "summary": "eDocs : 2.3.0 : \"Sync File Upload\" to be removed from Add Columns for Non Admin user",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-34029",
+          "summary": "eDoc 2.3.0 In the admin screen, error validation scenarios are failing and resulting in stack trace errors",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-33398",
+          "summary": "eDocs-2.3.0 : Incorrect special character validation message",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 9
+        },
+        {
+          "key": "ELM-34169",
+          "summary": "eDocs : 2.4.0 : DM Connector Configuration : Hide other tabs until DM Server Configuration page is saved",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-36447",
+          "summary": "Spol 4.0.2- When Target lib resides in another site and not in the currently configured site",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-33904",
+          "summary": "eDocs: \"Undo Checkout\" function fails to work correctly for folders with multiple nested levels.",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35963",
+          "summary": "SPOL 4.0.1 Cleanup Process Fails with Forbidden Error",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-34106",
+          "summary": "Edocs | OC Server not responding during perf test execution- 500 Server error reported",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33790",
+          "summary": "eDocs : 2.3.0 : Custom Single Auto Complete Lookup field does not display value after saving",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33158",
+          "summary": "iManage: User can't select attribute values when configuring predefined folders",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36457",
+          "summary": "Unsupported comparison types in Passport should be consistently reflected in the CP COA list pages filters",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33545",
+          "summary": "TEC-420674 - Eng Analysis - Hartford : New Documents added to matter is created with Checkedout status",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34094",
+          "summary": "eDocs 2.5.0 -Rename with Unsupported Special Characters Throws Error but Still Updates Name in Breadcrumb (Folders and Documents)",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-32849",
+          "summary": "eDocs : 2.3.0 : Display a validation message for Documents uploaded with incorrect custom attribute mappings",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 13
+        },
+        {
+          "key": "ELM-29149",
+          "summary": "   Legal Document Preview -  Prevent Copying & Screenshots  ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33547",
+          "summary": "TEC-416707 - Eng Analysis - User not able to access documents/emails tab in Passport or OC",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34155",
+          "summary": "eDocs - 2.5.0 - Collaborated Documents and Notification icon",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 14
+        },
+        {
+          "key": "ELM-32832",
+          "summary": "SPOL 4.0.2 - Display Accurate File Size for Checked-In\\Download Documents in Passport and Office Companion",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 8
+        },
+        {
+          "key": "ELM-32988",
+          "summary": "eDocs - Version Download and Version History Listing on the CP Side",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-34096",
+          "summary": "eDocs 2.4.0: Is Blank filter throws Stack trace error",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-35201",
+          "summary": "eDocs : 2.5.0 : \"Updated At\" filter does not work for all conditions",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-31375",
+          "summary": "TEC-430003 - Base Defect Zurich | OC client check in/out issue ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-29474",
+          "summary": "Zurich: OC creating debug.log files resulting in Web Folder Error Encountered ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 6
+        },
+        {
+          "key": "ELM-29608",
+          "summary": "Hartford: Users are not able to upload documents to Y66C65074",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32612",
+          "summary": "eDocs 2.5.0 CP Matter Document ' Checkin and Checkout Operation",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-36173",
+          "summary": "Custom DAO File Upload not persisting file UUID on validations",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36174",
+          "summary": "Optimize CustomDAO Chunk upload operations",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36143",
+          "summary": "iManage - Invoice Security Establishment along with the Private Matters.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-27922",
+          "summary": "TEC- 416910 :  Hartford: 21.1.1- BOT Document returns false 409: Document with same name already exists. ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26626",
+          "summary": "[Hartford] [SPOL] [Connectors] [TEC-384821/TEC-413278] - Shows results in Matter Documents/Email leads to Internal Server Error ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26623",
+          "summary": "[Hartford] [SPOL] [Connectors] [TEC-387891] - Frequent Disconnects ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26620",
+          "summary": "[Hartford] [SPOL] [Connectors] [TEC-384821] - Examples of matter folders created outside of PABU ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26628",
+          "summary": "[Hartford] [SPOL] [Connectors] [TEC-412392] - Users are not able to upload documents to Y66C65074 ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28609",
+          "summary": "eDoc 2.1.0 - In the edoc server for all the document types we are seeing only MsWord icon and Type in the\u00a0 \"Application\" field under the Profile. ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32549",
+          "summary": "Edoc 2.3.0- Custom Mapping not deleted despite page refresh ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31244",
+          "summary": "eDocs 2.1.2 : Overwrite Check in Fails in Document Upload Queue ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32531",
+          "summary": "eDocs 2.4.0 - Map Passport PABU to eDocs User Groups via DM Authorization Mapping Page ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 11
+        },
+        {
+          "key": "ELM-34160",
+          "summary": "eDocs 2.4.0 : Sorting on the Version Page",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 7
+        },
+        {
+          "key": "ELM-34528",
+          "summary": " SPOL 4.0.2 - Fix PABU Tracker Display and Validation Errors Related to Matter Reference and Name Comparison",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-35702",
+          "summary": "SPOL 4.0.0 -While checking in a document using the 'Overwrite Version' option, an error occurred and the document became locked. No further operations (Check-In, Check-Out, Edit) could be performed on the document.",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34229",
+          "summary": "SPOL 4.0.2 - Hartford Migration - Clean up Process - Post Migration",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 7
+        },
+        {
+          "key": "ELM-35803",
+          "summary": "eDocs : Need to check the limitations on Custom Collaboration Organization filter dropdown",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32834",
+          "summary": "SPOL-4.0.2-Error in glowroot while downloading a document",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-32821",
+          "summary": "Uploaded Invoice Documents should be reflected in CP",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 9
+        },
+        {
+          "key": "ELM-35889",
+          "summary": "eDoc 2.5.0: When filtering Custom Fields, the Main Document Page should display a relevant error message if the Custom Mapping is missing, instead of the generic \"Your Request Cannot Be Processed\" message.",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5745",
+          "summary": "Doc-Connector - Doc Service API to Support common bundle - Part 1",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5746",
+          "summary": " Doc-Connector - Doc Service API to Support common bundle - Part 2",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32398",
+          "summary": "eDocs 2.5.0 CP Matter Document ' Upload",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-35896",
+          "summary": "Stack Trace Error on 'Doc' Tab After PABU change and that matter is in inprogress state",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34658",
+          "summary": "Tracking Story for Hartford Release plan Sprint 3.4",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33607",
+          "summary": "Delete Operation Validation on Custom Attribute mapping for eDocs",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-35902",
+          "summary": "[Tech Debt] Add Auditing to Document-Service",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33633",
+          "summary": "TEC-428865 - Eng Analysis - Windows 11 Certification for Office Companion 1.11",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26616",
+          "summary": "         [Hartford] [SPOL] [OC] [TEC-392312] - Bell Notification Counts differ from Passport web ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33627",
+          "summary": "TEC-429448 - Eng Analysis - the Alfresco nodes and related properties in the Alfresco database require cleanup\t",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-15",
+          "summary": "CSC SOP 2.1 - Optimistic locking and connection timeout Testing and bug fixes",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33606",
+          "summary": "TEC-396645 - Eng Analysis - Users are having issues using SPOL in production",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-159",
+          "summary": "Classic Auth - Custom Attribute - Library Changes - Regression",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-8740",
+          "summary": "iManage 3.1.0 Cloud: Custom Attribute support in iManage Cloud",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34201",
+          "summary": "eDocs 2.3.0 - JR Document Extraction Script - Matter Status",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26617",
+          "summary": "   [Hartford] [SPOL] [OC] [TEC-369198] - Office Companion Log Files- Britney (same error, pop up quick file a draft email) ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33555",
+          "summary": "TEC-425198 - Eng Analysis - Bridgewater_23.2.4-Invoices get stuck in Error Manager due to unstaged attachments",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11283",
+          "summary": "Internal trouble shooting guide for OASIS connectors",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30934",
+          "summary": "   Standard Insurance - Attached Powerpoint presentation in the matter is spinning ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26622",
+          "summary": "   [Hartford] [SPOL] [Connectors] [TEC-406686] - For the checked in documents, File Size is shown as blank in passport ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33636",
+          "summary": "TEC-424888 - Eng Analysis - Documents are in checkout for users without they realize it",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26627",
+          "summary": "   [Hartford] [SPOL] [Connectors] [TEC-409003] - Multiple Issues on Relative Search ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-27921",
+          "summary": "   TEC- 416910 :  Hartford: 21.1.1- BOT Document returns false 409: Document with same name already exists. ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30943",
+          "summary": "   iManage 4.0.3 : OC - Predefined folder configuration ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31017",
+          "summary": "   HIG: Users are getting 502 bad gateway errors and general slowness/disconnects ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33629",
+          "summary": "TEC-432881 - Eng Analysis - Zurich : Https 500 error in Casepoint dynatrace on 22nd April",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9",
+          "summary": "MWFSC Zurich : [SRT] Some word docs I can't open and get a message saying \"can\u2019t find\u201d. Then it shows a \"working copy\" open which continues to linger even after refresh.",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30751",
+          "summary": "   BW - OC Document upload issue ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33625",
+          "summary": "TEC-426265 - Eng Analysis - Restart Alfresco, we need to clear the bad query plan in SQL DB\t",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26618",
+          "summary": "         [Hartford] [SPOL] [OC] [TEC-369198] - User encounters error when accessing Document List Page ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33632",
+          "summary": "TEC-434074 - Eng Analysis - Bridgewater-23.2.4-Users unable to delete documents",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33604",
+          "summary": "TEC-420739 - Eng Analysis - Client encounters 500 Internal Server error when accessing docs of Claim No. Y2EC84751",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10",
+          "summary": "MWFSC - Zurich Analysis : \"download failed\" error message is popped up in the corner of the screen.",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26613",
+          "summary": "      [Hartford] [SPOL] [OC] [TEC-389025] - HIG OC encrypted folder issue/Quick file ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33640",
+          "summary": "TEC-432236 - Eng Analysis - Base Defect Support Request: Hartford Insurance(HIG): PABU Rename Custom proper null issue",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26615",
+          "summary": "         [Hartford] [SPOL] [OC] [TEC-379910] - HIG user cannot drag emails or documents ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26619",
+          "summary": "         [Hartford] [SPOL] [Connectors] [TEC-384821] - Eng Analysis for Issues with Emails in a matter ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33546",
+          "summary": "TEC-414010- Eng Analysis -  Zurich - Purge Job read time out when deleting matters from Alfresco\t",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33605",
+          "summary": "TEC-400415 - Eng Analysis - Zurich - Pencil Icon not working consistently when trying to edit an O365 file\t",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-7",
+          "summary": "CSC SOP Release FUTURE with Passport 20.2 - MSM - GA",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-8",
+          "summary": "MWFSC Zurich : [SRT] After working on files when WebDrive is disconnected, getting a message that files are open and do I want to abort.",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-27792",
+          "summary": "   Passport Unit Testing for Document Service Listing operations   ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-27791",
+          "summary": "   Passport Unit Testing for Document Service Delete operations  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30065",
+          "summary": "OC Spinning Issue in Outlook - Long Term Solution ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33448",
+          "summary": "TEC-434415 - Eng analysis - OC Shut down unexpectedly on multiple occasions",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-27790",
+          "summary": "   Passport Unit Testing for Document Service Add operations ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29162",
+          "summary": "   Zurich - The filter (Custom attribute) \"Checkout by username\" is not functioning  ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33503",
+          "summary": "TEC-419411 - Eng Analysis - Email documents are downloaded as emails.do instead of email file name followed by file type as .msg",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33608",
+          "summary": "TEC-417604- Eng Analysis - Base Defect Zurich on prem | Recent/checked out documents are not showing",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33639",
+          "summary": "TEC-430047 - Eng Analysis - Zurich - OC client check in/out issue",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33910",
+          "summary": "TO-399: SQL error in iManage for custom field",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32633",
+          "summary": "PABU Lib created outside folder \u2013 data migration \u2013 ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26629",
+          "summary": "   [Hartford] [SPOL] [Connectors] [TEC-405252] - PABU Changes for some matters fail ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32969",
+          "summary": "Remediate High vulnerabilities reported by black duck scan for document service 25.2.x ",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32970",
+          "summary": "Remediate Medium vulnerabilities reported by black duck scan for document service 25.2.x ",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-16549",
+          "summary": "PRB0055960 - PTASK0030910 Addressed the issue in Oasis iManage, to check for non-SSO users and do not set the user information as not required.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31415",
+          "summary": "   eDocs 2.3.0 - Configuration Page for Custom Attribute Mapping ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-34230",
+          "summary": "SPOL 4.0.2 - Hartford Migration - Move storage Validation ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 12
+        },
+        {
+          "key": "ELM-30685",
+          "summary": "   ENG Analysis for TEC-427635: SPOL 4.0.0 Renaming the matter in old site doesn't change the folder name in SPOL ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34656",
+          "summary": "Tracking Story for Hartford Release plan Sprint 3.2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34645",
+          "summary": "SPOL 4.0.2 - TEC-413388 PABU Change for Y4HC34300 Stuck In-Progress - INC000026975779 - Data Cleanup",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 8
+        },
+        {
+          "key": "ELM-34652",
+          "summary": "Tracking Story for Lowes Release plan Sprint 3.2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "Oasis Allstars": {
+      "total": 1,
+      "tadComplete": 0,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "ELM-36194",
+          "summary": "Creating a Public matter as NON SSO User without mapping is displaying matter creator in user/group section on iManage",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        }
+      ]
+    },
+    "Unknown Team": {
+      "total": 79,
+      "tadComplete": 0,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "ELM-36571",
+          "summary": "PRB0058524 - Determine a method of Data Migration that does not require changing the type and version of the Database Server",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36570",
+          "summary": "PRB0058524 - Add metadata validation to release checklist",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36569",
+          "summary": "PRB0058524 - Implement automated DBCC CHECKDB post-deployment",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36567",
+          "summary": "PRB0058524 - Validate metadata integrity post-restoration",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35976",
+          "summary": "BULK INSERT Failure Due to Invalid Data Type in Format File",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29130",
+          "summary": "   Mismatched Permissions for Report Author Role in Cognos 11.2.4 ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35901",
+          "summary": "Stack Trace Error on Document Check-In from CP when it is checked out in PP",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36070",
+          "summary": "Unrecoverable Database Connection Error During Initial and CDC Load",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28854",
+          "summary": "   Failed to Retrieve Matter information in task flow Page after adding legal engagement ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28549",
+          "summary": "  Train fix - Document rename -Bundle to be included to the future version of OC ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35725",
+          "summary": "Trunk Merge Automation scripts",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34535",
+          "summary": "INC3163235 - PRB0057913 Add comprehensive logging for PURGE_SCHEDULE_JOB_EXECUTION job",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23733",
+          "summary": "SWAG - CLOUD COST CONTROL EPIC BY PRODUCT - OASIS",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29351",
+          "summary": "   INC3049071 - PRB0057190 Develop NFR specification that can be used to communicate for both externally and internally the designed process capability of any integration. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23717",
+          "summary": "SWAG - Remediate Code Reliability Issues from Scan Results",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23702",
+          "summary": "SWAG - Improve Operations Automation Coverage by Addressing Low-Priority Gaps",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23698",
+          "summary": "SWAG - Load Test Reports: Meeting Acceptance Criteria for Database Throughput and Application Server Scalability",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25406",
+          "summary": "   INC2926774 / PRB0056665 Reinforce defect tracking and remediation process for all defects found ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25396",
+          "summary": "   PRB0056804 - PTASK0032528 Review connection management for other connections generated from PP and create stories for automatic recovery from connection faults.. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23701",
+          "summary": "SWAG - Tech Debt - Supportability",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25395",
+          "summary": "   PRB0056804 - PTASK0032529 Work on database connection retry logic inside passport so that it can recover by itself. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23705",
+          "summary": "SWAG - Remediate Medium License Risks in Dependencies",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24520",
+          "summary": "   ARD Citi Operability  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25136",
+          "summary": "   PRB0056668 - PTASK0032479 Improve test cases around the issue (Truist Data missing in DWH), as well as impact analysis process to catch these sorts of items for future tests/functions. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24519",
+          "summary": "   SWAG Citi Operability ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25135",
+          "summary": "   PRB0056668 - PTASK0032481 Create debugging script to pinpoint the issue. The script will capture more details right after the invoice mismatch. These scripts will be in environment only for 2-3 days ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23720",
+          "summary": "SWAG - Remediate  high & Medium CVEs in application dependencies (Apache HttpClient,Apache Groovy,Apache kafka,Bouncy Castle, Netty,  Microsoft.Data.SqlClient, JamesNK/Newtonsoft.Json, grpc, System.Net.Http, )",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24323",
+          "summary": "   SWAG - Dashboard for Oasis ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24322",
+          "summary": "   SWAG - Improve Software Design Observability ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24321",
+          "summary": "   SWAG - Enhance Code Maintainability and Address Improvement Areas ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23684",
+          "summary": "ARD Log Management for Passport ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23683",
+          "summary": "SWAG Log Management for Passport ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23727",
+          "summary": "SWAG -  Increase Unit Test Code Coverage to Over 70%",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23703",
+          "summary": "SWAG - Improve Infrastructure Reliability and Address Feedback Areas",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24526",
+          "summary": "   SWAG -    Upgrade or Replace tool used in Survey Capability   ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23709",
+          "summary": "SWAG - Remediate High-Severity Operational Risks in Third-Party Libraries",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24122",
+          "summary": "PRB0056699 - PTASK0032281 Scan duplicate version of classes / libs in Build Process",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23721",
+          "summary": "SWAG - Remediate any high vulnerabilities identified in the SAST scan",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24121",
+          "summary": "PRB0056699 - PTASK0032280 Fix Oasis core jar file, removing the duplicate classes during the Oasis build process",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23708",
+          "summary": "SWAG - Remediate High-Severity Operational Risks: .NET applications",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23706",
+          "summary": "SWAG - Remediate Medium and low-Severity Operational Risks: Java applications",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23723",
+          "summary": "SWAG - Remediate Medium and Low vulnerabilities identified in the SAST scan",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23719",
+          "summary": "SWAG - Remediate High CVEs in Application Dependencies: apache commons, google, Wooodstox",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23715",
+          "summary": "SWAG - Remediate high CVEs in application dependencies, especially in Hibernate, Liquibase, H2 Database Engine, and Spring Fox.",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-22277",
+          "summary": "   PRB0056430 - RCAS0046003 Fix the infinite recursion in cloning objects that have a loop in relationship attributes, using metadata to do so generically. ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23700",
+          "summary": "SWAG - API/Integration test coverage",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-22276",
+          "summary": "   PRB0056430 - RCAS0046002 Add developing around and testing for infinite recursion ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24347",
+          "summary": "   SWAG - Remove risk of cgroup v2 incompatiblility for Java pods ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23711",
+          "summary": "SWAG - Remediate High-Severity Operational Risks in Spring and Database Technologies",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-17935",
+          "summary": "PRB0055998 - Architecture runway for unifying the accounts payable status of an invoice with the invoice workflow status.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-17844",
+          "summary": "PRB0056055 - PTASK0030867  To add requirements for customization testing. It should include base features including customization.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-17593",
+          "summary": "PRB0056131 - PTASK0031121 Find and merge all client-environment specific configurations to a single, known location, to make it easier to get a complete grasp of the entire environment's configuration.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-16490",
+          "summary": "PRB0055278 - PTASK0029278 Add Passport Tableau test cases for Legal View Dashboard",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-13662",
+          "summary": "INC2688758 / PRB0055673 / PTASK0030922 / TEC-322723: ENTITY_EVENT_HISTORY is not always registering events",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29776",
+          "summary": "   INC3046726 - PRB0057175 Schedule a meeting with CS Team and explain the need of Docservice being deployed before the Bundle Installation ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23725",
+          "summary": "SWAG - Remediate the medium and low risk vulnerabilities identified in the last penetration testing",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23712",
+          "summary": "SWAG - Remediate critical CVEs in the application dependencies of the libraries Apache Tomcat, Undertow, Apache Commons BeanUtils, and PostgreSQL",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32449",
+          "summary": " GA Patch- Engg Analysis-Norfolkts-23.2.9_COA Tunnel Down TunnelExistsException ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        },
+        {
+          "key": "ELM-2552",
+          "summary": "Eliminate Checks for Off Container resources from System Information page",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2377",
+          "summary": "Passport - Improve handling of large files",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5649",
+          "summary": "Analysis - Improve the self-healing/resync of Passport and Quartz tables to regularly instead of just on startup.",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5549",
+          "summary": "Evaluate SQL MI database design for cost saving opportunities",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5153",
+          "summary": "RFI Queries - Phase 3",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-19683",
+          "summary": "PRB0056272 - PTASK0031920 - Create the formula to automatically fill the cell with the corresponding value",
+          "type": "Story",
+          "status": "In Progress",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11772",
+          "summary": "Remediation: Memory pressure in node pools",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11743",
+          "summary": "Remediation: Blocking SPID",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2596",
+          "summary": "Change scripts to cleanup entity_event_history to only retain 30 days of data",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2176",
+          "summary": "HS_PID file capture for all UAT/Production off container",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2601",
+          "summary": "Production Resource Governors (UAT Testing on RITM1132593)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2347",
+          "summary": "Ensuring no one else has Cognos Special character issues",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2169",
+          "summary": "Getting the dummy pipeline in production",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2981",
+          "summary": "Fix the JVM Crash ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23699",
+          "summary": "SWAG - Infrastructure Cost Efficiency: Enhancing Cost Management and Optimization",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-5758",
+          "summary": "Auto-Deploy Lastest Trunk Build Into Containers",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2338",
+          "summary": "DnA - Reduce Screen Share (Qlik Logs)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2340",
+          "summary": "DnA - Automate SQL Replication for T360 Data",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34575",
+          "summary": "INC3153753 - PRB0057885 Develop Standard Test Suite for LNP and UNP Environments",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25797",
+          "summary": "   PRB0056837 - PTASK0032580 Fail the SDK pipeline when an error occurs in the SDK pod log and retry SDK pipeline execution ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10897",
+          "summary": "[Tracking] Timebound Access for GBS in Citi Environment",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "QA Perf Testing": {
+      "total": 16,
+      "tadComplete": 0,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "ELM-36454",
+          "summary": "T360 - Perf test for 3.5 Sprint ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34646",
+          "summary": "T360 -Identify tools to perf test SQL queries ( TSPR Testing )",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36258",
+          "summary": "T360 | CNA | MUI Grid Sprint Performance Test",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36229",
+          "summary": "T360 | Develop JMeter Script for MUI Grid Filters and Search",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35504",
+          "summary": "T360 | CNA | Develop JMeter script for MUI GRID Reject Invoice",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36227",
+          "summary": "T360 | Develop JMeter Script for MUI Grid Reject Selected LineItems",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36228",
+          "summary": "T360 | Develop JMeter Script for MUI Grid Undo Selected LineItems",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36158",
+          "summary": "T360 | 25.3.4 | Release Test Executions",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36156",
+          "summary": "T360 - Setup Payment App in Perf",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36157",
+          "summary": "T360 - 3.4 Release Testing",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35892",
+          "summary": "T360 | CNA | Develop JMeter Script for MUI Grid Adjust and Approve",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31603",
+          "summary": "   T360 | Performance Tests in R2 Environment ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35722",
+          "summary": "Passpor|Datadog Project",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35720",
+          "summary": "T360 | 25.3.3 | Release Test Executions",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35723",
+          "summary": "T360 - 25.3.3 Release Testing",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35620",
+          "summary": "T360 | CNA | Develop JMeter script for MUI GRID Bulk Approval",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "Titans": {
+      "total": 11,
+      "tadComplete": 1,
+      "tsComplete": 4,
+      "bothComplete": 1,
+      "tadPct": 9.090909090909092,
+      "tsPct": 36.36363636363637,
+      "issues": [
+        {
+          "key": "ELM-32196",
+          "summary": "   Search Option not available in Slicer & Card Text Case Sensitive",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-32281",
+          "summary": "   [UX Validation] color doesn't match for 'as of time' and 'page currency' Expected[#353535] :: Actual[#252423]  ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25132",
+          "summary": " Automate Passport DWH container restart on db connection failure ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-33893",
+          "summary": "Manage Risk that Pentaho Community Edition is End of Life",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9030",
+          "summary": "LBA Expert Service Report Pack - Filter Out Bypass LBA Invoices from all reports",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9056",
+          "summary": "LBA Expert Service - Add Bypass LBA Flag into LBA Expert service ETL",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9086",
+          "summary": "Extend Spot Check Job to also include Legal Holds - Scheduled Spot Check",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33720",
+          "summary": "Passport URP - Power BI report integration in embed fast ",
+          "type": "Story",
+          "status": "Resolved",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2
+        },
+        {
+          "key": "ELM-27414",
+          "summary": "INC2982948 - PRB0056904 SDK source code to be updated to support HTTP 1.1. And for future version support, this version will be parameterized so that it can be configured at the deployment level and SDK code will not be modified ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28626",
+          "summary": " PP URP - Build Invoice Volume Analysis Power BI report - Volume of invoices",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-13062",
+          "summary": "PP Operability: CDC Rewrite",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "Guardians": {
+      "total": 159,
+      "tadComplete": 1,
+      "tsComplete": 11,
+      "bothComplete": 1,
+      "tadPct": 0.628930817610063,
+      "tsPct": 6.918238993710692,
+      "issues": [
+        {
+          "key": "ELM-33123",
+          "summary": "Engg. Analysis for TEC-429045 - Truist : Missing Invoice Fiscal Date",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33673",
+          "summary": "TEC-434678 - Eng Analysis - Truist : Law Firm Name in Passport UI does not match Law Firm name is Cognos Object",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31152",
+          "summary": "Issue with Container Restart For Customers with Summary tables.",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33213",
+          "summary": "TEC-433097 - Permanent Fix Existing deprecated fields cause bulk load to fail in DWH 22.2 Versions",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-36219",
+          "summary": "Failure notification email not sent when job fails in open batch after changing LegalView_Warehouse DB",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-36218",
+          "summary": "Failure notification not sent when Rateanalysis  DB name is changed during job execution",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29263",
+          "summary": "   RCA - UAT DWH Issues (Multiple Clients) ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28108",
+          "summary": "   upgrade Qlik in prod ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-26894",
+          "summary": "   Walmart Remove the data Extract process ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-25137",
+          "summary": "   PRB0056668 - PTASK0032480 Create custom process to update the invoices at the end of each CDC ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33049",
+          "summary": "Table Export - Data Issue - Matters reopened on 11/13 were not updated in Matter Table Export",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33051",
+          "summary": "TEC-436391 - Engineering Analysis :  Citi : Data Sync Issue - People Addresses table in Cognos",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24615",
+          "summary": "Passport - Configure SDK image version as a client variable in the SDK pipeline ",
+          "type": "Story",
+          "status": "Resolved",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29260",
+          "summary": "   01 Guardians Table Export - Data Issue - Matters Closed on 8/26 were not updated in Matter Table Export ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32846",
+          "summary": "TEC-433097 - Permanent Fix  Existing deprecated fields cause bulk load to fail  in DWH 25.1",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 5
+        },
+        {
+          "key": "ELM-34335",
+          "summary": "TEC-435873: HCA - PROD - CDC execution failed",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29255",
+          "summary": "   EnggAnalysis: InstallDW fails in Vanguard QA ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29256",
+          "summary": "   Truist - CDC Failure on Matter Narratives - RCA ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31053",
+          "summary": "   Investigate CDC Error ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31056",
+          "summary": "   Walgreens - memory issue when they try to run a Budget report ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29257",
+          "summary": "   Engg Analysis- Entergy - Cognos 11.2.4 FP4 vulnerabilities ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31050",
+          "summary": "   Engg. Analysis for TEC-424693 - Citi : CDC Job in Cognos not giving results ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29258",
+          "summary": "   Enginnering Analysis - Nissan | Prod | Vulnerability of Cognos Server ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29261",
+          "summary": "   [01 Guardians]TK Hours Report and Others Possible Issues ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29266",
+          "summary": "   Engg. Analysis for TEC-410691 - Truist - Dates not appearing in Date fields ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29270",
+          "summary": "   Investigate Cognos Installation Error ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29259",
+          "summary": "   Engg Analysis: Abbott UAT - Table Extract Issue ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29262",
+          "summary": "   Engg Analysis: Zurich - IBM Cognos Analytics Multiple Vulnerabilities require remediation ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29271",
+          "summary": "   DWH Engg Analysis -TEC-415485 AbbVie - \"Data Synchronization Audit Report\" Parsing Error ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29272",
+          "summary": "   DWH Engg Analysis - AbbVie - \"Data Synchronization Audit Report\" Parsing Error ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31054",
+          "summary": "   Engg Analysis-DWH- Multiple Clients - DWH Bridge Tables Link issue ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31049",
+          "summary": "DWH Engg - Novartis - Rate classification missing in DWH - EBI-30080",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31055",
+          "summary": "   Engg. Analysis for TEC-428069 - StateFarm : IBM Cognos Analytics Multiple Security Vulnerabilities - Priority ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29254",
+          "summary": "   Engineering Analysis : UPS : Legal View Dashboards Not Populating ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29267",
+          "summary": "   Table Export - FTP Failure happening frequently. Workaround is required ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29264",
+          "summary": "   Investigate UI Change ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31057",
+          "summary": "   [RCA] - Apollo : Cognos PROD unavailable ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32147",
+          "summary": "   [Evergreen][UAT][Walgreens]. Initial Load having Multiple Errors In UAT ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31058",
+          "summary": "   Investigate Vulnerabilities and Provide Patch ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31893",
+          "summary": "   Train - In the latest Apache image 2.4.63-pp-cognos-11.1.7-console, Permission-policy not included in headers ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28594",
+          "summary": "   PERF| STD REPORTS| Report loading time exceeds defined SLA (> 10 seconds) 1 month data range ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30756",
+          "summary": "      PERF| STD REPORTS| Report loading time exceeds defined SLA (> 10 seconds) 1 month date range  ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31139",
+          "summary": "   Error in T5 Environment After Cognos Redeployment and SDK 3.4.1 Deployment ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30931",
+          "summary": "   Cognos Page Not Loading Due to Incorrect MBEAN serviceCgi URL \u2013 Manual Fix Applied, Needs Automation ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-30932",
+          "summary": "   Data Source Connection Issue \u2013 Dispatcher Not Selected Correctly  ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33644",
+          "summary": "TEC-434697 - Eng Analysis - FDIC - Issues with Installing Cognos 11.2.4IF",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33643",
+          "summary": "TEC-432362 - Eng Analysis - HCA Significant reporting issues",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9850",
+          "summary": "Analysis - Bulk Initial Load validataion when PP is running and First CDC needs to pick up changes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9828",
+          "summary": "Legal Holds - Report Performance Testing & Tuning",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9824",
+          "summary": "QA - Automation Maintenance",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9833",
+          "summary": "Performance Tuning -- LBA GB Wiring- 05/29",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9841",
+          "summary": "Create Matter and Invoice Related Reports out of Tymetrix360 DB - Dev (05/26),QA-(05/29)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9798",
+          "summary": "Production Deployment Walmart Production issue Fix- Part 2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9852",
+          "summary": "Staging Deployment Walmart Production issue Fix- Part 2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9801",
+          "summary": "Legal Holds - Custodian Release",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9822",
+          "summary": "Update Patching Framework Documentation to include any missing compatibility patches for 22.2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9849",
+          "summary": "Performance Testing for LBA Dashboard- Dev -(04/12)QA (04/14)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9799",
+          "summary": "Code Merge and Validation - Rate benchmark Implementation Chemours - Dev -06/08,QA-06/08",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9782",
+          "summary": "Legal Holds - Custodian Notification",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9788",
+          "summary": "QA Automation maintenance",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9816",
+          "summary": "Legal Holds Report Pack & Model Mapping - All 6 Reports in report pack",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9802",
+          "summary": "Fixing mismatch for the LBAME clients- Dev (04/14),QA-04/17",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9792",
+          "summary": "Buffer Task - Avinash",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9809",
+          "summary": "Cognos Automation Data Reset/Deletion and Pipeline Creation",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9786",
+          "summary": "Update of the LBA Help document- Dev -04/13 ,QA-04/13",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9847",
+          "summary": "Code Merge and Validation - Citizens Bank client as LVDWH contributor- Dev(05/16),QA-05/17",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9804",
+          "summary": "Legal Hold ETL Fixes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9791",
+          "summary": "Address null values in rate benchmark profile for PNC client- Dev (04/27),QA- (04/27)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9812",
+          "summary": "Trunk Merge - Cognos Model Build for Containers",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9808",
+          "summary": "Sprint Overhead Story - Sprint 53",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9793",
+          "summary": "Remove Windows Service Creation for Containerized DWH",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9807",
+          "summary": "Configure PNC as an LVDWH Contributor- Dev (05/11, QA-05/11)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9785",
+          "summary": "Automate QuickSearch Sql Replication- Carry forward - Story Point- 5- Dev (05/02), QA(05/03)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9830",
+          "summary": "Legal Holds - Matter Legal Holds",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9821",
+          "summary": "Spike -- Vendor Parent Filter [GB]- Carry forward - Story Point -5- Dev -05/03",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9811",
+          "summary": "Legal Holds - Custodian Release",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9817",
+          "summary": "Update of Demo Client - ( Dev-05/03 QA-)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9829",
+          "summary": "Dev Environment Setup - Data Warehouse Setup",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9851",
+          "summary": "Dev Environment Setup - Base Data Warehouse on D1 AKS",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9789",
+          "summary": "Dev - Update the module installer with Legal Holds Module - Enhanced automation",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9836",
+          "summary": "Analysis on Audit Framework",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9843",
+          "summary": "Configure Denny's as an LVDWH Contributor",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9848",
+          "summary": "Update on Rate Benchmark - Chemours- (Dev 05/12- QA-05/15)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9840",
+          "summary": "Update Patching Framework Documentation to include any missing compatibility patches for 22.2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9831",
+          "summary": "Analysis - QA Data Validation for Base DWH Tables",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9815",
+          "summary": "Legal Holds ETL updates",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9819",
+          "summary": "Legal Holds - Custodian Departures",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9834",
+          "summary": "Legal Hold ETL Fixes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9796",
+          "summary": "QA - Update patches in Patching Framework for IDT Container changes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9781",
+          "summary": "Bulk Load Defect Triage",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9832",
+          "summary": "Spike Performance Tuning -- LBA Dashboard - Carry forward -SP-5- (Dev -05/15, QA-05/12)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9806",
+          "summary": "QA Environment Setup - Kubernetes",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9846",
+          "summary": "Implementation : Macy's Number of Open Matters by Vendor Viz Loading- Carry Forward SP 3 QA- 06/20",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9784",
+          "summary": "Legal Holds - Custodian Holds",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9835",
+          "summary": "Data Extract Notification Update -- Staging and Production",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9787",
+          "summary": "Implement Rate Benchmark Dashboard -- Chemours- Dev (05/25, QA- 05/26)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9837",
+          "summary": "Walmart  Production Issue - Prod  Deployment and Development of  Part 2-  Dev -04/18, QA-04/17",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9794",
+          "summary": "QA - Setup Accruals Report Pack for testing and DEMO with Client DB and data.",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9803",
+          "summary": " Test 2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9810",
+          "summary": "Fixing mismatch for the T360 clients - Dev -04/11 ,QA-04/12",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9814",
+          "summary": "Performance Tuning  -- LBA Dashboard [Result of Spike]-05/31",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9844",
+          "summary": "Update -- Matter Owner Filter in Wiring - DEv(05/11, QA-05/12)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9818",
+          "summary": " Quick Search Replication Automation - Part 3- 05/31",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9853",
+          "summary": "Validation -- Citizens Bank Client as LVDWH Contributor-05/25",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9790",
+          "summary": "Automation for persona based cases in cognos - Cognos side automation",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9825",
+          "summary": "Legal Holds Reporting - Index Creation and Testing",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9855",
+          "summary": "Dim Date Patch Trunk Merge",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9783",
+          "summary": "QA - Automation Maintenance",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9820",
+          "summary": "ETL Changes - Remove the HTML flags on Checkbox DB",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9797",
+          "summary": "Manifest and Deployment package Creation -- Demo Client Rate Benchmark Dashboard-05/26, QA- 05/29",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9813",
+          "summary": "Configure CNA as an LVDWH Contributor- Dev (06/08), QA- (06/08)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9842",
+          "summary": "Sprint Overhead Story - Sprint 52",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9826",
+          "summary": "Sprint Overhead Story - Sprint 51",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9838",
+          "summary": "Bug Fixes ,Code Merge and Validation  -- PNC Rate Benchmark Dashboard- Dev-05/26,QA-05/24",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9795",
+          "summary": "Initial Load Health Check Utility - QA",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9839",
+          "summary": "QA - Windows Specific Items in Linux Containers",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9845",
+          "summary": "Sprint Overhead Story - Sprint 50",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9827",
+          "summary": "Quick Search Replication Automation - Part 4- 06/08",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9800",
+          "summary": "Quick Search Replication Automation - Part 2 - (05/17)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9805",
+          "summary": " Walmart  Production Issue - Code Merge and Validation - Dev (04/26, QA- 04/26)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9644",
+          "summary": "Cognos upgrade to 11.1.7 FP8 from 11.1.1 in Azure environments",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9045",
+          "summary": "Make pool size configurable to maximize connections for Cognos",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9022",
+          "summary": "CDC Performance - Module jobs has to be schedule as part of module scheduler or cron job",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9027",
+          "summary": "Prepare a guide on how to disable a Passport DWH module",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9856",
+          "summary": "Automation to handle Designer toolkit home",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9857",
+          "summary": "Onboarding -- Citizen's Bank to LVDWH Contributor-(Dev-05/03,QA-05/03)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9858",
+          "summary": "Analyze - determine what is left to wrap up the LBA dashboards for Passport clients-06/13",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9859",
+          "summary": "Table Extract not updating version",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-10635",
+          "summary": "Cognos upgrade to latest 11.2.4 IF4 from 11.1.7 version on Windows for self-hosted clients",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11122",
+          "summary": "Adding new matter areas in Legalview warehouse",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11153",
+          "summary": "Onboarding new LVD clients (process for PSG to onboard LVD clients)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11188",
+          "summary": "Citizens Bank RateBenchmark Matter Mapping Rule Update -- Staging Deployment",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11201",
+          "summary": "Citizens Bank RateBenchmark Matter Mapping Rule Update -- Production Deployment",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11207",
+          "summary": "Citizens Bank Data Contributor -- Production Deployment ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11211",
+          "summary": "Real Rate Report ---Run Tableau Workbook on updated Rate Analysis Cube",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24161",
+          "summary": "Rateanalysis2 Db Refresh",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29048",
+          "summary": "   Conoco Phillips Energy Configuration of  legal view  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29225",
+          "summary": "   Duke  Configuration of  legal view  Matter Mapping ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31968",
+          "summary": "   Cognos 11.2.4 IF5 Fresh Installation Windows  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32219",
+          "summary": "   Cognos upgrade to latest 11.1.1 to 11.2.4 IF5  Upgrade Windows",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9823",
+          "summary": "DWH Installation Documentation - Need to update Doc to have Cognos Audit installation steps as mandatory and a pre-requisite. Not optional",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33655",
+          "summary": "TEC-435816 -Eng Analysis - TEC-433277 - RCA for RSV-CM-0005 Content Manager did not return an object for the requested search path",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-33656",
+          "summary": "TEC-434263 -Eng Analysis - [RCA] - FW: Atrium cognos url is down",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34342",
+          "summary": "Evergreen TEC-419252: Trustage QA : Unable to install DWH",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35035",
+          "summary": "Subaru (PH0063) Values not populating in the Average Benchmark Rate column - Deployment of the Industries - Staging",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31967",
+          "summary": "   Cognos Upgrade from 11.1.7  to 11.2.4 IF5 Upgrade Azure ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35068",
+          "summary": "[01]Rateanalysis2 Db Refresh Every Quarter -Automation of Post Refresh Steps upper non prod and lower non prod",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24535",
+          "summary": "   Citizens:: LVDB Budgeting Data Not Appearing ",
+          "type": "Story",
+          "status": "Refined",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24684",
+          "summary": "   PRB0056757 - PTASK0032412 Ensure that resource limiters are in place as part of the Epic to release Cognos 12 - DxG ",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-20735",
+          "summary": "Decide on retention period for entity_event_history tables to be 90, 30 or somewhere in-between.",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-20306",
+          "summary": "Citigroup- Manage the state of DWH Generate Hibernate Metadata Job   ",
+          "type": "Story",
+          "status": "Re-finement",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-16473",
+          "summary": "RCAS0036766 / PRB0055816 / PTASK0031100 Increase the value for MaxPermSize in bootstrap_wlp_winx64.xml and bootstrap_winx64.xml",
+          "type": "Story",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11286",
+          "summary": "Automation (C00348) - Global Filters are not working as expected",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11301",
+          "summary": "DEV044 - Top matters by Spend Drill Down issue",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11288",
+          "summary": "Base (DEV044) - Budget vs. Actual by Matter - Additional Drill down Parameters are showing in the P_LA_DATAVIZ_OUT_PARAMETER",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11292",
+          "summary": "Data is not matching for one of the matter owner for open matter by matter owner viz - C00348 ",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35684",
+          "summary": "SDK Version Mismatch During Cognos Redeployment Despite Empty cognosSdkDigest",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35513",
+          "summary": "Unable to run reports after SDK deployment",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-35514",
+          "summary": "SDK pipeline fails if cognosSdkVersion and cognosSdkDigest values are not set",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "Nike": {
+      "total": 27,
+      "tadComplete": 0,
+      "tsComplete": 4,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 14.814814814814813,
+      "issues": [
+        {
+          "key": "ELM-36436",
+          "summary": "-- Error --",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-12160",
+          "summary": "LVD - T360-Passport - ETL - udsp_etl_summary_tables SP has syntax error for the column NetFeeAmount - all clients",
+          "type": "Bug",
+          "status": "New",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9024",
+          "summary": "ARD: Replace Qlik for Passport Data Contributors and LegalVIEW Dashboards",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-9096",
+          "summary": "SWAG: Replace Qlik for Passport Data Contributors and LegalVIEW Dashboards",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11203",
+          "summary": "T360 - Syncing Datamarts schema in staging and production environment  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29325",
+          "summary": "Create Devops pipeline for security scan on fabric artifacts (PySpark)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31424",
+          "summary": "Update DevOps pipeline to implement rollback mechanism ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31484",
+          "summary": "Autofix mechanism for any failures of FDL CP data pipelines",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29330",
+          "summary": "Enable or Disable Data feed to SQL MI ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29329",
+          "summary": "Configure scheduling for FDLCP master pipeline by FDLCP_ARTIFACT_SCHEDULE table ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28828",
+          "summary": "Package all common and FDLCP related function to .whl file and import to the notebook to Custom Environment",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29328",
+          "summary": "   Implement BCDR for FDL CP",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11205",
+          "summary": "SSIS Packages and TDSDBA Configuration ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11172",
+          "summary": "Enable Staging Incremental Loads for CIOx LBA Clients",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11179",
+          "summary": "CP FDL (16 CPUs)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-18468",
+          "summary": "ARD Citi Data Export",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24891",
+          "summary": "   CP FDL (16 CPUs) - Finalize approach ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-29323",
+          "summary": "Create DevOps pipeline to deploy Full and incremental load artifacts to fabric workspace ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-32269",
+          "summary": "   FDL CP - Implement maintenance logs pipeline entry and Notification ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-31135",
+          "summary": "Trigger data pipeline to create configuration tables ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-28427",
+          "summary": "   ARD - FDL CP Qlik replacement (Data Extract Modernization) ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11152",
+          "summary": "DnA -  Passport -Passport onboarding doesn't run Resync job",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11199",
+          "summary": "Passport Data Contributor  (32 CPUs) - Data into LegalVIEW Data Warehouse",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-20460",
+          "summary": "Implement python code to Zip encrypted file using WinRAR",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-11151",
+          "summary": "DnA - FullControl/IncrementalControl stop loop time logic wrong for UTC",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-34619",
+          "summary": "Include Legalhold audit tables in Citi data feed solution ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-13331",
+          "summary": "Incremental load - Staging and Datamart count between Full and Incremental have deviation",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    },
+    "PP Spartans": {
+      "total": 2,
+      "tadComplete": 0,
+      "tsComplete": 1,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 50.0,
+      "issues": [
+        {
+          "key": "ELM-11608",
+          "summary": "PP 24.2 - Retiring the Legal view bench mark rates from ICD",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-14073",
+          "summary": "Billing | TSM - apply to all invoices - all actions - with cap(firm and total)",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        }
+      ]
+    },
+    "PP Pinnacles": {
+      "total": 2,
+      "tadComplete": 0,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "ELM-25091",
+          "summary": " [jQuery Upgrade] -   Replace Plupload ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 4
+        },
+        {
+          "key": "ELM-11407",
+          "summary": "[Work Card] - Consolidate Apache configuration as part of Container",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 3
+        }
+      ]
+    },
+    "PP Supernovas": {
+      "total": 5,
+      "tadComplete": 0,
+      "tsComplete": 3,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 60.0,
+      "issues": [
+        {
+          "key": "ELM-26953",
+          "summary": "   [Hartford] [SPOL] [TEC-413388 & TEC-412768]- Fix PABU Changes and Document Access Issues ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-21401",
+          "summary": " [Hartford] [4.0.0] - PABU Change for a matter",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 8
+        },
+        {
+          "key": "ELM-25100",
+          "summary": "   IManage (OC) NON-SSO-Getting bad request error in doc and folder operations   ",
+          "type": "Bug",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-21402",
+          "summary": "                         [Hartford] [4.0.0] Supporting Matter move from Old Site to New Site         ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 14
+        },
+        {
+          "key": "ELM-21400",
+          "summary": " [Hartford] [4.0.0] Change the site (new site) in admin screen",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 9
+        }
+      ]
+    },
+    "IDT": {
+      "total": 44,
+      "tadComplete": 0,
+      "tsComplete": 3,
+      "bothComplete": 0,
+      "tadPct": 0.0,
+      "tsPct": 6.8181818181818175,
+      "issues": [
+        {
+          "key": "ELM-1856",
+          "summary": "Passport - Enterprise support contracts for open source & 3rd party products",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23819",
+          "summary": "ARD Passport - Tech Debt - Third Party Library Support",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23818",
+          "summary": "SWAG Passport - Tech Debt - Third Party Library Support",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1401",
+          "summary": "ARD SP: DnA SSIS Upgrade - Tech debt Items",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1400",
+          "summary": "SWAG SP: DnA SSIS Upgrade - Tech debt Items",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23676",
+          "summary": "ARD Passport Application Deployment Tech Debt",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23675",
+          "summary": "SWAG - Passport Application Deployment Tech Debt",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23809",
+          "summary": "ARD [PCR 106] - PP Tiered Storage Solution",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23808",
+          "summary": "SWAG [PCR 106] - PP Tiered Storage Solution",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23823",
+          "summary": " ARD Build a Pipeline that Creates Utility VMs",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23822",
+          "summary": "SWAG Build a Pipeline that Creates Utility VMs",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23749",
+          "summary": "ARD Passport - Tech Debt - Application Improvement",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23748",
+          "summary": "SWAG Passport - Tech Debt - Application Improvement",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23828",
+          "summary": "ARD Implement proper naming for Azure pipleines related to Passport Env-Sync",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23827",
+          "summary": "SWAG Implement proper naming for Azure pipleines related to Passport Env-Sync",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23825",
+          "summary": "ARD Improve Trusted Certs Management within Passport",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23824",
+          "summary": "SWAG Improve Trusted Certs Management within Passport",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24257",
+          "summary": "   ARD Passport - Must send mail only from WK domains  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24255",
+          "summary": "   SWAG Passport - Must send mail only from WK domains ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23836",
+          "summary": "ARD Ensure Pipelines Exist to Update and Set DB Passwords for Passport Applications",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23834",
+          "summary": "SWAG Ensure Pipelines Exist to Update and Set DB Passwords for Passport Applications",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1752",
+          "summary": "Passport - All Environments must be configured with CyberArk",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1799",
+          "summary": "Passport (DWH) - update import process to be run as part of app instead of a scheduled job that runs on K8s jobs",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2954",
+          "summary": "Passport - Data purge ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1777",
+          "summary": "Passport - DB Credentials must be moved out of Passport keyvault and into a SQL DB Dedicated keyvault",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1848",
+          "summary": "Database Refresh Pipeline Changes for Ops Repo- Part 2 ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1840",
+          "summary": "Passport - Update deployment pipelines post migration",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1803",
+          "summary": "Passport - Update CI piplines to use SPN & Azure CLI to connect to Azure components",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1835",
+          "summary": "Passport - Prod to Non-Prod Data refresh pipeline - Custom Masking",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1786",
+          "summary": "Passport - Add Open Source License Compliance Automated Checks to CI Pipelines",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1739",
+          "summary": "Passport - Validate that External Ingress rules to passport in Cloudflare match what was configured on the ELM Rackspace firewalls",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1761",
+          "summary": "Passport - update Build process to support continuous deployment",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23781",
+          "summary": "ARD Passport/DWH/Cognos Stability Sev1/Sev2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23780",
+          "summary": "SWAG Passport/DWH/Cognos Stability Sev1/Sev2",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2133",
+          "summary": "Brute Force Cleanup of entity_event_history tables",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-2591",
+          "summary": "Passport - Archiving & data retention solution implemented",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23785",
+          "summary": "ARD Passport - Tech Debt - Image Management",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-23784",
+          "summary": "SWAG Passport - Tech Debt - Image Management",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 1
+        },
+        {
+          "key": "ELM-1755",
+          "summary": "Infra - WK GBS images must be used for package images",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24471",
+          "summary": "   ARD Passport - Tech Debt - Address Black Duck reported vulnerabilities for maintainability  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24470",
+          "summary": "   SWAG Passport - Tech Debt - Address Black Duck reported vulnerabilities for maintainability ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24524",
+          "summary": "   ARD Passport Tech Debt - UI Automation using Tosca  ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-24523",
+          "summary": "   SWAG Passport Tech Debt - UI Automation using Tosca ",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        },
+        {
+          "key": "ELM-1829",
+          "summary": "Passport - SFTP placeholder to move to PaaS / Blob SFTP option",
+          "type": "Story",
+          "status": "Closed",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0
+        }
+      ]
+    }
+  }
+}

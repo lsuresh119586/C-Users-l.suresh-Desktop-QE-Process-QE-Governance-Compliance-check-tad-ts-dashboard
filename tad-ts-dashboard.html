@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TAD/TS Compliance Dashboard</title>
+    <title>Quality Check Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         * {
@@ -365,7 +365,7 @@
 <body>
     <div class="container">
         <div class="header">
-            <h1>TAD/TS Compliance Dashboard</h1>
+            <h1>Quality Check Dashboard</h1>
             <div class="meta">
                 <span id="dateRange">Loading...</span> | 
                 <span>Last Updated: <span id="lastUpdate"></span></span> |
@@ -463,16 +463,16 @@
             </div>
         </div>
 
-        <div class="chart-card" style="margin-bottom: 15px;">
-            <h2>📋 Test Case Summary - Sprint 26.1.1</h2>
+        <div class="chart-card" style="margin-bottom: 15px;" id="testCaseSummaryCard">
+            <h2 id="testCaseSummaryTitle">📋 Test Case Summary - Sprint 26.1.1</h2>
             <table>
                 <thead>
                     <tr>
                         <th>Team Name</th>
                         <th>Total Cases</th>
                         <th>Automated Cases</th>
-                        <th>Cases with Attachments</th>
-                        <th>Cases without Attachments</th>
+                        <th>Cases with QTest results attached</th>
+                        <th>Cases without QTest results attached</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -528,7 +528,7 @@
                 </tbody>
             </table>
             <div style="margin-top: 12px; padding: 10px; background: #f7fafc; border-radius: 6px; color: #4a5568; font-size: 13px;">
-                <strong>Summary:</strong> Total cases: 143 | Automated: 134 (94%) | Cases with attachments: 84 (59%) | Cases without attachments: 59 (41%)
+                <strong>Summary:</strong> Total cases: 143 | Automated: 134 (94%) | Cases with QTest results attached: 84 (59%) | Cases without QTest results attached: 59 (41%)
             </div>
         </div>
 
@@ -611,6 +611,14 @@
                 
                 if (window.reportData) {
                     console.log('Data loaded, updating dashboard');
+                    
+                    // Update test case summary title with selected sprint
+                    const testCaseSummaryTitle = document.getElementById('testCaseSummaryTitle');
+                    if (testCaseSummaryTitle) {
+                        const sprintLabel = selectedSprint === 'current' ? 'Current' : selectedSprint;
+                        testCaseSummaryTitle.textContent = `📋 Test Case Summary - Sprint ${sprintLabel}`;
+                    }
+                    
                     updateDashboard();
                 } else {
                     throw new Error('No data loaded after retries');

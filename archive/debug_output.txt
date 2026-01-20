@@ -1,0 +1,9 @@
+Traceback (most recent call last):
+  File "C:\Users\l.suresh\Desktop\QE Process\QE Governance\Compliance check\tad-ts-dashboard\sprint-tad-ts-report.py", line 1032, in <module>
+    main()
+  File "C:\Users\l.suresh\Desktop\QE Process\QE Governance\Compliance check\tad-ts-dashboard\sprint-tad-ts-report.py", line 866, in main
+    print(f"\n\U0001f50d Fetching issues from sprint: {sprint_name}...")
+  File "C:\Python311\Lib\encodings\cp1252.py", line 19, in encode
+    return codecs.charmap_encode(input,self.errors,encoding_table)[0]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+UnicodeEncodeError: 'charmap' codec can't encode character '\U0001f50d' in position 2: character maps to <undefined>

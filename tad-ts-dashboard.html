@@ -652,8 +652,18 @@
             // Update header
             document.getElementById('dateRange').textContent = reportData.dateRange;
             
-            // Update timestamp
-            updatePageRefreshTime();
+            // Set timestamp once when dashboard loads
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            document.getElementById('lastUpdate').textContent = timeString;
 
             // Apply status filter if selected
             applyStatusFilter();
@@ -1261,9 +1271,6 @@
             console.log('Auto-refreshing dashboard data...');
             loadSprintData();
         }, 300000);
-        
-        // Update page refresh timestamp every second
-        setInterval(updatePageRefreshTime, 1000);
     </script>
 </body>
 </html>

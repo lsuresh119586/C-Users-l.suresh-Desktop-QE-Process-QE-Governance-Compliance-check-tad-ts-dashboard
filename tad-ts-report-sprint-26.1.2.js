@@ -4,21 +4,21 @@ window.reportData = {
   "summary": {
     "total": 24,
     "tadComplete": 17,
-    "tsComplete": 18,
+    "tsComplete": 16,
     "bothComplete": 16,
     "missingTad": 1,
     "missingTs": 2,
     "tadNA": 6,
-    "tsNA": 4,
+    "tsNA": 6,
     "tadApplicable": 18,
-    "tsApplicable": 20,
+    "tsApplicable": 18,
     "tadPct": 94.44444444444444,
-    "tsPct": 90.0,
+    "tsPct": 88.88888888888889,
     "bothPct": 66.66666666666666,
     "missingTadPct": 4.166666666666666,
     "missingTsPct": 8.333333333333332,
     "tadNAPct": 25.0,
-    "tsNAPct": 16.666666666666664
+    "tsNAPct": 25.0
   },
   "defects": {
     "totalDefects": 11,
@@ -366,16 +366,16 @@ window.reportData = {
     "T360 Chargers": {
       "total": 5,
       "tadComplete": 0,
-      "tsComplete": 2,
+      "tsComplete": 0,
       "bothComplete": 0,
       "tadNA": 5,
-      "tsNA": 3,
+      "tsNA": 5,
       "tadApplicable": 0,
-      "tsApplicable": 2,
+      "tsApplicable": 0,
       "missingTad": 0,
       "missingTs": 0,
       "tadPct": 0,
-      "tsPct": 100.0,
+      "tsPct": 0,
       "issues": [
         {
           "key": "GET-68394",
@@ -384,12 +384,12 @@ window.reportData = {
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 1,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-65982",
@@ -412,12 +412,12 @@ window.reportData = {
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 0,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-65988",

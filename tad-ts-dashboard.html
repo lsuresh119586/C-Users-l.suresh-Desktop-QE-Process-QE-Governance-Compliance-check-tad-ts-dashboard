@@ -1277,7 +1277,12 @@
         // Auto-refresh data every 5 minutes (300000 ms)
         setInterval(function() {
             console.log('Auto-refreshing dashboard data...');
-            loadSprintData();
+            const sprintSelect = document.getElementById('sprintSelect');
+            if (sprintSelect && sprintSelect.value) {
+                loadSprintData();
+            } else {
+                loadReportData();
+            }
         }, 300000);
     </script>
 </body>

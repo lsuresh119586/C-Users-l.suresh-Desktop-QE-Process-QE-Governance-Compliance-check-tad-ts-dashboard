@@ -341,12 +341,12 @@
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 0,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-65988",
@@ -369,12 +369,12 @@
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 1,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-65984",

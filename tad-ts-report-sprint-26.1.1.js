@@ -609,4 +609,4 @@ window.reportData = {
       ]
     }
   }
-};
+}

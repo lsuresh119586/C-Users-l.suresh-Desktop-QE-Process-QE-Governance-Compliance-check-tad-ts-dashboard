@@ -1216,6 +1216,9 @@
             
             document.getElementById('modalTitle').textContent = `${title} (${filteredIssues.length})`;
             
+            // Add comment column for N/A categories
+            const showComments = category === 'tadNA' || category === 'tsNA';
+            
             let html = `<table style="width: 100%; border-collapse: collapse;">
                 <thead>
                     <tr style="background: #f3f4f6;">
@@ -1223,16 +1226,24 @@
                         <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Summary</th>
                         <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Team</th>
                         <th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Status</th>
+                        ${showComments ? '<th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Comment</th>' : ''}
                     </tr>
                 </thead>
                 <tbody>`;
             
             filteredIssues.forEach(issue => {
+                const comment = category === 'tadNA' 
+                    ? (issue.tadNAComment || 'No TAD and TS is required')
+                    : category === 'tsNA'
+                    ? (issue.tsNAComment || 'No TAD and TS is required')
+                    : '';
+                    
                 html += `<tr style="border-bottom: 1px solid #e5e7eb;">
                     <td style="padding: 8px;"><a href="https://jira.wolterskluwer.io/jira/browse/${issue.key}" target="_blank">${issue.key}</a></td>
                     <td style="padding: 8px;">${issue.summary}</td>
                     <td style="padding: 8px;">${issue.team}</td>
                     <td style="padding: 8px;">${issue.status}</td>
+                    ${showComments ? `<td style="padding: 8px; font-size: 13px; color: #6b7280;">${comment}</td>` : ''}
                 </tr>`;
             });
             

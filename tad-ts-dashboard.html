@@ -368,7 +368,8 @@
             <h1>TAD/TS Compliance Dashboard</h1>
             <div class="meta">
                 <span id="dateRange">Loading...</span> | 
-                <span>Last Updated: <span id="lastUpdate"></span></span> |
+                <span>Data Generated: <span id="dataGenerated"></span></span> | 
+                <span>Page Refreshed: <span id="lastUpdate"></span></span> |
                 <a href="ts_quality_analysis_20260112_152419.html" target="_blank" style="color: #667eea; text-decoration: none; font-weight: 600;">
                     📊 Quality Analysis Report
                 </a>
@@ -649,12 +650,29 @@
             
             const reportData = window.reportData;
 
-            // Update header
+            // Update header with data generated time
             document.getElementById('dateRange').textContent = reportData.dateRange;
-            document.getElementById('lastUpdate').textContent = reportData.generated;
+            document.getElementById('dataGenerated').textContent = reportData.generated;
+            
+            // Update page refresh time
+            updatePageRefreshTime();
 
             // Apply status filter if selected
             applyStatusFilter();
+        }
+
+        function updatePageRefreshTime() {
+            const now = new Date();
+            const timeString = now.toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+            document.getElementById('lastUpdate').textContent = timeString;
         }
 
         function applyStatusFilter() {
@@ -1239,6 +1257,15 @@
 
         // Load data on page load
         loadReportData();
+        
+        // Auto-refresh data every 5 minutes (300000 ms)
+        setInterval(function() {
+            console.log('Auto-refreshing dashboard data...');
+            loadSprintData();
+        }, 300000);
+        
+        // Update page refresh timestamp every second
+        setInterval(updatePageRefreshTime, 1000);
     </script>
 </body>
 </html>

@@ -1,0 +1,249 @@
+// Polaris ELM Metrics Dashboard - Database Schema
+// Phase 1 MVP - Core tables for T360 dashboard
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./polaris.db"
+}
+
+// ============================================================================
+// CONFIGURATION TABLES
+// ============================================================================
+
+model Product {
+  id                     Int      @id @default(autoincrement())
+  name                   String   @unique
+  displayName            String
+  jiraProjectKey         String?
+  jiraBoardIds           String?  // JSON array as string for SQLite
+  qtestProjectId         Int?
+  safeProductFieldValue  String?
+  config                 String   @default("{}")  // JSON as string for SQLite
+  isActive               Boolean  @default(true)
+  createdAt              DateTime @default(now())
+  updatedAt              DateTime @updatedAt
+  
+  teams                  Team[]
+  customFieldMappings    CustomFieldMapping[]
+
+  @@map("products")
+}
+
+model Team {
+  id                   Int       @id @default(autoincrement())
+  name                 String    @unique
+  displayName          String
+  productId            Int
+  jiraBoardId          Int?
+  qtestProjectId       Int?
+  teamMembers          String?   // JSON array as string
+  integrationStrategy  String
+  config               String    @default("{}")  // JSON as string
+  isActive             Boolean   @default(true)
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  
+  product              Product   @relation(fields: [productId], references: [id])
+  sprints              Sprint[]
+  stories              Story[]
+  testCases            TestCase[]
+  testExecutions       TestExecution[]
+  defects              Defect[]
+  metricsSnapshots     MetricsSnapshot[]
+
+  @@map("teams")
+}
+
+model CustomFieldMapping {
+  id           Int       @id @default(autoincrement())
+  productId    Int
+  fieldPurpose String
+  fieldId      String
+  fieldType    String
+  fieldPath    String?
+  isActive     Boolean   @default(true)
+  
+  product      Product   @relation(fields: [productId], references: [id])
+
+  @@unique([productId, fieldPurpose])
+  @@map("custom_field_mappings")
+}
+
+// ============================================================================
+// SPRINT & STORY TABLES
+// ============================================================================
+
+model Sprint {
+  id            Int       @id @default(autoincrement())
+  name          String
+  teamId        Int
+  startDate     DateTime
+  endDate       DateTime
+  state         String
+  jiraSprintId  Int?
+  piVersion     String?
+  releaseVersion String?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  
+  team          Team      @relation(fields: [teamId], references: [id])
+  stories       Story[]
+  testExecutions TestExecution[]
+  defects       Defect[]
+  metricsSnapshots MetricsSnapshot[]
+
+  @@unique([teamId, name])
+  @@map("sprints")
+}
+
+model Story {
+  id               Int       @id @default(autoincrement())
+  key              String    @unique
+  summary          String
+  storyPoints      Int?
+  sprintId         Int?
+  teamId           Int
+  status           String
+  assignee         String?
+  createdDate      DateTime
+  resolvedDate     DateTime?
+  rawData          String    @default("{}")  // JSON as string
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  sprint           Sprint?   @relation(fields: [sprintId], references: [id])
+  team             Team      @relation(fields: [teamId], references: [id])
+  tadTsCompliance  TadTsCompliance?
+
+  @@map("stories")
+}
+
+model TadTsCompliance {
+  id               Int       @id @default(autoincrement())
+  storyId          Int       @unique
+  hasTad           Boolean   @default(false)
+  hasTs            Boolean   @default(false)
+  tadStatus        String?
+  tsStatus         String?
+  tadReason        String?
+  tsReason         String?
+  detectionMethod  String?
+  bitbucketPrs     String?   // JSON as string
+  lastChecked      DateTime  @default(now())
+  
+  story            Story     @relation(fields: [storyId], references: [id])
+
+  @@map("tad_ts_compliance")
+}
+
+// ============================================================================
+// TEST AUTOMATION TABLES
+// ============================================================================
+
+model TestCase {
+  id               Int       @id @default(autoincrement())
+  qtestId          String
+  qtestProjectId   Int
+  name             String
+  automationStatus String
+  linkedStoryKey   String?
+  teamId           Int?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+  
+  team             Team?     @relation(fields: [teamId], references: [id])
+  executions       TestExecution[]
+
+  @@unique([qtestProjectId, qtestId])
+  @@map("test_cases")
+}
+
+model TestExecution {
+  id              Int       @id @default(autoincrement())
+  qtestRunId      String    @unique
+  testCaseId      Int
+  sprintId        Int?
+  testCycleName   String?
+  status          String
+  executedBy      String?
+  executedDate    DateTime
+  teamId          Int
+  createdAt       DateTime  @default(now())
+  
+  testCase        TestCase  @relation(fields: [testCaseId], references: [id])
+  sprint          Sprint?   @relation(fields: [sprintId], references: [id])
+  team            Team      @relation(fields: [teamId], references: [id])
+
+  @@map("test_executions")
+}
+
+// ============================================================================
+// DEFECT TABLES
+// ============================================================================
+
+model Defect {
+  id                Int       @id @default(autoincrement())
+  key               String    @unique
+  summary           String
+  sprintId          Int?
+  teamId            Int
+  severity          String?
+  safeSdlcActivity  String?
+  discoveredBy      String?
+  status            String
+  isReopened        Boolean   @default(false)
+  linkedStoryKey    String?
+  createdDate       DateTime
+  resolvedDate      DateTime?
+  rawData           String    @default("{}")  // JSON as string
+  createdAt         DateTime  @default(now())
+  updatedAt         DateTime  @updatedAt
+  
+  sprint            Sprint?   @relation(fields: [sprintId], references: [id])
+  team              Team      @relation(fields: [teamId], references: [id])
+
+  @@map("defects")
+}
+
+// ============================================================================
+// METRICS SNAPSHOT TABLE
+// ============================================================================
+
+model MetricsSnapshot {
+  id                      Int       @id @default(autoincrement())
+  snapshotDate            DateTime
+  teamId                  Int
+  sprintId                Int?
+  
+  totalStories            Int       @default(0)
+  tadComplete             Int       @default(0)
+  tadNa                   Int       @default(0)
+  tsComplete              Int       @default(0)
+  tsNa                    Int       @default(0)
+  tadPct                  Float?
+  tsPct                   Float?
+  
+  totalTestRuns           Int       @default(0)
+  uniqueTestCases         Int       @default(0)
+  automatedTestCases      Int       @default(0)
+  manualTestCases         Int       @default(0)
+  automationPct           Float?
+  
+  totalDefects            Int       @default(0)
+  reopenedDefects         Int       @default(0)
+  reopenedPct             Float?
+  defectsBySeverity       String?   // JSON as string
+  defectsBySdlc           String?   // JSON as string
+  
+  createdAt               DateTime  @default(now())
+  
+  team                    Team      @relation(fields: [teamId], references: [id])
+  sprint                  Sprint?   @relation(fields: [sprintId], references: [id])
+
+  @@unique([snapshotDate, teamId, sprintId])
+  @@map("metrics_snapshots")
+}

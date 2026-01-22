@@ -1,0 +1,802 @@
+{
+  "sprint_name": "Sprint 26.1.2",
+  "module_id": 68209714,
+  "generated": "2026-01-21 12:56:26",
+  "totals": {
+    "total": 107,
+    "automated": 13,
+    "with_attachments": 0,
+    "without_attachments": 13
+  },
+  "teams": {
+    "Chubb": {
+      "total": 13,
+      "automated": 0,
+      "with_attachments": 0,
+      "without_attachments": 0,
+      "test_cases": [
+        {
+          "id": "TC-26050",
+          "qtest_id": 138089499,
+          "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Single Budget",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26049",
+          "qtest_id": 138089498,
+          "name": "Verify Error Popup Displayed When Budget Review Cannot Proceed Due to Missing Assigned Reviewer",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26088",
+          "qtest_id": 138102361,
+          "name": "Verify that the reviewer can't able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters with same WA. When the Network.Bypass Claim Authority Approval Process\" is not enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26087",
+          "qtest_id": 138102360,
+          "name": "Verify that the reviewer can't approve invoices exceeding their authorization amount and popup should appears when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26053",
+          "qtest_id": 138089503,
+          "name": "Verify escalation popup should not available when service is disable",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26082",
+          "qtest_id": 138092095,
+          "name": "Verify that the reviewer is able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters. when the Network.Bypass Claim Authority Approval Process\" is enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26052",
+          "qtest_id": 138089502,
+          "name": "Verify the popup should close successfully when click on cancel button in escalation popup",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26051",
+          "qtest_id": 138089501,
+          "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Multiple Budget",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26080",
+          "qtest_id": 138091539,
+          "name": "Verify that the reviewer can approve invoices exceeding their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26091",
+          "qtest_id": 138103187,
+          "name": "Verify that the reviewer is able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters with diff WAs when the Network.Bypass Claim Authority Approval Process\" is enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26090",
+          "qtest_id": 138103186,
+          "name": "Verify that the reviewer can't able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters with diff WAs. When the Network.Bypass Claim Authority Approval Process\" is not enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26086",
+          "qtest_id": 138102359,
+          "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26069",
+          "qtest_id": 138090421,
+          "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is enabled.",
+          "automated": false,
+          "has_attachment": false
+        }
+      ]
+    },
+    "Matrix": {
+      "total": 13,
+      "automated": 13,
+      "with_attachments": 0,
+      "without_attachments": 13,
+      "test_cases": [
+        {
+          "id": "TC-26084",
+          "qtest_id": 138093070,
+          "name": " Verify Active Microsoft SSO Session",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26089",
+          "qtest_id": 138103058,
+          "name": " Verify Non - Active Microsoft SSO Session",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26085",
+          "qtest_id": 138093428,
+          "name": " Verify Microsoft SSO login with non-User",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26045",
+          "qtest_id": 138087435,
+          "name": "Verify Delete Scheduled Job API_insufficient permissions.",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26024",
+          "qtest_id": 138077224,
+          "name": "Verify Trigger Scheduled Job Execution (Run Now) – UI",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26047",
+          "qtest_id": 138087438,
+          "name": "Verify Trigger Scheduled Job Execution API_invalidId ",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26025",
+          "qtest_id": 138077871,
+          "name": "Verify View Scheduled Jobs List – UI",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26022",
+          "qtest_id": 138076418,
+          "name": "Verify Get Schedules List API",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26021",
+          "qtest_id": 138076403,
+          "name": "Verify Trigger Scheduled Job Execution API",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26023",
+          "qtest_id": 138076912,
+          "name": "Verify Delete Scheduled Job with Confirmation (UI)",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26048",
+          "qtest_id": 138087440,
+          "name": "Verify Trigger Scheduled Job Execution API_without trigger permission.",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26020",
+          "qtest_id": 138076341,
+          "name": "Verify Delete Scheduled Job API",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26044",
+          "qtest_id": 138087412,
+          "name": "Verify Delete Scheduled Job API _ Invalid Job Id",
+          "automated": true,
+          "has_attachment": false
+        }
+      ]
+    },
+    "Mavericks": {
+      "total": 9,
+      "automated": 0,
+      "with_attachments": 0,
+      "without_attachments": 0,
+      "test_cases": [
+        {
+          "id": "TC-26070",
+          "qtest_id": 138090756,
+          "name": "Temp",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26072",
+          "qtest_id": 138090796,
+          "name": "Temp",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26071",
+          "qtest_id": 138090758,
+          "name": "Temp",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26077",
+          "qtest_id": 138091179,
+          "name": "Verify Search All Invoices Beta Page Loads Successfully With Default Filters",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26076",
+          "qtest_id": 138091178,
+          "name": "Verify Search All Invoices Beta Page Filters By Invoice Status",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26075",
+          "qtest_id": 138091177,
+          "name": "Verify Search All Invoices Beta Page Data Grid Column Sorting",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26074",
+          "qtest_id": 138091176,
+          "name": "Verify Search All Invoices Beta Page Filters By Date Range",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26079",
+          "qtest_id": 138091181,
+          "name": "Verify Search All Invoices Beta Page Pagination Navigation",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26078",
+          "qtest_id": 138091180,
+          "name": "Verify Search All Invoices Beta Page Multiple Filters Combined Search",
+          "automated": false,
+          "has_attachment": false
+        }
+      ]
+    },
+    "Nexus": {
+      "total": 11,
+      "automated": 0,
+      "with_attachments": 0,
+      "without_attachments": 0,
+      "test_cases": [
+        {
+          "id": "TC-26064",
+          "qtest_id": 138090277,
+          "name": "Export Budget Template to Excel with budget data via Add Budget navigation",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26068",
+          "qtest_id": 138090309,
+          "name": "Export Budget Template with zero budget codes (empty template)",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26066",
+          "qtest_id": 138090293,
+          "name": "Export fails when session token expires during operation [CRITICAL]",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26067",
+          "qtest_id": 138090308,
+          "name": "Export Budget Template with exactly 5000 budget codes (maximum boundary)",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26065",
+          "qtest_id": 138090292,
+          "name": "Export Budget Template without budget data via Add Budget navigation",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26029",
+          "qtest_id": 138082371,
+          "name": "Verify Last Page Navigation Performance with Large Dataset",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26028",
+          "qtest_id": 138082352,
+          "name": "Verify Next Page Navigation Without Count Query (Pagination Optimization)",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26031",
+          "qtest_id": 138082454,
+          "name": "Verify Filter Application Triggers Both Count and Source APIs",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26026",
+          "qtest_id": 138082303,
+          "name": "Verify Empty Grid Initial State Until Search Action Triggered",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26027",
+          "qtest_id": 138082348,
+          "name": "Verify Search All Button Loads Complete Dataset with Pagination",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26030",
+          "qtest_id": 138082453,
+          "name": "Verify Column Sorting with Pagination Across Multiple Pages",
+          "automated": false,
+          "has_attachment": false
+        }
+      ]
+    },
+    "Vanguards": {
+      "total": 61,
+      "automated": 0,
+      "with_attachments": 0,
+      "without_attachments": 0,
+      "test_cases": [
+        {
+          "id": "TC-25898",
+          "qtest_id": 137965017,
+          "name": "Citation display across different browsers",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25885",
+          "qtest_id": 137964921,
+          "name": "Handle duplicate line item IDs in citation mapping",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25902",
+          "qtest_id": 137965081,
+          "name": "Keyboard navigation through citations - WCAG AA",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25897",
+          "qtest_id": 137965016,
+          "name": "Citation rendering response time with large datasets",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25884",
+          "qtest_id": 137964920,
+          "name": "Display behavior when citation count exceeds expected maximum",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25886",
+          "qtest_id": 137964922,
+          "name": "Citations display when AI insight text is empty or null",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25888",
+          "qtest_id": 137964925,
+          "name": "Citation number formatting at boundary values",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25887",
+          "qtest_id": 137964924,
+          "name": "Citation display with minimum and maximum line item counts",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25890",
+          "qtest_id": 137964927,
+          "name": "Minimum summary text length with citations",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25891",
+          "qtest_id": 137965009,
+          "name": "Citations display when AI insights are refreshed or reloaded",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25855",
+          "qtest_id": 137963891,
+          "name": "Citation numbers are visually distinct from regular text",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25892",
+          "qtest_id": 137965010,
+          "name": "Citations in AI insights with mixed language content",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25881",
+          "qtest_id": 137964917,
+          "name": "Citation display when Invoice and Line item data is not available",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25857",
+          "qtest_id": 137963893,
+          "name": "Display citation numbers in AI summary text with valid line item data",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25856",
+          "qtest_id": 137963892,
+          "name": "Multiple citations displayed in single insight correctly",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25896",
+          "qtest_id": 137965015,
+          "name": "Citation rendering response time under normal load",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25883",
+          "qtest_id": 137964919,
+          "name": "Handle invalid line item ID format in payload",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25895",
+          "qtest_id": 137965014,
+          "name": "Ensure proper access control for citation data",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25882",
+          "qtest_id": 137964918,
+          "name": "Handle missing line item ID for a citation reference",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25854",
+          "qtest_id": 137963851,
+          "name": "Sequential citation numbering within each AI response",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25906",
+          "qtest_id": 137965155,
+          "name": "Verify citation-to-line-item mapping accuracy - Data Integrity",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25901",
+          "qtest_id": 137965058,
+          "name": "Citations have sufficient color contrast - WCAG AA",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25908",
+          "qtest_id": 137965157,
+          "name": "Citation order consistency with multiple API calls - Data Integrity",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25907",
+          "qtest_id": 137965156,
+          "name": "Citation updates when invoice line items are modified - Integration",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25741",
+          "qtest_id": 137946172,
+          "name": "Verify clicking on Citation Displays Tooltip With Invoice IDs",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25749",
+          "qtest_id": 137946589,
+          "name": "Verify Citation Panel Opens For Large Number Of Line Items",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25742",
+          "qtest_id": 137946174,
+          "name": "Verify Citation Click Opens Reference Panel With Line Item Details",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25751",
+          "qtest_id": 137946623,
+          "name": "Verify Citation Panel Groups Line Items By Invoice ID",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25740",
+          "qtest_id": 137945887,
+          "name": "Verify Citations Display As Clickable Links With Theme Color",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25752",
+          "qtest_id": 137946687,
+          "name": "Verify Citations Function Consistently Across All AI Summary Sections",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25761",
+          "qtest_id": 137948530,
+          "name": "Verify Multiple Sequential Citations Function Independently With Correct References",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25746",
+          "qtest_id": 137946388,
+          "name": "Verify Other Invoice IDs Display As Clickable Links In Citation Panel",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25750",
+          "qtest_id": 137946614,
+          "name": "Verify Insights Without Citations Display No Citation Links",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25758",
+          "qtest_id": 137948296,
+          "name": "Verify Citation Panel Closes When Pressing Escape Key",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25784",
+          "qtest_id": 137957928,
+          "name": "Verify Sequential Citation Numbering Within Each Insight",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25748",
+          "qtest_id": 137946538,
+          "name": "Verify Citations Are Keyboard Accessible And Navigable",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25756",
+          "qtest_id": 137947978,
+          "name": "Verify Highlight Animation Removes After 5 Seconds While Focus Persists",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25744",
+          "qtest_id": 137946314,
+          "name": "Verify Multiple Line Items Display In Citation Panel With Proper Ordering",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25745",
+          "qtest_id": 137946316,
+          "name": "Verify Current Invoice ID Displays As Static Text In Citation Panel",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25743",
+          "qtest_id": 137946177,
+          "name": "Verify Citation Reference Panel Close Button Functionality",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25757",
+          "qtest_id": 137948164,
+          "name": "Verify Citation Panel Closes When Clicking Outside Panel Area",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25783",
+          "qtest_id": 137957925,
+          "name": "Verify Line Items Under Other Invoices Are Non-Clickable In Citation Panel",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25782",
+          "qtest_id": 137957924,
+          "name": "Verify Citation Numbering Resets Per AI Summary Section",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26016",
+          "qtest_id": 138070098,
+          "name": "TC-GET64705-015: Verify BFF rejects invalid budget data from Canonical API",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26017",
+          "qtest_id": 138070099,
+          "name": "TC-GET64705-016: Verify BFF validates required fields in budget data",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26014",
+          "qtest_id": 138070096,
+          "name": "TC-GET64705-013: Verify BFF handles Canonical budgets endpoint failure gracefully",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26015",
+          "qtest_id": 138070097,
+          "name": "TC-GET64705-014: Verify BFF handles Canonical budgets endpoint timeout",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26018",
+          "qtest_id": 138070100,
+          "name": "TC-GET64705-017: Verify BFF validates ParentLineItemId references exist",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26008",
+          "qtest_id": 138070090,
+          "name": "TC-GET64705-007: Verify BFF includes BillCodeInfo in budget details",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26009",
+          "qtest_id": 138070091,
+          "name": "TC-GET64705-008: Verify BFF handles multiple adjustment line items with different parents",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26006",
+          "qtest_id": 138070088,
+          "name": "TC-GET64705-005: Verify common budget models reused across all three FAB endpoints",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26007",
+          "qtest_id": 138070089,
+          "name": "TC-GET64705-006: Verify BFF successfully aggregates data from multiple Canonical endpoints",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26012",
+          "qtest_id": 138070094,
+          "name": "TC-GET64705-011: Verify BFF excludes non-finalized budget details from FAB payload",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26001",
+          "qtest_id": 138070063,
+          "name": "TC-GET64705-001: Verify BFF includes finalized matter-level budget",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26013",
+          "qtest_id": 138070095,
+          "name": "TC-GET64705-012: Verify BFF excludes non-finalized adjustment details from FAB payload",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26010",
+          "qtest_id": 138070092,
+          "name": "TC-GET64705-009: Verify BFF handles matter with no budgets gracefully",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26011",
+          "qtest_id": 138070093,
+          "name": "TC-GET64705-010: Verify BFF handles invoice with no adjustment line items",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26004",
+          "qtest_id": 138070086,
+          "name": "TC-GET64705-003: Verify BFF includes ParentLineItemId for adjustment line items",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26005",
+          "qtest_id": 138070087,
+          "name": "TC-GET64705-004: Verify BFF includes both budgets and adjustments when both are finalized",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26002",
+          "qtest_id": 138070084,
+          "name": "TC-GET64705-001: Verify BFF includes finalized matter-level budget in FAB payload",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-26003",
+          "qtest_id": 138070085,
+          "name": "TC-GET64705-002: Verify BFF includes finalized detail-level budget in FAB payload",
+          "automated": false,
+          "has_attachment": false
+        }
+      ]
+    }
+  }
+}

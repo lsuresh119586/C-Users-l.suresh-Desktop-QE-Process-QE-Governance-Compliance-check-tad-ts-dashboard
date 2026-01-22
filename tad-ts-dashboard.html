@@ -80,6 +80,17 @@
         .metric-card.warning .value { color: #f59e0b; }
         .metric-card.danger .value { color: #ef4444; }
 
+        .attachment-link {
+            color: #ef4444;
+            cursor: pointer;
+            text-decoration: underline;
+            font-weight: bold;
+        }
+        
+        .attachment-link:hover {
+            color: #dc2626;
+        }
+
         .charts-section {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
@@ -475,7 +486,14 @@
                         <th>Cases without QTest results attached</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="testCaseSummaryBody">
+                    <tr>
+                        <td><strong>Chargers</strong></td>
+                        <td>3</td>
+                        <td>2</td>
+                        <td>2</td>
+                        <td>0</td>
+                    </tr>
                     <tr>
                         <td><strong>Chubb</strong></td>
                         <td>17</td>
@@ -487,48 +505,41 @@
                         <td><strong>Matrix</strong></td>
                         <td>14</td>
                         <td>14</td>
-                        <td>5</td>
-                        <td>9</td>
+                        <td>14</td>
+                        <td>0</td>
                     </tr>
                     <tr>
                         <td><strong>Mavericks</strong></td>
                         <td>21</td>
                         <td>21</td>
                         <td>20</td>
-                        <td>1</td>
+                        <td><span class="attachment-link" onclick="showMissingAttachments('Mavericks')" title="TC-25696: Verify AI Assistant Label Browser Compatibility and Zoom Level Responsiveness">1</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Nexus</strong></td>
+                        <td>29</td>
+                        <td>29</td>
+                        <td>29</td>
+                        <td>0</td>
                     </tr>
                     <tr>
                         <td><strong>Vanguards</strong></td>
                         <td>59</td>
                         <td>59</td>
-                        <td>27</td>
-                        <td>32</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Chargers</strong></td>
-                        <td>3</td>
-                        <td>2</td>
-                        <td>3</td>
+                        <td>59</td>
                         <td>0</td>
-                    </tr>
-                    <tr>
-                        <td><strong>Nexus</strong></td>
-                        <td>29</td>
-                        <td>21</td>
-                        <td>12</td>
-                        <td>17</td>
                     </tr>
                     <tr style="background: #f0f4ff; font-weight: bold;">
                         <td><strong>TOTAL</strong></td>
                         <td><strong>143</strong></td>
-                        <td><strong>134</strong></td>
-                        <td><strong>84</strong></td>
-                        <td><strong>59</strong></td>
+                        <td><strong>142</strong></td>
+                        <td><strong>141</strong></td>
+                        <td><strong><span class="attachment-link" onclick="showMissingAttachments('All')" title="Click to view test cases missing attachments">1</span></strong></td>
                     </tr>
                 </tbody>
             </table>
-            <div style="margin-top: 12px; padding: 10px; background: #f7fafc; border-radius: 6px; color: #4a5568; font-size: 13px;">
-                <strong>Summary:</strong> Total cases: 143 | Automated: 134 (94%) | Cases with QTest results attached: 84 (59%) | Cases without QTest results attached: 59 (41%)
+            <div style="margin-top: 12px; padding: 10px; background: #f7fafc; border-radius: 6px; color: #4a5568; font-size: 13px;" id="testCaseSummaryText">
+                <strong>Summary:</strong> Out of 143 test cases, 142 (99.3%) are automated. Of the automated test cases, 141 (99.3%) have QTest results attached, while only 1 (0.7%) does not.
             </div>
         </div>
 
@@ -543,10 +554,111 @@
     </div>
 
     <script src="tad-ts-report-data.js"></script>
+    <script src="qtest-testcases-sprint-26.1.1.js"></script>
+    <script src="qtest-testcases-sprint-26.1.2.js"></script>
     <script>
         let currentCharts = {};
 
         // Load sprint data dynamically
+        async function loadTestCaseData(sprintVersion) {
+            try {
+                // Try to get pre-loaded data from JS files first
+                const varName = `qtestData_${sprintVersion.replace(/\./g, '_')}`;
+                if (window[varName]) {
+                    console.log(`Using pre-loaded qTest data for sprint ${sprintVersion}`);
+                    return window[varName];
+                }
+                
+                // Fallback to fetching JSON (for localhost server)
+                const response = await fetch(`qtest-testcases-sprint-${sprintVersion}.json?t=${Date.now()}`);
+                if (!response.ok) {
+                    console.log(`No qTest data file found for sprint ${sprintVersion}`);
+                    return null;
+                }
+                const data = await response.json();
+                return data;
+            } catch (error) {
+                console.error('Error loading qTest data:', error);
+                return null;
+            }
+        }
+
+        function updateTestCaseSummaryTable(data) {
+            if (!data || !data.teams) return;
+
+            const tbody = document.getElementById('testCaseSummaryBody');
+            if (!tbody) return;
+
+            // Store data globally for missing attachments modal
+            window.qtestData = data;
+
+            // Sort teams alphabetically
+            const sortedTeams = Object.keys(data.teams).sort();
+            
+            let html = '';
+            sortedTeams.forEach(teamName => {
+                const team = data.teams[teamName];
+                if (team.total > 0) {
+                    // Get test cases without attachments for tooltip
+                    const missingTCs = team.test_cases.filter(tc => tc.automated && !tc.has_attachment);
+                    const tooltipText = missingTCs.length > 0 
+                        ? missingTCs.map(tc => `${tc.id}: ${tc.name}`).join('&#10;')
+                        : '';
+                    
+                    const withoutAttachCell = team.without_attachments > 0 
+                        ? `<span class="attachment-link" onclick="showMissingAttachments('${teamName}')" title="${tooltipText}">${team.without_attachments}</span>`
+                        : team.without_attachments;
+                    
+                    html += `<tr>
+                        <td><strong>${teamName}</strong></td>
+                        <td>${team.total}</td>
+                        <td>${team.automated}</td>
+                        <td>${team.with_attachments || 0}</td>
+                        <td>${withoutAttachCell}</td>
+                    </tr>`;
+                }
+            });
+
+            // Add totals row
+            const allMissingTCs = [];
+            Object.keys(data.teams).forEach(teamName => {
+                const team = data.teams[teamName];
+                const missing = team.test_cases.filter(tc => tc.automated && !tc.has_attachment);
+                missing.forEach(tc => allMissingTCs.push(`${teamName}: ${tc.id}`));
+            });
+            const totalTooltip = allMissingTCs.join('&#10;');
+            
+            const totalWithoutAttachCell = data.totals.without_attachments > 0
+                ? `<span class="attachment-link" onclick="showMissingAttachments('All')" title="${totalTooltip}">${data.totals.without_attachments}</span>`
+                : data.totals.without_attachments;
+                
+            html += `<tr style="background: #f0f4ff; font-weight: bold;">
+                <td><strong>TOTAL</strong></td>
+                <td><strong>${data.totals.total}</strong></td>
+                <td><strong>${data.totals.automated}</strong></td>
+                <td><strong>${data.totals.with_attachments || 0}</strong></td>
+                <td><strong>${totalWithoutAttachCell}</strong></td>
+            </tr>`;
+
+            tbody.innerHTML = html;
+
+            // Update summary text
+            const summaryDiv = document.getElementById('testCaseSummaryText');
+            if (summaryDiv) {
+                const automationPct = ((data.totals.automated / data.totals.total) * 100).toFixed(1);
+                const withAttachPct = ((data.totals.with_attachments / data.totals.total) * 100).toFixed(1);
+                const withoutAttachPct = ((data.totals.without_attachments / data.totals.total) * 100).toFixed(1);
+                
+                summaryDiv.innerHTML = `<strong>Summary:</strong> Out of ${data.totals.total} test cases, ${data.totals.automated} (${automationPct}%) are automated. ${data.totals.with_attachments} test cases (${withAttachPct}%) have QTest results attached, while ${data.totals.without_attachments} (${withoutAttachPct}%) do not.`;
+            }
+
+            // Update title with generation timestamp
+            const title = document.getElementById('testCaseSummaryTitle');
+            if (title && data.generated) {
+                title.innerHTML = `📋 Test Case Summary - Sprint ${data.sprint_name} <span style="font-size: 11px; color: #718096; font-weight: normal;">(Updated: ${data.generated})</span>`;
+            }
+        }
+
         async function loadSprintData() {
             const sprintSelect = document.getElementById('sprintSelect');
             const selectedSprint = sprintSelect.value;
@@ -612,11 +724,15 @@
                 if (window.reportData) {
                     console.log('Data loaded, updating dashboard');
                     
-                    // Update test case summary title with selected sprint
-                    const testCaseSummaryTitle = document.getElementById('testCaseSummaryTitle');
-                    if (testCaseSummaryTitle) {
-                        const sprintLabel = selectedSprint === 'current' ? 'Current' : selectedSprint;
-                        testCaseSummaryTitle.textContent = `📋 Test Case Summary - Sprint ${sprintLabel}`;
+                    // Load qTest test case data if available FIRST
+                    const sprintVersion = selectedSprint === 'current' ? '26.1.1' : selectedSprint;
+                    console.log('Loading qTest data for sprint:', sprintVersion);
+                    const qtestData = await loadTestCaseData(sprintVersion);
+                    if (qtestData) {
+                        console.log('qTest data loaded, updating test case summary:', qtestData);
+                        updateTestCaseSummaryTable(qtestData);
+                    } else {
+                        console.log('No qTest data found for sprint:', sprintVersion);
                     }
                     
                     updateDashboard();
@@ -1271,8 +1387,73 @@
             document.getElementById('storyModal').classList.remove('active');
         }
 
+        function showMissingAttachments(teamName) {
+            console.log('showMissingAttachments called with:', teamName);
+            if (!window.qtestData) {
+                console.log('window.qtestData not available yet');
+                return;
+            }
+            
+            const data = window.qtestData;
+            let missingTestCases = [];
+            
+            if (teamName === 'All') {
+                // Collect from all teams
+                Object.keys(data.teams).forEach(team => {
+                    const teamData = data.teams[team];
+                    const missing = teamData.test_cases.filter(tc => tc.automated && !tc.has_attachment);
+                    missing.forEach(tc => {
+                        missingTestCases.push({...tc, team: team});
+                    });
+                });
+            } else {
+                // Collect from specific team
+                const teamData = data.teams[teamName];
+                missingTestCases = teamData.test_cases.filter(tc => tc.automated && !tc.has_attachment);
+            }
+            
+            if (missingTestCases.length === 0) {
+                return;
+            }
+            
+            let html = `<h3 style="margin-bottom: 15px; color: #ef4444;">⚠️ Test Cases Missing QTest Result Attachments</h3>`;
+            html += `<p style="margin-bottom: 15px; color: #666;">${teamName === 'All' ? 'All Teams' : teamName} - ${missingTestCases.length} test case(s) without attachments</p>`;
+            html += `<table style="width: 100%; border-collapse: collapse;">`;
+            html += `<thead><tr style="background: #f3f4f6;">`;
+            if (teamName === 'All') {
+                html += `<th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Team</th>`;
+            }
+            html += `<th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Test Case ID</th>`;
+            html += `<th style="padding: 8px; text-align: left; border-bottom: 2px solid #e5e7eb;">Name</th>`;
+            html += `</tr></thead><tbody>`;
+            
+            missingTestCases.forEach(tc => {
+                const qtestUrl = `https://wk.qtestnet.com/p/114345/portal/project#tab=testdesign&object=2&id=${tc.qtest_id}`;
+                html += `<tr style="border-bottom: 1px solid #e5e7eb;">`;
+                if (teamName === 'All') {
+                    html += `<td style="padding: 8px;"><strong>${tc.team}</strong></td>`;
+                }
+                html += `<td style="padding: 8px;"><a href="${qtestUrl}" target="_blank" style="color: #ef4444; font-weight: 500;">${tc.id}</a></td>`;
+                html += `<td style="padding: 8px;">${tc.name}</td>`;
+                html += `</tr>`;
+            });
+            
+            html += `</tbody></table>`;
+            
+            document.getElementById('modalBody').innerHTML = html;
+            document.getElementById('storyModal').classList.add('active');
+        }
+
         // Load data on page load
         loadReportData();
+        
+        // Load initial test case data for Sprint 26.1.1
+        loadTestCaseData('26.1.1').then(data => {
+            if (data) {
+                console.log('Initial qTest data loaded');
+                updateTestCaseSummaryTable(data);
+            }
+        });
         
         // Auto-refresh data every 5 minutes (300000 ms)
         setInterval(function() {
@@ -1282,6 +1463,10 @@
                 loadSprintData();
             } else {
                 loadReportData();
+                // Also refresh test case data
+                loadTestCaseData('26.1.1').then(data => {
+                    if (data) updateTestCaseSummaryTable(data);
+                });
             }
         }, 300000);
     </script>

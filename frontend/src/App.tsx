@@ -12,7 +12,7 @@ import {
   Tooltip,
   Legend
 } from 'chart.js';
-import { apiService, type Team, type Sprint, type Metrics } from './services/api';
+import { apiService, type Product, type Team, type Sprint, type Metrics } from './services/api';
 import './App.css';
 
 const { Header, Content } = Layout;
@@ -29,50 +29,99 @@ ChartJS.register(
 );
 
 function App() {
+  const [products, setProducts] = useState<Product[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [sprints, setSprints] = useState<Sprint[]>([]);
-  const [selectedTeam, setSelectedTeam] = useState<number>(1);
-  const [selectedSprint, setSelectedSprint] = useState<number>(1);
+  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
+  const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
+  const [selectedSprint, setSelectedSprint] = useState<number | null>(null);
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const [viewLevel, setViewLevel] = useState<'product' | 'team' | 'sprint'>('product');
 
   useEffect(() => {
     loadInitialData();
   }, []);
 
   useEffect(() => {
-    if (selectedTeam && selectedSprint) {
-      loadMetrics();
+    if (selectedProduct) {
+      loadTeams();
     }
-  }, [selectedTeam, selectedSprint]);
+  }, [selectedProduct]);
+
+  useEffect(() => {
+    loadMetrics();
+  }, [selectedProduct, selectedTeam, selectedSprint]);
 
   const loadInitialData = async () => {
     try {
       setLoading(true);
       setError(null);
-      const [teamsData, sprintsData] = await Promise.all([
-        apiService.getTeams(),
+      const [productsData, sprintsData] = await Promise.all([
+        apiService.getProducts(),
         apiService.getSprints()
       ]);
-      setTeams(teamsData);
+      setProducts(productsData);
       setSprints(sprintsData);
+      
+      // Auto-select first product
+      if (productsData.length > 0) {
+        setSelectedProduct(productsData[0].id);
+      }
     } catch (err) {
-      setError('Failed to load teams and sprints. Please check if API server is running.');
+      setError('Failed to load initial data. Please check if API server is running.');
       console.error('Error loading initial data:', err);
     } finally {
       setLoading(false);
     }
   };
 
+  const loadTeams = async () => {
+    if (!selectedProduct) return;
+    
+    try {
+      setLoading(true);
+      const teamsData = await apiService.getTeams(selectedProduct);
+      setTeams(teamsData);
+      
+      // Reset team/sprint selection when product changes
+      setSelectedTeam(null);
+      setSelectedSprint(null);
+      setMetrics(null);
+    } catch (err) {
+      setError('Failed to load teams.');
+      console.error('Error loading teams:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const loadMetrics = async () => {
+    if (!selectedProduct) return;
+
     try {
       setLoading(true);
       setError(null);
-      const metricsData = await apiService.getMetrics(selectedTeam, selectedSprint);
+      
+      let metricsData;
+      if (selectedTeam && selectedSprint) {
+        // Sprint level
+        metricsData = await apiService.getMetrics(selectedTeam, selectedSprint);
+        setViewLevel('sprint');
+      } else if (selectedTeam) {
+        // Team level
+        metricsData = await apiService.getTeamMetrics(selectedTeam);
+        setViewLevel('team');
+      } else {
+        // Product level
+        metricsData = await apiService.getProductMetrics(selectedProduct);
+        setViewLevel('product');
+      }
+      
       setMetrics(metricsData);
     } catch (err) {
-      setError('No metrics found for selected team and sprint.');
+      setError('No metrics found for the selected level.');
       console.error('Error loading metrics:', err);
       setMetrics(null);
     } finally {
@@ -186,7 +235,24 @@ function App() {
         )}
 
         <Row gutter={16} style={{ marginBottom: 24 }}>
-          <Col span={12}>
+          <Col span={8}>
+            <Card size="small">
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <strong>Product:</strong>
+                <Select
+                  style={{ flex: 1 }}
+                  value={selectedProduct}
+                  onChange={setSelectedProduct}
+                  loading={products.length === 0}
+                  options={products.map(product => ({
+                    label: product.displayName,
+                    value: product.id
+                  }))}
+                />
+              </div>
+            </Card>
+          </Col>
+          <Col span={8}>
             <Card size="small">
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <strong>Team:</strong>
@@ -195,6 +261,9 @@ function App() {
                   value={selectedTeam}
                   onChange={setSelectedTeam}
                   loading={teams.length === 0}
+                  disabled={!selectedProduct}
+                  placeholder="All Teams"
+                  allowClear
                   options={teams.map(team => ({
                     label: team.displayName,
                     value: team.id
@@ -203,7 +272,7 @@ function App() {
               </div>
             </Card>
           </Col>
-          <Col span={12}>
+          <Col span={8}>
             <Card size="small">
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <strong>Sprint:</strong>
@@ -212,6 +281,9 @@ function App() {
                   value={selectedSprint}
                   onChange={setSelectedSprint}
                   loading={sprints.length === 0}
+                  disabled={!selectedTeam}
+                  placeholder="All Sprints"
+                  allowClear
                   options={sprints.map(sprint => ({
                     label: `Sprint ${sprint.name}`,
                     value: sprint.id
@@ -371,9 +443,13 @@ function App() {
 
             <Card style={{ marginTop: 24, textAlign: 'center', background: '#e6f7ff' }}>
               <div style={{ color: '#666' }}>
-                📊 <strong>Live Data from API</strong> - Powered by LowDB (JSON file storage)
+                📊 <strong>Viewing {viewLevel.charAt(0).toUpperCase() + viewLevel.slice(1)} Level Metrics</strong>
                 <br />
-                <small>Connected to API Gateway at http://localhost:3000</small>
+                <small>
+                  {viewLevel === 'product' && 'Aggregated metrics across all teams'}
+                  {viewLevel === 'team' && 'Aggregated metrics for selected team across all sprints'}
+                  {viewLevel === 'sprint' && 'Specific sprint metrics for selected team'}
+                </small>
               </div>
             </Card>
           </>

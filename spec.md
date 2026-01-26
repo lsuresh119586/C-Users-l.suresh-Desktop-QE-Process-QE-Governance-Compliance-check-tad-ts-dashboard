@@ -69,7 +69,38 @@ This lack of visibility leads to:
 - Reduction in quality-related release delays
 - Improved cross-team visibility and collaboration
 
-### 1.4 Scope
+### 1.4 Hierarchical Data Model
+
+**Organization Structure:**
+```
+Organization (ELM)
+├── Product Area 1: Passport Client Automation
+│   ├── Team 1: Passport Rangers
+│   └── Team 2: Passport Navigators
+├── Product Area 2: Tymetrix 360 (T360)
+│   ├── Team 3: T360 Vanguards
+│   └── Team 4: T360 Pioneers
+├── Product Area 3: Data & Analytics (DnA)
+│   ├── Team 5: DnA Explorers
+│   └── Team 6: DnA Innovators
+└── Product Area 4: Collaboration Portal
+    ├── Team 7: Collab Guardians
+    └── Team 8: Collab Builders
+```
+
+**Metric Aggregation Levels:**
+1. **Product Level**: Aggregated metrics across all teams in a product
+2. **Team Level**: Aggregated metrics for a specific team across all sprints
+3. **Sprint Level**: Specific team + sprint combination metrics
+4. **Story Level**: Individual story-level TAD/TS/test details
+
+**Navigation Pattern:**
+- User selects **Product** → Shows product-level aggregated metrics (all teams)
+- User selects **Product + Team** → Shows team-level aggregated metrics (all sprints)
+- User selects **Product + Team + Sprint** → Shows sprint-level specific metrics
+- User can drill down from any level to see detailed breakdowns
+
+### 1.5 Scope
 
 **In Scope (Version 1.0):**
 - Real-time metrics dashboard with drill-down navigation (Org → Product → Team → Sprint → Story)
@@ -93,6 +124,39 @@ This lack of visibility leads to:
 ---
 
 ## 2. User Stories
+
+### 2.0 Core Navigation: Hierarchical Drill-Down
+
+**Story 0: Navigate Through Product Hierarchy**
+
+```
+As any user
+I want to navigate through the product hierarchy (Product → Team → Sprint)
+So that I can view metrics at different aggregation levels
+
+Given I am on the dashboard
+When I see the navigation selectors at the top
+Then I can:
+  - Select a Product Area (Passport, T360, DnA, Collaboration Portal)
+  - Optionally select a Team within that product
+  - Optionally select a Sprint for that team
+
+And the metrics displayed update based on my selection:
+  - Product only selected → Product-level aggregated metrics (all teams)
+  - Product + Team selected → Team-level aggregated metrics (all sprints)  
+  - Product + Team + Sprint selected → Sprint-specific metrics
+
+Acceptance Criteria:
+- [ ] Product selector is always visible and required
+- [ ] Team selector is enabled only after product selection
+- [ ] Team selector shows only teams belonging to selected product
+- [ ] Sprint selector is enabled only after team selection
+- [ ] Team and Sprint selectors show "All Teams" / "All Sprints" when not selected
+- [ ] Metrics auto-refresh when any selector changes
+- [ ] Current aggregation level is clearly indicated (badge/label)
+- [ ] URL reflects current selections for bookmarking/sharing
+- [ ] Navigation state persists across page refreshes
+```
 
 ### 2.1 QE Leadership: Organizational Overview
 
@@ -1624,28 +1688,141 @@ Release Readiness Score = 21.25 + 19.50 + 12.30 + 11.25 + 10.00 = 74.3
 Display: "74.3" with Yellow color (70-89% range)
 ```
 
-### Appendix C: Sample Data Model (Conceptual)
+### Appendix C: Complete Data Model
 
-**Products**:
-- id, name (T360, Passport, Collaboration Portal, DnA)
+#### Products
+```json
+[
+  { "id": 1, "code": "PASSPORT", "name": "Passport", "displayName": "Passport" },
+  { "id": 2, "code": "T360", "name": "T360", "displayName": "Tymetrix 360" },
+  { "id": 3, "code": "DNA", "name": "DnA", "displayName": "Data & Analytics" },
+  { "id": 4, "code": "COLLAB", "name": "Collaboration Portal", "displayName": "Collaboration Portal" }
+]
+```
 
-**Teams**:
-- id, name, product_id (Chubb → T360, Spartacles → Passport, etc.)
+#### Teams (11 teams across 4 products)
+```json
+[
+  // T360 Teams (6 teams)
+  { "id": 1, "name": "Chubb", "displayName": "T360 Chubb", "productId": 2 },
+  { "id": 2, "name": "Chargers", "displayName": "T360 Chargers", "productId": 2 },
+  { "id": 3, "name": "Matrix", "displayName": "T360 Matrix", "productId": 2 },
+  { "id": 4, "name": "Mavericks", "displayName": "T360 Mavericks", "productId": 2 },
+  { "id": 5, "name": "Vanguards", "displayName": "T360 Vanguards", "productId": 2 },
+  { "id": 6, "name": "Nexus", "displayName": "T360 Nexus", "productId": 2 },
+  
+  // Passport Teams (2 teams)
+  { "id": 7, "name": "Spartacles", "displayName": "Passport Spartacles", "productId": 1 },
+  { "id": 8, "name": "Genesis", "displayName": "Passport Genesis", "productId": 1 },
+  
+  // Collaboration Portal Teams (1 team)
+  { "id": 9, "name": "Pioneers", "displayName": "Collab Pioneers", "productId": 4 },
+  
+  // DnA Teams (2 teams)
+  { "id": 10, "name": "Guardians", "displayName": "DnA Guardians", "productId": 3 },
+  { "id": 11, "name": "Athena", "displayName": "DnA Athena", "productId": 3 }
+]
+```
 
-**Sprints**:
-- id, name, start_date, end_date, status
+#### Sprints
+```json
+[
+  { "id": 1, "name": "26.1.1", "startDate": "2026-01-01", "endDate": "2026-01-14", "status": "active" },
+  { "id": 2, "name": "26.1.0", "startDate": "2025-12-18", "endDate": "2025-12-31", "status": "completed" },
+  { "id": 3, "name": "25.4.2", "startDate": "2025-12-04", "endDate": "2025-12-17", "status": "completed" },
+  { "id": 4, "name": "25.4.1", "startDate": "2025-11-20", "endDate": "2025-12-03", "status": "completed" },
+  { "id": 5, "name": "25.4.0", "startDate": "2025-11-06", "endDate": "2025-11-19", "status": "completed" }
+]
+```
 
-**Stories**:
-- id (Jira key), title, status, assignee, team_id, sprint_id, tad_status, ts_status, story_points
+#### Stories
+```json
+{
+  "id": "string (Jira key, e.g., GET-12345)",
+  "title": "string",
+  "status": "string (To Do, In Progress, In Review, Done)",
+  "assignee": "string",
+  "teamId": "number",
+  "sprintId": "number",
+  "tadStatus": "string (Complete, Incomplete, N/A)",
+  "tsStatus": "string (Complete, Incomplete, N/A)",
+  "storyPoints": "number",
+  "tadLink": "string (Bitbucket PR URL)",
+  "tsLink": "string (Bitbucket PR URL)"
+}
+```
 
-**TestCases**:
-- id, name, type, automation_status, linked_story_id
+#### TestCases
+```json
+{
+  "id": "number",
+  "name": "string",
+  "type": "string (Unit, Functional, Integration, E2E)",
+  "automationStatus": "string (Automated, Manual)",
+  "linkedStoryId": "string (Jira key)",
+  "qtestId": "string",
+  "lastRunStatus": "string (Passed, Failed, Blocked, Not Run)"
+}
+```
 
-**Defects**:
-- id (Jira key), severity, status, sdlc_activity, linked_story_id
+#### Defects
+```json
+{
+  "id": "string (Jira key)",
+  "severity": "string (P0/Critical, P1/High, P2/Medium, P3/Low)",
+  "status": "string (Open, In Progress, Resolved, Closed, Reopened)",
+  "sdlcActivity": "string (Requirements, Design, Development, Testing, Deployment, Production)",
+  "linkedStoryId": "string (Jira key)",
+  "reopened": "boolean"
+}
+```
 
-**MetricsSnapshots**:
-- id, date, team_id, product_id, tad_completion, ts_completion, unit_coverage, functional_coverage, sprint_velocity
+#### MetricsSnapshots (Aggregated Metrics)
+```json
+{
+  "id": "number",
+  "timestamp": "ISO 8601 datetime",
+  "teamId": "number",
+  "sprintId": "number",
+  "tadTsMetrics": {
+    "totalStories": "number",
+    "tadComplete": "number",
+    "tadNa": "number",
+    "tadMissing": "number",
+    "tadPct": "number (0-100)",
+    "tsComplete": "number",
+    "tsNa": "number",
+    "tsMissing": "number",
+    "tsPct": "number (0-100)"
+  },
+  "qtestMetrics": {
+    "uniqueTestCases": "number",
+    "automatedTestCases": "number",
+    "manualTestCases": "number",
+    "automationPct": "number (0-100)",
+    "totalTestRuns": "number"
+  },
+  "defectMetrics": {
+    "totalDefects": "number",
+    "reopenedDefects": "number",
+    "reopenedPct": "number (0-100)",
+    "bySeverity": {
+      "Critical": "number",
+      "High": "number",
+      "Medium": "number",
+      "Low": "number"
+    },
+    "bySdlc": {
+      "Requirements": "number",
+      "Design": "number",
+      "Development": "number",
+      "Testing": "number",
+      "Deployment": "number",
+      "Production": "number"
+    }
+  }
+}
+```
 
 ---
 
@@ -1657,3 +1834,4 @@ Display: "74.3" with Yellow color (70-89% range)
 2. Create implementation plan (`/speckit.plan`)
 3. Break down into tasks (`/speckit.tasks`)
 4. Execute implementation (`/speckit.implement`)
+

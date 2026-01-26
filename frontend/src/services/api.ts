@@ -10,11 +10,18 @@ const api = axios.create({
   },
 });
 
+export interface Product {
+  id: number;
+  code: string;
+  name: string;
+  displayName: string;
+}
+
 export interface Team {
   id: number;
   name: string;
   displayName: string;
-  product: string;
+  productId: number;
 }
 
 export interface Sprint {
@@ -63,8 +70,15 @@ export const apiService = {
     return response.data;
   },
 
-  async getTeams(): Promise<Team[]> {
-    const response = await api.get<Team[]>('/teams');
+  async getProducts(): Promise<Product[]> {
+    const response = await api.get<Product[]>('/products');
+    return response.data;
+  },
+
+  async getTeams(productId?: number): Promise<Team[]> {
+    const response = await api.get<Team[]>('/teams', {
+      params: productId ? { productId } : {}
+    });
     return response.data;
   },
 
@@ -75,6 +89,16 @@ export const apiService = {
 
   async getMetrics(teamId: number, sprintId: number): Promise<Metrics> {
     const response = await api.get<Metrics>(`/metrics/${teamId}/${sprintId}`);
+    return response.data;
+  },
+
+  async getProductMetrics(productId: number): Promise<Metrics> {
+    const response = await api.get<Metrics>(`/metrics/product/${productId}`);
+    return response.data;
+  },
+
+  async getTeamMetrics(teamId: number): Promise<Metrics> {
+    const response = await api.get<Metrics>(`/metrics/team/${teamId}`);
     return response.data;
   },
 

@@ -389,7 +389,7 @@
         </div>
         <div class="filter-section">
             <label for="sprintSelect">Select Sprint:</label>
-            <select id="sprintSelect">
+            <select id="sprintSelect" onchange="loadSprintData()">
                 <option value="current">Current Sprint</option>
                 <option value="26.1.1">Sprint 26.1.1</option>
                 <option value="26.1.2" selected>Sprint 26.1.2</option>
@@ -1458,9 +1458,9 @@
         console.log('Page loaded, calling loadReportData()...');
         loadReportData();
         
-        // Load initial test case data for Sprint 26.1.1
-        console.log('Loading initial qTest data...');
-        loadTestCaseData('26.1.1').then(data => {
+        // Load initial test case data for default sprint (26.1.2)
+        console.log('Loading initial qTest data for sprint 26.1.2...');
+        loadTestCaseData('26.1.2').then(data => {
             if (data) {
                 console.log('Initial qTest data loaded');
                 updateTestCaseSummaryTable(data);
@@ -1475,8 +1475,9 @@
                 loadSprintData();
             } else {
                 loadReportData();
-                // Also refresh test case data
-                loadTestCaseData('26.1.1').then(data => {
+                // Also refresh test case data for current sprint
+                const currentSprint = document.getElementById('sprintSelect')?.value || '26.1.2';
+                loadTestCaseData(currentSprint).then(data => {
                     if (data) updateTestCaseSummaryTable(data);
                 });
             }

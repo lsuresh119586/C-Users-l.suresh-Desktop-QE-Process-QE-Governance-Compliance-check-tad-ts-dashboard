@@ -743,15 +743,9 @@
 
         // Load the latest report data
         async function loadReportData() {
-            // First try to load from embedded JS file (works with local files)
-            if (window.reportData) {
-                updateDashboard();
-                return;
-            }
-            
-            // Fallback to fetch (requires web server)
+            // Fetch fresh data with cache-busting to ensure latest defects are loaded
             try {
-                const response = await fetch('tad-ts-report-data.json');
+                const response = await fetch(`tad-ts-report-data.json?t=${Date.now()}`);
                 window.reportData = await response.json();
                 updateDashboard();
             } catch (error) {

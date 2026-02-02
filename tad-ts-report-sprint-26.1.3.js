@@ -1,6 +1,6 @@
 window.reportData = {
   "dateRange": "Sprint 26.1.3",
-  "generated": "2026-02-02 18:01:27",
+  "generated": "2026-02-02 20:22:31",
   "summary": {
     "total": 22,
     "tadComplete": 20,
@@ -24,115 +24,145 @@ window.reportData = {
     "totalDefects": 22,
     "activities": {
       "QE Feature Testing": 17,
-      "QE Integration Testing": 1,
-      "Smoke Test": 1,
       "QE Performance Testing": 1,
+      "QE Integration Testing": 1,
       "Not Set": 1,
+      "Smoke Test": 1,
       "QE Regression Testing": 1
     },
     "teamMatrix": {
       "Matrix": {
         "QE Feature Testing": 11,
-        "QE Integration Testing": 0,
-        "Smoke Test": 0,
         "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
         "Not Set": 0,
+        "Smoke Test": 0,
         "QE Regression Testing": 0,
         "TOTAL": 11
       },
       "T360 Vanguards": {
         "QE Feature Testing": 5,
-        "QE Integration Testing": 1,
-        "Smoke Test": 0,
         "QE Performance Testing": 0,
+        "QE Integration Testing": 1,
         "Not Set": 0,
+        "Smoke Test": 0,
         "QE Regression Testing": 0,
         "TOTAL": 6
       },
       "T360 Mavericks": {
         "QE Feature Testing": 0,
-        "QE Integration Testing": 0,
-        "Smoke Test": 1,
         "QE Performance Testing": 1,
+        "QE Integration Testing": 0,
         "Not Set": 1,
+        "Smoke Test": 1,
         "QE Regression Testing": 0,
         "TOTAL": 3
       },
-      "Athena": {
-        "QE Feature Testing": 1,
-        "QE Integration Testing": 0,
-        "Smoke Test": 0,
-        "QE Performance Testing": 0,
-        "Not Set": 0,
-        "QE Regression Testing": 0,
-        "TOTAL": 1
-      },
       "Nexus": {
         "QE Feature Testing": 0,
-        "QE Integration Testing": 0,
-        "Smoke Test": 0,
         "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
         "Not Set": 0,
+        "Smoke Test": 0,
         "QE Regression Testing": 1,
+        "TOTAL": 1
+      },
+      "Athena": {
+        "QE Feature Testing": 1,
+        "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
+        "Not Set": 0,
+        "Smoke Test": 0,
+        "QE Regression Testing": 0,
         "TOTAL": 1
       }
     },
     "teamDefectDetails": {
+      "Nexus": {
+        "QE Feature Testing": [],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [],
+        "Not Set": [],
+        "Smoke Test": [],
+        "QE Regression Testing": [
+          {
+            "key": "GET-69276",
+            "summary": "UI Styling and Alignment Issues on Search All Invoice Beta Page"
+          }
+        ]
+      },
       "Matrix": {
         "QE Feature Testing": [
-          {
-            "key": "GET-69151",
-            "summary": "Folder path in Database is incorrect"
-          },
           {
             "key": "GET-69152",
             "summary": "Getting 500 error while delete the job"
           },
           {
-            "key": "GET-69605",
-            "summary": "Parameterized command jobs are not executing successfully"
-          },
-          {
-            "key": "GET-69477",
-            "summary": "Schedule instance is not created based on the Timezone configured"
-          },
-          {
-            "key": "GET-69670",
-            "summary": "Schedule is not triggering until the \"resubmitUntilTime\""
-          },
-          {
-            "key": "GET-69722",
-            "summary": "SQL job is working in local, but schedule is not working from agent"
-          },
-          {
-            "key": "GET-69552",
-            "summary": "Command Path enclosed inside \"\" are not considered for Job scheduling"
-          },
-          {
-            "key": "GET-69528",
-            "summary": "First occurrence of schedule is consistently failing due to path, second schedule instance is executing successfully"
+            "key": "GET-69151",
+            "summary": "Folder path in Database is incorrect"
           },
           {
             "key": "GET-69791",
             "summary": "Schedule (resubmission) having incorrect pattern of database entry"
           },
           {
+            "key": "GET-69670",
+            "summary": "Schedule is not triggering until the \"resubmitUntilTime\""
+          },
+          {
+            "key": "GET-69477",
+            "summary": "Schedule instance is not created based on the Timezone configured"
+          },
+          {
+            "key": "GET-69605",
+            "summary": "Parameterized command jobs are not executing successfully"
+          },
+          {
+            "key": "GET-69528",
+            "summary": "First occurrence of schedule is consistently failing due to path, second schedule instance is executing successfully"
+          },
+          {
+            "key": "GET-69552",
+            "summary": "Command Path enclosed inside \"\" are not considered for Job scheduling"
+          },
+          {
             "key": "GET-69796",
             "summary": "Schedule is not triggering when the job schedule is updated via API"
+          },
+          {
+            "key": "GET-69722",
+            "summary": "SQL job is working in local, but schedule is not working from agent"
           },
           {
             "key": "GET-69176",
             "summary": "Schedule instance is not created for the Job"
           }
         ],
-        "QE Integration Testing": [],
-        "Smoke Test": [],
         "QE Performance Testing": [],
+        "QE Integration Testing": [],
         "Not Set": [],
+        "Smoke Test": [],
+        "QE Regression Testing": []
+      },
+      "Athena": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-69732",
+            "summary": "Response code and message for the invalid tenant is not as expected for bulk load End Point."
+          }
+        ],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [],
+        "Not Set": [],
+        "Smoke Test": [],
         "QE Regression Testing": []
       },
       "T360 Vanguards": {
         "QE Feature Testing": [
+          {
+            "key": "GET-69196",
+            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+          },
           {
             "key": "GET-69103",
             "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
@@ -146,85 +176,113 @@ window.reportData = {
             "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
           },
           {
-            "key": "GET-69196",
-            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
-          },
-          {
             "key": "GET-69225",
             "summary": "Invoice line item focus not displayed when invoice contains a large number of line items"
           }
         ],
+        "QE Performance Testing": [],
         "QE Integration Testing": [
           {
             "key": "GET-69024",
             "summary": "Negative currency amounts display with incorrect formatting ($-1016.00 instead of -$1016.00)"
           }
         ],
-        "Smoke Test": [],
-        "QE Performance Testing": [],
         "Not Set": [],
+        "Smoke Test": [],
         "QE Regression Testing": []
       },
       "T360 Mavericks": {
         "QE Feature Testing": [],
-        "QE Integration Testing": [],
-        "Smoke Test": [
-          {
-            "key": "GET-56129",
-            "summary": "[TST] Announcement popup appears in other pages apart from Home page"
-          }
-        ],
         "QE Performance Testing": [
           {
             "key": "GET-63004",
             "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters"
           }
         ],
+        "QE Integration Testing": [],
         "Not Set": [
           {
             "key": "GET-46546",
             "summary": "   TEC-421386 All Clients: Issue with Expand All Items on InvoiceDetailPage.aspx "
           }
         ],
-        "QE Regression Testing": []
-      },
-      "Athena": {
-        "QE Feature Testing": [
+        "Smoke Test": [
           {
-            "key": "GET-69732",
-            "summary": "Response code and message for the invalid tenant is not as expected for bulk load End Point."
+            "key": "GET-56129",
+            "summary": "[TST] Announcement popup appears in other pages apart from Home page"
           }
         ],
-        "QE Integration Testing": [],
-        "Smoke Test": [],
-        "QE Performance Testing": [],
-        "Not Set": [],
         "QE Regression Testing": []
-      },
-      "Nexus": {
-        "QE Feature Testing": [],
-        "QE Integration Testing": [],
-        "Smoke Test": [],
-        "QE Performance Testing": [],
-        "Not Set": [],
-        "QE Regression Testing": [
-          {
-            "key": "GET-69276",
-            "summary": "UI Styling and Alignment Issues on Search All Invoice Beta Page"
-          }
-        ]
       }
     },
     "activityNames": [
       "QE Feature Testing",
-      "QE Integration Testing",
-      "Smoke Test",
       "QE Performance Testing",
+      "QE Integration Testing",
       "Not Set",
+      "Smoke Test",
       "QE Regression Testing"
     ]
   },
   "teams": {
+    "Nexus": {
+      "total": 3,
+      "tadComplete": 3,
+      "tsComplete": 3,
+      "bothComplete": 3,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 3,
+      "tsApplicable": 3,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-62705",
+          "summary": "GB: Story 1:  Bulk \u201cAdd\u201d API to create & associate a Company Role Cap + Exception\u2011Based Rates AFA across up to 100 matters",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62697",
+          "summary": "Search All Case Assessments Page with controlled Erase - part 1",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67329",
+          "summary": "LegalCollaborator:  include Matter Number in CA payload",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
     "T360 ICD Chubb": {
       "total": 3,
       "tadComplete": 3,
@@ -240,8 +298,8 @@ window.reportData = {
       "tsPct": 66.66666666666666,
       "issues": [
         {
-          "key": "GET-63001",
-          "summary": "Validate Affiliated Vendor Association Job Number Uniqueness \u2014 Data Exchange",
+          "key": "GET-62279",
+          "summary": "Restrict Lead Timekeeper Rates if greater than $0 - alert Message in Adding and Mapping roles to the members Page",
           "type": "Story",
           "status": "Code Complete",
           "sprint": "No Sprint",
@@ -254,10 +312,10 @@ window.reportData = {
           "tsNAComment": null
         },
         {
-          "key": "GET-62279",
-          "summary": "Restrict Lead Timekeeper Rates if greater than $0 - alert Message in Adding and Mapping roles to the members Page",
+          "key": "GET-63001",
+          "summary": "Validate Affiliated Vendor Association Job Number Uniqueness \u2014 Data Exchange",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Code Complete",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -564,64 +622,6 @@ window.reportData = {
           "tadFound": true,
           "tsFound": true,
           "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
-    "Nexus": {
-      "total": 3,
-      "tadComplete": 3,
-      "tsComplete": 3,
-      "bothComplete": 3,
-      "tadNA": 0,
-      "tsNA": 0,
-      "tadApplicable": 3,
-      "tsApplicable": 3,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
-        {
-          "key": "GET-62697",
-          "summary": "Search All Case Assessments Page with controlled Erase - part 1",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-67329",
-          "summary": "LegalCollaborator:  include Matter Number in CA payload",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-62705",
-          "summary": "GB: Story 1:  Bulk \u201cAdd\u201d API to create & associate a Company Role Cap + Exception\u2011Based Rates AFA across up to 100 matters",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 2,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

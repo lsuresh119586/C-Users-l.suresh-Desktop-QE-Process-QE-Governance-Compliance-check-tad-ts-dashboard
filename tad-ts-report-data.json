@@ -1,419 +1,231 @@
 {
-  "dateRange": "Sprint 26.1.1",
-  "generated": "2026-02-02 19:32:06",
+  "dateRange": "Sprint 26.1.3",
+  "generated": "2026-02-02 20:22:31",
   "summary": {
-    "total": 24,
-    "tadComplete": 21,
+    "total": 22,
+    "tadComplete": 20,
     "tsComplete": 19,
     "bothComplete": 19,
-    "missingTad": 1,
+    "missingTad": 0,
     "missingTs": 1,
     "tadNA": 2,
-    "tsNA": 4,
-    "tadApplicable": 22,
+    "tsNA": 2,
+    "tadApplicable": 20,
     "tsApplicable": 20,
-    "tadPct": 95.45454545454545,
+    "tadPct": 100.0,
     "tsPct": 95.0,
-    "bothPct": 79.16666666666666,
-    "missingTadPct": 4.166666666666666,
-    "missingTsPct": 4.166666666666666,
-    "tadNAPct": 8.333333333333332,
-    "tsNAPct": 16.666666666666664
+    "bothPct": 86.36363636363636,
+    "missingTadPct": 0.0,
+    "missingTsPct": 4.545454545454546,
+    "tadNAPct": 9.090909090909092,
+    "tsNAPct": 9.090909090909092
   },
   "defects": {
-    "totalDefects": 17,
+    "totalDefects": 22,
     "activities": {
-      "QE Feature Testing": 12,
-      "QE Regression Testing": 1,
+      "QE Feature Testing": 17,
+      "QE Performance Testing": 1,
+      "QE Integration Testing": 1,
       "Not Set": 1,
-      "User Acceptance Testing": 1,
-      "Vulnerability Testing": 1,
-      "Production": 1
+      "Smoke Test": 1,
+      "QE Regression Testing": 1
     },
     "teamMatrix": {
-      "T360 Vanguards": {
-        "QE Feature Testing": 4,
-        "QE Regression Testing": 0,
-        "Not Set": 1,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 5
-      },
-      "Athena": {
-        "QE Feature Testing": 3,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 3
-      },
-      "Nexus": {
-        "QE Feature Testing": 1,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 1,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 2
-      },
-      "T360 Chargers": {
-        "QE Feature Testing": 2,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 2
-      },
-      "T360 ICD Chubb": {
-        "QE Feature Testing": 0,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 1,
-        "Production": 1,
-        "TOTAL": 2
-      },
       "Matrix": {
-        "QE Feature Testing": 2,
-        "QE Regression Testing": 0,
+        "QE Feature Testing": 11,
+        "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
         "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 2
+        "Smoke Test": 0,
+        "QE Regression Testing": 0,
+        "TOTAL": 11
+      },
+      "T360 Vanguards": {
+        "QE Feature Testing": 5,
+        "QE Performance Testing": 0,
+        "QE Integration Testing": 1,
+        "Not Set": 0,
+        "Smoke Test": 0,
+        "QE Regression Testing": 0,
+        "TOTAL": 6
       },
       "T360 Mavericks": {
         "QE Feature Testing": 0,
-        "QE Regression Testing": 1,
+        "QE Performance Testing": 1,
+        "QE Integration Testing": 0,
+        "Not Set": 1,
+        "Smoke Test": 1,
+        "QE Regression Testing": 0,
+        "TOTAL": 3
+      },
+      "Nexus": {
+        "QE Feature Testing": 0,
+        "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
         "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
-        "Production": 0,
+        "Smoke Test": 0,
+        "QE Regression Testing": 1,
+        "TOTAL": 1
+      },
+      "Athena": {
+        "QE Feature Testing": 1,
+        "QE Performance Testing": 0,
+        "QE Integration Testing": 0,
+        "Not Set": 0,
+        "Smoke Test": 0,
+        "QE Regression Testing": 0,
         "TOTAL": 1
       }
     },
     "teamDefectDetails": {
-      "Athena": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-67371",
-            "summary": "Edit Model button is accessible for the Admin user even though the environment variable is not set"
-          },
-          {
-            "key": "GET-67523",
-            "summary": "Embedfast Bulk Assignment page - UI Issues"
-          },
-          {
-            "key": "GET-67481",
-            "summary": "Invoice Analytical Model Validation Mismatches after the recent changes"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
-      },
       "Nexus": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-67824",
-            "summary": "[Legal Collaborator] Case assessment is created where the law firm doesn't have Billing Administration/Case Assessment Manager Role"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [
-          {
-            "key": "GET-3928",
-            "summary": "TEC-301935 - CNA High Priority: Performance: Invoice Search Page Processed - Search Slowness"
-          }
-        ],
-        "Vulnerability Testing": [],
-        "Production": []
-      },
-      "T360 Chargers": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-67272",
-            "summary": "Email this page and Move document not working in TST - Document migration"
-          },
-          {
-            "key": "GET-68403",
-            "summary": "OC Document checkin and discard check out error page displayed"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
-      },
-      "T360 Vanguards": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-67500",
-            "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
-          },
-          {
-            "key": "GET-67494",
-            "summary": "Citation styling in AI summary does not match Figma design"
-          },
-          {
-            "key": "GET-66142",
-            "summary": "Password input does not accept Space and Emoji characters, violating Unicode compliance requirements"
-          },
-          {
-            "key": "GET-67493",
-            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [
-          {
-            "key": "GET-68012",
-            "summary": "Getting 401 Unauthorized Response Code While Executing Canonical Endpoints"
-          }
-        ],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
-      },
-      "T360 ICD Chubb": {
         "QE Feature Testing": [],
-        "QE Regression Testing": [],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [],
         "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [
-          {
-            "key": "GET-67542",
-            "summary": "Spinning Cursor Prevents User Interaction"
-          }
-        ],
-        "Production": [
-          {
-            "key": "GET-22095",
-            "summary": "TEC-369708: Chubb Group Claims: ITP rule not working correctly in prod"
-          }
-        ]
-      },
-      "T360 Mavericks": {
-        "QE Feature Testing": [],
+        "Smoke Test": [],
         "QE Regression Testing": [
           {
-            "key": "GET-61996",
-            "summary": "[UAT/TST] The spinner keeps on loading while searching with multiple special symbols in the query"
+            "key": "GET-69276",
+            "summary": "UI Styling and Alignment Issues on Search All Invoice Beta Page"
           }
-        ],
-        "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
+        ]
       },
       "Matrix": {
         "QE Feature Testing": [
           {
-            "key": "GET-67532",
-            "summary": "Migrated data count mismatched in \"Notification\" table - Scheduler Database "
+            "key": "GET-69152",
+            "summary": "Getting 500 error while delete the job"
           },
           {
-            "key": "GET-68371",
-            "summary": "Job Scheduler Submenu Not Visible for Non\u2013System Admin ASP Company User"
+            "key": "GET-69151",
+            "summary": "Folder path in Database is incorrect"
+          },
+          {
+            "key": "GET-69791",
+            "summary": "Schedule (resubmission) having incorrect pattern of database entry"
+          },
+          {
+            "key": "GET-69670",
+            "summary": "Schedule is not triggering until the \"resubmitUntilTime\""
+          },
+          {
+            "key": "GET-69477",
+            "summary": "Schedule instance is not created based on the Timezone configured"
+          },
+          {
+            "key": "GET-69605",
+            "summary": "Parameterized command jobs are not executing successfully"
+          },
+          {
+            "key": "GET-69528",
+            "summary": "First occurrence of schedule is consistently failing due to path, second schedule instance is executing successfully"
+          },
+          {
+            "key": "GET-69552",
+            "summary": "Command Path enclosed inside \"\" are not considered for Job scheduling"
+          },
+          {
+            "key": "GET-69796",
+            "summary": "Schedule is not triggering when the job schedule is updated via API"
+          },
+          {
+            "key": "GET-69722",
+            "summary": "SQL job is working in local, but schedule is not working from agent"
+          },
+          {
+            "key": "GET-69176",
+            "summary": "Schedule instance is not created for the Job"
           }
         ],
-        "QE Regression Testing": [],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [],
         "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
+        "Smoke Test": [],
+        "QE Regression Testing": []
+      },
+      "Athena": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-69732",
+            "summary": "Response code and message for the invalid tenant is not as expected for bulk load End Point."
+          }
+        ],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [],
+        "Not Set": [],
+        "Smoke Test": [],
+        "QE Regression Testing": []
+      },
+      "T360 Vanguards": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-69196",
+            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+          },
+          {
+            "key": "GET-69103",
+            "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
+          },
+          {
+            "key": "GET-69193",
+            "summary": "Line items display unique IDs instead of sequential numbers (e.g., \u201cLine 33\u201d, \u201cLine 34\u201d, \u2026) as shown in the Figma design."
+          },
+          {
+            "key": "GET-69121",
+            "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
+          },
+          {
+            "key": "GET-69225",
+            "summary": "Invoice line item focus not displayed when invoice contains a large number of line items"
+          }
+        ],
+        "QE Performance Testing": [],
+        "QE Integration Testing": [
+          {
+            "key": "GET-69024",
+            "summary": "Negative currency amounts display with incorrect formatting ($-1016.00 instead of -$1016.00)"
+          }
+        ],
+        "Not Set": [],
+        "Smoke Test": [],
+        "QE Regression Testing": []
+      },
+      "T360 Mavericks": {
+        "QE Feature Testing": [],
+        "QE Performance Testing": [
+          {
+            "key": "GET-63004",
+            "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters"
+          }
+        ],
+        "QE Integration Testing": [],
+        "Not Set": [
+          {
+            "key": "GET-46546",
+            "summary": "   TEC-421386 All Clients: Issue with Expand All Items on InvoiceDetailPage.aspx "
+          }
+        ],
+        "Smoke Test": [
+          {
+            "key": "GET-56129",
+            "summary": "[TST] Announcement popup appears in other pages apart from Home page"
+          }
+        ],
+        "QE Regression Testing": []
       }
     },
     "activityNames": [
       "QE Feature Testing",
-      "QE Regression Testing",
+      "QE Performance Testing",
+      "QE Integration Testing",
       "Not Set",
-      "User Acceptance Testing",
-      "Vulnerability Testing",
-      "Production"
+      "Smoke Test",
+      "QE Regression Testing"
     ]
   },
   "teams": {
-    "T360 ICD Chubb": {
-      "total": 5,
-      "tadComplete": 5,
-      "tsComplete": 5,
-      "bothComplete": 5,
-      "tadNA": 0,
-      "tsNA": 0,
-      "tadApplicable": 5,
-      "tsApplicable": 5,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
-        {
-          "key": "GET-62060",
-          "summary": "Predictive Insights: Rescoring a matter in bulk via data exchange",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-22095",
-          "summary": "TEC-369708: Chubb Group Claims: ITP rule not working correctly in prod",
-          "type": "Bug",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-67542",
-          "summary": "Spinning Cursor Prevents User Interaction",
-          "type": "Bug",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-58925",
-          "summary": "Affiliated Vendor can associate one to many on matters - data exchange",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 5,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-58776",
-          "summary": "Claim Authority Exclusion Secure Action & Permission Setup",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 5,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
-    "T360 Vanguards": {
-      "total": 5,
-      "tadComplete": 4,
-      "tsComplete": 4,
-      "bothComplete": 4,
-      "tadNA": 0,
-      "tsNA": 0,
-      "tadApplicable": 5,
-      "tsApplicable": 5,
-      "missingTad": 1,
-      "missingTs": 1,
-      "tadPct": 80.0,
-      "tsPct": 80.0,
-      "issues": [
-        {
-          "key": "GET-64675",
-          "summary": "Citations - Transform Payload Citations into Numbered References",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 10,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-64677",
-          "summary": "Citations - Convert Citations to Interactive Links with Line Item Reference Panel",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-68012",
-          "summary": "Getting 401 Unauthorized Response Code While Executing Canonical Endpoints",
-          "type": "Bug",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-62908",
-          "summary": "Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API & Cannonical",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 6,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-56987",
-          "summary": "ASVS-Verify that any printable Unicode character, including language neutral characters such as spaces and Emojis are permitted in passwords.",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 8,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
-    "T360 Mavericks": {
+    "Nexus": {
       "total": 3,
       "tadComplete": 3,
       "tsComplete": 3,
@@ -428,10 +240,24 @@
       "tsPct": 100.0,
       "issues": [
         {
-          "key": "GET-60431",
-          "summary": "Update Matter AI label",
+          "key": "GET-62705",
+          "summary": "GB: Story 1:  Bulk \u201cAdd\u201d API to create & associate a Company Role Cap + Exception\u2011Based Rates AFA across up to 100 matters",
           "type": "Story",
-          "status": "Closed",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62697",
+          "summary": "Search All Case Assessments Page with controlled Erase - part 1",
+          "type": "Story",
+          "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -442,24 +268,126 @@
           "tsNAComment": null
         },
         {
-          "key": "GET-62132",
-          "summary": "Correct AI console Selections issues",
+          "key": "GET-67329",
+          "summary": "LegalCollaborator:  include Matter Number in CA payload",
           "type": "Story",
-          "status": "Closed",
+          "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 5,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 ICD Chubb": {
+      "total": 3,
+      "tadComplete": 3,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 3,
+      "tsApplicable": 3,
+      "missingTad": 0,
+      "missingTs": 1,
+      "tadPct": 100.0,
+      "tsPct": 66.66666666666666,
+      "issues": [
+        {
+          "key": "GET-62279",
+          "summary": "Restrict Lead Timekeeper Rates if greater than $0 - alert Message in Adding and Mapping roles to the members Page",
+          "type": "Story",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
         },
         {
-          "key": "GET-62748",
-          "summary": "AI console: Add UI for adding AI methods",
+          "key": "GET-63001",
+          "summary": "Validate Affiliated Vendor Association Job Number Uniqueness \u2014 Data Exchange",
           "type": "Story",
-          "status": "Closed",
+          "status": "Code Complete",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63655",
+          "summary": "Claim Authority Forwarding Logic & Next Reviewer Routing",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "Matrix": {
+      "total": 3,
+      "tadComplete": 3,
+      "tsComplete": 3,
+      "bothComplete": 3,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 3,
+      "tsApplicable": 3,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-67289",
+          "summary": " Implement Angular UI for Creating and Editing Job  with Dynamic Forms and API Integration",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 7,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-66038",
+          "summary": "Enable Full CRUD Support in T360.Scheduler.API ",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 13,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-68907",
+          "summary": "Implement Complete Workflow Management System with CRUD Operations, Adhoc Execution, and Angular UI",
+          "type": "Story",
+          "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -471,7 +399,165 @@
         }
       ]
     },
-    "Nexus": {
+    "T360 Mavericks": {
+      "total": 5,
+      "tadComplete": 5,
+      "tsComplete": 5,
+      "bothComplete": 5,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 5,
+      "tsApplicable": 5,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-65516",
+          "summary": "Implement End-to-End Token-Based Authentication via T360 for EmbedFAST",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-60433",
+          "summary": "Citation Links in Matter Summary AI",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-46546",
+          "summary": "   TEC-421386 All Clients: Issue with Expand All Items on InvoiceDetailPage.aspx ",
+          "type": "Bug",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-56129",
+          "summary": "[TST] Announcement popup appears in other pages apart from Home page",
+          "type": "Bug",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63004",
+          "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters",
+          "type": "Bug",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 11,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Chargers": {
+      "total": 4,
+      "tadComplete": 2,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 2,
+      "tsNA": 2,
+      "tadApplicable": 2,
+      "tsApplicable": 2,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-69495",
+          "summary": "Multi_Tenant -Integrate the API into T360 to  Synchronize data to all tenent",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": true,
+          "tadNAComment": "discussed with [~raja.chelladurai] , Enabler story so TAD and TS not applicable.\u00a0",
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
+        },
+        {
+          "key": "GET-69085",
+          "summary": "User Network Mapping and Migration\u2011Based DB Routing - SSO Login",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69489",
+          "summary": "Multi\u2011Tenant Database Design Approach for Services",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": true,
+          "tadNAComment": "discussed with [~raja.chelladurai] , Enabler story so TAD and TS not applicable.\u00a0",
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
+        },
+        {
+          "key": "GET-69039",
+          "summary": "User Network Mapping and Migration\u2011Based DB Routing - Username and password login",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Vanguards": {
       "total": 4,
       "tadComplete": 4,
       "tsComplete": 4,
@@ -486,24 +572,52 @@
       "tsPct": 100.0,
       "issues": [
         {
-          "key": "GET-3928",
-          "summary": "TEC-301935 - CNA High Priority: Performance: Invoice Search Page Processed - Search Slowness",
-          "type": "Bug",
-          "status": "Closed",
+          "key": "GET-62673",
+          "summary": "Invoice AI - New service and permission",
+          "type": "Story",
+          "status": "Code Complete",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 6,
+          "totalPrs": 3,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
         },
         {
-          "key": "GET-50527",
-          "summary": "INC3102287 - PRB0057529 Analyze and create missing index suggested by DPA",
+          "key": "GET-67380",
+          "summary": "MCP Server development - C#",
           "type": "Story",
-          "status": "Closed",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67378",
+          "summary": "Enhanced T360 Invoice Retrieval APIs with Flexible Query Parameters and Matter-Scoped Routing",
+          "type": "Story",
+          "status": "In Progress",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64554",
+          "summary": "Invoice AI - Citations - Focus on Line Items ",
+          "type": "Story",
+          "status": "To Verify",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -512,164 +626,6 @@
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
-        },
-        {
-          "key": "GET-64300",
-          "summary": "CA LegalCollaborator: Enable Corporate Users to Create Case Assessments Without Role Misassignment and Populate CA Manager in Payload",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 5,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-63638",
-          "summary": "LegalCollaborator: Cancel or Update Case Assessment on Company/Panel/TK Change when CA exists prior",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 8,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
-    "T360 Chargers": {
-      "total": 3,
-      "tadComplete": 1,
-      "tsComplete": 1,
-      "bothComplete": 1,
-      "tadNA": 2,
-      "tsNA": 2,
-      "tadApplicable": 1,
-      "tsApplicable": 1,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
-        {
-          "key": "GET-65980",
-          "summary": "[T360 Modernization]UUID:UUID: E100F100S100 - Upgrade DDD Template to .NET 9.0",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": true,
-          "tadNAComment": "Discussed in Refinement, As this is an Enabler story TAD is not applicable.",
-          "tsNA": true,
-          "tsNAComment": "Test Strategy N/A because TAD is N/A"
-        },
-        {
-          "key": "GET-65633",
-          "summary": "[Document Modernization]- Dual _Write off ",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 14,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-65986",
-          "summary": "[T360 Modernization] UUID: E100F101-CQRS Template Alignment",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 2,
-          "tadNA": true,
-          "tadNAComment": "This is a Enabler story, so TAD not Applicable.",
-          "tsNA": true,
-          "tsNAComment": "Test Strategy N/A because TAD is N/A"
-        }
-      ]
-    },
-    "Matrix": {
-      "total": 4,
-      "tadComplete": 4,
-      "tsComplete": 2,
-      "bothComplete": 2,
-      "tadNA": 0,
-      "tsNA": 2,
-      "tadApplicable": 4,
-      "tsApplicable": 2,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
-        {
-          "key": "GET-66026",
-          "summary": "Introduce \u201cJobs Scheduler\u201d Menu in T360 with Network & Permission-Based Access Control",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 8,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-64548",
-          "summary": "T360.Scheduler.API \u2013 CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus)",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": true,
-          "tsNAComment": "The NA and EU CI/CD screenshots are attached for your reference.\r\n\r\n!image-2026-01-14-19-14-01-202.png|width=537,height=118!\r\n\r\n!image-2026-01-14-19-14-52-729.png|width=536,height=109!\r\n\r\n!image-2026-"
-        },
-        {
-          "key": "GET-64544",
-          "summary": "Migrate Scheduling Workflows from JAMS to Modern Scheduler Platform",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 7,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-66018",
-          "summary": "Scheduler UI \u2013 CI/CD Setup for NA (Containerized) and EU (TeamCity/Octopus)",
-          "type": "Story",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": true,
-          "tsNAComment": "We have set up the CI/CD pipeline using an empty project, as this card is solely for CI/CD configuration and does not include any code logic. The developer has completed development testing and attach"
         }
       ]
     }

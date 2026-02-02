@@ -1,6 +1,6 @@
 window.reportData = {
   "dateRange": "Sprint 26.1.2",
-  "generated": "2026-02-02 13:09:13",
+  "generated": "2026-02-02 17:59:24",
   "summary": {
     "total": 23,
     "tadComplete": 17,
@@ -27,8 +27,8 @@ window.reportData = {
       "QE Integration Testing": 2,
       "QE Performance Testing": 2,
       "QE Regression Testing": 1,
-      "Smoke Test": 1,
       "Production": 1,
+      "Smoke Test": 1,
       "Deployment Verification": 1
     },
     "teamMatrix": {
@@ -37,8 +37,8 @@ window.reportData = {
         "QE Integration Testing": 1,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
-        "Smoke Test": 0,
         "Production": 0,
+        "Smoke Test": 0,
         "Deployment Verification": 0,
         "TOTAL": 11
       },
@@ -47,8 +47,8 @@ window.reportData = {
         "QE Integration Testing": 1,
         "QE Performance Testing": 1,
         "QE Regression Testing": 1,
-        "Smoke Test": 0,
         "Production": 1,
+        "Smoke Test": 0,
         "Deployment Verification": 1,
         "TOTAL": 7
       },
@@ -57,8 +57,8 @@ window.reportData = {
         "QE Integration Testing": 0,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
-        "Smoke Test": 0,
         "Production": 0,
+        "Smoke Test": 0,
         "Deployment Verification": 0,
         "TOTAL": 6
       },
@@ -67,8 +67,8 @@ window.reportData = {
         "QE Integration Testing": 0,
         "QE Performance Testing": 1,
         "QE Regression Testing": 0,
-        "Smoke Test": 0,
         "Production": 0,
+        "Smoke Test": 0,
         "Deployment Verification": 0,
         "TOTAL": 4
       },
@@ -77,8 +77,8 @@ window.reportData = {
         "QE Integration Testing": 0,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
-        "Smoke Test": 1,
         "Production": 0,
+        "Smoke Test": 1,
         "Deployment Verification": 0,
         "TOTAL": 1
       },
@@ -87,13 +87,27 @@ window.reportData = {
         "QE Integration Testing": 0,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
-        "Smoke Test": 0,
         "Production": 0,
+        "Smoke Test": 0,
         "Deployment Verification": 0,
         "TOTAL": 1
       }
     },
     "teamDefectDetails": {
+      "T360 Chargers": {
+        "QE Feature Testing": [],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Production": [],
+        "Smoke Test": [
+          {
+            "key": "GET-69158",
+            "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document"
+          }
+        ],
+        "Deployment Verification": []
+      },
       "T360 Mavericks": {
         "QE Feature Testing": [
           {
@@ -117,19 +131,67 @@ window.reportData = {
           }
         ],
         "QE Regression Testing": [],
-        "Smoke Test": [],
         "Production": [],
+        "Smoke Test": [],
+        "Deployment Verification": []
+      },
+      "Matrix": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-69157",
+            "summary": "Pagination label displays incorrectly and global search filters only Title instead of all grid columns on Job Scheduler page"
+          },
+          {
+            "key": "GET-69152",
+            "summary": "Getting 500 error while delete the job"
+          },
+          {
+            "key": "GET-69116",
+            "summary": "Agent with Empty Name is allowed"
+          },
+          {
+            "key": "GET-69151",
+            "summary": "Folder path in Database is incorrect"
+          },
+          {
+            "key": "GET-69791",
+            "summary": "Schedule (resubmission) having incorrect pattern of database entry"
+          },
+          {
+            "key": "GET-69176",
+            "summary": "Schedule instance is not created for the Job"
+          }
+        ],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Production": [],
+        "Smoke Test": [],
+        "Deployment Verification": []
+      },
+      "Athena": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-68985",
+            "summary": "Embedfast Redirect URL - Data mismatch in API Response"
+          }
+        ],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Production": [],
+        "Smoke Test": [],
         "Deployment Verification": []
       },
       "T360 Vanguards": {
         "QE Feature Testing": [
           {
-            "key": "GET-67494",
-            "summary": "Citation styling in AI summary does not match Figma design"
-          },
-          {
             "key": "GET-67500",
             "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
+          },
+          {
+            "key": "GET-67494",
+            "summary": "Citation styling in AI summary does not match Figma design"
           },
           {
             "key": "GET-67493",
@@ -144,6 +206,10 @@ window.reportData = {
             "summary": "System ID is missing in the citation panel, and the close button does not have the blue background color as specified in the Figma design."
           },
           {
+            "key": "GET-69196",
+            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+          },
+          {
             "key": "GET-69103",
             "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
           },
@@ -154,10 +220,6 @@ window.reportData = {
           {
             "key": "GET-69121",
             "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
-          },
-          {
-            "key": "GET-69196",
-            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
           },
           {
             "key": "GET-69225",
@@ -172,56 +234,8 @@ window.reportData = {
         ],
         "QE Performance Testing": [],
         "QE Regression Testing": [],
+        "Production": [],
         "Smoke Test": [],
-        "Production": [],
-        "Deployment Verification": []
-      },
-      "T360 Chargers": {
-        "QE Feature Testing": [],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [],
-        "QE Regression Testing": [],
-        "Smoke Test": [
-          {
-            "key": "GET-69158",
-            "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document"
-          }
-        ],
-        "Production": [],
-        "Deployment Verification": []
-      },
-      "Matrix": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-69157",
-            "summary": "Pagination label displays incorrectly and global search filters only Title instead of all grid columns on Job Scheduler page"
-          },
-          {
-            "key": "GET-69176",
-            "summary": "Schedule instance is not created for the Job"
-          },
-          {
-            "key": "GET-69791",
-            "summary": "Schedule (resubmission) having incorrect pattern of database entry"
-          },
-          {
-            "key": "GET-69151",
-            "summary": "Folder path in Database is incorrect"
-          },
-          {
-            "key": "GET-69152",
-            "summary": "Getting 500 error while delete the job"
-          },
-          {
-            "key": "GET-69116",
-            "summary": "Agent with Empty Name is allowed"
-          }
-        ],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [],
-        "QE Regression Testing": [],
-        "Smoke Test": [],
-        "Production": [],
         "Deployment Verification": []
       },
       "Nexus": {
@@ -253,33 +267,19 @@ window.reportData = {
             "summary": "Visa Row Level Security: Ensure member groups apply the permissions appropriately"
           }
         ],
-        "Smoke Test": [],
         "Production": [
           {
             "key": "GET-44294",
             "summary": "   TEC-419925: New UI: Export to Excel does not work on the Select Budget Template page "
           }
         ],
+        "Smoke Test": [],
         "Deployment Verification": [
           {
             "key": "GET-67227",
             "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New"
           }
         ]
-      },
-      "Athena": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-68985",
-            "summary": "Embedfast Redirect URL - Data mismatch in API Response"
-          }
-        ],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [],
-        "QE Regression Testing": [],
-        "Smoke Test": [],
-        "Production": [],
-        "Deployment Verification": []
       }
     },
     "activityNames": [
@@ -287,8 +287,8 @@ window.reportData = {
       "QE Integration Testing",
       "QE Performance Testing",
       "QE Regression Testing",
-      "Smoke Test",
       "Production",
+      "Smoke Test",
       "Deployment Verification"
     ]
   },

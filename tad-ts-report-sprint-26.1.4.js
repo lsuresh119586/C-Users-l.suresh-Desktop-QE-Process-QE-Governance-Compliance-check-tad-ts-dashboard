@@ -1,24 +1,24 @@
 window.reportData = {
   "dateRange": "Sprint 26.1.4",
-  "generated": "2026-02-02 13:02:21",
+  "generated": "2026-02-02 18:03:10",
   "summary": {
-    "total": 26,
-    "tadComplete": 12,
-    "tsComplete": 10,
-    "bothComplete": 7,
+    "total": 27,
+    "tadComplete": 13,
+    "tsComplete": 11,
+    "bothComplete": 8,
     "missingTad": 14,
     "missingTs": 14,
     "tadNA": 0,
     "tsNA": 2,
-    "tadApplicable": 26,
-    "tsApplicable": 24,
-    "tadPct": 46.15384615384615,
-    "tsPct": 41.66666666666667,
-    "bothPct": 26.923076923076923,
-    "missingTadPct": 53.84615384615385,
-    "missingTsPct": 53.84615384615385,
+    "tadApplicable": 27,
+    "tsApplicable": 25,
+    "tadPct": 48.148148148148145,
+    "tsPct": 44.0,
+    "bothPct": 29.629629629629626,
+    "missingTadPct": 51.85185185185185,
+    "missingTsPct": 51.85185185185185,
     "tadNAPct": 0.0,
-    "tsNAPct": 7.6923076923076925
+    "tsNAPct": 7.4074074074074066
   },
   "defects": {
     "totalDefects": 2,
@@ -27,27 +27,18 @@ window.reportData = {
       "QE Feature Testing": 1
     },
     "teamMatrix": {
-      "T360 Vanguards": {
-        "Production": 0,
-        "QE Feature Testing": 1,
-        "TOTAL": 1
-      },
       "T360 ICD Chubb": {
         "Production": 1,
         "QE Feature Testing": 0,
         "TOTAL": 1
+      },
+      "T360 Vanguards": {
+        "Production": 0,
+        "QE Feature Testing": 1,
+        "TOTAL": 1
       }
     },
     "teamDefectDetails": {
-      "T360 Vanguards": {
-        "Production": [],
-        "QE Feature Testing": [
-          {
-            "key": "GET-4938",
-            "summary": "23.1.1 On pasting Invoice Number from UI to OC Search, the values gets appended with \"empty\" text and a space "
-          }
-        ]
-      },
       "T360 ICD Chubb": {
         "Production": [
           {
@@ -56,6 +47,15 @@ window.reportData = {
           }
         ],
         "QE Feature Testing": []
+      },
+      "T360 Vanguards": {
+        "Production": [],
+        "QE Feature Testing": [
+          {
+            "key": "GET-4938",
+            "summary": "23.1.1 On pasting Invoice Number from UI to OC Search, the values gets appended with \"empty\" text and a space "
+          }
+        ]
       }
     },
     "activityNames": [
@@ -65,19 +65,33 @@ window.reportData = {
   },
   "teams": {
     "Matrix": {
-      "total": 3,
-      "tadComplete": 0,
-      "tsComplete": 0,
-      "bothComplete": 0,
+      "total": 4,
+      "tadComplete": 1,
+      "tsComplete": 1,
+      "bothComplete": 1,
       "tadNA": 0,
       "tsNA": 0,
-      "tadApplicable": 3,
-      "tsApplicable": 3,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
       "missingTad": 3,
       "missingTs": 3,
-      "tadPct": 0.0,
-      "tsPct": 0.0,
+      "tadPct": 25.0,
+      "tsPct": 25.0,
       "issues": [
+        {
+          "key": "GET-68994",
+          "summary": "Implement Comprehensive Job and Workflow Dependency Management for Scheduler API",
+          "type": "Story",
+          "status": "Refined",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
         {
           "key": "GET-67344",
           "summary": "Implement Angular UI and API Support for Viewing Currently Executing Jobs in Scheduler",
@@ -115,6 +129,78 @@ window.reportData = {
           "tadFound": false,
           "tsFound": false,
           "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Mavericks": {
+      "total": 4,
+      "tadComplete": 3,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadNA": 0,
+      "tsNA": 1,
+      "tadApplicable": 4,
+      "tsApplicable": 3,
+      "missingTad": 1,
+      "missingTs": 3,
+      "tadPct": 75.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "GET-65540",
+          "summary": "EmbedFast PP: Identity Server, Branding changes and integration testing",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-59815",
+          "summary": "T360 WCAG Fixes for Accenture Scan - Part 2",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": true,
+          "tsNAComment": "[~d.chandrabose] [~Vaishnavi.Rangamani] - Story description and Acceptance Criteria has been updated as we discussed today over the call.\u00a0\r\n\r\nThis card is ready for TAD and TS to be initiated.\u00a0\r\n\r\ncc:"
+        },
+        {
+          "key": "GET-69119",
+          "summary": "Expose \u2018Get AI Summary\u2019 entry point on Matter view (authorized users only)",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69122",
+          "summary": "Display AI Matter summaries (Overview, Timekeeper, Phase, Quarter) in drawer",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
@@ -387,78 +473,6 @@ window.reportData = {
           "tadFound": false,
           "tsFound": false,
           "totalPrs": 0,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
-    "T360 Mavericks": {
-      "total": 4,
-      "tadComplete": 3,
-      "tsComplete": 0,
-      "bothComplete": 0,
-      "tadNA": 0,
-      "tsNA": 1,
-      "tadApplicable": 4,
-      "tsApplicable": 3,
-      "missingTad": 1,
-      "missingTs": 3,
-      "tadPct": 75.0,
-      "tsPct": 0.0,
-      "issues": [
-        {
-          "key": "GET-65540",
-          "summary": "EmbedFast PP: Identity Server, Branding changes and integration testing",
-          "type": "Story",
-          "status": "Re-finement",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-59815",
-          "summary": "T360 WCAG Fixes for Accenture Scan - Part 2",
-          "type": "Story",
-          "status": "Re-finement",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": true,
-          "tsNAComment": "[~d.chandrabose] [~Vaishnavi.Rangamani] - Story description and Acceptance Criteria has been updated as we discussed today over the call.\u00a0\r\n\r\nThis card is ready for TAD and TS to be initiated.\u00a0\r\n\r\ncc:"
-        },
-        {
-          "key": "GET-69122",
-          "summary": "Display AI Matter summaries (Overview, Timekeeper, Phase, Quarter) in drawer",
-          "type": "Story",
-          "status": "Re-finement",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-69119",
-          "summary": "Expose \u2018Get AI Summary\u2019 entry point on Matter view (authorized users only)",
-          "type": "Story",
-          "status": "Re-finement",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 1,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

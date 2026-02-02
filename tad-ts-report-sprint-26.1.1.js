@@ -1,122 +1,93 @@
 window.reportData = {
   "dateRange": "Sprint 26.1.1",
-  "generated": "2026-02-02 19:32:06",
+  "generated": "2026-02-02 20:20:24",
   "summary": {
-    "total": 24,
+    "total": 23,
     "tadComplete": 21,
     "tsComplete": 19,
     "bothComplete": 19,
-    "missingTad": 1,
-    "missingTs": 1,
+    "missingTad": 0,
+    "missingTs": 0,
     "tadNA": 2,
     "tsNA": 4,
-    "tadApplicable": 22,
-    "tsApplicable": 20,
-    "tadPct": 95.45454545454545,
-    "tsPct": 95.0,
-    "bothPct": 79.16666666666666,
-    "missingTadPct": 4.166666666666666,
-    "missingTsPct": 4.166666666666666,
-    "tadNAPct": 8.333333333333332,
-    "tsNAPct": 16.666666666666664
+    "tadApplicable": 21,
+    "tsApplicable": 19,
+    "tadPct": 100.0,
+    "tsPct": 100.0,
+    "bothPct": 82.6086956521739,
+    "missingTadPct": 0.0,
+    "missingTsPct": 0.0,
+    "tadNAPct": 8.695652173913043,
+    "tsNAPct": 17.391304347826086
   },
   "defects": {
     "totalDefects": 17,
     "activities": {
-      "QE Feature Testing": 12,
-      "QE Regression Testing": 1,
-      "Not Set": 1,
-      "User Acceptance Testing": 1,
+      "QE Feature Testing": 13,
       "Vulnerability Testing": 1,
+      "QE Regression Testing": 1,
+      "User Acceptance Testing": 1,
       "Production": 1
     },
     "teamMatrix": {
       "T360 Vanguards": {
-        "QE Feature Testing": 4,
-        "QE Regression Testing": 0,
-        "Not Set": 1,
-        "User Acceptance Testing": 0,
+        "QE Feature Testing": 5,
         "Vulnerability Testing": 0,
+        "QE Regression Testing": 0,
+        "User Acceptance Testing": 0,
         "Production": 0,
         "TOTAL": 5
       },
       "Athena": {
         "QE Feature Testing": 3,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
         "Vulnerability Testing": 0,
+        "QE Regression Testing": 0,
+        "User Acceptance Testing": 0,
         "Production": 0,
         "TOTAL": 3
       },
       "Nexus": {
         "QE Feature Testing": 1,
+        "Vulnerability Testing": 0,
         "QE Regression Testing": 0,
-        "Not Set": 0,
         "User Acceptance Testing": 1,
-        "Vulnerability Testing": 0,
-        "Production": 0,
-        "TOTAL": 2
-      },
-      "T360 Chargers": {
-        "QE Feature Testing": 2,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
-        "Vulnerability Testing": 0,
         "Production": 0,
         "TOTAL": 2
       },
       "T360 ICD Chubb": {
         "QE Feature Testing": 0,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
         "Vulnerability Testing": 1,
+        "QE Regression Testing": 0,
+        "User Acceptance Testing": 0,
         "Production": 1,
+        "TOTAL": 2
+      },
+      "T360 Chargers": {
+        "QE Feature Testing": 2,
+        "Vulnerability Testing": 0,
+        "QE Regression Testing": 0,
+        "User Acceptance Testing": 0,
+        "Production": 0,
         "TOTAL": 2
       },
       "Matrix": {
         "QE Feature Testing": 2,
-        "QE Regression Testing": 0,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
         "Vulnerability Testing": 0,
+        "QE Regression Testing": 0,
+        "User Acceptance Testing": 0,
         "Production": 0,
         "TOTAL": 2
       },
       "T360 Mavericks": {
         "QE Feature Testing": 0,
-        "QE Regression Testing": 1,
-        "Not Set": 0,
-        "User Acceptance Testing": 0,
         "Vulnerability Testing": 0,
+        "QE Regression Testing": 1,
+        "User Acceptance Testing": 0,
         "Production": 0,
         "TOTAL": 1
       }
     },
     "teamDefectDetails": {
-      "Athena": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-67371",
-            "summary": "Edit Model button is accessible for the Admin user even though the environment variable is not set"
-          },
-          {
-            "key": "GET-67523",
-            "summary": "Embedfast Bulk Assignment page - UI Issues"
-          },
-          {
-            "key": "GET-67481",
-            "summary": "Invoice Analytical Model Validation Mismatches after the recent changes"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
-        "Production": []
-      },
       "Nexus": {
         "QE Feature Testing": [
           {
@@ -124,16 +95,32 @@ window.reportData = {
             "summary": "[Legal Collaborator] Case assessment is created where the law firm doesn't have Billing Administration/Case Assessment Manager Role"
           }
         ],
+        "Vulnerability Testing": [],
         "QE Regression Testing": [],
-        "Not Set": [],
         "User Acceptance Testing": [
           {
             "key": "GET-3928",
             "summary": "TEC-301935 - CNA High Priority: Performance: Invoice Search Page Processed - Search Slowness"
           }
         ],
-        "Vulnerability Testing": [],
         "Production": []
+      },
+      "T360 ICD Chubb": {
+        "QE Feature Testing": [],
+        "Vulnerability Testing": [
+          {
+            "key": "GET-67542",
+            "summary": "Spinning Cursor Prevents User Interaction"
+          }
+        ],
+        "QE Regression Testing": [],
+        "User Acceptance Testing": [],
+        "Production": [
+          {
+            "key": "GET-22095",
+            "summary": "TEC-369708: Chubb Group Claims: ITP rule not working correctly in prod"
+          }
+        ]
       },
       "T360 Chargers": {
         "QE Feature Testing": [
@@ -146,71 +133,37 @@ window.reportData = {
             "summary": "OC Document checkin and discard check out error page displayed"
           }
         ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [],
         "Vulnerability Testing": [],
+        "QE Regression Testing": [],
+        "User Acceptance Testing": [],
         "Production": []
       },
       "T360 Vanguards": {
         "QE Feature Testing": [
           {
+            "key": "GET-67494",
+            "summary": "Citation styling in AI summary does not match Figma design"
+          },
+          {
             "key": "GET-67500",
             "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
           },
           {
-            "key": "GET-67494",
-            "summary": "Citation styling in AI summary does not match Figma design"
+            "key": "GET-67493",
+            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
           },
           {
             "key": "GET-66142",
             "summary": "Password input does not accept Space and Emoji characters, violating Unicode compliance requirements"
           },
           {
-            "key": "GET-67493",
-            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Not Set": [
-          {
             "key": "GET-68012",
             "summary": "Getting 401 Unauthorized Response Code While Executing Canonical Endpoints"
           }
         ],
-        "User Acceptance Testing": [],
         "Vulnerability Testing": [],
-        "Production": []
-      },
-      "T360 ICD Chubb": {
-        "QE Feature Testing": [],
         "QE Regression Testing": [],
-        "Not Set": [],
         "User Acceptance Testing": [],
-        "Vulnerability Testing": [
-          {
-            "key": "GET-67542",
-            "summary": "Spinning Cursor Prevents User Interaction"
-          }
-        ],
-        "Production": [
-          {
-            "key": "GET-22095",
-            "summary": "TEC-369708: Chubb Group Claims: ITP rule not working correctly in prod"
-          }
-        ]
-      },
-      "T360 Mavericks": {
-        "QE Feature Testing": [],
-        "QE Regression Testing": [
-          {
-            "key": "GET-61996",
-            "summary": "[UAT/TST] The spinner keeps on loading while searching with multiple special symbols in the query"
-          }
-        ],
-        "Not Set": [],
-        "User Acceptance Testing": [],
-        "Vulnerability Testing": [],
         "Production": []
       },
       "Matrix": {
@@ -224,19 +177,49 @@ window.reportData = {
             "summary": "Job Scheduler Submenu Not Visible for Non\u2013System Admin ASP Company User"
           }
         ],
-        "QE Regression Testing": [],
-        "Not Set": [],
-        "User Acceptance Testing": [],
         "Vulnerability Testing": [],
+        "QE Regression Testing": [],
+        "User Acceptance Testing": [],
+        "Production": []
+      },
+      "T360 Mavericks": {
+        "QE Feature Testing": [],
+        "Vulnerability Testing": [],
+        "QE Regression Testing": [
+          {
+            "key": "GET-61996",
+            "summary": "[UAT/TST] The spinner keeps on loading while searching with multiple special symbols in the query"
+          }
+        ],
+        "User Acceptance Testing": [],
+        "Production": []
+      },
+      "Athena": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-67481",
+            "summary": "Invoice Analytical Model Validation Mismatches after the recent changes"
+          },
+          {
+            "key": "GET-67371",
+            "summary": "Edit Model button is accessible for the Admin user even though the environment variable is not set"
+          },
+          {
+            "key": "GET-67523",
+            "summary": "Embedfast Bulk Assignment page - UI Issues"
+          }
+        ],
+        "Vulnerability Testing": [],
+        "QE Regression Testing": [],
+        "User Acceptance Testing": [],
         "Production": []
       }
     },
     "activityNames": [
       "QE Feature Testing",
-      "QE Regression Testing",
-      "Not Set",
-      "User Acceptance Testing",
       "Vulnerability Testing",
+      "QE Regression Testing",
+      "User Acceptance Testing",
       "Production"
     ]
   },
@@ -328,18 +311,18 @@ window.reportData = {
       ]
     },
     "T360 Vanguards": {
-      "total": 5,
+      "total": 4,
       "tadComplete": 4,
       "tsComplete": 4,
       "bothComplete": 4,
       "tadNA": 0,
       "tsNA": 0,
-      "tadApplicable": 5,
-      "tsApplicable": 5,
-      "missingTad": 1,
-      "missingTs": 1,
-      "tadPct": 80.0,
-      "tsPct": 80.0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
       "issues": [
         {
           "key": "GET-64675",
@@ -364,20 +347,6 @@ window.reportData = {
           "tadFound": true,
           "tsFound": true,
           "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-68012",
-          "summary": "Getting 401 Unauthorized Response Code While Executing Canonical Endpoints",
-          "type": "Bug",
-          "status": "Closed",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

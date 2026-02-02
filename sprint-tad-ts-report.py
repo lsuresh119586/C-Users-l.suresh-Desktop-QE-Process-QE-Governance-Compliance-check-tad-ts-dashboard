@@ -108,10 +108,16 @@ def get_sprint_issues_by_jql(session, from_date=None, to_date=None, sprint_name=
             "jql": jql,
             "startAt": start_at,
             "maxResults": max_results,
-            "fields": ["*all"]
+            "fields": [
+                "key", "summary", "description", "issuetype", "status", "assignee",
+                "customfield_13392",  # Team
+                "customfield_14391",  # Safe-SDLC Activity
+                "customfield_10004", "sprint",  # Sprint fields
+                "issuelinks"
+            ]
         }
         
-        response = session.post(url, json=payload)
+        response = session.post(url, json=payload, timeout=300)  # 5 minute timeout
         
         if not response.ok:
             print(f"❌ Error fetching issues: {response.status_code}")

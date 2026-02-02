@@ -10,4 +10,4 @@ sprint_tad_ts_report_*.csv
 sprint_tad_ts_report_*.md
 team_reports_sprint_*.md
 team-compliance-report_*.csv
-*.py
+# Removed *.py to allow Python scripts to be tracked

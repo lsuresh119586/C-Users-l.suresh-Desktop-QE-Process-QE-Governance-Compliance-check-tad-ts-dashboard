@@ -769,18 +769,30 @@ notAutomatedTotal = data.totals.total - data.totals.automated;
         async function loadReportData() {
             const loadingOverlay = document.getElementById('loadingOverlay');
             loadingOverlay.classList.add('active');
+            console.log('>>> loadReportData() START - loading overlay shown');
             
             // Fetch fresh data with cache-busting to ensure latest defects are loaded
             try {
-                const response = await fetch(`tad-ts-report-data.json?t=${Date.now()}`);
+                const url = `tad-ts-report-data.json?t=${Date.now()}`;
+                console.log('>>> Fetching from:', url);
+                const response = await fetch(url);
+                console.log('>>> Fetch response status:', response.status, response.ok);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}`);
+                }
+                
                 window.reportData = await response.json();
+                console.log('>>> Data loaded successfully, calling updateDashboard()');
                 updateDashboard();
+                console.log('>>> updateDashboard() completed');
             } catch (error) {
-                console.error('Error loading report data:', error);
+                console.error('>>> ERROR loading report data:', error);
                 document.getElementById('teamsContainer').innerHTML = 
-                    '<p style="color: #ef4444;">Error loading report data. Please generate a report first by running: py sprint-tad-ts-report.py 2025-12-01 2025-12-03</p>';
+                    '<p style="color: #ef4444;">Error loading report data: ' + error.message + '</p>';
             } finally {
                 loadingOverlay.classList.remove('active');
+                console.log('>>> loadReportData() END - loading overlay hidden');
             }
         }
 
@@ -1461,9 +1473,11 @@ notAutomatedTotal = data.totals.total - data.totals.automated;
         }
 
         // Load data on page load
+        console.log('Page loaded, calling loadReportData()...');
         loadReportData();
         
         // Load initial test case data for Sprint 26.1.1
+        console.log('Loading initial qTest data...');
         loadTestCaseData('26.1.1').then(data => {
             if (data) {
                 console.log('Initial qTest data loaded');

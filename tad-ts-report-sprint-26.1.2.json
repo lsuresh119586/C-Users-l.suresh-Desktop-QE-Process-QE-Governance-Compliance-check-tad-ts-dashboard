@@ -1,88 +1,147 @@
 {
   "dateRange": "Sprint 26.1.2",
-  "generated": "2026-01-20 18:44:14",
+  "generated": "2026-02-02 11:52:05",
   "summary": {
-    "total": 22,
+    "total": 24,
     "tadComplete": 17,
-    "tsComplete": 16,
+    "tsComplete": 18,
     "bothComplete": 16,
-    "missingTad": 0,
-    "missingTs": 1,
+    "missingTad": 2,
+    "missingTs": 3,
     "tadNA": 5,
-    "tsNA": 5,
-    "tadApplicable": 17,
-    "tsApplicable": 17,
-    "tadPct": 100.0,
-    "tsPct": 94.11764705882352,
-    "bothPct": 72.72727272727273,
-    "missingTadPct": 0.0,
-    "missingTsPct": 4.545454545454546,
-    "tadNAPct": 22.727272727272727,
-    "tsNAPct": 22.727272727272727
+    "tsNA": 3,
+    "tadApplicable": 19,
+    "tsApplicable": 21,
+    "tadPct": 89.47368421052632,
+    "tsPct": 85.71428571428571,
+    "bothPct": 66.66666666666666,
+    "missingTadPct": 8.333333333333332,
+    "missingTsPct": 12.5,
+    "tadNAPct": 20.833333333333336,
+    "tsNAPct": 12.5
   },
   "defects": {
-    "totalDefects": 9,
+    "totalDefects": 30,
     "activities": {
-      "QE Feature Testing": 5,
+      "QE Feature Testing": 21,
+      "QE Integration Testing": 2,
       "QE Performance Testing": 2,
-      "QE Regression Testing": 0,
+      "QE Regression Testing": 1,
+      "Smoke Test": 1,
+      "Production": 1,
       "Deployment Verification": 1,
-      "QE Integration Testing": 0,
-      "Production": 1
+      "Not Set": 1
     },
     "teamMatrix": {
-      "Nexus": {
-        "QE Feature Testing": 0,
-        "QE Performance Testing": 1,
-        "QE Regression Testing": 0,
-        "Deployment Verification": 1,
-        "QE Integration Testing": 0,
-        "Production": 1,
-        "TOTAL": 3
-      },
       "T360 Vanguards": {
-        "QE Feature Testing": 3,
+        "QE Feature Testing": 9,
+        "QE Integration Testing": 1,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
-        "Deployment Verification": 0,
-        "QE Integration Testing": 0,
+        "Smoke Test": 0,
         "Production": 0,
-        "TOTAL": 3
+        "Deployment Verification": 0,
+        "Not Set": 1,
+        "TOTAL": 11
+      },
+      "Nexus": {
+        "QE Feature Testing": 2,
+        "QE Integration Testing": 1,
+        "QE Performance Testing": 1,
+        "QE Regression Testing": 1,
+        "Smoke Test": 0,
+        "Production": 1,
+        "Deployment Verification": 1,
+        "Not Set": 0,
+        "TOTAL": 7
+      },
+      "Matrix": {
+        "QE Feature Testing": 6,
+        "QE Integration Testing": 0,
+        "QE Performance Testing": 0,
+        "QE Regression Testing": 0,
+        "Smoke Test": 0,
+        "Production": 0,
+        "Deployment Verification": 0,
+        "Not Set": 0,
+        "TOTAL": 6
       },
       "T360 Mavericks": {
-        "QE Feature Testing": 2,
+        "QE Feature Testing": 3,
+        "QE Integration Testing": 0,
         "QE Performance Testing": 1,
         "QE Regression Testing": 0,
-        "Deployment Verification": 0,
-        "QE Integration Testing": 0,
+        "Smoke Test": 0,
         "Production": 0,
-        "TOTAL": 3
+        "Deployment Verification": 0,
+        "Not Set": 0,
+        "TOTAL": 4
+      },
+      "T360 Chargers": {
+        "QE Feature Testing": 0,
+        "QE Integration Testing": 0,
+        "QE Performance Testing": 0,
+        "QE Regression Testing": 0,
+        "Smoke Test": 1,
+        "Production": 0,
+        "Deployment Verification": 0,
+        "Not Set": 0,
+        "TOTAL": 1
+      },
+      "Athena": {
+        "QE Feature Testing": 1,
+        "QE Integration Testing": 0,
+        "QE Performance Testing": 0,
+        "QE Regression Testing": 0,
+        "Smoke Test": 0,
+        "Production": 0,
+        "Deployment Verification": 0,
+        "Not Set": 0,
+        "TOTAL": 1
       }
     },
     "teamDefectDetails": {
-      "T360 Vanguards": {
+      "Matrix": {
         "QE Feature Testing": [
           {
-            "key": "GET-67494",
-            "summary": "Citation styling in AI summary does not match Figma design"
+            "key": "GET-69157",
+            "summary": "Pagination label displays incorrectly and global search filters only Title instead of all grid columns on Job Scheduler page"
           },
           {
-            "key": "GET-67493",
-            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
+            "key": "GET-69176",
+            "summary": "Schedule instance is not created for the Job"
           },
           {
-            "key": "GET-67500",
-            "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
+            "key": "GET-69791",
+            "summary": "Schedule (resubmission) having incorrect pattern of database entry"
+          },
+          {
+            "key": "GET-69151",
+            "summary": "Folder path in Database is incorrect"
+          },
+          {
+            "key": "GET-69152",
+            "summary": "Getting 500 error while delete the job"
+          },
+          {
+            "key": "GET-69116",
+            "summary": "Agent with Empty Name is allowed"
           }
         ],
+        "QE Integration Testing": [],
         "QE Performance Testing": [],
         "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
         "Deployment Verification": [],
-        "QE Integration Testing": [],
-        "Production": []
+        "Not Set": []
       },
       "T360 Mavericks": {
         "QE Feature Testing": [
+          {
+            "key": "GET-69153",
+            "summary": "AI Console: Error Validation Message appears only for 3 second in the Add/Edit client page"
+          },
           {
             "key": "GET-22600",
             "summary": "The AFA amount isn't properly adjusted when an ITP adjustment is applied to the invoice."
@@ -92,6 +151,7 @@
             "summary": "User is able to set same time period on editing an AFA."
           }
         ],
+        "QE Integration Testing": [],
         "QE Performance Testing": [
           {
             "key": "GET-63004",
@@ -99,116 +159,155 @@
           }
         ],
         "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
         "Deployment Verification": [],
+        "Not Set": []
+      },
+      "T360 Chargers": {
+        "QE Feature Testing": [],
         "QE Integration Testing": [],
-        "Production": []
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Smoke Test": [
+          {
+            "key": "GET-69158",
+            "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document"
+          }
+        ],
+        "Production": [],
+        "Deployment Verification": [],
+        "Not Set": []
+      },
+      "Athena": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-68985",
+            "summary": "Embedfast Redirect URL - Data mismatch in API Response"
+          }
+        ],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
+        "Deployment Verification": [],
+        "Not Set": []
       },
       "Nexus": {
-        "QE Feature Testing": [],
+        "QE Feature Testing": [
+          {
+            "key": "GET-69194",
+            "summary": "Unable to add specific panel company to the matter where the panel is set of \"IS CA\" column enable."
+          },
+          {
+            "key": "GET-69286",
+            "summary": "Status is not changing while cancel the active CA"
+          }
+        ],
+        "QE Integration Testing": [
+          {
+            "key": "GET-68812",
+            "summary": "LegalCollaborator: Case Assessment is not created while adding lawfirm company to the matter in UAT"
+          }
+        ],
         "QE Performance Testing": [
           {
             "key": "GET-60909",
             "summary": "Performance - Degradation observed while clicking on Search All Invoices Beta page, and last page of pagination"
           }
         ],
-        "QE Regression Testing": [],
+        "QE Regression Testing": [
+          {
+            "key": "GET-67821",
+            "summary": "Visa Row Level Security: Ensure member groups apply the permissions appropriately"
+          }
+        ],
+        "Smoke Test": [],
+        "Production": [
+          {
+            "key": "GET-44294",
+            "summary": "   TEC-419925: New UI: Export to Excel does not work on the Select Budget Template page "
+          }
+        ],
         "Deployment Verification": [
           {
             "key": "GET-67227",
             "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New"
           }
         ],
-        "QE Integration Testing": [],
-        "Production": [
+        "Not Set": []
+      },
+      "T360 Vanguards": {
+        "QE Feature Testing": [
           {
-            "key": "GET-44294",
-            "summary": "   TEC-419925: New UI: Export to Excel does not work on the Select Budget Template page "
+            "key": "GET-67494",
+            "summary": "Citation styling in AI summary does not match Figma design"
+          },
+          {
+            "key": "GET-67500",
+            "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
+          },
+          {
+            "key": "GET-67493",
+            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
+          },
+          {
+            "key": "GET-69111",
+            "summary": "In TST Clicking an invoice ID in the citation opens a page with a server error instead of showing invoice summary"
+          },
+          {
+            "key": "GET-69100",
+            "summary": "System ID is missing in the citation panel, and the close button does not have the blue background color as specified in the Figma design."
+          },
+          {
+            "key": "GET-69103",
+            "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
+          },
+          {
+            "key": "GET-69193",
+            "summary": "Line items display unique IDs instead of sequential numbers (e.g., \u201cLine 33\u201d, \u201cLine 34\u201d, \u2026) as shown in the Figma design."
+          },
+          {
+            "key": "GET-69121",
+            "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
+          },
+          {
+            "key": "GET-69196",
+            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+          }
+        ],
+        "QE Integration Testing": [
+          {
+            "key": "GET-69024",
+            "summary": "Negative currency amounts display with incorrect formatting ($-1016.00 instead of -$1016.00)"
+          }
+        ],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
+        "Deployment Verification": [],
+        "Not Set": [
+          {
+            "key": "GET-69225",
+            "summary": "Invoice line item focus not displayed when invoice contains a large number of line items"
           }
         ]
       }
     },
     "activityNames": [
       "QE Feature Testing",
+      "QE Integration Testing",
       "QE Performance Testing",
       "QE Regression Testing",
+      "Smoke Test",
+      "Production",
       "Deployment Verification",
-      "QE Integration Testing",
-      "Production"
+      "Not Set"
     ]
   },
   "teams": {
-    "Nexus": {
-      "total": 4,
-      "tadComplete": 4,
-      "tsComplete": 4,
-      "bothComplete": 4,
-      "tadNA": 0,
-      "tsNA": 0,
-      "tadApplicable": 4,
-      "tsApplicable": 4,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
-        {
-          "key": "GET-61103",
-          "summary": "LC part 1: Correct Token Claims and Session Handling for Network Admin Role Assignment and Passport Demo Readiness",
-          "type": "Story",
-          "status": "To Verify",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-44294",
-          "summary": "   TEC-419925: New UI: Export to Excel does not work on the Select Budget Template page ",
-          "type": "Bug",
-          "status": "To Verify",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-67227",
-          "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New",
-          "type": "Bug",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 3,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-60909",
-          "summary": "Performance - Degradation observed while clicking on Search All Invoices Beta page, and last page of pagination",
-          "type": "Bug",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 5,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        }
-      ]
-    },
     "Matrix": {
       "total": 3,
       "tadComplete": 3,
@@ -224,28 +323,28 @@
       "tsPct": 100.0,
       "issues": [
         {
-          "key": "GET-66035",
-          "summary": " Implement Angular Scheduler List Component with Delete and Trigger Actions",
+          "key": "GET-66038",
+          "summary": "Enable Full CRUD Support in T360.Scheduler.API ",
           "type": "Story",
-          "status": "In Progress",
+          "status": "To Verify",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 3,
+          "totalPrs": 13,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
         },
         {
-          "key": "GET-66038",
-          "summary": "Enable Full CRUD Support in T360.Scheduler.API ",
+          "key": "GET-66035",
+          "summary": " Implement Angular Scheduler List Component with Delete and Trigger Actions",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 3,
+          "totalPrs": 11,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
@@ -255,11 +354,155 @@
           "key": "GET-66112",
           "summary": "Enable Seamless SSO from T360 to Scheduler Angular ",
           "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 10,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Mavericks": {
+      "total": 2,
+      "tadComplete": 2,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 2,
+      "tsApplicable": 2,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-57743",
+          "summary": "AI Console: UI Updates",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63004",
+          "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters",
+          "type": "Bug",
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 3,
+          "totalPrs": 11,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Vanguards": {
+      "total": 6,
+      "tadComplete": 5,
+      "tsComplete": 5,
+      "bothComplete": 5,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 6,
+      "tsApplicable": 6,
+      "missingTad": 1,
+      "missingTs": 1,
+      "tadPct": 83.33333333333334,
+      "tsPct": 83.33333333333334,
+      "issues": [
+        {
+          "key": "GET-62669",
+          "summary": "Invoice AI - Clicking the Invoice& Line Item ID",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64554",
+          "summary": "Invoice AI - Citations - Focus on Line Items ",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64675",
+          "summary": "Citations - Transform Payload Citations into Numbered References",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 10,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69225",
+          "summary": "Invoice line item focus not displayed when invoice contains a large number of line items",
+          "type": "Bug",
+          "status": "New",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64705",
+          "summary": "Invoice AI - Payloads (Budgets & Adjustments)- AI Console & BFF",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64677",
+          "summary": "Citations - Convert Citations to Interactive Links with Line Item Reference Panel",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
@@ -282,24 +525,10 @@
       "tsPct": 66.66666666666666,
       "issues": [
         {
-          "key": "GET-63651",
-          "summary": "Claim Authority Bypass Logic at Approval (Popup Suppression)",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": false,
-          "totalPrs": 2,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
           "key": "GET-62628",
           "summary": "Restrict Lead Timekeeper Rates if greater than $0 - Service",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -313,10 +542,24 @@
           "key": "GET-62062",
           "summary": "Enable Re-scoring of Predictive Insights for Awaiting Send / Sent to AI Scored Matters",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
+          "totalPrs": 3,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63651",
+          "summary": "Claim Authority Bypass Logic at Approval (Popup Suppression)",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
           "totalPrs": 3,
           "tadNA": false,
           "tadNAComment": null,
@@ -326,58 +569,30 @@
       ]
     },
     "T360 Chargers": {
-      "total": 5,
+      "total": 6,
       "tadComplete": 0,
-      "tsComplete": 0,
+      "tsComplete": 2,
       "bothComplete": 0,
       "tadNA": 5,
-      "tsNA": 5,
-      "tadApplicable": 0,
-      "tsApplicable": 0,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 0,
-      "tsPct": 0,
+      "tsNA": 3,
+      "tadApplicable": 1,
+      "tsApplicable": 3,
+      "missingTad": 1,
+      "missingTs": 1,
+      "tadPct": 0.0,
+      "tsPct": 66.66666666666666,
       "issues": [
-        {
-          "key": "GET-68394",
-          "summary": "[T360 Modernization]EventSourcing Template Enhancement",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 1,
-          "tadNA": true,
-          "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": true,
-          "tsNAComment": "Test Strategy N/A because TAD is N/A"
-        },
         {
           "key": "GET-65982",
           "summary": "[T360 Modernization] UUID: E100F100: DDD Template Alignment",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": false,
           "tsFound": false,
-          "totalPrs": 1,
+          "totalPrs": 3,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, this does not require TAD and TS.",
-          "tsNA": true,
-          "tsNAComment": "Test Strategy N/A because TAD is N/A"
-        },
-        {
-          "key": "GET-68392",
-          "summary": "[T360 Modernization]BFF Template Enhancement",
-          "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
-          "tadNA": true,
-          "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
           "tsNA": true,
           "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
@@ -385,11 +600,11 @@
           "key": "GET-65988",
           "summary": "[T360 Modernization] UUID: E100F102 - MinimalApi Template Enhancement",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": false,
           "tsFound": false,
-          "totalPrs": 0,
+          "totalPrs": 2,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, this does not require TAD and TS.",
           "tsNA": true,
@@ -399,123 +614,107 @@
           "key": "GET-65984",
           "summary": "[T360 Modernization] UUID: E100F103 - Web API",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": false,
           "tsFound": false,
-          "totalPrs": 1,
+          "totalPrs": 2,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, this does not require TAD and TS.",
           "tsNA": true,
           "tsNAComment": "Test Strategy N/A because TAD is N/A"
-        }
-      ]
-    },
-    "T360 Mavericks": {
-      "total": 2,
-      "tadComplete": 2,
-      "tsComplete": 2,
-      "bothComplete": 2,
-      "tadNA": 0,
-      "tsNA": 0,
-      "tadApplicable": 2,
-      "tsApplicable": 2,
-      "missingTad": 0,
-      "missingTs": 0,
-      "tadPct": 100.0,
-      "tsPct": 100.0,
-      "issues": [
+        },
         {
-          "key": "GET-57743",
-          "summary": "AI Console: UI Updates",
+          "key": "GET-68392",
+          "summary": "[T360 Modernization]BFF Template Enhancement",
           "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
-          "tadFound": true,
+          "tadFound": false,
           "tsFound": true,
+          "totalPrs": 0,
+          "tadNA": true,
+          "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-68394",
+          "summary": "[T360 Modernization]EventSourcing Template Enhancement",
+          "type": "Story",
+          "status": "Closed",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": true,
+          "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69158",
+          "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document",
+          "type": "Bug",
+          "status": "Resolved",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
           "totalPrs": 2,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
-        },
-        {
-          "key": "GET-63004",
-          "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters",
-          "type": "Bug",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 8,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
         }
       ]
     },
-    "T360 Vanguards": {
-      "total": 5,
-      "tadComplete": 5,
-      "tsComplete": 5,
-      "bothComplete": 5,
+    "Nexus": {
+      "total": 4,
+      "tadComplete": 4,
+      "tsComplete": 4,
+      "bothComplete": 4,
       "tadNA": 0,
       "tsNA": 0,
-      "tadApplicable": 5,
-      "tsApplicable": 5,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
       "missingTad": 0,
       "missingTs": 0,
       "tadPct": 100.0,
       "tsPct": 100.0,
       "issues": [
         {
-          "key": "GET-64677",
-          "summary": "Citations - Convert Citations to Interactive Links with Line Item Reference Panel",
-          "type": "Story",
-          "status": "To Verify",
+          "key": "GET-60909",
+          "summary": "Performance - Degradation observed while clicking on Search All Invoices Beta page, and last page of pagination",
+          "type": "Bug",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 4,
+          "totalPrs": 6,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
         },
         {
-          "key": "GET-64675",
-          "summary": "Citations - Transform Payload Citations into Numbered References",
-          "type": "Story",
-          "status": "To Verify",
+          "key": "GET-67227",
+          "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New",
+          "type": "Bug",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 10,
+          "totalPrs": 7,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,
           "tsNAComment": null
         },
         {
-          "key": "GET-64554",
-          "summary": "Invoice AI - Citations - Focus on Line Items ",
+          "key": "GET-61103",
+          "summary": "LC part 1: Correct Token Claims and Session Handling for Network Admin Role Assignment and Passport Demo Readiness",
           "type": "Story",
-          "status": "In Progress",
-          "sprint": "No Sprint",
-          "tadFound": true,
-          "tsFound": true,
-          "totalPrs": 4,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-62669",
-          "summary": "Invoice AI - Clicking the Invoice& Line Item ID",
-          "type": "Story",
-          "status": "In Progress",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
@@ -526,14 +725,14 @@
           "tsNAComment": null
         },
         {
-          "key": "GET-64705",
-          "summary": "Invoice AI - Payloads (Budgets & Adjustments)- AI Console & BFF",
-          "type": "Story",
-          "status": "In Progress",
+          "key": "GET-44294",
+          "summary": "   TEC-419925: New UI: Export to Excel does not work on the Select Budget Template page ",
+          "type": "Bug",
+          "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": true,
           "tsFound": true,
-          "totalPrs": 3,
+          "totalPrs": 4,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

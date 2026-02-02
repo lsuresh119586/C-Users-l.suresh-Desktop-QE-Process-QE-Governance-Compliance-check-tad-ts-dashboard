@@ -1,0 +1,92 @@
+window.reportData = {
+  "dateRange": "2026-02-01 to 2026-02-02",
+  "generated": "2026-02-02 11:49:32",
+  "summary": {
+    "total": 2,
+    "tadComplete": 2,
+    "tsComplete": 2,
+    "bothComplete": 2,
+    "missingTad": 0,
+    "missingTs": 0,
+    "tadNA": 0,
+    "tsNA": 0,
+    "tadApplicable": 2,
+    "tsApplicable": 2,
+    "tadPct": 100.0,
+    "tsPct": 100.0,
+    "bothPct": 100.0,
+    "missingTadPct": 0.0,
+    "missingTsPct": 0.0,
+    "tadNAPct": 0.0,
+    "tsNAPct": 0.0
+  },
+  "defects": {
+    "totalDefects": 0,
+    "activities": {},
+    "teamMatrix": {},
+    "teamDefectDetails": {},
+    "activityNames": []
+  },
+  "teams": {
+    "T360 Mavericks": {
+      "total": 1,
+      "tadComplete": 1,
+      "tsComplete": 1,
+      "bothComplete": 1,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 1,
+      "tsApplicable": 1,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-65516",
+          "summary": "Implement End-to-End Token-Based Authentication via T360 for EmbedFAST",
+          "type": "Story",
+          "status": "Refined",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "Matrix": {
+      "total": 1,
+      "tadComplete": 1,
+      "tsComplete": 1,
+      "bothComplete": 1,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 1,
+      "tsApplicable": 1,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-66038",
+          "summary": "Enable Full CRUD Support in T360.Scheduler.API ",
+          "type": "Story",
+          "status": "To Verify",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 13,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    }
+  }
+};

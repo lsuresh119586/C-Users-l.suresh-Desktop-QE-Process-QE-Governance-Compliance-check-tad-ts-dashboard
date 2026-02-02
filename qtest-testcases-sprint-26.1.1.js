@@ -310,7 +310,7 @@ window.qtestData_26_1_1 = {
           "qtest_id": 137916990,
           "name": "Verify AI Assistant Label Browser Compatibility and Zoom Level Responsiveness",
           "automated": true,
-          "has_attachment": false
+          "has_attachment": true
         },
         {
           "id": "TC-25965",

@@ -575,8 +575,8 @@ window.reportData = {
           "totalPrs": 2,
           "tadNA": false,
           "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "TS ARE NOT REQUIRED"
         },
         {
           "key": "GET-64548",
@@ -589,8 +589,8 @@ window.reportData = {
           "totalPrs": 1,
           "tadNA": false,
           "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "TS ARE NOT REQUIRED"
         },
         {
           "key": "GET-66026",

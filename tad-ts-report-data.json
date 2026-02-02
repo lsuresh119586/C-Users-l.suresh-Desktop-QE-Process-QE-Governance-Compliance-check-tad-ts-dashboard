@@ -1,47 +1,45 @@
 {
   "dateRange": "Sprint 26.1.2",
-  "generated": "2026-02-02 11:52:05",
+  "generated": "2026-02-02 13:09:13",
   "summary": {
-    "total": 24,
+    "total": 23,
     "tadComplete": 17,
     "tsComplete": 18,
     "bothComplete": 16,
-    "missingTad": 2,
-    "missingTs": 3,
+    "missingTad": 1,
+    "missingTs": 2,
     "tadNA": 5,
     "tsNA": 3,
-    "tadApplicable": 19,
-    "tsApplicable": 21,
-    "tadPct": 89.47368421052632,
-    "tsPct": 85.71428571428571,
-    "bothPct": 66.66666666666666,
-    "missingTadPct": 8.333333333333332,
-    "missingTsPct": 12.5,
-    "tadNAPct": 20.833333333333336,
-    "tsNAPct": 12.5
+    "tadApplicable": 18,
+    "tsApplicable": 20,
+    "tadPct": 94.44444444444444,
+    "tsPct": 90.0,
+    "bothPct": 69.56521739130434,
+    "missingTadPct": 4.3478260869565215,
+    "missingTsPct": 8.695652173913043,
+    "tadNAPct": 21.73913043478261,
+    "tsNAPct": 13.043478260869565
   },
   "defects": {
     "totalDefects": 30,
     "activities": {
-      "QE Feature Testing": 21,
+      "QE Feature Testing": 22,
       "QE Integration Testing": 2,
       "QE Performance Testing": 2,
       "QE Regression Testing": 1,
       "Smoke Test": 1,
       "Production": 1,
-      "Deployment Verification": 1,
-      "Not Set": 1
+      "Deployment Verification": 1
     },
     "teamMatrix": {
       "T360 Vanguards": {
-        "QE Feature Testing": 9,
+        "QE Feature Testing": 10,
         "QE Integration Testing": 1,
         "QE Performance Testing": 0,
         "QE Regression Testing": 0,
         "Smoke Test": 0,
         "Production": 0,
         "Deployment Verification": 0,
-        "Not Set": 1,
         "TOTAL": 11
       },
       "Nexus": {
@@ -52,7 +50,6 @@
         "Smoke Test": 0,
         "Production": 1,
         "Deployment Verification": 1,
-        "Not Set": 0,
         "TOTAL": 7
       },
       "Matrix": {
@@ -63,7 +60,6 @@
         "Smoke Test": 0,
         "Production": 0,
         "Deployment Verification": 0,
-        "Not Set": 0,
         "TOTAL": 6
       },
       "T360 Mavericks": {
@@ -74,7 +70,6 @@
         "Smoke Test": 0,
         "Production": 0,
         "Deployment Verification": 0,
-        "Not Set": 0,
         "TOTAL": 4
       },
       "T360 Chargers": {
@@ -85,7 +80,6 @@
         "Smoke Test": 1,
         "Production": 0,
         "Deployment Verification": 0,
-        "Not Set": 0,
         "TOTAL": 1
       },
       "Athena": {
@@ -96,11 +90,106 @@
         "Smoke Test": 0,
         "Production": 0,
         "Deployment Verification": 0,
-        "Not Set": 0,
         "TOTAL": 1
       }
     },
     "teamDefectDetails": {
+      "T360 Mavericks": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-69153",
+            "summary": "AI Console: Error Validation Message appears only for 3 second in the Add/Edit client page"
+          },
+          {
+            "key": "GET-22600",
+            "summary": "The AFA amount isn't properly adjusted when an ITP adjustment is applied to the invoice."
+          },
+          {
+            "key": "GET-22679",
+            "summary": "User is able to set same time period on editing an AFA."
+          }
+        ],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [
+          {
+            "key": "GET-63004",
+            "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters"
+          }
+        ],
+        "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
+        "Deployment Verification": []
+      },
+      "T360 Vanguards": {
+        "QE Feature Testing": [
+          {
+            "key": "GET-67494",
+            "summary": "Citation styling in AI summary does not match Figma design"
+          },
+          {
+            "key": "GET-67500",
+            "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
+          },
+          {
+            "key": "GET-67493",
+            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
+          },
+          {
+            "key": "GET-69111",
+            "summary": "In TST Clicking an invoice ID in the citation opens a page with a server error instead of showing invoice summary"
+          },
+          {
+            "key": "GET-69100",
+            "summary": "System ID is missing in the citation panel, and the close button does not have the blue background color as specified in the Figma design."
+          },
+          {
+            "key": "GET-69103",
+            "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
+          },
+          {
+            "key": "GET-69193",
+            "summary": "Line items display unique IDs instead of sequential numbers (e.g., \u201cLine 33\u201d, \u201cLine 34\u201d, \u2026) as shown in the Figma design."
+          },
+          {
+            "key": "GET-69121",
+            "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
+          },
+          {
+            "key": "GET-69196",
+            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+          },
+          {
+            "key": "GET-69225",
+            "summary": "Invoice line item focus not displayed when invoice contains a large number of line items"
+          }
+        ],
+        "QE Integration Testing": [
+          {
+            "key": "GET-69024",
+            "summary": "Negative currency amounts display with incorrect formatting ($-1016.00 instead of -$1016.00)"
+          }
+        ],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Smoke Test": [],
+        "Production": [],
+        "Deployment Verification": []
+      },
+      "T360 Chargers": {
+        "QE Feature Testing": [],
+        "QE Integration Testing": [],
+        "QE Performance Testing": [],
+        "QE Regression Testing": [],
+        "Smoke Test": [
+          {
+            "key": "GET-69158",
+            "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document"
+          }
+        ],
+        "Production": [],
+        "Deployment Verification": []
+      },
       "Matrix": {
         "QE Feature Testing": [
           {
@@ -133,66 +222,7 @@
         "QE Regression Testing": [],
         "Smoke Test": [],
         "Production": [],
-        "Deployment Verification": [],
-        "Not Set": []
-      },
-      "T360 Mavericks": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-69153",
-            "summary": "AI Console: Error Validation Message appears only for 3 second in the Add/Edit client page"
-          },
-          {
-            "key": "GET-22600",
-            "summary": "The AFA amount isn't properly adjusted when an ITP adjustment is applied to the invoice."
-          },
-          {
-            "key": "GET-22679",
-            "summary": "User is able to set same time period on editing an AFA."
-          }
-        ],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [
-          {
-            "key": "GET-63004",
-            "summary": "Performance - Overall degradation on Search All Invoices (Beta) page across all filters"
-          }
-        ],
-        "QE Regression Testing": [],
-        "Smoke Test": [],
-        "Production": [],
-        "Deployment Verification": [],
-        "Not Set": []
-      },
-      "T360 Chargers": {
-        "QE Feature Testing": [],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [],
-        "QE Regression Testing": [],
-        "Smoke Test": [
-          {
-            "key": "GET-69158",
-            "summary": "[NA Prod] Quick Search is not working while search with Content for PDF and txt document"
-          }
-        ],
-        "Production": [],
-        "Deployment Verification": [],
-        "Not Set": []
-      },
-      "Athena": {
-        "QE Feature Testing": [
-          {
-            "key": "GET-68985",
-            "summary": "Embedfast Redirect URL - Data mismatch in API Response"
-          }
-        ],
-        "QE Integration Testing": [],
-        "QE Performance Testing": [],
-        "QE Regression Testing": [],
-        "Smoke Test": [],
-        "Production": [],
-        "Deployment Verification": [],
-        "Not Set": []
+        "Deployment Verification": []
       },
       "Nexus": {
         "QE Feature Testing": [
@@ -235,65 +265,21 @@
             "key": "GET-67227",
             "summary": "LegalCollaborator: Exclusion Company logic for CA should work for New"
           }
-        ],
-        "Not Set": []
+        ]
       },
-      "T360 Vanguards": {
+      "Athena": {
         "QE Feature Testing": [
           {
-            "key": "GET-67494",
-            "summary": "Citation styling in AI summary does not match Figma design"
-          },
-          {
-            "key": "GET-67500",
-            "summary": "\"Invoice Compliance\" section in AI Summary fails to load with error message"
-          },
-          {
-            "key": "GET-67493",
-            "summary": "\"Get AI Summary\" displays static content instead of dynamic invoice-specific data"
-          },
-          {
-            "key": "GET-69111",
-            "summary": "In TST Clicking an invoice ID in the citation opens a page with a server error instead of showing invoice summary"
-          },
-          {
-            "key": "GET-69100",
-            "summary": "System ID is missing in the citation panel, and the close button does not have the blue background color as specified in the Figma design."
-          },
-          {
-            "key": "GET-69103",
-            "summary": "Clicking an adjusted line item ID in the citation panel triggers an internal application error."
-          },
-          {
-            "key": "GET-69193",
-            "summary": "Line items display unique IDs instead of sequential numbers (e.g., \u201cLine 33\u201d, \u201cLine 34\u201d, \u2026) as shown in the Figma design."
-          },
-          {
-            "key": "GET-69121",
-            "summary": "\"Total adjusted line items:\" in Invoice compliance section of AI summary is always 0 and does not display actual adjustment counts."
-          },
-          {
-            "key": "GET-69196",
-            "summary": "Invoice compliance section displays \u201cunspecified adjustment reason\u201d instead of categorizing citations and showing specific adjustment reasons."
+            "key": "GET-68985",
+            "summary": "Embedfast Redirect URL - Data mismatch in API Response"
           }
         ],
-        "QE Integration Testing": [
-          {
-            "key": "GET-69024",
-            "summary": "Negative currency amounts display with incorrect formatting ($-1016.00 instead of -$1016.00)"
-          }
-        ],
+        "QE Integration Testing": [],
         "QE Performance Testing": [],
         "QE Regression Testing": [],
         "Smoke Test": [],
         "Production": [],
-        "Deployment Verification": [],
-        "Not Set": [
-          {
-            "key": "GET-69225",
-            "summary": "Invoice line item focus not displayed when invoice contains a large number of line items"
-          }
-        ]
+        "Deployment Verification": []
       }
     },
     "activityNames": [
@@ -303,8 +289,7 @@
       "QE Regression Testing",
       "Smoke Test",
       "Production",
-      "Deployment Verification",
-      "Not Set"
+      "Deployment Verification"
     ]
   },
   "teams": {
@@ -411,18 +396,18 @@
       ]
     },
     "T360 Vanguards": {
-      "total": 6,
+      "total": 5,
       "tadComplete": 5,
       "tsComplete": 5,
       "bothComplete": 5,
       "tadNA": 0,
       "tsNA": 0,
-      "tadApplicable": 6,
-      "tsApplicable": 6,
-      "missingTad": 1,
-      "missingTs": 1,
-      "tadPct": 83.33333333333334,
-      "tsPct": 83.33333333333334,
+      "tadApplicable": 5,
+      "tsApplicable": 5,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
       "issues": [
         {
           "key": "GET-62669",
@@ -461,20 +446,6 @@
           "tadFound": true,
           "tsFound": true,
           "totalPrs": 10,
-          "tadNA": false,
-          "tadNAComment": null,
-          "tsNA": false,
-          "tsNAComment": null
-        },
-        {
-          "key": "GET-69225",
-          "summary": "Invoice line item focus not displayed when invoice contains a large number of line items",
-          "type": "Bug",
-          "status": "New",
-          "sprint": "No Sprint",
-          "tadFound": false,
-          "tsFound": false,
-          "totalPrs": 0,
           "tadNA": false,
           "tadNAComment": null,
           "tsNA": false,

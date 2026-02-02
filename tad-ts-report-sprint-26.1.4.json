@@ -1,0 +1,528 @@
+{
+  "dateRange": "Sprint 26.1.4",
+  "generated": "2026-02-02 13:02:21",
+  "summary": {
+    "total": 26,
+    "tadComplete": 12,
+    "tsComplete": 10,
+    "bothComplete": 7,
+    "missingTad": 14,
+    "missingTs": 14,
+    "tadNA": 0,
+    "tsNA": 2,
+    "tadApplicable": 26,
+    "tsApplicable": 24,
+    "tadPct": 46.15384615384615,
+    "tsPct": 41.66666666666667,
+    "bothPct": 26.923076923076923,
+    "missingTadPct": 53.84615384615385,
+    "missingTsPct": 53.84615384615385,
+    "tadNAPct": 0.0,
+    "tsNAPct": 7.6923076923076925
+  },
+  "defects": {
+    "totalDefects": 2,
+    "activities": {
+      "Production": 1,
+      "QE Feature Testing": 1
+    },
+    "teamMatrix": {
+      "T360 Vanguards": {
+        "Production": 0,
+        "QE Feature Testing": 1,
+        "TOTAL": 1
+      },
+      "T360 ICD Chubb": {
+        "Production": 1,
+        "QE Feature Testing": 0,
+        "TOTAL": 1
+      }
+    },
+    "teamDefectDetails": {
+      "T360 Vanguards": {
+        "Production": [],
+        "QE Feature Testing": [
+          {
+            "key": "GET-4938",
+            "summary": "23.1.1 On pasting Invoice Number from UI to OC Search, the values gets appended with \"empty\" text and a space "
+          }
+        ]
+      },
+      "T360 ICD Chubb": {
+        "Production": [
+          {
+            "key": "GET-44295",
+            "summary": "   TEC-419928: Chubb Group Claims: In Vendor Review Status where Reviewer has a Supervisor "
+          }
+        ],
+        "QE Feature Testing": []
+      }
+    },
+    "activityNames": [
+      "Production",
+      "QE Feature Testing"
+    ]
+  },
+  "teams": {
+    "Matrix": {
+      "total": 3,
+      "tadComplete": 0,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 3,
+      "tsApplicable": 3,
+      "missingTad": 3,
+      "missingTs": 3,
+      "tadPct": 0.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "GET-67344",
+          "summary": "Implement Angular UI and API Support for Viewing Currently Executing Jobs in Scheduler",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67324",
+          "summary": "Implement API and Angular UI Support for Cloning Scheduler Jobs with Permission-Based Access",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67337",
+          "summary": "Implement API and Angular UI Support for Enabling Maintenance Mode in Scheduler Application",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Vanguards": {
+      "total": 4,
+      "tadComplete": 3,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 1,
+      "missingTs": 2,
+      "tadPct": 75.0,
+      "tsPct": 50.0,
+      "issues": [
+        {
+          "key": "GET-67382",
+          "summary": "MCP Server CI",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67386",
+          "summary": "Expy SDK Integration into T360 Invoice page",
+          "type": "Story",
+          "status": "New",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67384",
+          "summary": "MCP Server CD - Public endpoints",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-67388",
+          "summary": "AI Console changes ",
+          "type": "Story",
+          "status": "Pre-Refinement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 ICD Chubb": {
+      "total": 4,
+      "tadComplete": 3,
+      "tsComplete": 3,
+      "bothComplete": 3,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 4,
+      "tsApplicable": 4,
+      "missingTad": 1,
+      "missingTs": 1,
+      "tadPct": 75.0,
+      "tsPct": 75.0,
+      "issues": [
+        {
+          "key": "GET-44295",
+          "summary": "   TEC-419928: Chubb Group Claims: In Vendor Review Status where Reviewer has a Supervisor ",
+          "type": "Bug",
+          "status": "Pre-Refinement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64668",
+          "summary": "Restrict Lead Timekeeper Rates if greater than $0 - alert Message in Add members --Data Exchange",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-62278",
+          "summary": "Restrict Lead Timekeeper Rates if greater than $0 - alert Message in  Companies Timekeeper Page and Network company profile page",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 4,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-63653",
+          "summary": "Claim Authority Amount Evaluation",
+          "type": "Story",
+          "status": "Refined",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Chargers": {
+      "total": 8,
+      "tadComplete": 0,
+      "tsComplete": 3,
+      "bothComplete": 0,
+      "tadNA": 0,
+      "tsNA": 0,
+      "tadApplicable": 8,
+      "tsApplicable": 8,
+      "missingTad": 8,
+      "missingTs": 5,
+      "tadPct": 0.0,
+      "tsPct": 37.5,
+      "issues": [
+        {
+          "key": "GET-69336",
+          "summary": "[T360 Modernization]: Gateway API",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69332",
+          "summary": "[T360 Modernization]: Sauron Aspire Polyrepo workspace template",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69334",
+          "summary": "[T360 Modernization]: CQRS project template",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69091",
+          "summary": "User Network Mapping and Migration\u2011Based DB Routing - Reset Password",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69089",
+          "summary": "User Network Mapping and Migration\u2011Based DB Routing - EmbedFAST & LC Login",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69058",
+          "summary": "Multi-Tenant Database Support for Partial Purge - Implementation Summary",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69050",
+          "summary": "Implement Multi-Tenant Database Architecture for Phoenix",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": true,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69087",
+          "summary": "User Network Mapping and Migration\u2011Based DB Routing - Deeplink",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "T360 Mavericks": {
+      "total": 4,
+      "tadComplete": 3,
+      "tsComplete": 0,
+      "bothComplete": 0,
+      "tadNA": 0,
+      "tsNA": 1,
+      "tadApplicable": 4,
+      "tsApplicable": 3,
+      "missingTad": 1,
+      "missingTs": 3,
+      "tadPct": 75.0,
+      "tsPct": 0.0,
+      "issues": [
+        {
+          "key": "GET-65540",
+          "summary": "EmbedFast PP: Identity Server, Branding changes and integration testing",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": false,
+          "tsFound": false,
+          "totalPrs": 0,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-59815",
+          "summary": "T360 WCAG Fixes for Accenture Scan - Part 2",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": true,
+          "tsNAComment": "[~d.chandrabose] [~Vaishnavi.Rangamani] - Story description and Acceptance Criteria has been updated as we discussed today over the call.\u00a0\r\n\r\nThis card is ready for TAD and TS to be initiated.\u00a0\r\n\r\ncc:"
+        },
+        {
+          "key": "GET-69122",
+          "summary": "Display AI Matter summaries (Overview, Timekeeper, Phase, Quarter) in drawer",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-69119",
+          "summary": "Expose \u2018Get AI Summary\u2019 entry point on Matter view (authorized users only)",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    },
+    "Nexus": {
+      "total": 3,
+      "tadComplete": 3,
+      "tsComplete": 2,
+      "bothComplete": 2,
+      "tadNA": 0,
+      "tsNA": 1,
+      "tadApplicable": 3,
+      "tsApplicable": 2,
+      "missingTad": 0,
+      "missingTs": 0,
+      "tadPct": 100.0,
+      "tsPct": 100.0,
+      "issues": [
+        {
+          "key": "GET-58545",
+          "summary": "LegalCollaborator: Script incorporates adding panels to companies as well as TK to set Company   to a matter for Case Assessment",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": false,
+          "totalPrs": 1,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": true,
+          "tsNAComment": "Jan 7 Sviat will confirm if single request multiple times in the\u00a0 end point is acceptable to them, which was the original plan. (Because Sviat mentioned that waiting time between requests may be neede"
+        },
+        {
+          "key": "GET-65625",
+          "summary": "GB: Story 2: 2 APIs for Deleting and Reading Role Cap and Exception-Based Rates AFA for a company in Bulk to matter",
+          "type": "Story",
+          "status": "Re-finement",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        },
+        {
+          "key": "GET-64962",
+          "summary": "UI for Search All Case Assessments (CA) page with System Admin-only \"Erase\" operation (one-at-a-time)",
+          "type": "Story",
+          "status": "Refined",
+          "sprint": "No Sprint",
+          "tadFound": true,
+          "tsFound": true,
+          "totalPrs": 2,
+          "tadNA": false,
+          "tadNAComment": null,
+          "tsNA": false,
+          "tsNAComment": null
+        }
+      ]
+    }
+  }
+}

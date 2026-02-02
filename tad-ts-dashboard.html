@@ -482,6 +482,7 @@
                         <th>Team Name</th>
                         <th>Total Cases</th>
                         <th>Automated Cases</th>
+                        <th>Not Automated Cases</th>
                         <th>Cases with QTest results attached</th>
                         <th>Cases without QTest results attached</th>
                     </tr>
@@ -602,10 +603,12 @@
                         ? `<span class="attachment-link" onclick="showMissingAttachments('${teamName}')" title="${tooltipText}">${team.without_attachments}</span>`
                         : team.without_attachments;
                     
+                    const notAutomated = team.total - team.automated;
                     html += `<tr>
                         <td><strong>${teamName}</strong></td>
                         <td>${team.total}</td>
                         <td>${team.automated}</td>
+                        <td>${notAutomated}</td>
                         <td>${team.with_attachments || 0}</td>
                         <td>${withoutAttachCell}</td>
                     </tr>`;
@@ -622,11 +625,13 @@
             const totalTooltip = allMissingTCs.join('&#10;');
             
             const totalWithoutAttachCell = data.totals.without_attachments > 0
-                ? `<span class="attachment-link" onclick="showMissingAttachments('All')" title="${totalTooltip}">${data.totals.without_attachments}</span>`
-                : data.totals.without_attachments;
-                
+            
+            const totalNotAutomated = data.totals.total - data.totals.automated;
             html += `<tr style="background: #f0f4ff; font-weight: bold;">
                 <td><strong>TOTAL</strong></td>
+                <td><strong>${data.totals.total}</strong></td>
+                <td><strong>${data.totals.automated}</strong></td>
+                <td><strong>${totalNotA/td>
                 <td><strong>${data.totals.total}</strong></td>
                 <td><strong>${data.totals.automated}</strong></td>
                 <td><strong>${data.totals.with_attachments || 0}</strong></td>
@@ -634,11 +639,13 @@
             </tr>`;
 
             tbody.innerHTML = html;
-
-            // Update summary text
-            const summaryDiv = document.getElementById('testCaseSummaryText');
-            if (summaryDiv) {
+notAutomatedTotal = data.totals.total - data.totals.automated;
                 const automationPct = ((data.totals.automated / data.totals.total) * 100).toFixed(1);
+                const notAutomationPct = ((notAutomatedTotal / data.totals.total) * 100).toFixed(1);
+                const withAttachPct = ((data.totals.with_attachments / data.totals.total) * 100).toFixed(1);
+                const withoutAttachPct = ((data.totals.without_attachments / data.totals.total) * 100).toFixed(1);
+                
+                summaryDiv.innerHTML = `<strong>Summary:</strong> Out of ${data.totals.total} test cases, ${data.totals.automated} (${automationPct}%) are automated and ${notAutomatedTotal} (${notAutomationPct}%) are not
                 const withAttachPct = ((data.totals.with_attachments / data.totals.total) * 100).toFixed(1);
                 const withoutAttachPct = ((data.totals.without_attachments / data.totals.total) * 100).toFixed(1);
                 

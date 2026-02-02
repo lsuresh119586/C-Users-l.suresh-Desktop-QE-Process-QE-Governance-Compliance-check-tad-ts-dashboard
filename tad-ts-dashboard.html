@@ -768,6 +768,9 @@ notAutomatedTotal = data.totals.total - data.totals.automated;
 
         // Load the latest report data
         async function loadReportData() {
+            const loadingOverlay = document.getElementById('loadingOverlay');
+            loadingOverlay.classList.add('active');
+            
             // Fetch fresh data with cache-busting to ensure latest defects are loaded
             try {
                 const response = await fetch(`tad-ts-report-data.json?t=${Date.now()}`);
@@ -777,6 +780,8 @@ notAutomatedTotal = data.totals.total - data.totals.automated;
                 console.error('Error loading report data:', error);
                 document.getElementById('teamsContainer').innerHTML = 
                     '<p style="color: #ef4444;">Error loading report data. Please generate a report first by running: py sprint-tad-ts-report.py 2025-12-01 2025-12-03</p>';
+            } finally {
+                loadingOverlay.classList.remove('active');
             }
         }
 

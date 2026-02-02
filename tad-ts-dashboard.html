@@ -585,7 +585,7 @@
             tbody.innerHTML = html;
 
             // Update summary text
-            const summaryDiv = document.getElementById('testCaseSummary');
+            const summaryDiv = document.getElementById('testCaseSummaryText');
             if (summaryDiv && data.totals.total > 0) {
                 const automationPct = ((data.totals.automated / data.totals.total) * 100).toFixed(1);
                 const notAutomationPct = ((totalNotAutomated / data.totals.total) * 100).toFixed(1);

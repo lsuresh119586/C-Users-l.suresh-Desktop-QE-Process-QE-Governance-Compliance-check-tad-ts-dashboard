@@ -380,6 +380,9 @@
     <script src="qtest-testcases-sprint-26.1.3.js"></script>
     <script src="qtest-testcases-sprint-26.1.4.js"></script>
     <!-- Preload TAD/TS report data files -->
+    <script src="tad-ts-report-sprint-26.1.1.js"></script>
+    <script src="tad-ts-report-sprint-26.1.2.js"></script>
+    <script src="tad-ts-report-sprint-26.1.3.js"></script>
     <script src="tad-ts-report-sprint-26.1.4.js"></script>
 </head>
 <body>
@@ -561,22 +564,26 @@
             
             let html = '';
             let totalWithoutAttachments = 0;
+            let totalAutomated = 0;
             sortedTeams.forEach(teamName => {
                 const team = data.teams[teamName];
                 if (team.total > 0) {
                     const notAutomated = team.total - team.automated;
                     // Only count missing attachments for automated cases
                     let withoutAttachments = 0;
+                    let automatedWithAttachments = 0;
                     if (team.test_cases && Array.isArray(team.test_cases)) {
                         withoutAttachments = team.test_cases.filter(tc => tc.automated && !tc.has_attachment).length;
+                        automatedWithAttachments = team.test_cases.filter(tc => tc.automated && tc.has_attachment).length;
                     }
                     totalWithoutAttachments += withoutAttachments;
+                    totalAutomated += team.automated;
                     html += `<tr>
                         <td><strong>${teamName}</strong></td>
                         <td>${team.total}</td>
                         <td>${team.automated}</td>
                         <td>${notAutomated}</td>
-                        <td>${team.with_attachments || 0}</td>
+                        <td>${automatedWithAttachments}</td>
                         <td>${withoutAttachments}</td>
                     </tr>`;
                 }
@@ -589,7 +596,7 @@
                 <td><strong>${data.totals.total}</strong></td>
                 <td><strong>${data.totals.automated}</strong></td>
                 <td><strong>${totalNotAutomated}</strong></td>
-                <td><strong>${data.totals.with_attachments || 0}</strong></td>
+                <td><strong>${totalAutomated - totalWithoutAttachments}</strong></td>
                 <td><strong>${totalWithoutAttachments}</strong></td>
             </tr>`;
 
@@ -600,10 +607,11 @@
             if (summaryDiv && data.totals.total > 0) {
                 const automationPct = ((data.totals.automated / data.totals.total) * 100).toFixed(1);
                 const notAutomationPct = ((totalNotAutomated / data.totals.total) * 100).toFixed(1);
-                const withAttachPct = ((data.totals.with_attachments / data.totals.total) * 100).toFixed(1);
-                const withoutAttachPct = ((totalWithoutAttachments / data.totals.total) * 100).toFixed(1);
+                const totalAutomatedWithAttachments = data.totals.automated - totalWithoutAttachments;
+                const withAttachPct = ((totalAutomatedWithAttachments / data.totals.automated) * 100).toFixed(1);
+                const withoutAttachPct = ((totalWithoutAttachments / data.totals.automated) * 100).toFixed(1);
                 
-                summaryDiv.innerHTML = `<strong>Summary:</strong> Out of ${data.totals.total} test cases, ${data.totals.automated} (${automationPct}%) are automated and ${totalNotAutomated} (${notAutomationPct}%) are not. ${data.totals.with_attachments} test cases (${withAttachPct}%) have QTest results attached, while ${totalWithoutAttachments} (${withoutAttachPct}%) do not.`;
+                summaryDiv.innerHTML = `<strong>Summary:</strong> Out of ${data.totals.total} test cases, ${data.totals.automated} (${automationPct}%) are automated and ${totalNotAutomated} (${notAutomationPct}%) are not. Among automated cases: ${totalAutomatedWithAttachments} (${withAttachPct}%) have QTest results attached, while ${totalWithoutAttachments} (${withoutAttachPct}%) do not.`;
             }
 
             // Update title with generation timestamp

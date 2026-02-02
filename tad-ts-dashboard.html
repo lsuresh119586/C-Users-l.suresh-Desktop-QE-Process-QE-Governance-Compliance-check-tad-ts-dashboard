@@ -566,14 +566,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // Initialize reportData object before loading external files
+        // Initialize global variables
         window.reportData = null;
         window.qtestDataCache = {};
-    </script>
-    <script src="tad-ts-report-data.js" onerror="console.log('Could not load tad-ts-report-data.js')"></script>
-    <script src="qtest-testcases-sprint-26.1.1.js" onerror="console.log('Could not load qtest data 26.1.1')"></script>
-    <script src="qtest-testcases-sprint-26.1.2.js" onerror="console.log('Could not load qtest data 26.1.2')"></script>
-    <script>
         let currentCharts = {};
 
         // Load sprint data dynamically

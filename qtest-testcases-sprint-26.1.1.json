@@ -5,8 +5,8 @@
   "totals": {
     "total": 143,
     "automated": 142,
-    "with_attachments": 141,
-    "without_attachments": 1
+    "with_attachments": 142,
+    "without_attachments": 0
   },
   "teams": {
     "Chargers": {
@@ -274,8 +274,8 @@
     "Mavericks": {
       "total": 21,
       "automated": 21,
-      "with_attachments": 20,
-      "without_attachments": 1,
+      "with_attachments": 21,
+      "without_attachments": 0,
       "test_cases": [
         {
           "id": "TC-25697",
@@ -310,7 +310,7 @@
           "qtest_id": 137916990,
           "name": "Verify AI Assistant Label Browser Compatibility and Zoom Level Responsiveness",
           "automated": true,
-          "has_attachment": false
+          "has_attachment": true
         },
         {
           "id": "TC-25965",

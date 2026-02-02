@@ -399,8 +399,8 @@
             <select id="sprintSelect" onchange="loadSprintData()">
                 <option value="current">Current Sprint</option>
                 <option value="26.1.1">Sprint 26.1.1</option>
-                <option value="26.1.2" selected>Sprint 26.1.2</option>
-                <option value="26.1.3">Sprint 26.1.3</option>
+                <option value="26.1.2">Sprint 26.1.2</option>
+                <option value="26.1.3" selected>Sprint 26.1.3</option>
                 <option value="26.1.4">Sprint 26.1.4</option>
             </select>
             <button onclick="loadSprintData()">Load Data</button>
@@ -560,12 +560,17 @@
             const sortedTeams = Object.keys(data.teams).sort();
             
             let html = '';
+            let totalWithoutAttachments = 0;
             sortedTeams.forEach(teamName => {
                 const team = data.teams[teamName];
                 if (team.total > 0) {
                     const notAutomated = team.total - team.automated;
-                    const withoutAttachments = team.total - (team.with_attachments || 0);
-                    
+                    // Only count missing attachments for automated cases
+                    let withoutAttachments = 0;
+                    if (team.test_cases && Array.isArray(team.test_cases)) {
+                        withoutAttachments = team.test_cases.filter(tc => tc.automated && !tc.has_attachment).length;
+                    }
+                    totalWithoutAttachments += withoutAttachments;
                     html += `<tr>
                         <td><strong>${teamName}</strong></td>
                         <td>${team.total}</td>
@@ -579,8 +584,6 @@
 
             // Add totals row
             const totalNotAutomated = data.totals.total - data.totals.automated;
-            const totalWithoutAttachments = data.totals.total - (data.totals.with_attachments || 0);
-            
             html += `<tr style="background: #f0f4ff; font-weight: bold;">
                 <td><strong>TOTAL</strong></td>
                 <td><strong>${data.totals.total}</strong></td>
@@ -612,7 +615,11 @@
 
         async function loadSprintData() {
             const sprintSelect = document.getElementById('sprintSelect');
-            const selectedSprint = sprintSelect.value;
+            let selectedSprint = sprintSelect.value;
+            // Treat 'current' as 26.1.3 for this sprint
+            if (selectedSprint === 'current') {
+                selectedSprint = '26.1.3';
+            }
             const loadingOverlay = document.getElementById('loadingOverlay');
             
             loadingOverlay.classList.add('active');
@@ -639,7 +646,7 @@
                 
                 // Try to load sprint-specific file first
                 const sprintFile = selectedSprint === 'current' ? 
-                    `tad-ts-report-data.js?t=${Date.now()}` : 
+                    `tad-ts-report-sprint-26.1.3.js?t=${Date.now()}` : 
                     `tad-ts-report-sprint-${selectedSprint}.js?t=${Date.now()}`;
                 
                 // Load the script
@@ -676,7 +683,7 @@
                     console.log('Data loaded, updating dashboard');
                     
                     // Load qTest test case data if available FIRST
-                    const sprintVersion = selectedSprint === 'current' ? '26.1.1' : selectedSprint;
+                    const sprintVersion = selectedSprint === 'current' ? '26.1.3' : selectedSprint;
                     console.log('Loading qTest data for sprint:', sprintVersion);
                     const qtestData = await loadTestCaseData(sprintVersion);
                     if (qtestData) {
@@ -807,26 +814,36 @@
                 }
                 
                 // Recalculate overall summary
-                let total = 0, tadComplete = 0, tsComplete = 0, bothComplete = 0;
+                let total = 0, tadComplete = 0, tsComplete = 0, bothComplete = 0, tadNA = 0, tsNA = 0, missingTad = 0, missingTs = 0;
                 for (const teamName in reportData.teams) {
                     const team = reportData.teams[teamName];
                     total += team.total;
                     tadComplete += team.tadComplete;
                     tsComplete += team.tsComplete;
                     bothComplete += team.bothComplete;
+                    // Count TAD N/A and TS N/A and missing
+                    if (team.issues && Array.isArray(team.issues)) {
+                        tadNA += team.issues.filter(i => i.tadNA).length;
+                        tsNA += team.issues.filter(i => i.tsNA).length;
+                        missingTad += team.issues.filter(i => !i.tadFound && !i.tadNA).length;
+                        missingTs += team.issues.filter(i => !i.tsFound && !i.tsNA).length;
+                    }
                 }
-                
                 reportData.summary.total = total;
                 reportData.summary.tadComplete = tadComplete;
                 reportData.summary.tsComplete = tsComplete;
                 reportData.summary.bothComplete = bothComplete;
-                reportData.summary.missingTad = total - tadComplete;
-                reportData.summary.missingTs = total - tsComplete;
+                reportData.summary.tadNA = tadNA;
+                reportData.summary.tsNA = tsNA;
+                reportData.summary.missingTad = missingTad;
+                reportData.summary.missingTs = missingTs;
                 reportData.summary.tadPct = total > 0 ? (tadComplete / total * 100) : 0;
                 reportData.summary.tsPct = total > 0 ? (tsComplete / total * 100) : 0;
                 reportData.summary.bothPct = total > 0 ? (bothComplete / total * 100) : 0;
-                reportData.summary.missingTadPct = total > 0 ? ((total - tadComplete) / total * 100) : 0;
-                reportData.summary.missingTsPct = total > 0 ? ((total - tsComplete) / total * 100) : 0;
+                reportData.summary.tadNAPct = total > 0 ? (tadNA / total * 100) : 0;
+                reportData.summary.tsNAPct = total > 0 ? (tsNA / total * 100) : 0;
+                reportData.summary.missingTadPct = total > 0 ? (missingTad / total * 100) : 0;
+                reportData.summary.missingTsPct = total > 0 ? (missingTs / total * 100) : 0;
             }
             
             // Update summary metrics
@@ -1411,8 +1428,8 @@
         loadReportData();
         
         // Load initial test case data for default sprint (26.1.2)
-        console.log('Loading initial qTest data for sprint 26.1.2...');
-        loadTestCaseData('26.1.2').then(data => {
+        console.log('Loading initial qTest data for sprint 26.1.3...');
+        loadTestCaseData('26.1.3').then(data => {
             if (data) {
                 console.log('Initial qTest data loaded');
                 updateTestCaseSummaryTable(data);

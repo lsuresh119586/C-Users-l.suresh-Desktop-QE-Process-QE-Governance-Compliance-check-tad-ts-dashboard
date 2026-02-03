@@ -92,6 +92,11 @@ export const apiService = {
     return response.data;
   },
 
+  async getOrganizationMetrics(): Promise<Metrics> {
+    const response = await api.get<Metrics>('/metrics/organization');
+    return response.data;
+  },
+
   async getProductMetrics(productId: number): Promise<Metrics> {
     const response = await api.get<Metrics>(`/metrics/product/${productId}`);
     return response.data;

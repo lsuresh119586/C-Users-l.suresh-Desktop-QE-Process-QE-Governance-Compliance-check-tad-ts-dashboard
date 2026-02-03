@@ -15,7 +15,7 @@ Create a comprehensive technical implementation plan that defines HOW we'll buil
 
 **Technical Preferences from Requirements:**
 - Backend: Node.js and Python
-- Database: PostgreSQL
+- Database: Sql Server
 - Deployment: Docker on internal VM
 - Testing: Playwright MCP for E2E, comprehensive unit tests
 - Real-time data with drill-down capabilities

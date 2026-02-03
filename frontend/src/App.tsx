@@ -38,7 +38,7 @@ function App() {
   const [metrics, setMetrics] = useState<Metrics | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [viewLevel, setViewLevel] = useState<'product' | 'team' | 'sprint'>('product');
+  const [viewLevel, setViewLevel] = useState<'organization' | 'product' | 'team' | 'sprint'>('organization');
 
   useEffect(() => {
     loadInitialData();
@@ -65,13 +65,26 @@ function App() {
       setProducts(productsData);
       setSprints(sprintsData);
       
-      // Auto-select first product
-      if (productsData.length > 0) {
-        setSelectedProduct(productsData[0].id);
-      }
+      // Load organization-wide metrics by default (Story 1)
+      await loadOrganizationMetrics();
     } catch (err) {
       setError('Failed to load initial data. Please check if API server is running.');
       console.error('Error loading initial data:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const loadOrganizationMetrics = async () => {
+    try {
+      setLoading(true);
+      setError(null);
+      const orgMetrics = await apiService.getOrganizationMetrics();
+      setMetrics(orgMetrics);
+      setViewLevel('organization');
+    } catch (err) {
+      setError('Failed to load organization metrics.');
+      console.error('Error loading organization metrics:', err);
     } finally {
       setLoading(false);
     }
@@ -88,7 +101,6 @@ function App() {
       // Reset team/sprint selection when product changes
       setSelectedTeam(null);
       setSelectedSprint(null);
-      setMetrics(null);
     } catch (err) {
       setError('Failed to load teams.');
       console.error('Error loading teams:', err);
@@ -98,6 +110,12 @@ function App() {
   };
 
   const loadMetrics = async () => {
+    // If nothing is selected, show organization-wide metrics
+    if (!selectedProduct && !selectedTeam && !selectedSprint) {
+      await loadOrganizationMetrics();
+      return;
+    }
+
     if (!selectedProduct) return;
 
     try {
@@ -107,21 +125,21 @@ function App() {
       let metricsData;
       if (selectedTeam && selectedSprint) {
         // Sprint level
-        metricsData = await apiService.getMetrics(selectedTeam, selectedSprint);
         setViewLevel('sprint');
+        metricsData = await apiService.getMetrics(selectedTeam, selectedSprint);
       } else if (selectedTeam) {
         // Team level
-        metricsData = await apiService.getTeamMetrics(selectedTeam);
         setViewLevel('team');
+        metricsData = await apiService.getTeamMetrics(selectedTeam);
       } else {
         // Product level
-        metricsData = await apiService.getProductMetrics(selectedProduct);
         setViewLevel('product');
+        metricsData = await apiService.getProductMetrics(selectedProduct);
       }
       
       setMetrics(metricsData);
     } catch (err) {
-      setError('No metrics found for the selected level.');
+      setError('Failed to load metrics for selected level.');
       console.error('Error loading metrics:', err);
       setMetrics(null);
     } finally {
@@ -240,10 +258,13 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <strong>Product:</strong>
                 <Select
+                  data-testid="product-selector"
                   style={{ flex: 1 }}
                   value={selectedProduct}
                   onChange={setSelectedProduct}
                   loading={products.length === 0}
+                  placeholder="Select Product"
+                  allowClear
                   options={products.map(product => ({
                     label: product.displayName,
                     value: product.id
@@ -257,6 +278,7 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <strong>Team:</strong>
                 <Select
+                  data-testid="team-selector"
                   style={{ flex: 1 }}
                   value={selectedTeam}
                   onChange={setSelectedTeam}
@@ -277,6 +299,7 @@ function App() {
               <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
                 <strong>Sprint:</strong>
                 <Select
+                  data-testid="sprint-selector"
                   style={{ flex: 1 }}
                   value={selectedSprint}
                   onChange={setSelectedSprint}
@@ -294,6 +317,19 @@ function App() {
           </Col>
         </Row>
 
+        <Card style={{ marginBottom: 24, textAlign: 'center', background: '#e6f7ff' }} data-testid="view-level-indicator">
+          <div style={{ color: '#666' }}>
+            📊 <strong>Viewing {viewLevel.charAt(0).toUpperCase() + viewLevel.slice(1)} Level Metrics</strong>
+            <br />
+            <small>
+              {viewLevel === 'organization' && 'Aggregated metrics across all products and teams'}
+              {viewLevel === 'product' && 'Aggregated metrics across all teams in selected product'}
+              {viewLevel === 'team' && 'Aggregated metrics for selected team across all sprints'}
+              {viewLevel === 'sprint' && 'Specific sprint metrics for selected team'}
+            </small>
+          </div>
+        </Card>
+
         {loading && !metrics ? (
           <div style={{ textAlign: 'center', padding: '100px 0' }}>
             <Spin size="large">
@@ -304,7 +340,7 @@ function App() {
           <>
             <Row gutter={16} style={{ marginBottom: 24 }}>
               <Col span={8}>
-                <Card>
+                <Card data-testid="tad-compliance-card">
                   <Statistic
                     title="TAD Compliance"
                     value={metrics.tadTsMetrics.tadPct}
@@ -322,7 +358,7 @@ function App() {
                 </Card>
               </Col>
               <Col span={8}>
-                <Card>
+                <Card data-testid="ts-compliance-card">
                   <Statistic
                     title="TS Compliance"
                     value={metrics.tadTsMetrics.tsPct}
@@ -340,7 +376,7 @@ function App() {
                 </Card>
               </Col>
               <Col span={8}>
-                <Card>
+                <Card data-testid="automation-card">
                   <Statistic
                     title="Test Automation"
                     value={metrics.qtestMetrics.automationPct}
@@ -441,17 +477,6 @@ function App() {
               </Col>
             </Row>
 
-            <Card style={{ marginTop: 24, textAlign: 'center', background: '#e6f7ff' }}>
-              <div style={{ color: '#666' }}>
-                📊 <strong>Viewing {viewLevel.charAt(0).toUpperCase() + viewLevel.slice(1)} Level Metrics</strong>
-                <br />
-                <small>
-                  {viewLevel === 'product' && 'Aggregated metrics across all teams'}
-                  {viewLevel === 'team' && 'Aggregated metrics for selected team across all sprints'}
-                  {viewLevel === 'sprint' && 'Specific sprint metrics for selected team'}
-                </small>
-              </div>
-            </Card>
           </>
         ) : null}
       </Content>

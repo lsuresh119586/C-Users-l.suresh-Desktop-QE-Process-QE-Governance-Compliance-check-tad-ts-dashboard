@@ -145,36 +145,94 @@ app.get('/api/metrics/:teamId/:sprintId', async (req, res) => {
   }
 });
 
+// Get organization-wide aggregated metrics (all products, all teams)
+app.get('/api/metrics/organization', async (req, res) => {
+  await db.read();
+  
+  // Filter out metrics with no data (totalStories === 0)
+  const validMetrics = db.data.metrics.filter(m => m.tadTsMetrics.totalStories > 0);
+  
+  if (validMetrics.length === 0) {
+    // Return empty structure instead of 404
+    return res.json(createEmptyMetrics({ level: 'organization' }));
+  }
+  
+  const aggregated = aggregateMetrics(validMetrics);
+  res.json({ level: 'organization', ...aggregated });
+});
+
 // Get aggregated metrics by product
 app.get('/api/metrics/product/:productId', async (req, res) => {
   await db.read();
   const { productId } = req.params;
   const teams = db.data.teams.filter(t => t.productId === parseInt(productId));
   const teamIds = teams.map(t => t.id);
-  const productMetrics = db.data.metrics.filter(m => teamIds.includes(m.teamId));
+  
+  // Filter out metrics with no data (totalStories === 0)
+  const productMetrics = db.data.metrics.filter(
+    m => teamIds.includes(m.teamId) && m.tadTsMetrics.totalStories > 0
+  );
   
   if (productMetrics.length === 0) {
-    return res.status(404).json({ error: 'No metrics found for this product' });
+    // Return empty structure instead of 404
+    return res.json(createEmptyMetrics({ level: 'product', productId: parseInt(productId) }));
   }
   
   // Aggregate metrics across all teams
   const aggregated = aggregateMetrics(productMetrics);
-  res.json({ productId: parseInt(productId), ...aggregated });
+  res.json({ level: 'product', productId: parseInt(productId), ...aggregated });
 });
 
 // Get aggregated metrics by team (across all sprints)
 app.get('/api/metrics/team/:teamId', async (req, res) => {
   await db.read();
   const { teamId } = req.params;
-  const teamMetrics = db.data.metrics.filter(m => m.teamId === parseInt(teamId));
+  
+  // Filter out metrics with no data (totalStories === 0)
+  const teamMetrics = db.data.metrics.filter(
+    m => m.teamId === parseInt(teamId) && m.tadTsMetrics.totalStories > 0
+  );
   
   if (teamMetrics.length === 0) {
-    return res.status(404).json({ error: 'No metrics found for this team' });
+    // Return empty structure instead of 404
+    return res.json(createEmptyMetrics({ level: 'team', teamId: parseInt(teamId) }));
   }
   
   const aggregated = aggregateMetrics(teamMetrics);
-  res.json({ teamId: parseInt(teamId), ...aggregated });
+  res.json({ level: 'team', teamId: parseInt(teamId), ...aggregated });
 });
+
+// Helper function to create empty metrics structure
+function createEmptyMetrics(metadata = {}) {
+  return {
+    ...metadata,
+    tadTsMetrics: {
+      totalStories: 0,
+      tadComplete: 0,
+      tadNa: 0,
+      tadMissing: 0,
+      tadPct: 0,
+      tsComplete: 0,
+      tsNa: 0,
+      tsMissing: 0,
+      tsPct: 0
+    },
+    qtestMetrics: {
+      automatedTestCases: 0,
+      manualTestCases: 0,
+      totalTestRuns: 0,
+      automationPct: 0,
+      uniqueTestCases: 0
+    },
+    defectMetrics: {
+      totalDefects: 0,
+      reopenedDefects: 0,
+      reopenedPct: 0,
+      bySeverity: {},
+      bySdlc: {}
+    }
+  };
+}
 
 // Helper function to aggregate metrics
 function aggregateMetrics(metricsArray) {
@@ -191,6 +249,7 @@ function aggregateMetrics(metricsArray) {
     reopenedDefects: 0,
     totalStories: 0,
     totalTestRuns: 0,
+    bySeverity: {},
     bySdlc: {}
   };
   
@@ -208,6 +267,13 @@ function aggregateMetrics(metricsArray) {
     totals.totalStories += m.tadTsMetrics.totalStories;
     totals.totalTestRuns += m.qtestMetrics.totalTestRuns;
     
+    // Aggregate defects by severity
+    if (m.defectMetrics.bySeverity) {
+      Object.entries(m.defectMetrics.bySeverity).forEach(([severity, count]) => {
+        totals.bySeverity[severity] = (totals.bySeverity[severity] || 0) + count;
+      });
+    }
+    
     // Aggregate defects by SDLC
     Object.entries(m.defectMetrics.bySdlc).forEach(([phase, count]) => {
       totals.bySdlc[phase] = (totals.bySdlc[phase] || 0) + count;
@@ -224,22 +290,24 @@ function aggregateMetrics(metricsArray) {
       tadComplete: totals.tadComplete,
       tadNa: totals.tadNa,
       tadMissing: totals.tadMissing,
-      tadPct: totalTad > 0 ? ((totals.tadComplete / totalTad) * 100).toFixed(1) : 0,
+      tadPct: totalTad > 0 ? parseFloat(((totals.tadComplete / totalTad) * 100).toFixed(1)) : 0,
       tsComplete: totals.tsComplete,
       tsNa: totals.tsNa,
       tsMissing: totals.tsMissing,
-      tsPct: totalTs > 0 ? ((totals.tsComplete / totalTs) * 100).toFixed(1) : 0
+      tsPct: totalTs > 0 ? parseFloat(((totals.tsComplete / totalTs) * 100).toFixed(1)) : 0
     },
     qtestMetrics: {
+      uniqueTestCases: totalTests,
       automatedTestCases: totals.automatedTestCases,
       manualTestCases: totals.manualTestCases,
       totalTestRuns: totals.totalTestRuns,
-      automationPct: totalTests > 0 ? ((totals.automatedTestCases / totalTests) * 100).toFixed(1) : 0
+      automationPct: totalTests > 0 ? parseFloat(((totals.automatedTestCases / totalTests) * 100).toFixed(1)) : 0
     },
     defectMetrics: {
       totalDefects: totals.totalDefects,
       reopenedDefects: totals.reopenedDefects,
-      reopenedPct: totals.totalDefects > 0 ? ((totals.reopenedDefects / totals.totalDefects) * 100).toFixed(1) : 0,
+      reopenedPct: totals.totalDefects > 0 ? parseFloat(((totals.reopenedDefects / totals.totalDefects) * 100).toFixed(1)) : 0,
+      bySeverity: totals.bySeverity || {},
       bySdlc: totals.bySdlc
     }
   };
@@ -271,9 +339,10 @@ initDB().then(() => {
     console.log(`   GET  /api/products`);
     console.log(`   GET  /api/teams?productId=<id>`);
     console.log(`   GET  /api/sprints`);
-    console.log(`   GET  /api/metrics/:teamId/:sprintId`);
+    console.log(`   GET  /api/metrics/organization`);
     console.log(`   GET  /api/metrics/product/:productId`);
     console.log(`   GET  /api/metrics/team/:teamId`);
+    console.log(`   GET  /api/metrics/:teamId/:sprintId`);
     console.log(`   POST /api/metrics`);
   });
 });

@@ -4,7 +4,7 @@
       "id": 1,
       "code": "PASSPORT",
       "name": "Passport",
-      "displayName": "Passport Client Automation"
+      "displayName": "Passport"
     },
     {
       "id": 2,
@@ -294,6 +294,347 @@
           "Production": 0
         }
       }
+    },
+    {
+      "id": 5,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 1,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:09.916Z"
+    },
+    {
+      "id": 6,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 2,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:12.572Z"
+    },
+    {
+      "id": 7,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 3,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:14.318Z"
+    },
+    {
+      "id": 8,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 4,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:15.128Z"
+    },
+    {
+      "id": 9,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 5,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:16.085Z"
+    },
+    {
+      "id": 10,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 6,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:17.504Z"
+    },
+    {
+      "id": 11,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 7,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:18.623Z"
+    },
+    {
+      "id": 12,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 8,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:19.868Z"
+    },
+    {
+      "id": 13,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 9,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:20.896Z"
+    },
+    {
+      "id": 14,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 10,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:21.872Z"
+    },
+    {
+      "id": 15,
+      "tadTsMetrics": {
+        "totalStories": 0,
+        "tadComplete": 0,
+        "tadNa": 0,
+        "tadMissing": 0,
+        "tadPct": 0,
+        "tsComplete": 0,
+        "tsNa": 0,
+        "tsMissing": 0,
+        "tsPct": 0
+      },
+      "qtestMetrics": {
+        "uniqueTestCases": 0,
+        "automatedTestCases": 0,
+        "manualTestCases": 0,
+        "automationPct": 0,
+        "totalTestRuns": 0
+      },
+      "defectMetrics": {
+        "totalDefects": 0,
+        "reopenedDefects": 0,
+        "reopenedPct": 0,
+        "bySeverity": {},
+        "bySdlc": {}
+      },
+      "teamId": 11,
+      "sprintId": 1,
+      "timestamp": "2026-01-26T20:21:22.931Z"
     }
   ]
 }

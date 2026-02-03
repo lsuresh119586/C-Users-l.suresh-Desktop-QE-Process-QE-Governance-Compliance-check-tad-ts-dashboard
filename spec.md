@@ -1117,7 +1117,197 @@ Organization > T360 > Chubb Team > Sprint 26.1.2 > ELM-12345
 - Test case not found: Mark as "No Test Cases"
 - Execution data missing: Mark as "Not Executed"
 
-### 5.3 Bitbucket Integration
+### 5.3 Data Integration Service (Python)
+
+**Purpose**: Centralized service that orchestrates data collection from all sources (Jira, QTest, Bitbucket) and populates the Polaris API Gateway database.
+
+**Architecture**:
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Data Integration Service (Python)                          │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │  Jira MCP Client  →  Fetch Stories, Defects             ││
+│  │  QTest MCP Client →  Fetch Test Cases, Executions       ││
+│  │  Bitbucket Client →  Fetch PRs, TAD/TS Documents        ││
+│  └─────────────────────────────────────────────────────────┘│
+│                          ↓                                   │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │  Data Transformation Layer                               ││
+│  │  - Map Jira stories to teams/sprints                     ││
+│  │  - Extract TAD/TS status from PRs                        ││
+│  │  - Aggregate test metrics by story                       ││
+│  │  - Calculate compliance percentages                      ││
+│  └─────────────────────────────────────────────────────────┘│
+│                          ↓                                   │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │  Polaris API Client (HTTP)                               ││
+│  │  POST /api/metrics → Update dashboard data               ││
+│  └─────────────────────────────────────────────────────────┘│
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Technology Stack**:
+- **Language**: Python 3.11+
+- **HTTP Client**: `requests` or `httpx` for API calls
+- **MCP Client**: Custom MCP client or `mcp` Python package
+- **Data Processing**: `pandas` for data transformation
+- **Scheduling**: `schedule` library for periodic sync
+- **Logging**: `logging` module with file rotation
+- **Configuration**: `.env` file with `python-dotenv`
+
+**Configuration (Environment Variables)**:
+```env
+# Jira MCP Server
+JIRA_MCP_SERVER_URL=http://localhost:3000 (if HTTP) or stdio
+JIRA_API_TOKEN=<your-jira-pat>
+JIRA_BASE_URL=https://jira.wolterskluwer.io/jira
+JIRA_PROJECT_KEY=ELM
+
+# QTest MCP Proxy
+QTEST_MCP_PROXY_URL=http://localhost:8080
+QTEST_API_TOKEN=<your-qtest-token>
+QTEST_PROJECT_ID=123456
+
+# Bitbucket
+BITBUCKET_BASE_URL=https://bitbucket.wolterskluwer.io
+BITBUCKET_ACCESS_TOKEN=<your-bitbucket-token>
+BITBUCKET_REPOS=TYM/tymetrix360core,DEP/aiconsole
+
+# Polaris API Gateway
+POLARIS_API_URL=http://localhost:3000/api
+
+# Sync Configuration
+SYNC_INTERVAL_MINUTES=15
+BATCH_SIZE=50
+```
+
+**Core Functions**:
+
+1. **`fetch_jira_stories(team_id, sprint_id)`**:
+   ```python
+   # Use Jira MCP Server tool: get_my_issues or search_issues
+   # Filter by: team (via custom field), sprint (fixVersion)
+   # Returns: List[{key, summary, status, assignee, customFields}]
+   ```
+
+2. **`fetch_tad_ts_status(story_key)`**:
+   ```python
+   # Use Jira MCP Server tools:
+   # - get_tad_document(issueKey) → returns TAD content or null
+   # - get_test_strategy(issueKey) → returns TS content or null
+   # Returns: {tadStatus: 'Complete'|'Incomplete'|'N/A', 
+   #           tsStatus: 'Complete'|'Incomplete'|'N/A'}
+   ```
+
+3. **`fetch_test_cases(story_key)`**:
+   ```python
+   # Use QTest MCP tool: get_test_cases_by_jira_key(story_key)
+   # Returns: List[{id, name, automation_status, last_run_result}]
+   ```
+
+4. **`fetch_defects(team_id, sprint_id)`**:
+   ```python
+   # Use Jira MCP tool: search_issues with JQL
+   # JQL: project=ELM AND issuetype=Bug AND team=<teamId> AND sprint=<sprintId>
+   # Returns: List[{key, severity, status, sdlc_activity, reopened}]
+   ```
+
+5. **`transform_to_metrics(stories, test_cases, defects)`**:
+   ```python
+   # Aggregate and calculate:
+   # - tadComplete, tadNa, tadMissing counts
+   # - tsComplete, tsNa, tsMissing counts
+   # - automatedTestCases, manualTestCases counts
+   # - totalDefects, reopenedDefects counts
+   # - defects by severity and SDLC phase
+   # Returns: MetricsSnapshot object
+   ```
+
+6. **`push_metrics_to_api(metrics)`**:
+   ```python
+   # POST to Polaris API: /api/metrics
+   # Payload: MetricsSnapshot JSON
+   # Returns: Success/failure status
+   ```
+
+**Main Sync Loop**:
+```python
+def sync_team_sprint_metrics(team_id, sprint_id):
+    logger.info(f"Syncing metrics for team {team_id}, sprint {sprint_id}")
+    
+    # Step 1: Fetch stories
+    stories = fetch_jira_stories(team_id, sprint_id)
+    logger.info(f"Fetched {len(stories)} stories")
+    
+    # Step 2: Fetch TAD/TS status for each story
+    for story in stories:
+        tad_ts = fetch_tad_ts_status(story['key'])
+        story['tadStatus'] = tad_ts['tadStatus']
+        story['tsStatus'] = tad_ts['tsStatus']
+    
+    # Step 3: Fetch test cases for each story
+    all_test_cases = []
+    for story in stories:
+        test_cases = fetch_test_cases(story['key'])
+        all_test_cases.extend(test_cases)
+    logger.info(f"Fetched {len(all_test_cases)} test cases")
+    
+    # Step 4: Fetch defects
+    defects = fetch_defects(team_id, sprint_id)
+    logger.info(f"Fetched {len(defects)} defects")
+    
+    # Step 5: Transform to metrics
+    metrics = transform_to_metrics(stories, all_test_cases, defects)
+    
+    # Step 6: Push to API
+    result = push_metrics_to_api(metrics)
+    logger.info(f"Metrics pushed: {result}")
+    
+    return result
+
+def sync_all_teams():
+    teams = [(1, 1), (2, 1), (5, 1), (7, 1), (10, 1)]  # (teamId, sprintId)
+    for team_id, sprint_id in teams:
+        try:
+            sync_team_sprint_metrics(team_id, sprint_id)
+        except Exception as e:
+            logger.error(f"Error syncing team {team_id}: {e}")
+
+if __name__ == "__main__":
+    # Run once on startup
+    sync_all_teams()
+    
+    # Schedule periodic sync every 15 minutes
+    schedule.every(15).minutes.do(sync_all_teams)
+    
+    while True:
+        schedule.run_pending()
+        time.sleep(60)
+```
+
+**Error Handling**:
+- Jira MCP unavailable: Skip TAD/TS fetch, mark as "Unknown", log error
+- QTest MCP unavailable: Skip test metrics, set to 0, log error
+- Bitbucket API error: Retry 3 times with exponential backoff, then fail
+- API Gateway unavailable: Queue metrics in memory, retry on next cycle
+- Partial data: Push partial metrics with warnings in logs
+
+**Deployment**:
+- **Development**: Run locally with `python integration_service.py`
+- **Production**: Deploy as Docker container or Windows Service
+- **Monitoring**: Log to file + stdout, integrate with ELK/Splunk
+- **Health Check**: HTTP endpoint `/health` returns service status
+
+**Initial Implementation Scope (Phase 1 Week 2)**:
+- ✅ Jira stories fetch
+- ✅ TAD/TS status extraction via Jira MCP
+- ✅ Basic metrics transformation
+- ✅ Push to Polaris API
+- ⏳ QTest integration (Phase 1 Week 3)
+- ⏳ Bitbucket PR parsing (Phase 1 Week 3)
+- ⏳ Scheduled sync (Phase 1 Week 3)
+
+### 5.4 Bitbucket Integration
 
 **Integration Approach**:
 - Direct API integration (no MCP proxy)

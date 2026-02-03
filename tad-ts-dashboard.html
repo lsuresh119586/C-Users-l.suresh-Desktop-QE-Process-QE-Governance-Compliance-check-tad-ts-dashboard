@@ -554,19 +554,28 @@
             if (!data || !data.teams) return;
 
             const tbody = document.getElementById('testCaseSummaryBody');
-            if (!tbody) return;
+            if (!tbody) {
+                console.error('testCaseSummaryBody element not found!');
+                return;
+            }
+
+            console.log('updateTestCaseSummaryTable called with data:', data);
+            console.log('teams:', data.teams);
+            console.log('totals:', data.totals);
 
             // Store data globally for missing attachments modal
             window.qtestData = data;
 
             // Sort teams alphabetically
             const sortedTeams = Object.keys(data.teams).sort();
+            console.log('sorted teams:', sortedTeams);
             
             let html = '';
             let totalWithoutAttachments = 0;
             let totalAutomated = 0;
             sortedTeams.forEach(teamName => {
                 const team = data.teams[teamName];
+                console.log(`Processing team ${teamName}:`, team);
                 if (team.total > 0) {
                     const notAutomated = team.total - team.automated;
                     // Only count missing attachments for automated cases
@@ -589,6 +598,8 @@
                 }
             });
 
+            console.log('HTML before totals:', html);
+
             // Add totals row
             const totalNotAutomated = data.totals.total - data.totals.automated;
             html += `<tr style="background: #f0f4ff; font-weight: bold;">
@@ -600,7 +611,9 @@
                 <td><strong>${totalWithoutAttachments}</strong></td>
             </tr>`;
 
+            console.log('Final HTML:', html);
             tbody.innerHTML = html;
+            console.log('tbody.innerHTML set successfully. tbody now has', tbody.children.length, 'rows');
 
             // Update summary text
             const summaryDiv = document.getElementById('testCaseSummaryText');

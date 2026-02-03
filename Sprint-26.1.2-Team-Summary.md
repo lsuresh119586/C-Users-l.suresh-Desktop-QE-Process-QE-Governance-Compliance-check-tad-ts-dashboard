@@ -1,19 +1,19 @@
 # Sprint 26.1.2 - Team Test Case Summary
 
-**Report Date:** February 3, 2026  
-**Data Source:** qTest Project ID 114345  
+**Report Date:** February 3, 2026
+**Data Source:** qTest Project ID 114345
 **Module ID:** 68209714
 
 ## Test Case Distribution by Team
 
-| Sprint Team | No. of Automated | No. of Not Automated | Total Test Cases | Automation % |
-|-------------|------------------|---------------------|------------------|--------------|
-| Chubb | 11 | 0 | 11 | 100.0% |
-| Matrix | 6 | 0 | 6 | 100.0% |
-| Mavericks | 9 | 0 | 9 | 100.0% |
-| Nexus | 34 | 0 | 34 | 100.0% |
-| Vanguards | 30 | 2 | 32 | 93.8% |
-| **TOTAL** | **90** | **2** | **92** | **97.8%** |
+| Sprint Team     | No. of Automated | No. of Not Automated | Total Test Cases | Automation %    |
+| --------------- | ---------------- | -------------------- | ---------------- | --------------- |
+| Chubb           | 11               | 0                    | 11               | 100.0%          |
+| Matrix          | 6                | 0                    | 6                | 100.0%          |
+| Mavericks       | 9                | 0                    | 9                | 100.0%          |
+| Nexus           | 34               | 0                    | 34               | 100.0%          |
+| Vanguards       | 30               | 2                    | 32               | 93.8%           |
+| **TOTAL** | **90**     | **2**          | **92**     | **97.8%** |
 
 ---
 
@@ -30,6 +30,7 @@
 ## Team Rankings
 
 ### By Total Test Cases
+
 1. Nexus - 34 test cases (37.0% of total)
 2. Vanguards - 32 test cases (34.8% of total)
 3. Chubb - 11 test cases (12.0% of total)
@@ -37,6 +38,7 @@
 5. Matrix - 6 test cases (6.5% of total)
 
 ### By Automation Percentage
+
 1. Chubb - 100.0% (11 out of 11) ⭐
 2. Matrix - 100.0% (6 out of 6) ⭐
 3. Mavericks - 100.0% (9 out of 9) ⭐
@@ -44,6 +46,7 @@
 5. Vanguards - 93.8% (30 out of 32)
 
 ### By Automated Test Cases Volume
+
 1. Nexus - 34 automated cases ⭐
 2. Vanguards - 30 automated cases
 3. Chubb - 11 automated cases
@@ -55,6 +58,7 @@
 ## Detailed Breakdown by Team
 
 ### Chubb (11 cases - 100% automated) ⭐
+
 - **Module:** Sprint 26.1.2 parent folder (68209714)
 - **Status:** All test cases automated
 - **Key Features Tested:**
@@ -66,6 +70,7 @@
 - **Improvement:** Achieved 100% automation (up from 0% in Sprint 26.1.1)
 
 ### Matrix (6 cases - 100% automated) ⭐
+
 - **Module:** Sprint 26.1.2 parent folder (68209714)
 - **Status:** All test cases automated
 - **Key Features Tested:**
@@ -76,6 +81,7 @@
 - **Improvement:** Maintained strong automation from Sprint 26.1.1 (72.7% → 100%)
 
 ### Mavericks (9 cases - 100% automated) ⭐
+
 - **Module:** Sprint 26.1.2 parent folder (68209714)
 - **Status:** All test cases automated
 - **Key Features Tested:**
@@ -87,6 +93,7 @@
 - **Improvement:** Maintained strong automation (54.5% → 100%)
 
 ### Nexus (34 cases - 100% automated) ⭐
+
 - **Module:** Sprint 26.1.2 parent folder (68209714)
 - **Status:** All test cases automated - Highest volume team
 - **Key Features Tested:**
@@ -100,6 +107,7 @@
 - **Notable:** Largest test suite with perfect automation
 
 ### Vanguards (32 cases - 93.8% automated)
+
 - **Module:** Sprint 26.1.2 parent folder (68209714)
 - **Status:** 30 automated, 2 manual (keyboard/accessibility testing)
 - **Key Features Tested:**
@@ -121,19 +129,22 @@
 ## Key Insights
 
 ### Automation Excellence
-- **Overall Automation Rate:** 97.8% - Exceptional improvement from 26.9% in Sprint 26.1.1
+
+- **Overall Automation Rate:** 97.8% - Maintained high automation standards
 - **4 Teams Achieved 100% Automation:** Chubb, Matrix, Mavericks, Nexus
 - **Only 2 Manual Cases:** Both are accessibility/keyboard testing cases in Vanguards (by design)
 
 ### Sprint Comparison (26.1.1 vs 26.1.2)
-| Metric | Sprint 26.1.1 | Sprint 26.1.2 | Change |
-|--------|---------------|---------------|--------|
-| Total Test Cases | 78 | 92 | +14 (+17.9%) |
-| Automated Cases | 21 | 90 | +69 (+328.6%) |
-| Automation % | 26.9% | 97.8% | +70.9 pp |
-| Teams at 100% | 0 | 4 | +4 |
+
+| Metric           | Sprint 26.1.1 | Sprint 26.1.2 | Change         |
+| ---------------- | ------------- | ------------- | -------------- |
+| Total Test Cases | 143           | 92            | -51 (-35.7%)   |
+| Automated Cases  | 142           | 90            | -52 (-36.6%)   |
+| Automation %     | 99.3%         | 97.8%         | -1.5 pp        |
+| Teams at 100%    | 3             | 4             | +1             |
 
 ### Test Coverage Distribution
+
 - **UI Testing:** 24 cases (Matrix, Mavericks, Nexus, Vanguards)
 - **Workflow Testing:** 19 cases (Chubb, Nexus)
 - **Integration Testing:** 8 cases (Matrix, Vanguards)
@@ -144,10 +155,11 @@
 - **Edge Case Testing:** 11 cases (All teams)
 
 ### Team Highlights
-✅ **Chubb:** Dramatic improvement from 0% to 100% automation  
-✅ **Matrix:** Maintained and improved automation (72.7% → 100%)  
-✅ **Mavericks:** Significant automation increase (54.5% → 100%)  
-✅ **Nexus:** Excellent execution with largest automated test suite  
+
+✅ **Chubb:** Dramatic improvement from 0% to 100% automation
+✅ **Matrix:** Maintained and improved automation (72.7% → 100%)
+✅ **Mavericks:** Significant automation increase (54.5% → 100%)
+✅ **Nexus:** Excellent execution with largest automated test suite
 ✅ **Vanguards:** Strong automation with intentional manual accessibility testing
 
 ---
@@ -155,11 +167,13 @@
 ## Action Items
 
 ### For All Teams
+
 - ✅ **COMPLETE:** Maintain 97.8% automation rate
 - 🎯 **Target:** Monitor execution results in upcoming sprints
 - 📊 **Tracking:** Continue using qTest for test case management
 
 ### For Vanguards
+
 - ℹ️ **Note:** Manual accessibility test cases are by design and appropriate
 - 💡 **Optional:** Consider automated accessibility testing tools for future sprints
 
@@ -186,13 +200,13 @@
 
 ## Sprint 26.1.2 Success Metrics
 
-| Metric | Value | Status |
-|--------|-------|--------|
-| Test Case Coverage | 92 cases | ✅ Excellent |
-| Automation Rate | 97.8% | ✅ Outstanding |
-| Teams at 100% Automation | 4 out of 5 | ✅ Excellent |
-| Test Distribution | Well-balanced across teams | ✅ Good |
-| Manual Test Cases | 2 (accessibility) | ✅ Appropriate |
+| Metric                   | Value                       | Status         |
+| ------------------------ | --------------------------- | -------------- |
+| Test Case Coverage       | 92 cases                    | ✅ Excellent   |
+| Automation Rate          | 97.8%                       | ✅ Outstanding |
+| Teams at 100% Automation | 4 out of 5                  | ✅ Excellent   |
+| Test Distribution        | Well-balanced across teams  | ✅ Good        |
+| Manual Test Cases        | 2 (keyboard accessibility) | ✅ Appropriate |
 
 ---
 
@@ -202,12 +216,12 @@
 
 ## Appendix: Module Structure
 
-| Team | Module ID | Module Path | Test Cases |
-|------|-----------|-------------|------------|
-| Chubb | 68209714 | Sprint 26.1.2 (parent) | 11 |
-| Matrix | 68209714 | Sprint 26.1.2 (parent) | 6 |
-| Mavericks | 68209714 | Sprint 26.1.2 (parent) | 9 |
-| Nexus | 68209714 | Sprint 26.1.2 (parent) | 34 |
-| Vanguards | 68209714 | Sprint 26.1.2 (parent) | 32 |
+| Team      | Module ID | Module Path            | Test Cases |
+| --------- | --------- | ---------------------- | ---------- |
+| Chubb     | 68209714  | Sprint 26.1.2 (parent) | 11         |
+| Matrix    | 68209714  | Sprint 26.1.2 (parent) | 6          |
+| Mavericks | 68209714  | Sprint 26.1.2 (parent) | 9          |
+| Nexus     | 68209714  | Sprint 26.1.2 (parent) | 34         |
+| Vanguards | 68209714  | Sprint 26.1.2 (parent) | 32         |
 
 All test cases are organized under the main Sprint 26.1.2 module with team-specific sub-modules for different features/stories.

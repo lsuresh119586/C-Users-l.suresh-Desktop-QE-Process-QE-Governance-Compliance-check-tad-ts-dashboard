@@ -551,17 +551,26 @@
         }
 
         function updateTestCaseSummaryTable(data) {
-            if (!data || !data.teams) return;
-
-            const tbody = document.getElementById('testCaseSummaryBody');
-            if (!tbody) {
-                console.error('testCaseSummaryBody element not found!');
+            console.log('=== START updateTestCaseSummaryTable ===');
+            if (!data || !data.teams) {
+                console.log('ERROR: No data or data.teams');
                 return;
             }
 
-            console.log('updateTestCaseSummaryTable called with data:', data);
-            console.log('teams:', data.teams);
-            console.log('totals:', data.totals);
+            const tbody = document.getElementById('testCaseSummaryBody');
+            if (!tbody) {
+                console.error('ERROR: testCaseSummaryBody element not found!');
+                return;
+            }
+
+            console.log('✓ tbody element found');
+            console.log('Data structure:', {
+                sprint_name: data.sprint_name,
+                generated: data.generated,
+                totals: data.totals,
+                teams_count: Object.keys(data.teams).length,
+                teams_keys: Object.keys(data.teams)
+            });
 
             // Store data globally for missing attachments modal
             window.qtestData = data;
@@ -611,9 +620,12 @@
                 <td><strong>${totalWithoutAttachments}</strong></td>
             </tr>`;
 
-            console.log('Final HTML:', html);
+            console.log('Final HTML length:', html.length);
+            console.log('Setting tbody.innerHTML...');
             tbody.innerHTML = html;
-            console.log('tbody.innerHTML set successfully. tbody now has', tbody.children.length, 'rows');
+            console.log('✓ tbody.innerHTML SET. Current rows count:', tbody.rows.length);
+            console.log('✓ First row HTML:', tbody.rows[0]?.innerHTML || 'NO ROWS');
+            console.log('=== END updateTestCaseSummaryTable ===');
 
             // Update summary text
             const summaryDiv = document.getElementById('testCaseSummaryText');

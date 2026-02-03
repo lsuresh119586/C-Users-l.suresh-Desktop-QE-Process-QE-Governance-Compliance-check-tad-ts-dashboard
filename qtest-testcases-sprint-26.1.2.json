@@ -1,16 +1,16 @@
 {
   "sprint_name": "Sprint 26.1.2",
   "module_id": 68209714,
-  "generated": "2026-02-02 11:41:39",
+  "generated": "2026-02-03 18:05:58",
   "totals": {
-    "total": 104,
-    "automated": 91,
-    "with_attachments": 91,
+    "total": 96,
+    "automated": 90,
+    "with_attachments": 90,
     "without_attachments": 0
   },
   "teams": {
     "Chubb": {
-      "total": 19,
+      "total": 15,
       "automated": 11,
       "with_attachments": 11,
       "without_attachments": 0,
@@ -72,13 +72,6 @@
           "has_attachment": true
         },
         {
-          "id": "TC-26354",
-          "qtest_id": 138244785,
-          "name": "Verify Associate Affiliated vendor to a law firm with multiple tiers with the same job number.",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
           "id": "TC-26086",
           "qtest_id": 138102359,
           "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
@@ -86,32 +79,11 @@
           "has_attachment": true
         },
         {
-          "id": "TC-26353",
-          "qtest_id": 138244784,
-          "name": "verify Unique Job Number is accepted when vendors already exist in a same matter with different matter company.",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
           "id": "TC-26069",
           "qtest_id": 138090421,
           "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is enabled.",
           "automated": true,
           "has_attachment": true
-        },
-        {
-          "id": "TC-26351",
-          "qtest_id": 138244777,
-          "name": "Verify the error message when an Affiliated Vendor uses Data Exchange to associate with the same matter company on a matter with different job number.",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
-          "id": "TC-26352",
-          "qtest_id": 138244778,
-          "name": "Verify the error message for job number uniqueness when adding a new Affiliated Vendor with an existing job number",
-          "automated": false,
-          "has_attachment": false
         },
         {
           "id": "TC-26095",
@@ -201,7 +173,7 @@
       ]
     },
     "Mavericks": {
-      "total": 13,
+      "total": 9,
       "automated": 9,
       "with_attachments": 9,
       "without_attachments": 0,
@@ -268,34 +240,6 @@
           "name": "Verify Error Message Display For Required Field Validation",
           "automated": true,
           "has_attachment": true
-        },
-        {
-          "id": "TC-26213",
-          "qtest_id": 138149933,
-          "name": "Search All Invoices Beta - Filter by Net Total",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
-          "id": "TC-26207",
-          "qtest_id": 138149927,
-          "name": "Search All Invoices Beta - Filter by Invoice Number",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
-          "id": "TC-26074",
-          "qtest_id": 138091176,
-          "name": "Verify Search All Invoices Beta Page Filters By Invoice Date",
-          "automated": false,
-          "has_attachment": false
-        },
-        {
-          "id": "TC-26208",
-          "qtest_id": 138149928,
-          "name": "Search All Invoices Beta - Filter by Vendor/Firm",
-          "automated": false,
-          "has_attachment": false
         }
       ]
     },
@@ -547,8 +491,8 @@
     },
     "Vanguards": {
       "total": 32,
-      "automated": 31,
-      "with_attachments": 31,
+      "automated": 30,
+      "with_attachments": 30,
       "without_attachments": 0,
       "test_cases": [
         {
@@ -688,8 +632,8 @@
           "id": "TC-25748",
           "qtest_id": 137946538,
           "name": "Verify Citations Are Keyboard Accessible And Navigable",
-          "automated": true,
-          "has_attachment": true
+          "automated": false,
+          "has_attachment": false
         },
         {
           "id": "TC-25741",

@@ -4,23 +4,23 @@
   "generated": "2026-02-03 18:05:58",
   "totals": {
     "total": 96,
-    "automated": 90,
-    "with_attachments": 90,
+    "automated": 94,
+    "with_attachments": 94,
     "without_attachments": 0
   },
   "teams": {
     "Chubb": {
       "total": 15,
-      "automated": 11,
-      "with_attachments": 11,
+      "automated": 15,
+      "with_attachments": 15,
       "without_attachments": 0,
       "test_cases": [
         {
           "id": "TC-26050",
           "qtest_id": 138089499,
           "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Single Budget",
-          "automated": false,
-          "has_attachment": false
+          "automated": true,
+          "has_attachment": true
         },
         {
           "id": "TC-26088",
@@ -40,8 +40,8 @@
           "id": "TC-26053",
           "qtest_id": 138089503,
           "name": "Verify escalation popup should not available when service is disable",
-          "automated": false,
-          "has_attachment": false
+          "automated": true,
+          "has_attachment": true
         },
         {
           "id": "TC-26082",
@@ -54,15 +54,15 @@
           "id": "TC-26052",
           "qtest_id": 138089502,
           "name": "Verify the popup should close successfully when click on cancel button in escalation popup",
-          "automated": false,
-          "has_attachment": false
+          "automated": true,
+          "has_attachment": true
         },
         {
           "id": "TC-26051",
           "qtest_id": 138089501,
           "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Multiple Budget",
-          "automated": false,
-          "has_attachment": false
+          "automated": true,
+          "has_attachment": true
         },
         {
           "id": "TC-26080",

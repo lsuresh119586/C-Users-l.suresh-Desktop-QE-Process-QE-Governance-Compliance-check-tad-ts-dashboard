@@ -1443,6 +1443,14 @@
 
         // Load data on page load
         console.log('Page loaded, calling loadReportData()...');
+        
+        // Check if preloaded data is available
+        console.log('Checking preloaded data availability...');
+        console.log('qtestData_26_1_1:', typeof window.qtestData_26_1_1);
+        console.log('qtestData_26_1_2:', typeof window.qtestData_26_1_2);
+        console.log('qtestData_26_1_3:', typeof window.qtestData_26_1_3);
+        console.log('qtestData_26_1_4:', typeof window.qtestData_26_1_4);
+        
         loadReportData();
         
         // Load initial test case data for default sprint (26.1.2)

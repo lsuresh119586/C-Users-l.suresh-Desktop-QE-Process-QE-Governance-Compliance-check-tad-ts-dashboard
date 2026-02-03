@@ -4,21 +4,21 @@
   "summary": {
     "total": 23,
     "tadComplete": 17,
-    "tsComplete": 19,
+    "tsComplete": 17,
     "bothComplete": 17,
     "missingTad": 0,
     "missingTs": 0,
     "tadNA": 6,
-    "tsNA": 4,
+    "tsNA": 6,
     "tadApplicable": 17,
-    "tsApplicable": 19,
+    "tsApplicable": 17,
     "tadPct": 100.0,
     "tsPct": 100.0,
     "bothPct": 73.91304347826086,
     "missingTadPct": 0.0,
     "missingTsPct": 0.0,
     "tadNAPct": 26.08695652173913,
-    "tsNAPct": 17.391304347826086
+    "tsNAPct": 26.08695652173913
   },
   "defects": {
     "totalDefects": 30,
@@ -542,16 +542,16 @@
     "T360 Chargers": {
       "total": 6,
       "tadComplete": 0,
-      "tsComplete": 2,
+      "tsComplete": 0,
       "bothComplete": 0,
       "tadNA": 6,
-      "tsNA": 4,
+      "tsNA": 6,
       "tadApplicable": 0,
-      "tsApplicable": 2,
+      "tsApplicable": 0,
       "missingTad": 0,
       "missingTs": 0,
       "tadPct": 0,
-      "tsPct": 100.0,
+      "tsPct": 0,
       "issues": [
         {
           "key": "GET-65982",
@@ -602,12 +602,12 @@
           "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 0,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-68394",
@@ -616,12 +616,12 @@
           "status": "Closed",
           "sprint": "No Sprint",
           "tadFound": false,
-          "tsFound": true,
+          "tsFound": false,
           "totalPrs": 2,
           "tadNA": true,
           "tadNAComment": "This is an enabler story to prepare the templates for the actual modernization implementation. Hence, the TAD and TS are not required.",
-          "tsNA": false,
-          "tsNAComment": null
+          "tsNA": true,
+          "tsNAComment": "Test Strategy N/A because TAD is N/A"
         },
         {
           "key": "GET-69158",

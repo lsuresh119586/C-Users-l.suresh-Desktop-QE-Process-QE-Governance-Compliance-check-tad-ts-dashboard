@@ -693,12 +693,22 @@
                     // Load qTest test case data if available FIRST
                     const sprintVersion = selectedSprint === 'current' ? '26.1.3' : selectedSprint;
                     console.log('Loading qTest data for sprint:', sprintVersion);
-                    const qtestData = await loadTestCaseData(sprintVersion);
-                    if (qtestData) {
-                        console.log('qTest data loaded, updating test case summary:', qtestData);
-                        updateTestCaseSummaryTable(qtestData);
-                    } else {
-                        console.log('No qTest data found for sprint:', sprintVersion);
+                    try {
+                        const qtestData = await loadTestCaseData(sprintVersion);
+                        if (qtestData) {
+                            console.log('qTest data loaded, updating test case summary:', qtestData);
+                            updateTestCaseSummaryTable(qtestData);
+                            console.log('✓ Test Case Summary refreshed successfully');
+                        } else {
+                            console.log('No qTest data found for sprint:', sprintVersion);
+                            // Show message that no test case data is available
+                            const tbody = document.getElementById('testCaseSummaryBody');
+                            if (tbody) {
+                                tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #f59e0b; padding: 20px;">No test case data available for sprint ' + sprintVersion + '</td></tr>';
+                            }
+                        }
+                    } catch (error) {
+                        console.error('Error loading test case data:', error);
                     }
                     
                     updateDashboard();

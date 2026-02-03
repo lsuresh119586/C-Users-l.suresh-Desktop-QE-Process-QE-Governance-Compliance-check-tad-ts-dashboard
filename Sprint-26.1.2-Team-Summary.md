@@ -211,40 +211,45 @@
 ---
 ## Defect Analysis: Sprint Comparison
 
-### Defect Count by Type (26.1.1 vs 26.1.2)
+### Defect Count by Activity (26.1.1 vs 26.1.2)
 
-| Defect Type                  | Sprint 26.1.1 (Jan-25) | Sprint 26.1.2 (Feb-Mar 25) | Change   |
-| ---------------------------- | ---------------------- | -------------------------- | -------- |
-| Application                  | 3 (50.0%)              | 11 (50.0%)                 | **+8**   |
-| Application - Performance    | 1 (16.7%)              | 4 (18.2%)                  | **+3**   |
-| Application - Not Reproduced | 2 (33.3%)              | 2 (9.1%)                   | 0        |
-| Infrastructure               | 0 (0%)                 | 2 (9.1%)                   | **+2**   |
-| Custom Integration           | 0 (0%)                 | 2 (9.1%)                   | **+2**   |
-| Payment Application          | 0 (0%)                 | 1 (4.5%)                   | **+1**   |
-| **TOTAL**                    | **6**                  | **22**                     | **+16**  |
+| Activity                 | Sprint 26.1.1 | Sprint 26.1.2 | Change  |
+| ------------------------ | ------------- | ------------- | ------- |
+| QE Feature Testing       | 13 (76.5%)    | 22 (73.3%)    | **+9**  |
+| QE Integration Testing   | 0 (0%)        | 2 (6.7%)      | **+2**  |
+| QE Performance Testing   | 0 (0%)        | 2 (6.7%)      | **+2**  |
+| QE Regression Testing    | 1 (5.9%)      | 1 (3.3%)      | 0       |
+| Vulnerability Testing    | 1 (5.9%)      | 0 (0%)        | -1      |
+| User Acceptance Testing  | 1 (5.9%)      | 0 (0%)        | -1      |
+| Smoke Test               | 0 (0%)        | 1 (3.3%)      | **+1**  |
+| Production               | 1 (5.9%)      | 1 (3.3%)      | 0       |
+| Deployment Verification  | 0 (0%)        | 1 (3.3%)      | **+1**  |
+| **TOTAL**                | **17**        | **30**        | **+13** |
 
 ### Key Observations
 
 **Defect Volume:**
-- Sprint 26.1.2 saw a 267% increase in total defects (6 → 22)
-- This increase corresponds with expanded test coverage and feature scope
+- Sprint 26.1.2 saw a 76.5% increase in total defects (17 → 30)
+- This increase reflects expanded test coverage and feature scope
 
 **Defect Distribution:**
-- **Application defects** increased significantly (+8, +267%)
-- **Performance defects** tripled (+3, +300%)
-- **Three new defect categories** emerged in Sprint 26.1.2:
-  - Infrastructure issues (2 defects)
-  - Custom Integration issues (2 defects)
-  - Payment Application issues (1 defect)
+- **QE Feature Testing** increased from 13 to 22 defects (+9, +69%)
+- **New testing activities** introduced in Sprint 26.1.2:
+  - QE Integration Testing (2 defects)
+  - QE Performance Testing (2 defects)
+  - Smoke Test (1 defect)
+  - Deployment Verification (1 defect)
 
-**Stability Indicators:**
-- **Not Reproduced defects** remained stable at 2
-- Application defects maintained 50% proportion despite higher absolute count
+**Team Impact:**
+- **Vanguards:** Highest defect count - 11 defects (up from 5 in 26.1.1)
+- **Nexus:** 7 defects (up from 2 in 26.1.1)
+- **Matrix:** 6 defects (up from 2 in 26.1.1)
+- **Mavericks:** 4 defects (up from 1 in 26.1.1)
 
 **Quality Impact:**
-- Higher defect count reflects increased testing rigor and broader feature coverage
-- Performance-related issues require attention for scalability
-- New infrastructure and integration categories suggest system complexity growth
+- Higher defect count reflects increased testing rigor and broader test activity coverage
+- Introduction of performance and integration testing categories shows maturity in testing approach
+- Feature testing remains the primary defect discovery phase (73.3% of all defects)
 
 ---
 **Note:** This report reflects test cases retrieved from qTest Module 68209714 (Sprint 26.1.2) on February 3, 2026. Teams have demonstrated exceptional automation discipline and execution quality in this sprint.

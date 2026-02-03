@@ -209,7 +209,44 @@
 | Manual Test Cases        | 2 (keyboard accessibility) | ✅ Appropriate |
 
 ---
+## Defect Analysis: Sprint Comparison
 
+### Defect Count by Type (26.1.1 vs 26.1.2)
+
+| Defect Type                  | Sprint 26.1.1 (Jan-25) | Sprint 26.1.2 (Feb-Mar 25) | Change   |
+| ---------------------------- | ---------------------- | -------------------------- | -------- |
+| Application                  | 3 (50.0%)              | 11 (50.0%)                 | **+8**   |
+| Application - Performance    | 1 (16.7%)              | 4 (18.2%)                  | **+3**   |
+| Application - Not Reproduced | 2 (33.3%)              | 2 (9.1%)                   | 0        |
+| Infrastructure               | 0 (0%)                 | 2 (9.1%)                   | **+2**   |
+| Custom Integration           | 0 (0%)                 | 2 (9.1%)                   | **+2**   |
+| Payment Application          | 0 (0%)                 | 1 (4.5%)                   | **+1**   |
+| **TOTAL**                    | **6**                  | **22**                     | **+16**  |
+
+### Key Observations
+
+**Defect Volume:**
+- Sprint 26.1.2 saw a 267% increase in total defects (6 → 22)
+- This increase corresponds with expanded test coverage and feature scope
+
+**Defect Distribution:**
+- **Application defects** increased significantly (+8, +267%)
+- **Performance defects** tripled (+3, +300%)
+- **Three new defect categories** emerged in Sprint 26.1.2:
+  - Infrastructure issues (2 defects)
+  - Custom Integration issues (2 defects)
+  - Payment Application issues (1 defect)
+
+**Stability Indicators:**
+- **Not Reproduced defects** remained stable at 2
+- Application defects maintained 50% proportion despite higher absolute count
+
+**Quality Impact:**
+- Higher defect count reflects increased testing rigor and broader feature coverage
+- Performance-related issues require attention for scalability
+- New infrastructure and integration categories suggest system complexity growth
+
+---
 **Note:** This report reflects test cases retrieved from qTest Module 68209714 (Sprint 26.1.2) on February 3, 2026. Teams have demonstrated exceptional automation discipline and execution quality in this sprint.
 
 ---

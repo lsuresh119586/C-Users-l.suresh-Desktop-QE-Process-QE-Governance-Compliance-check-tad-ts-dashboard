@@ -41,10 +41,10 @@ const writeDatabase = (data) => {
 // Default data structure
 const defaultData = {
   products: [
-    { id: 'collaboration-portal', name: 'Collaboration Portal' },
-    { id: 'dna', name: 'DnA' },
     { id: 'passport', name: 'Passport' },
-    { id: 't360', name: 'T360' }
+    { id: 't360', name: 'T360' },
+    { id: 'dna', name: 'DnA' },
+    { id: 'collaboration-portal', name: 'Collaboration Portal' }
   ],
   teams: [
     // Passport teams
@@ -52,18 +52,25 @@ const defaultData = {
     { id: 'team-b', name: 'Team B', product: 'passport' },
     { id: 'team-c', name: 'Team C', product: 'passport' },
     
-    // T360 teams (alphabetically ordered)
+    // T360 teams
+    { id: 'vanguards', name: 'Vanguards', product: 't360' },
     { id: 'chargers', name: 'Chargers', product: 't360' },
     { id: 'chubb', name: 'Chubb', product: 't360' },
     { id: 'matrix', name: 'Matrix', product: 't360' },
     { id: 'mavericks', name: 'Mavericks', product: 't360' },
-    { id: 'nexus', name: 'Nexus', product: 't360' },
-    { id: 'vanguards', name: 'Vanguards', product: 't360' }
+    { id: 'nexus', name: 'Nexus', product: 't360' }
   ],
   sprints: [
     // Passport sprints
     { id: 'team-a-25.1.1', name: 'Sprint 25.1.1', team: 'team-a' },
     { id: 'team-a-25.1.2', name: 'Sprint 25.1.2', team: 'team-a' },
+    
+    // T360 - Vanguards sprints
+    { id: 'vanguards-26.1.2', name: 'Sprint 26.1.2', team: 'vanguards' },
+    { id: 'vanguards-26.1.3', name: 'Sprint 26.1.3', team: 'vanguards' },
+    { id: 'vanguards-26.1.4', name: 'Sprint 26.1.4', team: 'vanguards' },
+    { id: 'vanguards-26.1.5', name: 'Sprint 26.1.5', team: 'vanguards' },
+    { id: 'vanguards-26.1.6', name: 'Sprint 26.1.6', team: 'vanguards' },
     
     // T360 - Chargers sprints
     { id: 'chargers-26.1.1', name: 'Sprint 26.1.1', team: 'chargers' },
@@ -103,15 +110,7 @@ const defaultData = {
     { id: 'nexus-26.1.3', name: 'Sprint 26.1.3', team: 'nexus' },
     { id: 'nexus-26.1.4', name: 'Sprint 26.1.4', team: 'nexus' },
     { id: 'nexus-26.1.5', name: 'Sprint 26.1.5', team: 'nexus' },
-    { id: 'nexus-26.1.6', name: 'Sprint 26.1.6', team: 'nexus' },
-    
-    // T360 - Vanguards sprints
-    { id: 'vanguards-26.1.1', name: 'Sprint 26.1.1', team: 'vanguards' },
-    { id: 'vanguards-26.1.2', name: 'Sprint 26.1.2', team: 'vanguards' },
-    { id: 'vanguards-26.1.3', name: 'Sprint 26.1.3', team: 'vanguards' },
-    { id: 'vanguards-26.1.4', name: 'Sprint 26.1.4', team: 'vanguards' },
-    { id: 'vanguards-26.1.5', name: 'Sprint 26.1.5', team: 'vanguards' },
-    { id: 'vanguards-26.1.6', name: 'Sprint 26.1.6', team: 'vanguards' }
+    { id: 'nexus-26.1.6', name: 'Sprint 26.1.6', team: 'nexus' }
   ],
   metrics: [
     // Passport Team A Sprint 25.1.1
@@ -141,6 +140,77 @@ const defaultData = {
       deploymentReadiness: 87,
       codeQuality: 85,
       timestamp: '2025-01-16T10:00:00Z'
+    },
+    
+    // T360 - Vanguards Sprint 26.1.2
+    {
+      id: 'metric-vanguards-26.1.2',
+      product: 't360',
+      team: 'vanguards',
+      sprint: 'vanguards-26.1.2',
+      requirementsCovered: 90,
+      testsCovered: 85,
+      defectsOpen: 6,
+      defectsClosed: 22,
+      deploymentReadiness: 88,
+      codeQuality: 83,
+      timestamp: '2025-01-15T10:00:00Z'
+    },
+    // T360 - Vanguards Sprint 26.1.3
+    {
+      id: 'metric-vanguards-26.1.3',
+      product: 't360',
+      team: 'vanguards',
+      sprint: 'vanguards-26.1.3',
+      requirementsCovered: 92,
+      testsCovered: 87,
+      defectsOpen: 4,
+      defectsClosed: 24,
+      deploymentReadiness: 90,
+      codeQuality: 86,
+      timestamp: '2025-01-16T10:00:00Z'
+    },
+    // T360 - Vanguards Sprint 26.1.4
+    {
+      id: 'metric-vanguards-26.1.4',
+      product: 't360',
+      team: 'vanguards',
+      sprint: 'vanguards-26.1.4',
+      requirementsCovered: 91,
+      testsCovered: 86,
+      defectsOpen: 5,
+      defectsClosed: 23,
+      deploymentReadiness: 89,
+      codeQuality: 84,
+      timestamp: '2025-01-17T10:00:00Z'
+    },
+    // T360 - Vanguards Sprint 26.1.5
+    {
+      id: 'metric-vanguards-26.1.5',
+      product: 't360',
+      team: 'vanguards',
+      sprint: 'vanguards-26.1.5',
+      requirementsCovered: 93,
+      testsCovered: 88,
+      defectsOpen: 3,
+      defectsClosed: 26,
+      deploymentReadiness: 91,
+      codeQuality: 87,
+      timestamp: '2025-01-18T10:00:00Z'
+    },
+    // T360 - Vanguards Sprint 26.1.6
+    {
+      id: 'metric-vanguards-26.1.6',
+      product: 't360',
+      team: 'vanguards',
+      sprint: 'vanguards-26.1.6',
+      requirementsCovered: 94,
+      testsCovered: 89,
+      defectsOpen: 2,
+      defectsClosed: 28,
+      deploymentReadiness: 92,
+      codeQuality: 88,
+      timestamp: '2025-01-19T10:00:00Z'
     },
     
     // T360 - Chargers Sprint 26.1.1
@@ -566,91 +636,6 @@ const defaultData = {
       deploymentReadiness: 86,
       codeQuality: 82,
       timestamp: '2025-01-20T10:00:00Z'
-    },
-    
-    // T360 - Vanguards Sprint 26.1.1
-    {
-      id: 'metric-vanguards-26.1.1',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.1',
-      requirementsCovered: 89,
-      testsCovered: 84,
-      defectsOpen: 7,
-      defectsClosed: 21,
-      deploymentReadiness: 87,
-      codeQuality: 82,
-      timestamp: '2025-01-14T10:00:00Z'
-    },
-    // T360 - Vanguards Sprint 26.1.2
-    {
-      id: 'metric-vanguards-26.1.2',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.2',
-      requirementsCovered: 90,
-      testsCovered: 85,
-      defectsOpen: 6,
-      defectsClosed: 22,
-      deploymentReadiness: 88,
-      codeQuality: 83,
-      timestamp: '2025-01-15T10:00:00Z'
-    },
-    // T360 - Vanguards Sprint 26.1.3
-    {
-      id: 'metric-vanguards-26.1.3',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.3',
-      requirementsCovered: 92,
-      testsCovered: 87,
-      defectsOpen: 4,
-      defectsClosed: 24,
-      deploymentReadiness: 90,
-      codeQuality: 86,
-      timestamp: '2025-01-16T10:00:00Z'
-    },
-    // T360 - Vanguards Sprint 26.1.4
-    {
-      id: 'metric-vanguards-26.1.4',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.4',
-      requirementsCovered: 91,
-      testsCovered: 86,
-      defectsOpen: 5,
-      defectsClosed: 23,
-      deploymentReadiness: 89,
-      codeQuality: 84,
-      timestamp: '2025-01-17T10:00:00Z'
-    },
-    // T360 - Vanguards Sprint 26.1.5
-    {
-      id: 'metric-vanguards-26.1.5',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.5',
-      requirementsCovered: 93,
-      testsCovered: 88,
-      defectsOpen: 3,
-      defectsClosed: 26,
-      deploymentReadiness: 91,
-      codeQuality: 87,
-      timestamp: '2025-01-18T10:00:00Z'
-    },
-    // T360 - Vanguards Sprint 26.1.6
-    {
-      id: 'metric-vanguards-26.1.6',
-      product: 't360',
-      team: 'vanguards',
-      sprint: 'vanguards-26.1.6',
-      requirementsCovered: 94,
-      testsCovered: 89,
-      defectsOpen: 2,
-      defectsClosed: 28,
-      deploymentReadiness: 92,
-      codeQuality: 88,
-      timestamp: '2025-01-19T10:00:00Z'
     }
   ]
 };

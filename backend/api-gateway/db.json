@@ -1,640 +1,1121 @@
 {
   "products": [
     {
-      "id": 1,
-      "code": "PASSPORT",
-      "name": "Passport",
-      "displayName": "Passport"
+      "id": "collaboration-portal",
+      "name": "Collaboration Portal"
     },
     {
-      "id": 2,
-      "code": "T360",
-      "name": "T360",
-      "displayName": "Tymetrix 360"
+      "id": "dna",
+      "name": "DnA"
     },
     {
-      "id": 3,
-      "code": "DNA",
-      "name": "DnA",
-      "displayName": "Data & Analytics"
+      "id": "passport",
+      "name": "Passport"
     },
     {
-      "id": 4,
-      "code": "COLLAB",
-      "name": "Collaboration Portal",
-      "displayName": "Collaboration Portal"
+      "id": "t360",
+      "name": "T360"
     }
   ],
   "teams": [
     {
-      "id": 1,
-      "name": "Chubb",
-      "displayName": "T360 Chubb",
-      "productId": 2
+      "id": "team-a",
+      "name": "Team A",
+      "product": "passport"
     },
     {
-      "id": 2,
+      "id": "team-b",
+      "name": "Team B",
+      "product": "passport"
+    },
+    {
+      "id": "team-c",
+      "name": "Team C",
+      "product": "passport"
+    },
+    {
+      "id": "chargers",
       "name": "Chargers",
-      "displayName": "T360 Chargers",
-      "productId": 2
+      "product": "t360"
     },
     {
-      "id": 3,
+      "id": "chubb",
+      "name": "Chubb",
+      "product": "t360"
+    },
+    {
+      "id": "matrix",
       "name": "Matrix",
-      "displayName": "T360 Matrix",
-      "productId": 2
+      "product": "t360"
     },
     {
-      "id": 4,
+      "id": "mavericks",
       "name": "Mavericks",
-      "displayName": "T360 Mavericks",
-      "productId": 2
+      "product": "t360"
     },
     {
-      "id": 5,
-      "name": "Vanguards",
-      "displayName": "T360 Vanguards",
-      "productId": 2
-    },
-    {
-      "id": 6,
+      "id": "nexus",
       "name": "Nexus",
-      "displayName": "T360 Nexus",
-      "productId": 2
+      "product": "t360"
     },
     {
-      "id": 7,
-      "name": "Spartacles",
-      "displayName": "Passport Spartacles",
-      "productId": 1
-    },
-    {
-      "id": 8,
-      "name": "Genesis",
-      "displayName": "Passport Genesis",
-      "productId": 1
-    },
-    {
-      "id": 9,
-      "name": "Pioneers",
-      "displayName": "Collab Pioneers",
-      "productId": 4
-    },
-    {
-      "id": 10,
-      "name": "Guardians",
-      "displayName": "DnA Guardians",
-      "productId": 3
-    },
-    {
-      "id": 11,
-      "name": "Athena",
-      "displayName": "DnA Athena",
-      "productId": 3
+      "id": "vanguards",
+      "name": "Vanguards",
+      "product": "t360"
     }
   ],
   "sprints": [
     {
-      "id": 1,
-      "name": "26.1.1",
-      "startDate": "2026-01-01",
-      "endDate": "2026-01-14",
-      "status": "active"
+      "id": "team-a-25.1.1",
+      "name": "Sprint 25.1.1",
+      "team": "team-a"
     },
     {
-      "id": 2,
-      "name": "26.1.0",
-      "startDate": "2025-12-18",
-      "endDate": "2025-12-31",
-      "status": "completed"
+      "id": "team-a-25.1.2",
+      "name": "Sprint 25.1.2",
+      "team": "team-a"
     },
     {
-      "id": 3,
-      "name": "25.4.2",
-      "startDate": "2025-12-04",
-      "endDate": "2025-12-17",
-      "status": "completed"
+      "id": "chargers-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "chargers"
     },
     {
-      "id": 4,
-      "name": "25.4.1",
-      "startDate": "2025-11-20",
-      "endDate": "2025-12-03",
-      "status": "completed"
+      "id": "chargers-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "chargers"
     },
     {
-      "id": 5,
-      "name": "25.4.0",
-      "startDate": "2025-11-06",
-      "endDate": "2025-11-19",
-      "status": "completed"
+      "id": "chargers-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "chargers"
+    },
+    {
+      "id": "chubb-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "chubb"
+    },
+    {
+      "id": "matrix-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "matrix"
+    },
+    {
+      "id": "mavericks-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "mavericks"
+    },
+    {
+      "id": "nexus-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "nexus"
+    },
+    {
+      "id": "vanguards-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "vanguards"
     }
   ],
   "metrics": [
     {
-      "id": 1,
-      "teamId": 5,
-      "sprintId": 1,
-      "timestamp": "2026-01-22T19:59:55.904Z",
-      "tadTsMetrics": {
-        "totalStories": 24,
-        "tadComplete": 21,
-        "tadNa": 0,
-        "tadMissing": 3,
-        "tadPct": 87.5,
-        "tsComplete": 22,
-        "tsNa": 0,
-        "tsMissing": 2,
-        "tsPct": 91.7
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 89,
-        "automatedTestCases": 72,
-        "manualTestCases": 17,
-        "automationPct": 80.9,
-        "totalTestRuns": 234
-      },
-      "defectMetrics": {
-        "totalDefects": 12,
-        "reopenedDefects": 2,
-        "reopenedPct": 16.7,
-        "bySeverity": {
-          "Critical": 1,
-          "High": 3,
-          "Medium": 6,
-          "Low": 2
+      "id": "metric-team-a-25.1.1",
+      "product": "passport",
+      "team": "team-a",
+      "sprint": "team-a-25.1.1",
+      "requirementsCovered": 95,
+      "testsCovered": 92,
+      "defectsOpen": 3,
+      "defectsClosed": 18,
+      "deploymentReadiness": 90,
+      "codeQuality": 88,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-team-a-25.1.2",
+      "product": "passport",
+      "team": "team-a",
+      "sprint": "team-a-25.1.2",
+      "requirementsCovered": 93,
+      "testsCovered": 90,
+      "defectsOpen": 5,
+      "defectsClosed": 20,
+      "deploymentReadiness": 87,
+      "codeQuality": 85,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.1",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.1",
+      "requirementsCovered": 88,
+      "testsCovered": 82,
+      "defectsOpen": 8,
+      "defectsClosed": 25,
+      "deploymentReadiness": 85,
+      "codeQuality": 80,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.2",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.2",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 26,
+      "deploymentReadiness": 86,
+      "codeQuality": 82,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.3",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.3",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 6,
+      "defectsClosed": 27,
+      "deploymentReadiness": 87,
+      "codeQuality": 83,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.4",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.4",
+      "requirementsCovered": 91,
+      "testsCovered": 86,
+      "defectsOpen": 5,
+      "defectsClosed": 28,
+      "deploymentReadiness": 88,
+      "codeQuality": 84,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.5",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.5",
+      "requirementsCovered": 92,
+      "testsCovered": 87,
+      "defectsOpen": 4,
+      "defectsClosed": 29,
+      "deploymentReadiness": 89,
+      "codeQuality": 85,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "metric-chargers-26.1.6",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.6",
+      "requirementsCovered": 93,
+      "testsCovered": 88,
+      "defectsOpen": 3,
+      "defectsClosed": 30,
+      "deploymentReadiness": 90,
+      "codeQuality": 86,
+      "timestamp": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.1",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.1",
+      "requirementsCovered": 87,
+      "testsCovered": 81,
+      "defectsOpen": 9,
+      "defectsClosed": 24,
+      "deploymentReadiness": 84,
+      "codeQuality": 79,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.2",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.2",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 8,
+      "defectsClosed": 25,
+      "deploymentReadiness": 85,
+      "codeQuality": 81,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.3",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.3",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 26,
+      "deploymentReadiness": 86,
+      "codeQuality": 82,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.4",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.4",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 6,
+      "defectsClosed": 27,
+      "deploymentReadiness": 87,
+      "codeQuality": 83,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.5",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.5",
+      "requirementsCovered": 91,
+      "testsCovered": 86,
+      "defectsOpen": 5,
+      "defectsClosed": 28,
+      "deploymentReadiness": 88,
+      "codeQuality": 84,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "metric-chubb-26.1.6",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.6",
+      "requirementsCovered": 92,
+      "testsCovered": 87,
+      "defectsOpen": 4,
+      "defectsClosed": 29,
+      "deploymentReadiness": 89,
+      "codeQuality": 85,
+      "timestamp": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.1",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.1",
+      "requirementsCovered": 86,
+      "testsCovered": 80,
+      "defectsOpen": 10,
+      "defectsClosed": 23,
+      "deploymentReadiness": 83,
+      "codeQuality": 78,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.2",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.2",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 9,
+      "defectsClosed": 24,
+      "deploymentReadiness": 84,
+      "codeQuality": 80,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.3",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.3",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 8,
+      "defectsClosed": 25,
+      "deploymentReadiness": 85,
+      "codeQuality": 81,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.4",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.4",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 26,
+      "deploymentReadiness": 86,
+      "codeQuality": 82,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.5",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.5",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 6,
+      "defectsClosed": 27,
+      "deploymentReadiness": 87,
+      "codeQuality": 83,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "metric-matrix-26.1.6",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.6",
+      "requirementsCovered": 91,
+      "testsCovered": 86,
+      "defectsOpen": 5,
+      "defectsClosed": 28,
+      "deploymentReadiness": 88,
+      "codeQuality": 84,
+      "timestamp": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.1",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.1",
+      "requirementsCovered": 85,
+      "testsCovered": 79,
+      "defectsOpen": 11,
+      "defectsClosed": 22,
+      "deploymentReadiness": 82,
+      "codeQuality": 77,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.2",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.2",
+      "requirementsCovered": 86,
+      "testsCovered": 81,
+      "defectsOpen": 10,
+      "defectsClosed": 23,
+      "deploymentReadiness": 83,
+      "codeQuality": 79,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.3",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.3",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 9,
+      "defectsClosed": 24,
+      "deploymentReadiness": 84,
+      "codeQuality": 80,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.4",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.4",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 8,
+      "defectsClosed": 25,
+      "deploymentReadiness": 85,
+      "codeQuality": 81,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.5",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.5",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 26,
+      "deploymentReadiness": 86,
+      "codeQuality": 82,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "metric-mavericks-26.1.6",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.6",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 6,
+      "defectsClosed": 27,
+      "deploymentReadiness": 87,
+      "codeQuality": 83,
+      "timestamp": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.1",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.1",
+      "requirementsCovered": 84,
+      "testsCovered": 78,
+      "defectsOpen": 12,
+      "defectsClosed": 21,
+      "deploymentReadiness": 81,
+      "codeQuality": 76,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.2",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.2",
+      "requirementsCovered": 85,
+      "testsCovered": 80,
+      "defectsOpen": 11,
+      "defectsClosed": 22,
+      "deploymentReadiness": 82,
+      "codeQuality": 78,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.3",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.3",
+      "requirementsCovered": 86,
+      "testsCovered": 81,
+      "defectsOpen": 10,
+      "defectsClosed": 23,
+      "deploymentReadiness": 83,
+      "codeQuality": 79,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.4",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.4",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 9,
+      "defectsClosed": 24,
+      "deploymentReadiness": 84,
+      "codeQuality": 80,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.5",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.5",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 8,
+      "defectsClosed": 25,
+      "deploymentReadiness": 85,
+      "codeQuality": 81,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "metric-nexus-26.1.6",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.6",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 26,
+      "deploymentReadiness": 86,
+      "codeQuality": 82,
+      "timestamp": "2025-01-20T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.1",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.1",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 7,
+      "defectsClosed": 21,
+      "deploymentReadiness": 87,
+      "codeQuality": 82,
+      "timestamp": "2025-01-14T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.2",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.2",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 6,
+      "defectsClosed": 22,
+      "deploymentReadiness": 88,
+      "codeQuality": 83,
+      "timestamp": "2025-01-15T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.3",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.3",
+      "requirementsCovered": 92,
+      "testsCovered": 87,
+      "defectsOpen": 4,
+      "defectsClosed": 24,
+      "deploymentReadiness": 90,
+      "codeQuality": 86,
+      "timestamp": "2025-01-16T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.4",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.4",
+      "requirementsCovered": 91,
+      "testsCovered": 86,
+      "defectsOpen": 5,
+      "defectsClosed": 23,
+      "deploymentReadiness": 89,
+      "codeQuality": 84,
+      "timestamp": "2025-01-17T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.5",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.5",
+      "requirementsCovered": 93,
+      "testsCovered": 88,
+      "defectsOpen": 3,
+      "defectsClosed": 26,
+      "deploymentReadiness": 91,
+      "codeQuality": 87,
+      "timestamp": "2025-01-18T10:00:00Z"
+    },
+    {
+      "id": "metric-vanguards-26.1.6",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.6",
+      "requirementsCovered": 94,
+      "testsCovered": 89,
+      "defectsOpen": 2,
+      "defectsClosed": 28,
+      "deploymentReadiness": 92,
+      "codeQuality": 88,
+      "timestamp": "2025-01-19T10:00:00Z"
+    },
+    {
+      "id": "tests-covered-26.1.2-sample",
+      "name": "Tests Covered - 26.1.2 (Sample Data)",
+      "category": "Quality",
+      "value": 345,
+      "unit": "test cases",
+      "automation_coverage": 83.2,
+      "generated": "2026-02-06",
+      "details": {
+        "sprint": "26.1.2",
+        "module_id": 68209714,
+        "generated": "2026-02-06",
+        "summary": {
+          "total_test_cases": 345,
+          "total_automated": 287,
+          "total_with_attachments": 287,
+          "automation_coverage_percent": 83.2,
+          "teams_count": 5
         },
-        "bySdlc": {
-          "Development": 5,
-          "System Test": 4,
-          "UAT": 2,
-          "Production": 1
+        "teams": {
+          "Chubb": {
+            "total_test_cases": 67,
+            "automated_test_cases": 58,
+            "automation_coverage_percent": 86.6,
+            "with_attachments": 58,
+            "without_attachments": 9,
+            "test_cases": [
+              {
+                "id": "TC-CHUBB-001",
+                "qtest_id": 1001,
+                "name": "Login with valid credentials",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-CHUBB-002",
+                "qtest_id": 1002,
+                "name": "Create new policy",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-CHUBB-003",
+                "qtest_id": 1003,
+                "name": "Update policy details",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 72,
+            "automated_test_cases": 61,
+            "automation_coverage_percent": 84.7,
+            "with_attachments": 61,
+            "without_attachments": 11,
+            "test_cases": [
+              {
+                "id": "TC-MATRIX-001",
+                "qtest_id": 2001,
+                "name": "SSO authentication flow",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MATRIX-002",
+                "qtest_id": 2002,
+                "name": "Angular scheduler component",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MATRIX-003",
+                "qtest_id": 2003,
+                "name": "Delete scheduled item",
+                "automated": true,
+                "status": "Active"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 68,
+            "automated_test_cases": 56,
+            "automation_coverage_percent": 82.4,
+            "with_attachments": 56,
+            "without_attachments": 12,
+            "test_cases": [
+              {
+                "id": "TC-MAV-001",
+                "qtest_id": 3001,
+                "name": "AFA amount adjustment validation",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MAV-002",
+                "qtest_id": 3002,
+                "name": "Time period editing",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MAV-003",
+                "qtest_id": 3003,
+                "name": "AI Console UI updates",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 70,
+            "automated_test_cases": 58,
+            "automation_coverage_percent": 82.9,
+            "with_attachments": 58,
+            "without_attachments": 12,
+            "test_cases": [
+              {
+                "id": "TC-NEX-001",
+                "qtest_id": 4001,
+                "name": "Export to Excel validation",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-NEX-002",
+                "qtest_id": 4002,
+                "name": "Search performance optimization",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-NEX-003",
+                "qtest_id": 4003,
+                "name": "Token claims validation",
+                "automated": true,
+                "status": "Active"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 68,
+            "automated_test_cases": 54,
+            "automation_coverage_percent": 79.4,
+            "with_attachments": 54,
+            "without_attachments": 14,
+            "test_cases": [
+              {
+                "id": "TC-VAN-001",
+                "qtest_id": 5001,
+                "name": "Invoice AI - Line Item ID",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-VAN-002",
+                "qtest_id": 5002,
+                "name": "Invoice AI Citations",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-VAN-003",
+                "qtest_id": 5003,
+                "name": "Citations to Interactive Links",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          }
         }
       }
-    },
-    {
-      "id": 2,
-      "teamId": 7,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:00:00.000Z",
-      "tadTsMetrics": {
-        "totalStories": 18,
-        "tadComplete": 16,
-        "tadNa": 1,
-        "tadMissing": 1,
-        "tadPct": 94.1,
-        "tsComplete": 15,
-        "tsNa": 1,
-        "tsMissing": 2,
-        "tsPct": 88.2
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 67,
-        "automatedTestCases": 58,
-        "manualTestCases": 9,
-        "automationPct": 86.6,
-        "totalTestRuns": 189
-      },
-      "defectMetrics": {
-        "totalDefects": 8,
-        "reopenedDefects": 1,
-        "reopenedPct": 12.5,
-        "bySeverity": {
-          "Critical": 0,
-          "High": 2,
-          "Medium": 5,
-          "Low": 1
-        },
-        "bySdlc": {
-          "Development": 4,
-          "System Test": 3,
-          "UAT": 1,
-          "Production": 0
-        }
-      }
-    },
-    {
-      "id": 3,
-      "teamId": 10,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:00:00.000Z",
-      "tadTsMetrics": {
-        "totalStories": 15,
-        "tadComplete": 12,
-        "tadNa": 2,
-        "tadMissing": 1,
-        "tadPct": 92.3,
-        "tsComplete": 13,
-        "tsNa": 1,
-        "tsMissing": 1,
-        "tsPct": 92.9
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 45,
-        "automatedTestCases": 42,
-        "manualTestCases": 3,
-        "automationPct": 93.3,
-        "totalTestRuns": 156
-      },
-      "defectMetrics": {
-        "totalDefects": 5,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {
-          "Critical": 0,
-          "High": 1,
-          "Medium": 3,
-          "Low": 1
-        },
-        "bySdlc": {
-          "Development": 3,
-          "System Test": 2,
-          "UAT": 0,
-          "Production": 0
-        }
-      }
-    },
-    {
-      "id": 4,
-      "teamId": 5,
-      "sprintId": 2,
-      "timestamp": "2026-01-26T20:00:00.000Z",
-      "tadTsMetrics": {
-        "totalStories": 22,
-        "tadComplete": 20,
-        "tadNa": 0,
-        "tadMissing": 2,
-        "tadPct": 90.9,
-        "tsComplete": 21,
-        "tsNa": 0,
-        "tsMissing": 1,
-        "tsPct": 95.5
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 95,
-        "automatedTestCases": 78,
-        "manualTestCases": 17,
-        "automationPct": 82.1,
-        "totalTestRuns": 267
-      },
-      "defectMetrics": {
-        "totalDefects": 9,
-        "reopenedDefects": 1,
-        "reopenedPct": 11.1,
-        "bySeverity": {
-          "Critical": 0,
-          "High": 2,
-          "Medium": 5,
-          "Low": 2
-        },
-        "bySdlc": {
-          "Development": 4,
-          "System Test": 3,
-          "UAT": 2,
-          "Production": 0
-        }
-      }
-    },
-    {
-      "id": 5,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 1,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:09.916Z"
-    },
-    {
-      "id": 6,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 2,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:12.572Z"
-    },
-    {
-      "id": 7,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 3,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:14.318Z"
-    },
-    {
-      "id": 8,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 4,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:15.128Z"
-    },
-    {
-      "id": 9,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 5,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:16.085Z"
-    },
-    {
-      "id": 10,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 6,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:17.504Z"
-    },
-    {
-      "id": 11,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 7,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:18.623Z"
-    },
-    {
-      "id": 12,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 8,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:19.868Z"
-    },
-    {
-      "id": 13,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 9,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:20.896Z"
-    },
-    {
-      "id": 14,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 10,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:21.872Z"
-    },
-    {
-      "id": 15,
-      "tadTsMetrics": {
-        "totalStories": 0,
-        "tadComplete": 0,
-        "tadNa": 0,
-        "tadMissing": 0,
-        "tadPct": 0,
-        "tsComplete": 0,
-        "tsNa": 0,
-        "tsMissing": 0,
-        "tsPct": 0
-      },
-      "qtestMetrics": {
-        "uniqueTestCases": 0,
-        "automatedTestCases": 0,
-        "manualTestCases": 0,
-        "automationPct": 0,
-        "totalTestRuns": 0
-      },
-      "defectMetrics": {
-        "totalDefects": 0,
-        "reopenedDefects": 0,
-        "reopenedPct": 0,
-        "bySeverity": {},
-        "bySdlc": {}
-      },
-      "teamId": 11,
-      "sprintId": 1,
-      "timestamp": "2026-01-26T20:21:22.931Z"
     }
-  ]
+  ],
+  "testCases": [],
+  "tests_covered": {
+    "26.1.1": {
+      "sprint": "26.1.1",
+      "module_id": 68209713,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 0,
+        "total_automated": 0,
+        "total_with_attachments": 0,
+        "automation_coverage_percent": 0,
+        "teams_count": 0
+      },
+      "teams": {}
+    },
+    "26.1.2": {
+      "sprint": "26.1.2",
+      "module_id": 68209714,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 345,
+        "total_automated": 287,
+        "total_with_attachments": 287,
+        "automation_coverage_percent": 83.2,
+        "teams_count": 5
+      },
+      "teams": {
+        "Chubb": {
+          "total_test_cases": 67,
+          "automated_test_cases": 58,
+          "automation_coverage_percent": 86.6,
+          "with_attachments": 58,
+          "without_attachments": 9,
+          "test_cases": [
+            {
+              "id": "TC-CHUBB-001",
+              "qtest_id": 1001,
+              "name": "Login with valid credentials",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-CHUBB-002",
+              "qtest_id": 1002,
+              "name": "Create new policy",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-CHUBB-003",
+              "qtest_id": 1003,
+              "name": "Update policy details",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        },
+        "Matrix": {
+          "total_test_cases": 72,
+          "automated_test_cases": 61,
+          "automation_coverage_percent": 84.7,
+          "with_attachments": 61,
+          "without_attachments": 11,
+          "test_cases": [
+            {
+              "id": "TC-MATRIX-001",
+              "qtest_id": 2001,
+              "name": "SSO authentication flow",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MATRIX-002",
+              "qtest_id": 2002,
+              "name": "Angular scheduler component",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MATRIX-003",
+              "qtest_id": 2003,
+              "name": "Delete scheduled item",
+              "automated": true,
+              "status": "Active"
+            }
+          ]
+        },
+        "Mavericks": {
+          "total_test_cases": 68,
+          "automated_test_cases": 56,
+          "automation_coverage_percent": 82.4,
+          "with_attachments": 56,
+          "without_attachments": 12,
+          "test_cases": [
+            {
+              "id": "TC-MAV-001",
+              "qtest_id": 3001,
+              "name": "AFA amount adjustment validation",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MAV-002",
+              "qtest_id": 3002,
+              "name": "Time period editing",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MAV-003",
+              "qtest_id": 3003,
+              "name": "AI Console UI updates",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        },
+        "Nexus": {
+          "total_test_cases": 70,
+          "automated_test_cases": 58,
+          "automation_coverage_percent": 82.9,
+          "with_attachments": 58,
+          "without_attachments": 12,
+          "test_cases": [
+            {
+              "id": "TC-NEX-001",
+              "qtest_id": 4001,
+              "name": "Export to Excel validation",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-NEX-002",
+              "qtest_id": 4002,
+              "name": "Search performance optimization",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-NEX-003",
+              "qtest_id": 4003,
+              "name": "Token claims validation",
+              "automated": true,
+              "status": "Active"
+            }
+          ]
+        },
+        "Vanguards": {
+          "total_test_cases": 68,
+          "automated_test_cases": 54,
+          "automation_coverage_percent": 79.4,
+          "with_attachments": 54,
+          "without_attachments": 14,
+          "test_cases": [
+            {
+              "id": "TC-VAN-001",
+              "qtest_id": 5001,
+              "name": "Invoice AI - Line Item ID",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-VAN-002",
+              "qtest_id": 5002,
+              "name": "Invoice AI Citations",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-VAN-003",
+              "qtest_id": 5003,
+              "name": "Citations to Interactive Links",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        }
+      }
+    },
+    "26.1.3": {
+      "sprint": "26.1.3",
+      "module_id": 68209719,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 0,
+        "total_automated": 0,
+        "total_with_attachments": 0,
+        "automation_coverage_percent": 0,
+        "teams_count": 0
+      },
+      "teams": {}
+    }
+  }
 }

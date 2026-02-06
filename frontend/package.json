@@ -1,0 +1,10 @@
+{
+  "name": "polaris-elm-dashboard",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node -e \"console.log('Frontend dev server would run here. Use built-in server or external HTTP server.')\"",
+    "build": "echo 'Build would run here'"
+  },
+  "dependencies": {}
+}

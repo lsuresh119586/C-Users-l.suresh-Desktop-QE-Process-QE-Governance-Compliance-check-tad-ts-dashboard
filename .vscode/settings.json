@@ -1,0 +1,24 @@
+{
+  "github.copilot.agents": {
+    "/speckit.constitution": {
+      "description": "Establish foundational principles and values for Polaris project",
+      "agentFile": "../.github/agents/speckit.constitution.agent.md"
+    },
+    "/speckit.specify": {
+      "description": "Create comprehensive specification (WHAT we're building)",
+      "agentFile": "../.github/agents/speckit.specify.agent.md"
+    },
+    "/speckit.plan": {
+      "description": "Create technical implementation plan (HOW we're building)",
+      "agentFile": "../.github/agents/speckit.plan.agent.md"
+    },
+    "/speckit.tasks": {
+      "description": "Break down plan into actionable tasks",
+      "agentFile": "../.github/agents/speckit.tasks.agent.md"
+    },
+    "/speckit.implement": {
+      "description": "Execute implementation with full traceability",
+      "agentFile": "../.github/agents/speckit.implement.agent.md"
+    }
+  }
+}

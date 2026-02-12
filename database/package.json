@@ -1,0 +1,1 @@
+{"name":"database","version":"1.0.0","scripts":{"db:generate":"prisma generate","db:push":"prisma db push","db:seed":"ts-node seed.ts"},"devDependencies":{"prisma":"latest","@prisma/client":"latest","typescript":"latest","ts-node":"latest","@types/node":"latest"}}

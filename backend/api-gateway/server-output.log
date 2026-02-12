@@ -1,0 +1,24 @@
+≡ƒÜÇ API Server running on http://localhost:3000
+≡ƒôè API endpoints available:
+   GET  /api/products
+   GET  /api/teams?product=<product-id>
+   GET  /api/sprints?team=<team-id>
+   GET  /api/metrics?product=<product-id>&team=<team-id>&sprint=<sprint-id>
+   GET  /api/metrics?sprint=<sprint>&useJira=true (fetch from Jira if token configured)
+   POST /api/metrics
+   GET  /api/qtest/sprints
+   GET  /api/qtest/sprint/<sprint-name>
+   GET  /api/qtest/sprint/<sprint-name>?attachments=true
+   GET  /api/qtest/sprint/<sprint-name>?refresh=true
+   GET  /api/defects/by-module?sprint=<sprint>
+   GET  /api/defects/by-team?team=<team>&sprint=<sprint>
+   GET  /api/defects/by-severity?sprint=<sprint>
+   GET  /api/defects/module/<module-name>?sprint=<sprint>
+   GET  /api/defects/by-status?sprint=<sprint>
+   GET  /api/jira/metrics/sprint/<sprint-name> (Jira integration)
+
+≡ƒöæ JIRA Configuration:
+   Γ£à JIRA_API_TOKEN is configured
+   ≡ƒôî To calculate metrics from Jira:
+      1. Call: /api/jira/metrics/sprint/<sprint-name>
+      2. Or use: /api/metrics?sprint=<sprint>&useJira=true

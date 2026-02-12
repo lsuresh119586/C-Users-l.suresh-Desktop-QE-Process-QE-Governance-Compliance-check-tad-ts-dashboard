@@ -1,12 +1,74 @@
-# Feature Specification: Jira TAD & Test Strategy Compliance + Tests Covered Dashboard
+# Feature Specification: Jira TAD & Test Strategy Compliance + Tests Covered Dashboard + Requirements Covered
 
 **Feature Branch**: `001-jira-tad-dashboard`  
+**Last Updated**: 2026-02-12 - Added Requirements Covered Metrics by Sprint  
 **Enhanced**: 2026-02-06 - Added Tests Covered Dashboard  
 **Created**: 2026-01-21  
 **Status**: Complete ✅  
 **Input**: User description: "Create a dashboard to monitor Jira PR merges and validate presence of TAD (Technical Architecture Document) and Test Strategy documents"
 
-## 🎉 NEW: Tests Covered Feature (Added February 6, 2026)
+## 🎉 NEW: Requirements Covered Metrics (Updated February 12, 2026)
+
+### Requirements Covered Dashboard - Overview
+Real-time visualization of requirements covered metrics by sprint and team across all product lines. Provides comprehensive view of test requirement coverage, test execution status, and deployment readiness indicators.
+
+### Features Implemented
+- ✅ Requirements covered % by sprint and team
+- ✅ Tests covered metrics visualization
+- ✅ Defects tracking (open/closed)
+- ✅ Deployment readiness indicators
+- ✅ Code quality metrics
+- ✅ Team performance ranking
+- ✅ Sprint progression tracking
+- ✅ Real-time metric updates from JIRA data
+
+### Updated Metrics Summary (as of 2026-02-12)
+
+#### Overall Statistics
+- **Total Sprints Monitored**: 38
+- **Average Requirements Covered**: 89.05%
+- **Average Tests Covered**: 83.11%
+- **Average Deployment Readiness**: 89.34%
+- **Average Code Quality**: 84.34%
+
+#### Product Performance
+
+##### Passport Product
+- **Team A**: 86.5% average requirements covered (2 sprints)
+  - Sprint 25.1.1: 85% requirements, 80% tests
+  - Sprint 25.1.2: 88% requirements, 82% tests
+
+##### T360 Product
+- **Mavericks** (🥇 Top Performer): 92% average requirements covered (6 sprints)
+  - Sprint 26.1.1-6 progression: 87% → 95% requirements covered
+  
+- **Chargers** (🥈): 91.33% average requirements covered (6 sprints)
+  - Consistent improvement trend across sprints
+  
+- **Nexus** (🥉): 90.5% average requirements covered (6 sprints)
+  - Strong performance with steady progression
+  
+- **Chubb**: 88% average requirements covered (6 sprints)
+  - Solid performance with steady improvement
+  
+- **Vanguards**: 86.83% average requirements covered (6 sprints)
+  - Good performance with room for improvement
+  
+- **Matrix**: 86.5% average requirements covered (6 sprints)
+  - Consistent performance baseline
+
+#### Team Performance Ranking (by Requirements Covered)
+1. 🥇 **Mavericks**: 92% average (6 sprints, T360)
+2. 🥈 **Chargers**: 91.33% average (6 sprints, T360)
+3. 🥉 **Nexus**: 90.5% average (6 sprints, T360)
+4. **Chubb**: 88% average (6 sprints, T360)
+5. **Vanguards**: 86.83% average (6 sprints, T360)
+6. **Team A**: 86.5% average (2 sprints, Passport)
+7. **Matrix**: 86.5% average (6 sprints, T360)
+
+---
+
+## 🎉 Tests Covered Feature
 
 ### Tests Covered Dashboard - Overview
 The Tests Covered dashboard provides real-time visualization of test automation metrics by sprint and team. Users can monitor automation coverage percentages, view test counts (total, automated, manual), and analyze team-level test metrics.

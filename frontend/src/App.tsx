@@ -1,3 +1,50 @@
+import React, { useState } from 'react';
+import UnifiedDashboard from './components/UnifiedDashboard';
+import TestsCovered from './components/TestsCovered';
+import TADTSComplianceDashboard from './components/TADTSComplianceDashboard';
+import './App.css';
+
+export default function App() {
+  const [activeView, setActiveView] = useState('unified');
+
+  return (
+    <div className="app-container">
+      <nav className="app-navigation">
+        <div className="nav-brand">
+          <h1>🚀 Speckit Dashboard</h1>
+        </div>
+        <div className="nav-buttons">
+          <button 
+            className={`nav-button ${activeView === 'unified' ? 'active' : ''}`}
+            onClick={() => setActiveView('unified')}
+          >
+            📊 Unified Metrics
+          </button>
+          <button 
+            className={`nav-button ${activeView === 'tadts' ? 'active' : ''}`}
+            onClick={() => setActiveView('tadts')}
+          >
+            ✅ TAD/TS Compliance
+          </button>
+          <button 
+            className={`nav-button ${activeView === 'tests' ? 'active' : ''}`}
+            onClick={() => setActiveView('tests')}
+          >
+            ✅ Tests Covered
+          </button>
+        </div>
+      </nav>
+
+      <main className="app-main">
+        {activeView === 'unified' && <UnifiedDashboard />}
+        {activeView === 'tadts' && <TADTSComplianceDashboard />}
+        {activeView === 'tests' && <TestsCovered />}
+      </main>
+    </div>
+  );
+}
+
+/* Legacy code - kept for reference
 const API_BASE_URL = 'http://localhost:3000/api';
 
 let state = {
@@ -274,7 +321,7 @@ async function loadTestsCoveredView() {
   if (!container) return;
 
   try {
-    const response = await fetch('http://localhost:3001/api/metrics/tests-covered');
+    const response = await fetch('http://localhost:3000/api/metrics/tests-covered');
     const allData = await response.json();
     const sprints = Object.keys(allData).filter(k => k !== '_updated');
 

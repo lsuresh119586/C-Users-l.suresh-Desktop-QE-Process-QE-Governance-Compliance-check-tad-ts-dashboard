@@ -6,7 +6,7 @@ import https from 'https';
 class JiraService {
   constructor() {
     this.jiraUrl = process.env.JIRA_URL || 'https://jira.wolterskluwer.io/jira';
-    this.apiToken = process.env.JIRA_API_TOKEN || '';
+    this.apiToken = process.env.JIRA_API_TOKEN || '***REMOVED_JIRA_TOKEN***';
     this.projectKey = process.env.JIRA_PROJECT_KEY || 'GET';
     
     if (!this.apiToken) {

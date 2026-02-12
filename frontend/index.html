@@ -123,11 +123,33 @@
         padding: 25px;
         box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
         transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 5px solid #667eea;
       }
 
       .metric-card:hover {
         transform: translateY(-5px);
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Color variants for metric cards */
+      .metric-card.card-blue {
+        border-left-color: #3b82f6;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(29, 78, 216, 0.05) 100%);
+      }
+
+      .metric-card.card-green {
+        border-left-color: #10b981;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(4, 120, 87, 0.05) 100%);
+      }
+
+      .metric-card.card-purple {
+        border-left-color: #8b5cf6;
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(109, 40, 217, 0.05) 100%);
+      }
+
+      .metric-card.card-red {
+        border-left-color: #ef4444;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
       }
 
       .metric-label {
@@ -159,6 +181,16 @@
     </style>
   </head>
   <body>
+    <nav style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; text-align: center;">
+      <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+        <h2 style="margin: 0; font-size: 1.2em;">🚀 Speckit Dashboard</h2>
+        <div style="display: flex; gap: 15px;">
+          <a href="index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">📊 Dashboard</a>
+          <a href="unified-dashboard.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">📈 Unified Metrics</a>
+          <a href="tests-covered.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">✅ Tests Covered</a>
+        </div>
+      </div>
+    </nav>
     <div id="app"></div>
     <script>
       const API_BASE_URL = 'http://localhost:3000/api';
@@ -178,46 +210,126 @@
 
       const apiService = {
         getProducts: async () => {
-          const response = await fetch(`${API_BASE_URL}/products`);
-          return response.json();
+          try {
+            const response = await fetch(`${API_BASE_URL}/products`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getProducts failed:', err);
+            throw err;
+          }
         },
         getTeams: async (product) => {
-          const params = product ? `?product=${product}` : '';
-          const response = await fetch(`${API_BASE_URL}/teams${params}`);
-          return response.json();
+          try {
+            const params = product ? `?product=${product}` : '';
+            const response = await fetch(`${API_BASE_URL}/teams${params}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getTeams failed:', err);
+            throw err;
+          }
         },
         getSprints: async (team, product) => {
-          let params = [];
-          if (team) params.push(`team=${team}`);
-          if (product) params.push(`product=${product}`);
-          const query = params.length ? `?${params.join('&')}` : '';
-          const response = await fetch(`${API_BASE_URL}/sprints${query}`);
-          return response.json();
+          try {
+            let params = [];
+            if (team) params.push(`team=${team}`);
+            if (product) params.push(`product=${product}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/sprints${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getSprints failed:', err);
+            throw err;
+          }
         },
         getMetrics: async (product, team, sprint) => {
-          let params = [];
-          if (product) params.push(`product=${product}`);
-          if (team) params.push(`team=${team}`);
-          if (sprint) params.push(`sprint=${sprint}`);
-          const query = params.length ? `?${params.join('&')}` : '';
-          const response = await fetch(`${API_BASE_URL}/metrics${query}`);
-          return response.json();
+          try {
+            let params = [];
+            if (product) params.push(`product=${product}`);
+            if (team) params.push(`team=${team}`);
+            if (sprint) params.push(`sprint=${sprint}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/metrics${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getMetrics failed:', err);
+            throw err;
+          }
         }
       };
 
       async function loadProducts() {
         try {
           state.loading = true;
-          console.log('Fetching products from:', `${API_BASE_URL}/products`);
+          console.log('🔵 STEP 1: Fetching products...');
           state.products = await apiService.getProducts();
-          console.log('Products loaded:', state.products);
+          console.log('✅ Products loaded:', state.products);
           state.error = null;
         } catch (err) {
-          console.error('Error loading products:', err);
+          console.error('❌ Error loading products:', err);
           state.error = 'Failed to load products: ' + err.message;
-        } finally {
           state.loading = false;
+          render();
+          return;
         }
+        
+        // Auto-select first product and load its teams
+        if (state.products.length > 0) {
+          state.selectedProduct = state.products[0].id;
+          console.log('🟠 STEP 2: Auto-selected product:', state.selectedProduct);
+          
+          try {
+            console.log('🔵 STEP 3: Fetching teams for product:', state.selectedProduct);
+            state.teams = await apiService.getTeams(state.selectedProduct);
+            console.log('✅ Teams loaded:', state.teams);
+            
+            // Auto-select first team and load its sprints
+            if (state.teams.length > 0) {
+              state.selectedTeam = state.teams[0].id;
+              console.log('🟠 STEP 4: Auto-selected team:', state.selectedTeam);
+              
+              try {
+                console.log('🔵 STEP 5: Fetching sprints for team:', state.selectedTeam);
+                state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+                console.log('✅ Sprints loaded:', state.sprints);
+                
+                // Auto-select first sprint and load metrics
+                if (state.sprints.length > 0) {
+                  state.selectedSprint = state.sprints[0].id;
+                  console.log('🟠 STEP 6: Auto-selected sprint:', state.selectedSprint);
+                  
+                  try {
+                    console.log('🔵 STEP 7: Fetching metrics...');
+                    const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                    console.log('✅ Metrics response:', metricsArray);
+                    
+                    if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                      state.metrics = metricsArray[0];
+                      console.log('🟢 STEP 8: SUCCESS! Metrics set:', state.metrics);
+                    } else {
+                      console.warn('⚠️ Metrics array is empty');
+                      state.metrics = null;
+                    }
+                  } catch (err) {
+                    console.error('❌ Error loading metrics:', err);
+                    state.error = 'Failed to load metrics: ' + err.message;
+                  }
+                }
+              } catch (err) {
+                console.error('❌ Error loading sprints:', err);
+                state.error = 'Failed to load sprints: ' + err.message;
+              }
+            }
+          } catch (err) {
+            console.error('❌ Error loading teams:', err);
+            state.error = 'Failed to load teams: ' + err.message;
+          }
+        }
+        
+        state.loading = false;
         render();
       }
 
@@ -235,13 +347,53 @@
 
         try {
           state.loading = true;
+          console.log('📦 Loading teams for product:', state.selectedProduct);
           state.teams = await apiService.getTeams(state.selectedProduct);
+          console.log('✅ Teams loaded:', state.teams);
           state.selectedTeam = '';
           state.selectedSprint = '';
           state.sprints = [];
           state.metrics = null;
           state.error = null;
+          
+          // Auto-select first team and cascade
+          if (state.teams.length > 0) {
+            state.selectedTeam = state.teams[0].id;
+            console.log('👉 Auto-selecting first team:', state.selectedTeam);
+            
+            // Now load sprints for this team
+            try {
+              console.log('📦 Loading sprints for team:', state.selectedTeam);
+              state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+              console.log('✅ Sprints loaded:', state.sprints);
+              
+              // Auto-select first sprint and load metrics
+              if (state.sprints.length > 0) {
+                state.selectedSprint = state.sprints[0].id;
+                console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+                
+                // Load metrics for this sprint
+                try {
+                  console.log('📦 Loading metrics...');
+                  const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                  console.log('✅ Metrics response:', metricsArray);
+                  
+                  if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                    state.metrics = metricsArray[0];
+                    console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                  }
+                } catch (err) {
+                  console.error('❌ Error loading metrics:', err);
+                  state.error = 'Failed to load metrics: ' + err.message;
+                }
+              }
+            } catch (err) {
+              console.error('❌ Error loading sprints:', err);
+              state.error = 'Failed to load sprints: ' + err.message;
+            }
+          }
         } catch (err) {
+          console.error('❌ Error loading teams:', err);
           state.error = 'Failed to load teams: ' + err.message;
         } finally {
           state.loading = false;
@@ -254,16 +406,43 @@
         if (!state.selectedTeam) {
           state.sprints = [];
           state.selectedSprint = '';
-          loadMetrics(state.selectedProduct, null, null);
+          state.metrics = null;
+          render();
           return;
         }
 
         try {
           state.loading = true;
+          console.log('📦 Loading sprints for team:', state.selectedTeam);
           state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+          console.log('✅ Sprints loaded:', state.sprints);
           state.selectedSprint = '';
+          state.metrics = null;
           state.error = null;
+          
+          // Auto-select first sprint and load metrics
+          if (state.sprints.length > 0) {
+            state.selectedSprint = state.sprints[0].id;
+            console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+            render();
+            
+            // Load metrics for this sprint
+            try {
+              console.log('📦 Loading metrics...');
+              const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+              console.log('✅ Metrics response:', metricsArray);
+              
+              if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                state.metrics = metricsArray[0];
+                console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+              }
+            } catch (err) {
+              console.error('❌ Error loading metrics:', err);
+              state.error = 'Failed to load metrics: ' + err.message;
+            }
+          }
         } catch (err) {
+          console.error('❌ Error loading sprints:', err);
           state.error = 'Failed to load sprints: ' + err.message;
         } finally {
           state.loading = false;
@@ -285,10 +464,22 @@
 
         try {
           state.loading = true;
-          state.metrics = await apiService.getMetrics(product, team, sprint);
+          const metricsArray = await apiService.getMetrics(product, team, sprint);
+          console.log('Metrics response:', metricsArray);
+          
+          // API returns an array, but we want a single metric object
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+            console.log('Selected first metric:', state.metrics);
+          } else {
+            state.metrics = null;
+            console.log('No metrics found for:', { product, team, sprint });
+          }
+          
           state.error = null;
         } catch (err) {
           state.error = 'Failed to load metrics: ' + err.message;
+          console.error('Error loading metrics:', err);
         } finally {
           state.loading = false;
         }
@@ -376,29 +567,29 @@
 
             ${state.metrics ? `
               <div class="metrics-grid">
-                <div class="metric-card">
-                  <div class="metric-label">Requirements Covered</div>
+                <div class="metric-card card-blue">
+                  <div class="metric-label">📋 Requirements Covered</div>
                   <div class="metric-value">${state.metrics.requirementsCovered}%</div>
                 </div>
-                <div class="metric-card clickable" id="testsCoveredCard">
-                  <div class="metric-label">Tests Covered</div>
+                <div class="metric-card card-green clickable" id="testsCoveredCard">
+                  <div class="metric-label">✅ Tests Covered</div>
                   <div class="metric-value">${state.metrics.testsCovered}%</div>
                   <div class="card-hint">Click to view details →</div>
                 </div>
-                <div class="metric-card">
-                  <div class="metric-label">Open Defects</div>
+                <div class="metric-card card-purple">
+                  <div class="metric-label">🚨 Open Defects</div>
                   <div class="metric-value">${state.metrics.defectsOpen}</div>
                 </div>
-                <div class="metric-card">
-                  <div class="metric-label">Closed Defects</div>
+                <div class="metric-card card-red">
+                  <div class="metric-label">✓ Closed Defects</div>
                   <div class="metric-value">${state.metrics.defectsClosed}</div>
                 </div>
-                <div class="metric-card">
-                  <div class="metric-label">Deployment Readiness</div>
+                <div class="metric-card card-blue">
+                  <div class="metric-label">🚀 Deployment Readiness</div>
                   <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
                 </div>
-                <div class="metric-card">
-                  <div class="metric-label">Code Quality</div>
+                <div class="metric-card card-green">
+                  <div class="metric-label">⭐ Code Quality</div>
                   <div class="metric-value">${state.metrics.codeQuality}%</div>
                 </div>
               </div>
@@ -412,13 +603,26 @@
 
         app.innerHTML = html;
 
-        // Attach event listeners
-        document.getElementById('product')?.addEventListener('change', handleProductChange);
-        if (state.teams.length > 0) {
-          document.getElementById('team')?.addEventListener('change', handleTeamChange);
+        // Attach event listeners (remove old ones first)
+        const productSelect = document.getElementById('product');
+        if (productSelect) {
+          productSelect.removeEventListener('change', handleProductChange);
+          productSelect.addEventListener('change', handleProductChange);
+          console.log('📌 Product dropdown listener attached');
         }
-        if (state.sprints.length > 0) {
-          document.getElementById('sprint')?.addEventListener('change', handleSprintChange);
+        
+        const teamSelect = document.getElementById('team');
+        if (teamSelect && state.teams.length > 0) {
+          teamSelect.removeEventListener('change', handleTeamChange);
+          teamSelect.addEventListener('change', handleTeamChange);
+          console.log('📌 Team dropdown listener attached');
+        }
+        
+        const sprintSelect = document.getElementById('sprint');
+        if (sprintSelect && state.sprints.length > 0) {
+          sprintSelect.removeEventListener('change', handleSprintChange);
+          sprintSelect.addEventListener('change', handleSprintChange);
+          console.log('📌 Sprint dropdown listener attached');
         }
 
         // Tests Covered card click handler
@@ -548,9 +752,17 @@
       }
 
       // Initialize
+      console.log('🔵 Script loaded, setting up listeners');
       window.addEventListener('DOMContentLoaded', () => {
+        console.log('🔵 DOMContentLoaded fired');
         loadProducts();
       });
+      
+      // Also try immediate load
+      if (document.readyState !== 'loading') {
+        console.log('🔵 Document already loaded, calling loadProducts immediately');
+        loadProducts();
+      }
     </script>
   </body>
 </html>

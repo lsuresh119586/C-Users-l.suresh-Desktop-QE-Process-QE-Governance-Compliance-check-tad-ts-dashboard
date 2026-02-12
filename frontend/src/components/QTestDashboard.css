@@ -1,0 +1,391 @@
+/* QTest Dashboard Styles */
+
+.qtest-container {
+  padding: 20px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  min-height: 100vh;
+}
+
+.qtest-header {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.qtest-header h2 {
+  font-size: 2.5em;
+  margin: 0 0 10px 0;
+  font-weight: 700;
+}
+
+.qtest-header p {
+  font-size: 1.1em;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.qtest-controls {
+  display: flex;
+  gap: 20px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.qtest-control-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.qtest-control-group label {
+  font-weight: 600;
+  color: #333;
+  font-size: 0.95em;
+  white-space: nowrap;
+}
+
+.qtest-control-group select {
+  padding: 8px 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 4px;
+  font-size: 0.95em;
+  cursor: pointer;
+  background: white;
+  transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.qtest-control-group select:hover:not(:disabled) {
+  border-color: #667eea;
+}
+
+.qtest-control-group select:focus {
+  outline: none;
+  border-color: #667eea;
+  box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+.qtest-control-group select:disabled {
+  background-color: #f5f5f5;
+  color: #999;
+  cursor: not-allowed;
+}
+
+.qtest-control-group input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.qtest-load-btn,
+.qtest-refresh-btn {
+  padding: 10px 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.qtest-load-btn:hover:not(:disabled),
+.qtest-refresh-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+}
+
+.qtest-load-btn:disabled,
+.qtest-refresh-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.qtest-error {
+  background: #fee;
+  color: #c00;
+  padding: 15px 20px;
+  margin-bottom: 20px;
+  border-radius: 4px;
+  border-left: 4px solid #c00;
+}
+
+.qtest-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 400px;
+  gap: 20px;
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid rgba(102, 126, 234, 0.2);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.qtest-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  padding: 30px;
+}
+
+.qtest-meta {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid #eee;
+  color: #666;
+  font-size: 0.9em;
+}
+
+.qtest-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 20px;
+  margin-bottom: 30px;
+}
+
+.qtest-card {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+  text-align: center;
+}
+
+.qtest-card-label {
+  font-size: 0.85em;
+  opacity: 0.9;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.qtest-card-value {
+  font-size: 2.5em;
+  font-weight: 700;
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+}
+
+.qtest-card-percent {
+  font-size: 0.5em;
+  opacity: 0.8;
+}
+
+.qtest-teams {
+  margin: 40px 0;
+}
+
+.qtest-teams h3 {
+  font-size: 1.5em;
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.qtest-teams-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 15px;
+}
+
+.qtest-team-card {
+  background: white;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.qtest-team-card:hover {
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+  transform: translateY(-2px);
+}
+
+.qtest-team-card.active {
+  background: linear-gradient(135deg, #667eea20 0%, #764ba220 100%);
+  border-color: #667eea;
+  box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
+}
+
+.qtest-team-name {
+  font-size: 1.2em;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.qtest-team-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.qtest-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9em;
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+}
+
+.qtest-stat .label {
+  color: #666;
+  font-weight: 500;
+}
+
+.qtest-stat .value {
+  color: #333;
+  font-weight: 600;
+}
+
+.qtest-stat .percent {
+  font-size: 0.8em;
+  color: #999;
+  margin-left: 5px;
+}
+
+.qtest-team-details {
+  margin-top: 40px;
+  padding-top: 30px;
+  border-top: 2px solid #eee;
+}
+
+.qtest-team-details h3 {
+  font-size: 1.3em;
+  margin: 0 0 20px 0;
+  color: #333;
+}
+
+.qtest-table-container {
+  overflow-x: auto;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.qtest-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9em;
+}
+
+.qtest-table thead {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  font-weight: 600;
+}
+
+.qtest-table th {
+  padding: 15px;
+  text-align: left;
+  border: none;
+}
+
+.qtest-table tbody tr {
+  border-bottom: 1px solid #eee;
+  transition: background-color 0.2s;
+}
+
+.qtest-table tbody tr:hover {
+  background-color: #f9f9f9;
+}
+
+.qtest-table tbody tr.automated {
+  background-color: #f0f7ff;
+}
+
+.qtest-table td {
+  padding: 12px 15px;
+  border: none;
+}
+
+.qtest-tc-id {
+  font-family: 'Courier New', monospace;
+  font-weight: 600;
+  color: #667eea;
+}
+
+.qtest-tc-name {
+  max-width: 400px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qtest-tc-auto,
+.qtest-tc-attach {
+  text-align: center;
+  font-weight: 600;
+}
+
+.qtest-tc-auto {
+  color: #4caf50;
+}
+
+.qtest-table tbody tr.manual .qtest-tc-auto {
+  color: #999;
+}
+
+.qtest-tc-attach {
+  color: #4caf50;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .qtest-header h2 {
+    font-size: 1.8em;
+  }
+
+  .qtest-controls {
+    flex-direction: column;
+  }
+
+  .qtest-control-group {
+    width: 100%;
+  }
+
+  .qtest-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .qtest-teams-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .qtest-table {
+    font-size: 0.8em;
+  }
+
+  .qtest-table th,
+  .qtest-table td {
+    padding: 8px 12px;
+  }
+
+  .qtest-tc-name {
+    max-width: 200px;
+  }
+}

@@ -1,3 +1,67 @@
+/* Application Container and Navigation */
+
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+
+.app-navigation {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.nav-brand h1 {
+  margin: 0;
+  font-size: 1.8em;
+  font-weight: 700;
+}
+
+.nav-buttons {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.nav-button {
+  padding: 10px 20px;
+  border: 2px solid transparent;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1em;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.nav-button.active {
+  background: white;
+  color: #667eea;
+  border-color: white;
+}
+
+.app-main {
+  flex: 1;
+  padding: 20px;
+  overflow-y: auto;
+}
+
+/* Existing dashboard styles */
+
 .dashboard {
   min-height: 100vh;
   background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);

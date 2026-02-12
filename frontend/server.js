@@ -7,8 +7,19 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = 5173;
 
 const server = http.createServer((req, res) => {
-  // Default to index.html
-  let filePath = req.url === '/' ? '/index.html' : req.url;
+  console.log(`📨 ${req.method} ${req.url}`);
+  
+  // Route to tadts-dashboard.html for TAD/TS requests
+  let filePath = req.url;
+  
+  if (req.url === '/' || req.url === '/index.html') {
+    filePath = '/index.html';
+  } else if (req.url === '/tadts' || req.url === '/tadts-dashboard' || req.url === '/tadts-dashboard.html') {
+    filePath = '/tadts-dashboard.html';
+  }
+  
+  // Remove query params
+  filePath = filePath.split('?')[0];
   filePath = path.join(__dirname, filePath);
 
   const extname = path.extname(filePath);

@@ -18,9 +18,11 @@ $ARGUMENTS
 
 You **MUST** consider the user input before proceeding (if not empty).
 
-## ✅ Tests Covered Architecture (COMPLETED)
+## ✅ Tests Covered + qTest Integration + Unified Dashboard Architecture (COMPLETED)
 
-**System Design**: 3-layer Node.js API + HTML/React Frontend
+**System Design**: Multi-layer Node.js API + React Frontend with qTest + Defect Integration
+
+### Tests Covered Architecture
 
 **Layer 1: Main API (Port 3000)**
 - Server: `backend/api-gateway/server.js`
@@ -37,17 +39,224 @@ You **MUST** consider the user input before proceeding (if not empty).
 - Data Source: Sample generator or qTest API
 - Response: Test counts, automation %, team breakdown
 
-**Layer 3: Frontend (Port 5173)**
-- Server: `frontend/server.js`
-- Main Dashboard: `frontend/index.html`
-- Tests Covered Dashboard: Embedded or `frontend/tests-covered.html`
-- Navigation: Clickable Tests Covered card → dedicated dashboard
-- Framework: Vanilla HTML/CSS/JavaScript or React component
+### qTest Integration Architecture
 
-**Data Model - Tests Covered**:
+**Backend Service Layer**:
+- Service: `backend/api-gateway/qtest-integration.js`
+- Functions:
+  - `fetchSprintTestCases()` - Get sprint data from qTest
+  - `getCachedSprintData()` - Retrieve from cache
+  - `clearCache()` - Manage cache lifecycle
+- Features:
+  - Bearer token authentication
+  - Module hierarchy traversal
+  - Pagination handling (100 items/page)
+  - Attachment detection
+  - Data aggregation and analysis
+  - 24-hour intelligent caching
+
+**API Endpoints**:
+- `GET /api/qtest/sprints` - List available sprints
+- `GET /api/qtest/sprint/:name` - Get sprint test case data
+- Query parameters: `?refresh=true`, `?attachments=true`
+
+### Unified Dashboard Architecture (NEW)
+
+**Backend Service Layer** (NEW):
+- Service: `backend/api-gateway/defect-service.js` (460 lines)
+- Functions:
+  - `getDefectsByModule()` - Aggregate defects by module
+  - `getDefectsByTeam()` - Filter by team
+  - `getDefectsBySeverity()` - Categorize by severity
+  - `getDefectsByModuleName()` - Query specific modules
+  - `getDefectsByStatus()` - Group by status
+- Data: 28 sample defects, 8 modules, 6 teams mapped
+
+**API Endpoints** (NEW - 6 endpoints):
+- `GET /api/defects/by-module?sprint=<sprint>`
+- `GET /api/defects/by-team?team=<team>&sprint=<sprint>`
+- `GET /api/defects/by-severity?sprint=<sprint>`
+- `GET /api/defects/module/:name?sprint=<sprint>`
+- `GET /api/defects/by-status?sprint=<sprint>`
+
+### TAD/TS Compliance Analysis Architecture (NEW - February 11, 2026)
+
+**Backend Service Layer** (NEW):
+- Service: `backend/api-gateway/tadTsService.js` (NEW - 470+ lines)
+- Core Functions:
+  - `checkDevStatusPRs()` - Query Bitbucket/GitHub/GitLab PR links
+  - `checkDescriptionForLinks()` - Parse issue descriptions for TAD/TS docs
+  - `checkCommentsForNA()` - Detect "Not Applicable" in comments
+  - `checkBugLinkedToStory()` - Link bug→story analysis
+  - `analyzeIssue()` - Full compliance analysis per issue
+  - `analyzeSprintCompliance()` - Sprint-wide compliance metrics
+  - `calculateComplianceStats()` - Statistical aggregation
+- Dependencies:
+  - Extends `jiraService.js` for Jira API calls
+  - Uses `/rest/dev-status/1.0/` for PR detection
+  - Handles 3 repo types: Bitbucket, GitHub, GitLab
+  - Async/await based HTTP request handling
+
+**Compliance Detection Logic**:
+1. **TAD Detection** (Technical Architecture Document):
+   - PR names: "TAD", "TECHNICAL ARCHITECTURE"
+   - Description links: Keywords like "TECHNICAL DESIGN", "ADR"
+   - Source tracking: PR vs Description
+
+2. **TS Detection** (Test Strategy):
+   - PR names: "[TS]", "TS FOR", "TEST STRATEGY"
+   - Description links: Keywords like "TEST PLAN", "TESTING STRATEGY"
+   - Filters: Excludes "TS FILE"
+
+3. **Not Applicable Detection**:
+   - Stories: Checks comments for N/A keywords + deliverable type
+   - Bugs: Checks if linked to Story in same sprint
+   - Comments: Searches "NOT APPLICABLE", "N/A", "NOT REQUIRED"
+   - Cascading: TAD N/A → TS automatically N/A
+
+4. **Statistics Calculation**:
+   - Total issues analyzed
+   - Compliance percentages (excluding N/A items)
+   - Team-based compliance matrix
+   - Truly missing vs N/A categorization
+
+**API Endpoints** (NEW - 3 endpoints):
+- `GET /api/tad-ts/sprints` - List available sprints
+- `GET /api/tad-ts/sprint/<sprint-name>` - Full compliance analysis (async)
+- `GET /api/tad-ts/issue/<issue-key>` - Individual issue analysis
+
+**Response Format** (sprint endpoint):
 ```json
 {
   "sprint": "26.1.1",
+  "timestamp": "2026-02-11T10:30:00Z",
+  "totalIssues": 45,
+  "stats": {
+    "total": 45,
+    "tadComplete": 38,
+    "tsComplete": 40,
+    "bothComplete": 37,
+    "tadNA": 3,
+    "tsNA": 2,
+    "tadTrulyMissing": 4,
+    "tsTrulyMissing": 3,
+    "tadCompliancePct": 92.7,
+    "tsCompliancePct": 95.3
+  },
+  "issues": [
+    {
+      "key": "GET-12345",
+      "type": "Story",
+      "tad_found": true,
+      "ts_found": true,
+      "tad_source": "PR",
+      "ts_source": "Description",
+      "tad_pr": { "name": "TAD-UPDATE", "status": "MERGED", "url": "..." },
+      "tad_desc_links": ["https://..."],
+      "tad_na": false,
+      "ts_na": false
+    }
+  ]
+}
+```
+
+**Integration with Dashboard**:
+- Consumed by frontend TAD/TS compliance dashboard (future)
+- Feeds into risk scoring algorithm
+- Team-level compliance metrics
+- Trending analysis across sprints
+````
+
+**Frontend Dashboard** (NEW):
+- Component: `frontend/src/components/UnifiedDashboard.jsx` (435 lines)
+- 4-Tab Interface:
+  1. **Overview** - Dual metrics (test + defect)
+  2. **Test Metrics** - Team breakdown with automation rates
+  3. **Defects** - Severity, status, module analysis
+  4. **Correlation** - Risk scores with recommendations
+- Styling: `frontend/src/components/UnifiedDashboard.css` (666 lines)
+  - Gradient design (667eea → 764ba2)
+  - Responsive grid layouts
+  - Mobile breakpoints (768px)
+  - Color-coded indicators
+- Features:
+  - Sprint selector (3 options)
+  - Real-time dual data fetching
+  - Risk scoring algorithm
+  - Error handling
+  - Responsive design
+
+**Risk Scoring Algorithm**:
+```
+Risk Score = (Defects × 15) + ((100 - AutomationRate) × 0.3)
+Range: 0-100 points
+
+High Risk (70-100): Red badge - Needs immediate attention
+Medium Risk (40-69): Yellow badge - Monitor and improve
+Low Risk (0-39): Green badge - On track
+```
+
+**Integration Architecture**:
+  "total_tests": 345,
+  "automated_tests": 287,
+  "manual_tests": 58,
+  "coverage_percentage": 83.2,
+  "teams": [
+    {
+      "name": "Chubb",
+      "total": 69,
+      "automated": 58,
+      "manual": 11,
+      "coverage": 84.1
+    }
+  ]
+}
+```
+
+**Data Model - qTest Integration**:
+```json
+{
+  "sprint_name": "26.1.2",
+  "module_id": 68209714,
+  "totals": {
+    "total": 150,
+    "automated": 120,
+    "with_attachments": 95,
+    "without_attachments": 25
+  },
+  "teams": {
+    "Team A": {
+      "total": 50,
+      "automated": 42,
+      "with_attachments": 38,
+      "test_cases": []
+    }
+  }
+}
+```
+
+**Integration Points**:
+1. Main dashboard displays Tests Covered metrics
+2. QTest Dashboard accessible via new component
+3. Sprint selector filters data dynamically
+4. Team breakdown table shows statistics
+5. Attachment toggle tracks compliance
+6. Cache refresh for latest data
+7. Error handling with user feedback
+
+**qTest Configuration**:
+- API URL: https://wk.qtestnet.com/api/v3
+- Project ID: 114345
+- Authentication: Bearer token (environment variable)
+- Supported Sprints: 26.1.1, 26.1.2, 26.1.3
+- Cache Duration: 24 hours
+- Cache Location: `.qtest-cache/`
+
+**Sample Data Generator**:
+- Creates 345 test cases across 5 teams
+- 3 sprints (26.1.1, 26.1.2, 26.1.3)
+- Average automation coverage: 83.2%
+- Location: `backend/api-gateway/generate-sample-data.js`
   "total_tests": 345,
   "automated_tests": 287,
   "manual_tests": 58,

@@ -3,11 +3,122 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import url from 'url';
+import https from 'https';
 import { getSprintDefectsData } from './sample-tadts-data.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const dbFile = path.join(__dirname, 'db.json');
+
+// QTest API configuration
+const QTEST_CONFIG = {
+  baseUrl: 'https://wk.qtestnet.com/api/v3',
+  projectId: '114345',
+  apiToken: process.env.QTEST_API_TOKEN || '',
+  // Sprint name to QTest project ID mapping
+  sprintMapping: {
+    '26.1.1': 68209713,
+    '26.1.2': 68209714,
+    '26.1.3': 68209719,
+    '26.1.4': 68289134,
+    '26.1.5': 68341069,
+    '26.1.6': 68341070,
+    'chargers-26.1.1': 68209713,
+    'chargers-26.1.2': 68209714,
+    'chargers-26.1.3': 68209719,
+    'chargers-26.1.4': 68289134,
+    'chargers-26.1.5': 68341069,
+    'chargers-26.1.6': 68341070
+  }
+};
+
+// Fetch data from QTest API
+const fetchQTestData = (apiUrl, method = 'GET') => {
+  return new Promise((resolve, reject) => {
+    if (!QTEST_CONFIG.apiToken) {
+      reject(new Error('QTEST_API_TOKEN environment variable not set'));
+      return;
+    }
+
+    const urlObj = new URL(apiUrl);
+    const options = {
+      hostname: urlObj.hostname,
+      path: urlObj.pathname + urlObj.search,
+      method: method,
+      headers: {
+        'Authorization': `Bearer ${QTEST_CONFIG.apiToken}`,
+        'Content-Type': 'application/json',
+        'User-Agent': 'QTest-Dashboard/1.0'
+      }
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => { data += chunk; });
+      res.on('end', () => {
+        try {
+          resolve(JSON.parse(data));
+        } catch (err) {
+          reject(new Error(`Failed to parse QTest response: ${err.message}`));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.setTimeout(15000, () => {
+      req.destroy();
+      reject(new Error('QTest API request timeout'));
+    });
+    req.end();
+  });
+};
+
+// Aggregate test case metrics from QTest data
+const aggregateTestMetrics = (testCases, sprintName) => {
+  const totals = {
+    total: testCases.length,
+    automated: 0,
+    with_attachments: 0,
+    without_attachments: 0
+  };
+
+  const teams = {};
+
+  testCases.forEach(tc => {
+    // Count automated test cases
+    if (tc.automation_status === 'AUTOMATED' || tc.automated === true) {
+      totals.automated++;
+    }
+
+    // Count test cases with attachments
+    if (tc.attachments && tc.attachments.length > 0) {
+      totals.with_attachments++;
+    }
+
+    // Group by team/module
+    const team = tc.assigned_team || tc.team || 'Unassigned';
+    if (!teams[team]) {
+      teams[team] = {
+        total_test_cases: 0,
+        automated_test_cases: 0,
+        with_attachments: 0
+      };
+    }
+    teams[team].total_test_cases++;
+
+    if (tc.automation_status === 'AUTOMATED' || tc.automated === true) {
+      teams[team].automated_test_cases++;
+    }
+
+    if (tc.attachments && tc.attachments.length > 0) {
+      teams[team].with_attachments++;
+    }
+  });
+
+  totals.without_attachments = Math.max(0, totals.automated - totals.with_attachments);
+
+  return { sprint: sprintName, totals, teams };
+};
 
 const parseJson = (body) => {
   try {
@@ -729,12 +840,13 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // GET /api/qtest/sprint/:sprint - Get test case metrics from QTest data
+  // GET /api/qtest/sprint/:sprint - Get test case metrics from QTest API (live data)
   if (req.method === 'GET' && req.url.startsWith('/api/qtest/sprint/')) {
     try {
       // Extract sprint name from URL path: /api/qtest/sprint/26.1.2
       const pathParts = req.url.split('/');
       const sprintName = pathParts[pathParts.length - 1].split('?')[0]; // Remove query params if any
+      const useBackup = req.url.includes('?backup=true');
       
       if (!sprintName) {
         res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -742,43 +854,74 @@ const server = http.createServer((req, res) => {
         return;
       }
 
-      // Get test case data from db.json tests_covered section
-      const testsCovered = db.tests_covered || {};
-      let sprintData = null;
+      // Function to handle request
+      const handleQTestRequest = async () => {
+        try {
+          // First try to use live QTest API
+          if (!useBackup && QTEST_CONFIG.apiToken) {
+            const qTestSprintId = QTEST_CONFIG.sprintMapping[sprintName];
+            if (qTestSprintId) {
+              try {
+                console.log(`[QTest] Fetching live data for sprint ${sprintName} (ID: ${qTestSprintId})`);
+                const qTestUrl = `${QTEST_CONFIG.baseUrl}/projects/${QTEST_CONFIG.projectId}/sprints/${qTestSprintId}/test-cases?pageSize=500`;
+                const qTestData = await fetchQTestData(qTestUrl);
+                
+                if (qTestData && qTestData.items && Array.isArray(qTestData.items)) {
+                  console.log(`[QTest] Received ${qTestData.items.length} test cases from QTest API`);
+                  const aggregated = aggregateTestMetrics(qTestData.items, sprintName);
+                  aggregated.source = 'qtest-live';
+                  res.writeHead(200, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify(aggregated, null, 2));
+                  return;
+                } else {
+                  console.warn('[QTest] QTest API returned unexpected format, falling back to mock data');
+                }
+              } catch (qtestErr) {
+                console.warn(`[QTest] Live API error: ${qtestErr.message}, falling back to mock data`);
+              }
+            }
+          }
 
-      // Find sprint by number
-      if (testsCovered[sprintName]) {
-        sprintData = testsCovered[sprintName];
-      }
+          // Fall back to mock data from db.json
+          console.log(`[QTest] Using mock data for sprint ${sprintName}`);
+          const testsCovered = db.tests_covered || {};
+          let sprintData = testsCovered[sprintName];
 
-      if (!sprintData) {
-        // Return default structure if not found
-        sprintData = {
-          sprint: sprintName,
-          summary: {
-            total_test_cases: 0,
-            total_automated: 0,
-            total_with_attachments: 0
-          },
-          teams: {}
-        };
-      }
+          if (!sprintData) {
+            sprintData = {
+              sprint: sprintName,
+              summary: {
+                total_test_cases: 0,
+                total_automated: 0,
+                total_with_attachments: 0
+              },
+              teams: {}
+            };
+          }
 
-      // Format for frontend consumption
-      const summary = sprintData.summary || {};
-      const response = {
-        sprint: sprintName,
-        totals: {
-          total: summary.total_test_cases || 0,
-          automated: summary.total_automated || 0,
-          with_attachments: summary.total_with_attachments || 0,
-          without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
-        },
-        teams: sprintData.teams || {}
+          const summary = sprintData.summary || {};
+          const response = {
+            sprint: sprintName,
+            totals: {
+              total: summary.total_test_cases || 0,
+              automated: summary.total_automated || 0,
+              with_attachments: summary.total_with_attachments || 0,
+              without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
+            },
+            teams: sprintData.teams || {},
+            source: 'mock-data'
+          };
+
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(response, null, 2));
+        } catch (error) {
+          console.error('[QTest] Error fetching sprint data:', error);
+          res.writeHead(500, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ error: error.message, source: 'error' }));
+        }
       };
 
-      res.writeHead(200, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify(response, null, 2));
+      handleQTestRequest();
     } catch (error) {
       console.error('Error in /api/qtest/sprint:', error);
       res.writeHead(500, { 'Content-Type': 'application/json' });

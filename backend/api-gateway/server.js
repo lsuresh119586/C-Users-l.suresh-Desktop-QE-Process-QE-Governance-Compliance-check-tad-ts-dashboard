@@ -851,7 +851,12 @@ const server = http.createServer((req, res) => {
 // Initialize DB and start server
 initDatabase();
 
-server.listen(PORT, () => {
+server.on('error', (err) => {
+  console.error('❌ Server error:', err.message);
+  process.exit(1);
+});
+
+const listener = server.listen(PORT, '127.0.0.1', () => {
   console.log(`🚀 API Server running on http://localhost:${PORT}`);
   console.log(`📊 API endpoints available:`);
   console.log(`   GET  /api/products`);
@@ -861,4 +866,17 @@ server.listen(PORT, () => {
   console.log(`   POST /api/metrics`);
   console.log(`   GET  /api/qtest/sprint/<sprint-name>`);
   console.log(`   GET  /api/defects/by-module?sprint=<sprint-name>`);
+  console.log(`✅ Callback executed successfully - server should be listening`);
+});
+
+// Keep server alive and handle graceful shutdown
+listener.keepAliveTimeout = 65000;
+console.log(`⏳ Server object created, about to listen on port ${PORT}...`);
+console.log(`✅ Listener configured - keeping process alive`);
+process.on('SIGTERM', () => {
+  console.log('\n📛 SIGTERM received, shutting down gracefully...');
+  listener.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
 });

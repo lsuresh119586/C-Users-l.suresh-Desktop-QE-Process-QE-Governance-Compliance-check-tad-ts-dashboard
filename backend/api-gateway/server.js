@@ -40,6 +40,9 @@ const fetchQTestData = (apiUrl, method = 'GET') => {
       return;
     }
 
+    console.log(`[fetchQTest] URL: ${apiUrl}`);
+    console.log(`[fetchQTest] Token: ${QTEST_CONFIG.apiToken.substring(0, 20)}...`);
+
     const urlObj = new URL(apiUrl);
     const options = {
       hostname: urlObj.hostname,
@@ -52,19 +55,27 @@ const fetchQTestData = (apiUrl, method = 'GET') => {
       }
     };
 
+    console.log(`[fetchQTest] Headers:`, JSON.stringify(options.headers, null, 2));
+
     const req = https.request(options, (res) => {
       let data = '';
+      console.log(`[fetchQTest] Response status: ${res.statusCode}`);
       res.on('data', chunk => { data += chunk; });
       res.on('end', () => {
         try {
-          resolve(JSON.parse(data));
+          const parsed = JSON.parse(data);
+          console.log(`[fetchQTest] Parsed successfully. Keys: ${Object.keys(parsed).join(', ')}`);
+          resolve(parsed);
         } catch (err) {
           reject(new Error(`Failed to parse QTest response: ${err.message}`));
         }
       });
     });
 
-    req.on('error', reject);
+    req.on('error', (e) => {
+      console.error(`[fetchQTest] Request error:`, e.message);
+      reject(e);
+    });
     req.setTimeout(15000, () => {
       req.destroy();
       reject(new Error('QTest API request timeout'));
@@ -863,18 +874,28 @@ const server = http.createServer((req, res) => {
             if (qTestSprintId) {
               try {
                 console.log(`[QTest] Fetching live data for sprint ${sprintName} (ID: ${qTestSprintId})`);
-                const qTestUrl = `${QTEST_CONFIG.baseUrl}/projects/${QTEST_CONFIG.projectId}/sprints/${qTestSprintId}/test-cases?pageSize=500`;
+                // Use the working QTest API endpoint format
+                const qTestUrl = `${QTEST_CONFIG.baseUrl}/projects/${QTEST_CONFIG.projectId}/test-cases?pageSize=500&sprintId=${qTestSprintId}`;
                 const qTestData = await fetchQTestData(qTestUrl);
                 
-                if (qTestData && qTestData.items && Array.isArray(qTestData.items)) {
-                  console.log(`[QTest] Received ${qTestData.items.length} test cases from QTest API`);
+                console.log(`[QTest] Response type: ${Array.isArray(qTestData) ? 'Array' : typeof qTestData}, length: ${qTestData.length || Object.keys(qTestData).length}`);
+                
+                if (Array.isArray(qTestData) && qTestData.length > 0) {
+                  console.log(`[QTest] ✓ Got ${qTestData.length} test cases from QTest API`);
+                  const aggregated = aggregateTestMetrics(qTestData, sprintName);
+                  aggregated.source = 'qtest-live';
+                  res.writeHead(200, { 'Content-Type': 'application/json' });
+                  res.end(JSON.stringify(aggregated, null, 2));
+                  return;
+                } else if (qTestData && qTestData.items && Array.isArray(qTestData.items)) {
+                  console.log(`[QTest] ✓ Got ${qTestData.items.length} test cases (items format)`);
                   const aggregated = aggregateTestMetrics(qTestData.items, sprintName);
                   aggregated.source = 'qtest-live';
                   res.writeHead(200, { 'Content-Type': 'application/json' });
                   res.end(JSON.stringify(aggregated, null, 2));
                   return;
                 } else {
-                  console.warn('[QTest] QTest API returned unexpected format, falling back to mock data');
+                  console.warn('[QTest] No valid test case array received, falling back to mock data');
                 }
               } catch (qtestErr) {
                 console.warn(`[QTest] Live API error: ${qtestErr.message}, falling back to mock data`);

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Simple Test</title>
+    <style>
+        body { font-family: Arial; padding: 20px; background: #f0f0f0; }
+        .result { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; border-left: 4px solid #007bff; }
+        button { padding: 10px 20px; cursor: pointer; background: #007bff; color: white; border: none; border-radius: 3px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard Data Loading Test</h1>
+    <button onclick="testLoad()">Load Data</button>
+    <button onclick="clearResults()">Clear</button>
+    <div id="results"></div>
+
+    <script>
+        const API = 'http://localhost:3000';
+        const res = document.getElementById('results');
+        
+        function log(msg) {
+            res.innerHTML += `<div class="result">${new Date().toLocaleTimeString()} - ${msg}</div>`;
+            console.log(msg);
+        }
+        
+        function clearResults() {
+            res.innerHTML = '';
+        }
+        
+        async function testLoad() {
+            log('🟡 Starting test...');
+            
+            try {
+                log('🔵 Fetching /api/qtest/sprint/26.1.2...');
+                const r1 = await fetch(`${API}/api/qtest/sprint/26.1.2`);
+                log(`Response status: ${r1.status}`);
+                
+                if (!r1.ok) {
+                    log(`❌ HTTP Error: ${r1.status}`);
+                    return;
+                }
+                
+                const d1 = await r1.json();
+                log(`✅ QTest data: ${d1.totals.total} tests, ${d1.totals.automated} automated`);
+                
+                log('🔵 Fetching /api/defects/by-module?sprint=26.1.2...');
+                const r2 = await fetch(`${API}/api/defects/by-module?sprint=26.1.2`);
+                log(`Response status: ${r2.status}`);
+                
+                if (!r2.ok) {
+                    log(`❌ HTTP Error: ${r2.status}`);
+                    return;
+                }
+                
+                const d2 = await r2.json();
+                log(`✅ Defects data: ${d2.totals.open} open, ${d2.totals.closed} closed`);
+                
+                log('🟢 ALL DATA LOADED SUCCESSFULLY!');
+                log(`<strong>Ready to display on dashboard</strong>`);
+                
+            } catch (err) {
+                log(`❌ ERROR: ${err.message}`);
+            }
+        }
+        
+        // Auto-run on load
+        window.addEventListener('DOMContentLoaded', () => {
+            log('📄 Page loaded');
+            setTimeout(testLoad, 500);
+        });
+    </script>
+</body>
+</html>

@@ -1,114 +1,47 @@
-import axios from 'axios';
-
 const API_BASE_URL = 'http://localhost:3000/api';
 
-const api = axios.create({
-  baseURL: API_BASE_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json',
-  },
-});
-
-export interface Product {
-  id: number;
-  code: string;
-  name: string;
-  displayName: string;
-}
-
-export interface Team {
-  id: number;
-  name: string;
-  displayName: string;
-  productId: number;
-}
-
-export interface Sprint {
-  id: number;
-  name: string;
-  startDate: string;
-  endDate: string;
-  status: string;
-}
-
-export interface Metrics {
-  id: number;
-  teamId: number;
-  sprintId: number;
-  timestamp: string;
-  tadTsMetrics: {
-    totalStories: number;
-    tadComplete: number;
-    tadNa: number;
-    tadMissing: number;
-    tadPct: number;
-    tsComplete: number;
-    tsNa: number;
-    tsMissing: number;
-    tsPct: number;
-  };
-  qtestMetrics: {
-    uniqueTestCases: number;
-    automatedTestCases: number;
-    manualTestCases: number;
-    automationPct: number;
-    totalTestRuns: number;
-  };
-  defectMetrics: {
-    totalDefects: number;
-    reopenedDefects: number;
-    reopenedPct: number;
-    bySeverity: Record<string, number>;
-    bySdlc: Record<string, number>;
-  };
-}
-
 export const apiService = {
-  async getHealth() {
-    const response = await api.get('/health');
-    return response.data;
+  // Products
+  getProducts: async () => {
+    const response = await fetch(`${API_BASE_URL}/products`);
+    return response.json();
   },
 
-  async getProducts(): Promise<Product[]> {
-    const response = await api.get<Product[]>('/products');
-    return response.data;
+  // Teams
+  getTeams: async (product) => {
+    const params = product ? `?product=${product}` : '';
+    const response = await fetch(`${API_BASE_URL}/teams${params}`);
+    return response.json();
   },
 
-  async getTeams(productId?: number): Promise<Team[]> {
-    const response = await api.get<Team[]>('/teams', {
-      params: productId ? { productId } : {}
+  // Sprints
+  getSprints: async (team, product) => {
+    let params = [];
+    if (team) params.push(`team=${team}`);
+    if (product) params.push(`product=${product}`);
+    const query = params.length ? `?${params.join('&')}` : '';
+    const response = await fetch(`${API_BASE_URL}/sprints${query}`);
+    return response.json();
+  },
+
+  // Metrics
+  getMetrics: async (product, team, sprint) => {
+    let params = [];
+    if (product) params.push(`product=${product}`);
+    if (team) params.push(`team=${team}`);
+    if (sprint) params.push(`sprint=${sprint}`);
+    const query = params.length ? `?${params.join('&')}` : '';
+    const response = await fetch(`${API_BASE_URL}/metrics${query}`);
+    return response.json();
+  },
+
+  // Add metrics
+  addMetrics: async (metricsData) => {
+    const response = await fetch(`${API_BASE_URL}/metrics`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(metricsData)
     });
-    return response.data;
-  },
-
-  async getSprints(): Promise<Sprint[]> {
-    const response = await api.get<Sprint[]>('/sprints');
-    return response.data;
-  },
-
-  async getMetrics(teamId: number, sprintId: number): Promise<Metrics> {
-    const response = await api.get<Metrics>(`/metrics/${teamId}/${sprintId}`);
-    return response.data;
-  },
-
-  async getOrganizationMetrics(): Promise<Metrics> {
-    const response = await api.get<Metrics>('/metrics/organization');
-    return response.data;
-  },
-
-  async getProductMetrics(productId: number): Promise<Metrics> {
-    const response = await api.get<Metrics>(`/metrics/product/${productId}`);
-    return response.data;
-  },
-
-  async getTeamMetrics(teamId: number): Promise<Metrics> {
-    const response = await api.get<Metrics>(`/metrics/team/${teamId}`);
-    return response.data;
-  },
-
-  async createMetrics(metrics: Omit<Metrics, 'id' | 'timestamp'>): Promise<Metrics> {
-    const response = await api.post<Metrics>('/metrics', metrics);
-    return response.data;
-  },
+    return response.json();
+  }
 };

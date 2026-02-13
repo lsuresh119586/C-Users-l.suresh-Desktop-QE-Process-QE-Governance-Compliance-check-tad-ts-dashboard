@@ -1,487 +1,437 @@
-import { useState, useEffect } from 'react';
-import { Layout, Select, Card, Row, Col, Statistic, Progress, Button, Typography, Spin, Alert } from 'antd';
-import { ReloadOutlined, DownloadOutlined } from '@ant-design/icons';
-import { Bar, Pie } from 'react-chartjs-2';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-} from 'chart.js';
-import { apiService, type Product, type Team, type Sprint, type Metrics } from './services/api';
+import React, { useState } from 'react';
+import UnifiedDashboard from './components/UnifiedDashboard';
+import TestsCovered from './components/TestsCovered';
+import TADTSComplianceDashboard from './components/TADTSComplianceDashboard';
 import './App.css';
 
-const { Header, Content } = Layout;
-const { Title: AntTitle } = Typography;
-
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  BarElement,
-  ArcElement,
-  Title,
-  Tooltip,
-  Legend
-);
-
-function App() {
-  const [products, setProducts] = useState<Product[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [sprints, setSprints] = useState<Sprint[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
-  const [selectedTeam, setSelectedTeam] = useState<number | null>(null);
-  const [selectedSprint, setSelectedSprint] = useState<number | null>(null);
-  const [metrics, setMetrics] = useState<Metrics | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
-  const [viewLevel, setViewLevel] = useState<'organization' | 'product' | 'team' | 'sprint'>('organization');
-
-  useEffect(() => {
-    loadInitialData();
-  }, []);
-
-  useEffect(() => {
-    if (selectedProduct) {
-      loadTeams();
-    }
-  }, [selectedProduct]);
-
-  useEffect(() => {
-    loadMetrics();
-  }, [selectedProduct, selectedTeam, selectedSprint]);
-
-  const loadInitialData = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const [productsData, sprintsData] = await Promise.all([
-        apiService.getProducts(),
-        apiService.getSprints()
-      ]);
-      setProducts(productsData);
-      setSprints(sprintsData);
-      
-      // Load organization-wide metrics by default (Story 1)
-      await loadOrganizationMetrics();
-    } catch (err) {
-      setError('Failed to load initial data. Please check if API server is running.');
-      console.error('Error loading initial data:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadOrganizationMetrics = async () => {
-    try {
-      setLoading(true);
-      setError(null);
-      const orgMetrics = await apiService.getOrganizationMetrics();
-      setMetrics(orgMetrics);
-      setViewLevel('organization');
-    } catch (err) {
-      setError('Failed to load organization metrics.');
-      console.error('Error loading organization metrics:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadTeams = async () => {
-    if (!selectedProduct) return;
-    
-    try {
-      setLoading(true);
-      const teamsData = await apiService.getTeams(selectedProduct);
-      setTeams(teamsData);
-      
-      // Reset team/sprint selection when product changes
-      setSelectedTeam(null);
-      setSelectedSprint(null);
-    } catch (err) {
-      setError('Failed to load teams.');
-      console.error('Error loading teams:', err);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const loadMetrics = async () => {
-    // If nothing is selected, show organization-wide metrics
-    if (!selectedProduct && !selectedTeam && !selectedSprint) {
-      await loadOrganizationMetrics();
-      return;
-    }
-
-    if (!selectedProduct) return;
-
-    try {
-      setLoading(true);
-      setError(null);
-      
-      let metricsData;
-      if (selectedTeam && selectedSprint) {
-        // Sprint level
-        setViewLevel('sprint');
-        metricsData = await apiService.getMetrics(selectedTeam, selectedSprint);
-      } else if (selectedTeam) {
-        // Team level
-        setViewLevel('team');
-        metricsData = await apiService.getTeamMetrics(selectedTeam);
-      } else {
-        // Product level
-        setViewLevel('product');
-        metricsData = await apiService.getProductMetrics(selectedProduct);
-      }
-      
-      setMetrics(metricsData);
-    } catch (err) {
-      setError('Failed to load metrics for selected level.');
-      console.error('Error loading metrics:', err);
-      setMetrics(null);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const handleRefresh = async () => {
-    await loadMetrics();
-  };
-
-  const handleExport = () => {
-    alert('PDF Export will be implemented in Phase 1 Week 3');
-  };
-
-  const tadTsChartData = metrics ? {
-    labels: ['TAD', 'TS'],
-    datasets: [
-      {
-        label: 'Complete',
-        data: [metrics.tadTsMetrics.tadComplete, metrics.tadTsMetrics.tsComplete],
-        backgroundColor: '#52c41a',
-      },
-      {
-        label: 'N/A',
-        data: [metrics.tadTsMetrics.tadNa, metrics.tadTsMetrics.tsNa],
-        backgroundColor: '#faad14',
-      },
-      {
-        label: 'Missing',
-        data: [metrics.tadTsMetrics.tadMissing, metrics.tadTsMetrics.tsMissing],
-        backgroundColor: '#ff4d4f',
-      },
-    ],
-  } : null;
-
-  const automationChartData = metrics ? {
-    labels: ['Automated', 'Manual'],
-    datasets: [
-      {
-        data: [
-          metrics.qtestMetrics.automatedTestCases,
-          metrics.qtestMetrics.manualTestCases,
-        ],
-        backgroundColor: ['#1890ff', '#d9d9d9'],
-      },
-    ],
-  } : null;
-
-  const defectsChartData = metrics ? {
-    labels: Object.keys(metrics.defectMetrics.bySdlc),
-    datasets: [
-      {
-        label: 'Defects',
-        data: Object.values(metrics.defectMetrics.bySdlc),
-        backgroundColor: '#ff7875',
-      },
-    ],
-  } : null;
+export default function App() {
+  const [activeView, setActiveView] = useState('unified');
 
   return (
-    <Layout style={{ minHeight: '100vh' }}>
-      <Header style={{ 
-        background: '#001529', 
-        padding: '0 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between'
-      }}>
-        <div style={{ display: 'flex', alignItems: 'center' }}>
-          <div style={{ 
-            color: '#fff', 
-            fontSize: '24px', 
-            fontWeight: 'bold',
-            marginRight: '8px'
-          }}>
-            ⭐
-          </div>
-          <AntTitle level={3} style={{ color: '#fff', margin: 0 }}>
-            Polaris - ELM Metrics Dashboard
-          </AntTitle>
+    <div className="app-container">
+      <nav className="app-navigation">
+        <div className="nav-brand">
+          <h1>🚀 Speckit Dashboard</h1>
         </div>
-        <div style={{ display: 'flex', gap: '12px' }}>
-          <Button 
-            icon={<ReloadOutlined />} 
-            onClick={handleRefresh}
-            loading={loading}
+        <div className="nav-buttons">
+          <button 
+            className={`nav-button ${activeView === 'unified' ? 'active' : ''}`}
+            onClick={() => setActiveView('unified')}
           >
-            Refresh
-          </Button>
-          <Button 
-            icon={<DownloadOutlined />} 
-            onClick={handleExport}
-            type="primary"
+            📊 Unified Metrics
+          </button>
+          <button 
+            className={`nav-button ${activeView === 'tadts' ? 'active' : ''}`}
+            onClick={() => setActiveView('tadts')}
           >
-            Export PDF
-          </Button>
+            ✅ TAD/TS Compliance
+          </button>
+          <button 
+            className={`nav-button ${activeView === 'tests' ? 'active' : ''}`}
+            onClick={() => setActiveView('tests')}
+          >
+            ✅ Tests Covered
+          </button>
         </div>
-      </Header>
+      </nav>
 
-      <Content style={{ padding: '24px', background: '#f0f2f5' }}>
-        {error && (
-          <Alert
-            message="Error"
-            description={error}
-            type="error"
-            closable
-            onClose={() => setError(null)}
-            style={{ marginBottom: 24 }}
-          />
-        )}
-
-        <Row gutter={16} style={{ marginBottom: 24 }}>
-          <Col span={8}>
-            <Card size="small">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <strong>Product:</strong>
-                <Select
-                  data-testid="product-selector"
-                  style={{ flex: 1 }}
-                  value={selectedProduct}
-                  onChange={setSelectedProduct}
-                  loading={products.length === 0}
-                  placeholder="Select Product"
-                  allowClear
-                  options={products.map(product => ({
-                    label: product.displayName,
-                    value: product.id
-                  }))}
-                />
-              </div>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card size="small">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <strong>Team:</strong>
-                <Select
-                  data-testid="team-selector"
-                  style={{ flex: 1 }}
-                  value={selectedTeam}
-                  onChange={setSelectedTeam}
-                  loading={teams.length === 0}
-                  disabled={!selectedProduct}
-                  placeholder="All Teams"
-                  allowClear
-                  options={teams.map(team => ({
-                    label: team.displayName,
-                    value: team.id
-                  }))}
-                />
-              </div>
-            </Card>
-          </Col>
-          <Col span={8}>
-            <Card size="small">
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-                <strong>Sprint:</strong>
-                <Select
-                  data-testid="sprint-selector"
-                  style={{ flex: 1 }}
-                  value={selectedSprint}
-                  onChange={setSelectedSprint}
-                  loading={sprints.length === 0}
-                  disabled={!selectedTeam}
-                  placeholder="All Sprints"
-                  allowClear
-                  options={sprints.map(sprint => ({
-                    label: `Sprint ${sprint.name}`,
-                    value: sprint.id
-                  }))}
-                />
-              </div>
-            </Card>
-          </Col>
-        </Row>
-
-        <Card style={{ marginBottom: 24, textAlign: 'center', background: '#e6f7ff' }} data-testid="view-level-indicator">
-          <div style={{ color: '#666' }}>
-            📊 <strong>Viewing {viewLevel.charAt(0).toUpperCase() + viewLevel.slice(1)} Level Metrics</strong>
-            <br />
-            <small>
-              {viewLevel === 'organization' && 'Aggregated metrics across all products and teams'}
-              {viewLevel === 'product' && 'Aggregated metrics across all teams in selected product'}
-              {viewLevel === 'team' && 'Aggregated metrics for selected team across all sprints'}
-              {viewLevel === 'sprint' && 'Specific sprint metrics for selected team'}
-            </small>
-          </div>
-        </Card>
-
-        {loading && !metrics ? (
-          <div style={{ textAlign: 'center', padding: '100px 0' }}>
-            <Spin size="large">
-              <div style={{ marginTop: 20 }}>Loading metrics...</div>
-            </Spin>
-          </div>
-        ) : metrics ? (
-          <>
-            <Row gutter={16} style={{ marginBottom: 24 }}>
-              <Col span={8}>
-                <Card data-testid="tad-compliance-card">
-                  <Statistic
-                    title="TAD Compliance"
-                    value={metrics.tadTsMetrics.tadPct}
-                    precision={1}
-                    suffix="%"
-                  />
-                  <Progress 
-                    percent={metrics.tadTsMetrics.tadPct} 
-                    status={metrics.tadTsMetrics.tadPct >= 80 ? 'success' : 'exception'}
-                    strokeColor={metrics.tadTsMetrics.tadPct >= 80 ? '#52c41a' : '#ff4d4f'}
-                  />
-                  <div style={{ marginTop: 12, fontSize: 12, color: '#666' }}>
-                    {metrics.tadTsMetrics.tadComplete} Complete, {metrics.tadTsMetrics.tadNa} N/A, {metrics.tadTsMetrics.tadMissing} Missing
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card data-testid="ts-compliance-card">
-                  <Statistic
-                    title="TS Compliance"
-                    value={metrics.tadTsMetrics.tsPct}
-                    precision={1}
-                    suffix="%"
-                  />
-                  <Progress 
-                    percent={metrics.tadTsMetrics.tsPct} 
-                    status={metrics.tadTsMetrics.tsPct >= 80 ? 'success' : 'exception'}
-                    strokeColor={metrics.tadTsMetrics.tsPct >= 80 ? '#52c41a' : '#ff4d4f'}
-                  />
-                  <div style={{ marginTop: 12, fontSize: 12, color: '#666' }}>
-                    {metrics.tadTsMetrics.tsComplete} Complete, {metrics.tadTsMetrics.tsNa} N/A, {metrics.tadTsMetrics.tsMissing} Missing
-                  </div>
-                </Card>
-              </Col>
-              <Col span={8}>
-                <Card data-testid="automation-card">
-                  <Statistic
-                    title="Test Automation"
-                    value={metrics.qtestMetrics.automationPct}
-                    precision={1}
-                    suffix="%"
-                  />
-                  <Progress 
-                    percent={metrics.qtestMetrics.automationPct} 
-                    status={metrics.qtestMetrics.automationPct >= 70 ? 'success' : 'normal'}
-                    strokeColor="#1890ff"
-                  />
-                  <div style={{ marginTop: 12, fontSize: 12, color: '#666' }}>
-                    {metrics.qtestMetrics.automatedTestCases} Automated, {metrics.qtestMetrics.manualTestCases} Manual
-                  </div>
-                </Card>
-              </Col>
-            </Row>
-
-            <Row gutter={16} style={{ marginBottom: 24 }}>
-              <Col span={12}>
-                <Card title="TAD/TS Compliance Breakdown">
-                  {tadTsChartData && (
-                    <Bar 
-                      data={tadTsChartData} 
-                      options={{
-                        responsive: true,
-                        plugins: {
-                          legend: { position: 'top' },
-                        },
-                        scales: {
-                          x: { stacked: true },
-                          y: { stacked: true, beginAtZero: true }
-                        }
-                      }}
-                    />
-                  )}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card title="Test Automation Coverage">
-                  {automationChartData && (
-                    <Pie 
-                      data={automationChartData}
-                      options={{
-                        responsive: true,
-                        plugins: {
-                          legend: { position: 'top' },
-                        },
-                      }}
-                    />
-                  )}
-                </Card>
-              </Col>
-            </Row>
-
-            <Row gutter={16}>
-              <Col span={12}>
-                <Card title="Defects by SDLC Phase">
-                  {defectsChartData && (
-                    <Bar 
-                      data={defectsChartData}
-                      options={{
-                        indexAxis: 'y',
-                        responsive: true,
-                        plugins: {
-                          legend: { display: false },
-                        },
-                      }}
-                    />
-                  )}
-                </Card>
-              </Col>
-              <Col span={12}>
-                <Card title="Sprint Summary">
-                  <Row gutter={16}>
-                    <Col span={12}>
-                      <Statistic title="Total Stories" value={metrics.tadTsMetrics.totalStories} />
-                    </Col>
-                    <Col span={12}>
-                      <Statistic title="Test Runs" value={metrics.qtestMetrics.totalTestRuns} />
-                    </Col>
-                  </Row>
-                  <Row gutter={16} style={{ marginTop: 16 }}>
-                    <Col span={12}>
-                      <Statistic title="Total Defects" value={metrics.defectMetrics.totalDefects} />
-                    </Col>
-                    <Col span={12}>
-                      <Statistic 
-                        title="Reopened %" 
-                        value={metrics.defectMetrics.reopenedPct} 
-                        precision={1}
-                        suffix="%"
-                        valueStyle={{ color: metrics.defectMetrics.reopenedPct > 20 ? '#cf1322' : '#3f8600' }}
-                      />
-                    </Col>
-                  </Row>
-                </Card>
-              </Col>
-            </Row>
-
-          </>
-        ) : null}
-      </Content>
-    </Layout>
+      <main className="app-main">
+        {activeView === 'unified' && <UnifiedDashboard />}
+        {activeView === 'tadts' && <TADTSComplianceDashboard />}
+        {activeView === 'tests' && <TestsCovered />}
+      </main>
+    </div>
   );
 }
 
-export default App;
+/* Legacy code - kept for reference
+const API_BASE_URL = 'http://localhost:3000/api';
+
+let state = {
+  products: [],
+  teams: [],
+  sprints: [],
+  metrics: null,
+  selectedProduct: '',
+  selectedTeam: '',
+  selectedSprint: '',
+  loading: false,
+  error: null,
+  currentView: 'dashboard' // 'dashboard' or 'testsCovered'
+};
+
+const apiService = {
+  getProducts: async () => {
+    const response = await fetch(`${API_BASE_URL}/products`);
+    return response.json();
+  },
+  getTeams: async (product) => {
+    const params = product ? `?product=${product}` : '';
+    const response = await fetch(`${API_BASE_URL}/teams${params}`);
+    return response.json();
+  },
+  getSprints: async (team, product) => {
+    let params = [];
+    if (team) params.push(`team=${team}`);
+    if (product) params.push(`product=${product}`);
+    const query = params.length ? `?${params.join('&')}` : '';
+    const response = await fetch(`${API_BASE_URL}/sprints${query}`);
+    return response.json();
+  },
+  getMetrics: async (product, team, sprint) => {
+    let params = [];
+    if (product) params.push(`product=${product}`);
+    if (team) params.push(`team=${team}`);
+    if (sprint) params.push(`sprint=${sprint}`);
+    const query = params.length ? `?${params.join('&')}` : '';
+    const response = await fetch(`${API_BASE_URL}/metrics${query}`);
+    return response.json();
+  }
+};
+
+async function loadProducts() {
+  try {
+    state.loading = true;
+    state.products = await apiService.getProducts();
+    state.error = null;
+  } catch (err) {
+    state.error = 'Failed to load products: ' + err.message;
+    console.error(err);
+  } finally {
+    state.loading = false;
+  }
+  render();
+}
+
+async function handleProductChange(e) {
+  state.selectedProduct = e.target.value;
+  if (!state.selectedProduct) {
+    state.teams = [];
+    state.sprints = [];
+    state.selectedTeam = '';
+    state.selectedSprint = '';
+    state.metrics = null;
+    render();
+    return;
+  }
+  
+  try {
+    state.loading = true;
+    state.teams = await apiService.getTeams(state.selectedProduct);
+    state.selectedTeam = '';
+    state.selectedSprint = '';
+    state.sprints = [];
+    state.metrics = null;
+    state.error = null;
+  } catch (err) {
+    state.error = 'Failed to load teams: ' + err.message;
+  } finally {
+    state.loading = false;
+  }
+  render();
+}
+
+async function handleTeamChange(e) {
+  state.selectedTeam = e.target.value;
+  if (!state.selectedTeam) {
+    state.sprints = [];
+    state.selectedSprint = '';
+    loadMetrics(state.selectedProduct, null, null);
+    return;
+  }
+
+  try {
+    state.loading = true;
+    state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+    state.selectedSprint = '';
+    state.error = null;
+  } catch (err) {
+    state.error = 'Failed to load sprints: ' + err.message;
+  } finally {
+    state.loading = false;
+  }
+  render();
+}
+
+async function handleSprintChange(e) {
+  state.selectedSprint = e.target.value;
+  await loadMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+}
+
+async function loadMetrics(product, team, sprint) {
+  if (!product) {
+    state.metrics = null;
+    render();
+    return;
+  }
+
+  try {
+    state.loading = true;
+    state.metrics = await apiService.getMetrics(product, team, sprint);
+    state.error = null;
+  } catch (err) {
+    state.error = 'Failed to load metrics: ' + err.message;
+  } finally {
+    state.loading = false;
+  }
+  render();
+}
+
+function render() {
+  const app = document.getElementById('app');
+  
+  // Show Tests Covered view if selected
+  if (state.currentView === 'testsCovered') {
+    let html = `
+      <div class="dashboard">
+        <header class="dashboard-header">
+          <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+          <h1>📊 Tests Covered Dashboard</h1>
+        </header>
+        <div id="testsCoveredContainer"></div>
+      </div>
+    `;
+    app.innerHTML = html;
+    
+    document.getElementById('backBtn')?.addEventListener('click', () => {
+      state.currentView = 'dashboard';
+      render();
+    });
+    
+    loadTestsCoveredView();
+    return;
+  }
+
+  // Show main dashboard view
+  let html = `
+    <div class="dashboard">
+      <header class="dashboard-header">
+        <h1>📊 Polaris ELM Metrics Dashboard</h1>
+        <p>Hierarchical Metrics View: Product → Team → Sprint</p>
+      </header>
+
+      ${state.error ? `<div class="error-message">${state.error}</div>` : ''}
+
+      <div class="controls">
+        <div class="control-group">
+          <label for="product">Product</label>
+          <select id="product">
+            <option value="">-- Select Product --</option>
+            ${state.products.map(p => `
+              <option value="${p.id}" ${p.id === state.selectedProduct ? 'selected' : ''}>
+                ${p.name}
+              </option>
+            `).join('')}
+          </select>
+        </div>
+
+        ${state.teams.length > 0 ? `
+          <div class="control-group">
+            <label for="team">Team</label>
+            <select id="team">
+              <option value="">-- All Teams --</option>
+              ${state.teams.map(t => `
+                <option value="${t.id}" ${t.id === state.selectedTeam ? 'selected' : ''}>
+                  ${t.name}
+                </option>
+              `).join('')}
+            </select>
+          </div>
+        ` : ''}
+
+        ${state.sprints.length > 0 ? `
+          <div class="control-group">
+            <label for="sprint">Sprint</label>
+            <select id="sprint">
+              <option value="">-- All Sprints --</option>
+              ${state.sprints.map(s => `
+                <option value="${s.id}" ${s.id === state.selectedSprint ? 'selected' : ''}>
+                  ${s.name}
+                </option>
+              `).join('')}
+            </select>
+          </div>
+        ` : ''}
+      </div>
+
+      ${state.loading ? '<div class="loading">Loading...</div>' : ''}
+
+      ${state.metrics ? `
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <div class="metric-label">Requirements Covered</div>
+            <div class="metric-value">${state.metrics.requirementsCovered}%</div>
+          </div>
+          <div class="metric-card clickable" id="testsCoveredCard">
+            <div class="metric-label">Tests Covered</div>
+            <div class="metric-value">${state.metrics.testsCovered}%</div>
+            <div class="card-hint">Click to view details →</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Open Defects</div>
+            <div class="metric-value">${state.metrics.defectsOpen}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Closed Defects</div>
+            <div class="metric-value">${state.metrics.defectsClosed}</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Deployment Readiness</div>
+            <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
+          </div>
+          <div class="metric-card">
+            <div class="metric-label">Code Quality</div>
+            <div class="metric-value">${state.metrics.codeQuality}%</div>
+          </div>
+        </div>
+      ` : !state.loading && state.selectedProduct ? `
+        <div class="no-data">No metrics available for selected combination</div>
+      ` : !state.selectedProduct ? `
+        <div class="placeholder">Select a product to view metrics</div>
+      ` : ''}
+    </div>
+  `;
+
+  app.innerHTML = html;
+
+  // Attach event listeners
+  document.getElementById('product')?.addEventListener('change', handleProductChange);
+  if (state.teams.length > 0) {
+    document.getElementById('team')?.addEventListener('change', handleTeamChange);
+  }
+  if (state.sprints.length > 0) {
+    document.getElementById('sprint')?.addEventListener('change', handleSprintChange);
+  }
+  
+  // Tests Covered card click handler
+  document.getElementById('testsCoveredCard')?.addEventListener('click', () => {
+    state.currentView = 'testsCovered';
+    render();
+  });
+}
+
+// Initialize
+window.addEventListener('DOMContentLoaded', () => {
+  loadProducts();
+});
+
+// Load and display Tests Covered dashboard
+async function loadTestsCoveredView() {
+  const container = document.getElementById('testsCoveredContainer');
+  if (!container) return;
+
+  try {
+    const response = await fetch('http://localhost:3000/api/metrics/tests-covered');
+    const allData = await response.json();
+    const sprints = Object.keys(allData).filter(k => k !== '_updated');
+
+    if (sprints.length === 0) {
+      container.innerHTML = '<div class="no-data">No sprint data available</div>';
+      return;
+    }
+
+    const selectedSprint = sprints[0];
+    renderTestsCoveredDashboard(allData, sprints, selectedSprint);
+
+    const selector = document.getElementById('testsCoveredSprintSelector');
+    if (selector) {
+      selector.addEventListener('change', (e) => {
+        renderTestsCoveredDashboard(allData, sprints, e.target.value);
+      });
+    }
+  } catch (error) {
+    console.error('Error loading tests covered:', error);
+    container.innerHTML = `<div class="error-message">Error loading data: ${error.message}</div>`;
+  }
+}
+
+function renderTestsCoveredDashboard(allData, sprints, selectedSprint) {
+  const container = document.getElementById('testsCoveredContainer');
+  const data = allData[selectedSprint] || {};
+
+  const totalTests = data.totalTests || 0;
+  const automatedTests = data.automatedTests || 0;
+  const manualTests = data.manualTests || 0;
+  const coverage = totalTests > 0 ? Math.round((automatedTests / totalTests) * 100) : 0;
+  const teams = data.teams || [];
+
+  let html = `
+    <div class="tests-covered-wrapper">
+      <div class="sprint-selector-wrapper">
+        <label for="testsCoveredSprintSelector">Sprint:</label>
+        <select id="testsCoveredSprintSelector">
+          ${sprints.map(s => `<option value="${s}" ${s === selectedSprint ? 'selected' : ''}>${s}</option>`).join('')}
+        </select>
+      </div>
+
+      <div class="metrics-grid">
+        <div class="metric-card highlight">
+          <div class="metric-label">Automation Coverage</div>
+          <div class="metric-value">${coverage}%</div>
+          <div class="progress-bar">
+            <div class="progress-fill" style="width: ${coverage}%"></div>
+          </div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Total Tests</div>
+          <div class="metric-value">${totalTests}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Automated Tests</div>
+          <div class="metric-value">${automatedTests}</div>
+        </div>
+        <div class="metric-card">
+          <div class="metric-label">Manual Tests</div>
+          <div class="metric-value">${manualTests}</div>
+        </div>
+      </div>
+
+      <div class="content-section">
+        <h2>Team Breakdown</h2>
+        ${teams.length > 0 ? `
+          <table class="teams-table">
+            <thead>
+              <tr>
+                <th>Team</th>
+                <th class="numeric">Total Tests</th>
+                <th class="numeric">Automated</th>
+                <th class="numeric">Manual</th>
+                <th class="numeric">Coverage</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${teams.map(team => {
+                const teamCoverage = team.totalTests > 0 ? Math.round((team.automatedTests / team.totalTests) * 100) : 0;
+                return `
+                  <tr>
+                    <td class="team-name">${team.name}</td>
+                    <td class="numeric">${team.totalTests}</td>
+                    <td class="numeric">${team.automatedTests}</td>
+                    <td class="numeric">${team.manualTests}</td>
+                    <td class="numeric">
+                      ${teamCoverage}%
+                      <div class="mini-progress">
+                        <div class="mini-progress-fill" style="width: ${teamCoverage}%"></div>
+                      </div>
+                    </td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        ` : '<div class="no-data">No team data available</div>'}
+      </div>
+    </div>
+  `;
+
+  container.innerHTML = html;
+
+  // Reattach event listener
+  const selector = document.getElementById('testsCoveredSprintSelector');
+  if (selector) {
+    selector.removeEventListener('change', null);
+    selector.addEventListener('change', (e) => {
+      renderTestsCoveredDashboard(allData, sprints, e.target.value);
+    });
+  }
+}

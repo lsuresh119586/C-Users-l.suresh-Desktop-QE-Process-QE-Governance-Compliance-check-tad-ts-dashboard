@@ -868,12 +868,37 @@ const server = http.createServer((req, res) => {
       // Function to handle request
       const handleQTestRequest = async () => {
         try {
-          // First try to use live QTest API
+          // PRIORITY 1: Use mock data from db.json (has proper team breakdown)
+          console.log(`[QTest] Loading mock data for sprint ${sprintName}`);
+          const testsCovered = db.tests_covered || {};
+          let sprintData = testsCovered[sprintName];
+
+          // If mock data exists and has teams with test cases, use it
+          if (sprintData && sprintData.teams && Object.keys(sprintData.teams).length > 0) {
+            console.log(`[QTest] ✓ Found mock data with ${Object.keys(sprintData.teams).length} teams`);
+            const summary = sprintData.summary || {};
+            const response = {
+              sprint: sprintName,
+              totals: {
+                total: summary.total_test_cases || 0,
+                automated: summary.total_automated || 0,
+                with_attachments: summary.total_with_attachments || 0,
+                without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
+              },
+              teams: sprintData.teams || {},
+              source: 'mock-data'
+            };
+            res.writeHead(200, { 'Content-Type': 'application/json' });
+            res.end(JSON.stringify(response, null, 2));
+            return;
+          }
+
+          // PRIORITY 2: Fall back to live QTest API if no mock data
           if (!useBackup && QTEST_CONFIG.apiToken) {
             const qTestSprintId = QTEST_CONFIG.sprintMapping[sprintName];
             if (qTestSprintId) {
               try {
-                console.log(`[QTest] Fetching live data for sprint ${sprintName} (ID: ${qTestSprintId})`);
+                console.log(`[QTest] No mock data found, fetching live data for sprint ${sprintName} (ID: ${qTestSprintId})`);
                 // Use the working QTest API endpoint format
                 const qTestUrl = `${QTEST_CONFIG.baseUrl}/projects/${QTEST_CONFIG.projectId}/test-cases?pageSize=500&sprintId=${qTestSprintId}`;
                 const qTestData = await fetchQTestData(qTestUrl);
@@ -894,20 +919,14 @@ const server = http.createServer((req, res) => {
                   res.writeHead(200, { 'Content-Type': 'application/json' });
                   res.end(JSON.stringify(aggregated, null, 2));
                   return;
-                } else {
-                  console.warn('[QTest] No valid test case array received, falling back to mock data');
                 }
               } catch (qtestErr) {
-                console.warn(`[QTest] Live API error: ${qtestErr.message}, falling back to mock data`);
+                console.warn(`[QTest] Live API error: ${qtestErr.message}`);
               }
             }
           }
 
-          // Fall back to mock data from db.json
-          console.log(`[QTest] Using mock data for sprint ${sprintName}`);
-          const testsCovered = db.tests_covered || {};
-          let sprintData = testsCovered[sprintName];
-
+          // PRIORITY 3: Return empty mock data if nothing else available
           if (!sprintData) {
             sprintData = {
               sprint: sprintName,

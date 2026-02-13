@@ -1020,193 +1020,2979 @@
   "tests_covered": {
     "26.1.1": {
       "sprint": "26.1.1",
-      "module_id": 68209713,
-      "generated": "2026-02-06",
+      "sprint_id": 2621,
+      "generated": "2026-02-13",
       "summary": {
-        "total_test_cases": 0,
-        "total_automated": 0,
-        "total_with_attachments": 0,
-        "automation_coverage_percent": 0,
-        "teams_count": 0
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
       },
-      "teams": {}
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
     },
     "26.1.2": {
       "sprint": "26.1.2",
-      "module_id": 68209714,
-      "generated": "2026-02-06",
+      "sprint_id": 2622,
+      "generated": "2026-02-13",
       "summary": {
-        "total_test_cases": 345,
-        "total_automated": 287,
-        "total_with_attachments": 287,
-        "automation_coverage_percent": 83.2,
-        "teams_count": 5
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
       },
       "teams": {
-        "Chubb": {
-          "total_test_cases": 67,
-          "automated_test_cases": 58,
-          "automation_coverage_percent": 86.6,
-          "with_attachments": 58,
-          "without_attachments": 9,
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
           "test_cases": [
             {
-              "id": "TC-CHUBB-001",
-              "qtest_id": 1001,
-              "name": "Login with valid credentials",
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
             },
             {
-              "id": "TC-CHUBB-002",
-              "qtest_id": 1002,
-              "name": "Create new policy",
-              "automated": true,
-              "status": "Active"
-            },
-            {
-              "id": "TC-CHUBB-003",
-              "qtest_id": 1003,
-              "name": "Update policy details",
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
               "automated": false,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
             }
-          ]
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
         },
         "Matrix": {
-          "total_test_cases": 72,
-          "automated_test_cases": 61,
-          "automation_coverage_percent": 84.7,
-          "with_attachments": 61,
-          "without_attachments": 11,
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-MATRIX-001",
-              "qtest_id": 2001,
-              "name": "SSO authentication flow",
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
             },
             {
-              "id": "TC-MATRIX-002",
-              "qtest_id": 2002,
-              "name": "Angular scheduler component",
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
             },
             {
-              "id": "TC-MATRIX-003",
-              "qtest_id": 2003,
-              "name": "Delete scheduled item",
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
             }
-          ]
+          ],
+          "automation_coverage_percent": 100
         },
-        "Mavericks": {
-          "total_test_cases": 68,
-          "automated_test_cases": 56,
-          "automation_coverage_percent": 82.4,
-          "with_attachments": 56,
-          "without_attachments": 12,
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-MAV-001",
-              "qtest_id": 3001,
-              "name": "AFA amount adjustment validation",
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
             },
             {
-              "id": "TC-MAV-002",
-              "qtest_id": 3002,
-              "name": "Time period editing",
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
             },
             {
-              "id": "TC-MAV-003",
-              "qtest_id": 3003,
-              "name": "AI Console UI updates",
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
               "automated": false,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
             }
-          ]
+          ],
+          "automation_coverage_percent": 75
         },
-        "Nexus": {
-          "total_test_cases": 70,
-          "automated_test_cases": 58,
-          "automation_coverage_percent": 82.9,
-          "with_attachments": 58,
-          "without_attachments": 12,
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
           "test_cases": [
             {
-              "id": "TC-NEX-001",
-              "qtest_id": 4001,
-              "name": "Export to Excel validation",
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
             },
             {
-              "id": "TC-NEX-002",
-              "qtest_id": 4002,
-              "name": "Search performance optimization",
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
             },
             {
-              "id": "TC-NEX-003",
-              "qtest_id": 4003,
-              "name": "Token claims validation",
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
               "automated": true,
-              "status": "Active"
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
             }
-          ]
-        },
-        "Vanguards": {
-          "total_test_cases": 68,
-          "automated_test_cases": 54,
-          "automation_coverage_percent": 79.4,
-          "with_attachments": 54,
-          "without_attachments": 14,
-          "test_cases": [
-            {
-              "id": "TC-VAN-001",
-              "qtest_id": 5001,
-              "name": "Invoice AI - Line Item ID",
-              "automated": true,
-              "status": "Active"
-            },
-            {
-              "id": "TC-VAN-002",
-              "qtest_id": 5002,
-              "name": "Invoice AI Citations",
-              "automated": true,
-              "status": "Active"
-            },
-            {
-              "id": "TC-VAN-003",
-              "qtest_id": 5003,
-              "name": "Citations to Interactive Links",
-              "automated": false,
-              "status": "Active"
-            }
-          ]
+          ],
+          "automation_coverage_percent": 100
         }
       }
     },
     "26.1.3": {
       "sprint": "26.1.3",
-      "module_id": 68209719,
-      "generated": "2026-02-06",
+      "sprint_id": 2623,
+      "generated": "2026-02-13",
       "summary": {
-        "total_test_cases": 0,
-        "total_automated": 0,
-        "total_with_attachments": 0,
-        "automation_coverage_percent": 0,
-        "teams_count": 0
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
       },
-      "teams": {}
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "26.1.4": {
+      "sprint": "26.1.4",
+      "sprint_id": 2624,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "26.1.5": {
+      "sprint": "26.1.5",
+      "sprint_id": 2625,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "26.1.6": {
+      "sprint": "26.1.6",
+      "sprint_id": 2626,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.1": {
+      "sprint": "26.1.1",
+      "sprint_id": 2621,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.2": {
+      "sprint": "26.1.2",
+      "sprint_id": 2622,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.3": {
+      "sprint": "26.1.3",
+      "sprint_id": 2623,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.4": {
+      "sprint": "26.1.4",
+      "sprint_id": 2624,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.5": {
+      "sprint": "26.1.5",
+      "sprint_id": 2625,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
+    },
+    "chargers-26.1.6": {
+      "sprint": "26.1.6",
+      "sprint_id": 2626,
+      "generated": "2026-02-13",
+      "summary": {
+        "total_test_cases": 20,
+        "total_automated": 17,
+        "total_with_attachments": 15,
+        "automation_coverage_percent": 85,
+        "teams_count": 6
+      },
+      "teams": {
+        "Nexus": {
+          "total_test_cases": 4,
+          "automated_test_cases": 2,
+          "with_attachments": 1,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-33",
+              "qtest_id": 54329244,
+              "name": "Verify Table Grid Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-32",
+              "qtest_id": 54328626,
+              "name": "Matter Management->Search Affiliated Vendor Matters->click on any Matters->Invoices",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-34",
+              "qtest_id": 54331315,
+              "name": "Spend Management>Accruals>Accrual Review Authorization Levels",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            },
+            {
+              "id": "TC-9",
+              "qtest_id": 54098305,
+              "name": "Home Page -> Invoice File Submisions -> Transaction ID",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Nexus"
+            }
+          ],
+          "automation_coverage_percent": 50
+        },
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-12",
+              "qtest_id": 54265759,
+              "name": "Verify Radio Button Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-11",
+              "qtest_id": 54251506,
+              "name": "Verify Accordion Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            },
+            {
+              "id": "TC-13",
+              "qtest_id": 54272462,
+              "name": "Verify Back Navigation",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chargers"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Matrix": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-18",
+              "qtest_id": 54291160,
+              "name": "Verify Dropdown - Single Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-20",
+              "qtest_id": 54295923,
+              "name": "Verify Page Title Header",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            },
+            {
+              "id": "TC-19",
+              "qtest_id": 54291241,
+              "name": "Verify Grid Mapping",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Matrix"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Vanguard": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-23",
+              "qtest_id": 54299185,
+              "name": "Verify Checkbox Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-21",
+              "qtest_id": 54298766,
+              "name": "Verify Text Input Field - Single",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            },
+            {
+              "id": "TC-22",
+              "qtest_id": 54298791,
+              "name": "Verify Text Input field - Multiline",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Vanguard"
+            }
+          ],
+          "automation_coverage_percent": 100
+        },
+        "Maverick": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "with_attachments": 3,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-31",
+              "qtest_id": 54325741,
+              "name": "Invoices -> Review -> My teams Invoices Awaiting Review - > System ID",
+              "automated": false,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-29",
+              "qtest_id": 54322990,
+              "name": "Verify common controls in page - Administration -> Companies & people -> Companies",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-24",
+              "qtest_id": 54304233,
+              "name": "Verify Dropdown - Multi Select",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            },
+            {
+              "id": "TC-28",
+              "qtest_id": 54318826,
+              "name": "Verify File Input Dialog and Label",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Maverick"
+            }
+          ],
+          "automation_coverage_percent": 75
+        },
+        "Chubb": {
+          "total_test_cases": 3,
+          "automated_test_cases": 3,
+          "with_attachments": 2,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-16",
+              "qtest_id": 54282024,
+              "name": "Verify Open List Box - Multiselect",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-15",
+              "qtest_id": 54276901,
+              "name": "Verify Flyout Menu Component",
+              "automated": true,
+              "status": "Active",
+              "attachments": 1,
+              "module": "Chubb"
+            },
+            {
+              "id": "TC-14",
+              "qtest_id": 54275618,
+              "name": "Verify Global Font Styling",
+              "automated": true,
+              "status": "Active",
+              "attachments": 0,
+              "module": "Chubb"
+            }
+          ],
+          "automation_coverage_percent": 100
+        }
+      }
     }
   }
 }

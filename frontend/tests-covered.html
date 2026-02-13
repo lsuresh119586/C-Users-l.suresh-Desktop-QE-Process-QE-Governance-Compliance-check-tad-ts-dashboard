@@ -238,32 +238,55 @@
     <div id="app"></div>
 
     <script>
-        const API_URL = 'http://localhost:3000/api/metrics/tests-covered';
+        const API_BASE = 'http://localhost:3000/api/qtest/sprint';
+        const AVAILABLE_SPRINTS = [
+            { name: 'chargers-26.1.1', label: 'Chargers 26.1.1' },
+            { name: 'chargers-26.1.2', label: 'Chargers 26.1.2' },
+            { name: 'chargers-26.1.3', label: 'Chargers 26.1.3' },
+            { name: 'chargers-26.1.4', label: 'Chargers 26.1.4' },
+            { name: 'chargers-26.1.5', label: 'Chargers 26.1.5' },
+            { name: 'chargers-26.1.6', label: 'Chargers 26.1.6' },
+            { name: 'matrix-26.1.1', label: 'Matrix 26.1.1' },
+            { name: 'matrix-26.1.4', label: 'Matrix 26.1.4' }
+        ];
+
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                sprint: params.get('sprint') || AVAILABLE_SPRINTS[0].name,
+                team: params.get('team') || ''
+            };
+        }
+
+        function getBackUrl() {
+            const sprint = document.getElementById('sprintSelector')?.value;
+            if (sprint) {
+                return `unified-dashboard.html?sprint=${sprint}`;
+            }
+            return 'unified-dashboard.html';
+        }
 
         async function loadTestsCovered() {
             try {
                 const app = document.getElementById('app');
+                const { sprint: selectedSprint, team: selectedTeam } = getQueryParams();
                 
-                // Get available sprints
-                const response = await fetch(API_URL);
-                const allData = await response.json();
-                const sprints = Object.keys(allData).filter(k => k !== '_updated');
-
-                if (sprints.length === 0) {
-                    app.innerHTML = '<div class="no-data">No sprint data available</div>';
-                    return;
-                }
-
-                // Use first sprint as default
-                const selectedSprint = sprints[0];
-                renderDashboard(allData, sprints, selectedSprint);
+                await renderDashboard(selectedSprint, selectedTeam);
 
                 // Attach event listener for sprint selector
                 const selector = document.getElementById('sprintSelector');
                 if (selector) {
                     selector.addEventListener('change', (e) => {
-                        renderDashboard(allData, sprints, e.target.value);
+                        renderDashboard(e.target.value, '');
                     });
+                }
+
+                // Add back button
+                const backBtn = document.getElementById('backBtn');
+                if (backBtn) {
+                    backBtn.onclick = () => {
+                        window.location.href = getBackUrl();
+                    };
                 }
             } catch (error) {
                 console.error('Error loading tests covered:', error);
@@ -271,97 +294,128 @@
             }
         }
 
-        function renderDashboard(allData, sprints, selectedSprint) {
-            const data = allData[selectedSprint] || {};
-            const app = document.getElementById('app');
+        async function renderDashboard(selectedSprint, filterTeam) {
+            try {
+                const app = document.getElementById('app');
+                
+                // Fetch data for selected sprint
+                const response = await fetch(`${API_BASE}/${selectedSprint}`);
+                const data = await response.json();
 
-            const totalTests = data.totalTests || 0;
-            const automatedTests = data.automatedTests || 0;
-            const manualTests = data.manualTests || 0;
-            const coverage = totalTests > 0 ? Math.round((automatedTests / totalTests) * 100) : 0;
-            const teams = data.teams || [];
+                const totalTests = data.totals?.total || 0;
+                const automatedTests = data.totals?.automated || 0;
+                const withAttachments = data.totals?.with_attachments || 0;
+                const coverage = totalTests > 0 ? Math.round((automatedTests / totalTests) * 100) : 0;
+                
+                // Format teams from API response
+                let teams = Object.entries(data.teams || {}).map(([teamName, teamData]) => ({
+                    name: teamName,
+                    totalTests: teamData.total_test_cases || 0,
+                    automatedTests: teamData.automated_test_cases || 0,
+                    withAttachments: teamData.with_attachments || 0
+                }));
 
-            let html = `
-                <div class="tests-covered-container">
-                    <div class="tests-covered-header">
-                        <h1>Tests Covered Dashboard</h1>
-                        <div class="sprint-selector">
-                            <label for="sprintSelector">Sprint:</label>
-                            <select id="sprintSelector">
-                                ${sprints.map(s => `<option value="${s}" ${s === selectedSprint ? 'selected' : ''}>${s}</option>`).join('')}
-                            </select>
-                        </div>
-                    </div>
+                // Filter by team if specified
+                if (filterTeam) {
+                    teams = teams.filter(t => t.name === filterTeam);
+                }
 
-                    <div class="tests-covered-summary">
-                        <div class="summary-card highlight">
-                            <div class="card-label">Automation Coverage</div>
-                            <div class="card-value">${coverage}%</div>
-                            <div class="progress-bar">
-                                <div class="progress-fill" style="width: ${coverage}%"></div>
+                let html = `
+                    <div class="tests-covered-container">
+                        <div class="tests-covered-header">
+                            <div style="display: flex; gap: 15px; align-items: center;">
+                                <button id="backBtn" style="padding: 8px 16px; background: #f0f0f0; border: 1px solid #ddd; border-radius: 4px; cursor: pointer; font-size: 14px;">← Back to Dashboard</button>
+                                <h1>Tests Covered Dashboard</h1>
+                            </div>
+                            <div class="sprint-selector">
+                                <label for="sprintSelector">Sprint:</label>
+                                <select id="sprintSelector">
+                                    ${AVAILABLE_SPRINTS.map(s => `<option value="${s.name}" ${s.name === selectedSprint ? 'selected' : ''}>${s.label}</option>`).join('')}
+                                </select>
                             </div>
                         </div>
-                        <div class="summary-card">
-                            <div class="card-label">Total Tests</div>
-                            <div class="card-value">${totalTests}</div>
+
+                        <div class="tests-covered-summary">
+                            <div class="summary-card highlight">
+                                <div class="card-label">Automation Coverage</div>
+                                <div class="card-value">${coverage}%</div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${coverage}%"></div>
+                                </div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="card-label">Total Tests</div>
+                                <div class="card-value">${totalTests}</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="card-label">Automated Tests</div>
+                                <div class="card-value">${automatedTests}</div>
+                            </div>
+                            <div class="summary-card">
+                                <div class="card-label">Tests with Attachments</div>
+                                <div class="card-value">${withAttachments}</div>
+                            </div>
                         </div>
-                        <div class="summary-card">
-                            <div class="card-label">Automated Tests</div>
-                            <div class="card-value">${automatedTests}</div>
-                        </div>
-                        <div class="summary-card">
-                            <div class="card-label">Manual Tests</div>
-                            <div class="card-value">${manualTests}</div>
+
+                        <div class="tests-covered-content">
+                            <h2>Team Breakdown</h2>
+                            ${teams.length > 0 ? `
+                                <table class="teams-table">
+                                    <thead>
+                                        <tr>
+                                            <th>Team</th>
+                                            <th class="numeric">Total Tests</th>
+                                            <th class="numeric">Automated</th>
+                                            <th class="numeric">With Attachments</th>
+                                            <th class="numeric">Coverage</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        ${teams.map(team => {
+                                            const teamCoverage = team.totalTests > 0 ? Math.round((team.automatedTests / team.totalTests) * 100) : 0;
+                                            return `
+                                                <tr>
+                                                    <td class="team-name">${team.name}</td>
+                                                    <td class="numeric">${team.totalTests}</td>
+                                                    <td class="numeric">${team.automatedTests}</td>
+                                                    <td class="numeric">${team.withAttachments}</td>
+                                                    <td class="numeric">
+                                                        ${teamCoverage}%
+                                                        <div class="mini-progress">
+                                                            <div class="mini-progress-fill" style="width: ${teamCoverage}%"></div>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                            `;
+                                        }).join('')}
+                                    </tbody>
+                                </table>
+                            ` : '<div class="no-data">No team data available</div>'}
                         </div>
                     </div>
+                `;
 
-                    <div class="tests-covered-content">
-                        <h2>Team Breakdown</h2>
-                        ${teams.length > 0 ? `
-                            <table class="teams-table">
-                                <thead>
-                                    <tr>
-                                        <th>Team</th>
-                                        <th class="numeric">Total Tests</th>
-                                        <th class="numeric">Automated</th>
-                                        <th class="numeric">Manual</th>
-                                        <th class="numeric">Coverage</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    ${teams.map(team => {
-                                        const teamCoverage = team.totalTests > 0 ? Math.round((team.automatedTests / team.totalTests) * 100) : 0;
-                                        return `
-                                            <tr>
-                                                <td class="team-name">${team.name}</td>
-                                                <td class="numeric">${team.totalTests}</td>
-                                                <td class="numeric">${team.automatedTests}</td>
-                                                <td class="numeric">${team.manualTests}</td>
-                                                <td class="numeric">
-                                                    ${teamCoverage}%
-                                                    <div class="mini-progress">
-                                                        <div class="mini-progress-fill" style="width: ${teamCoverage}%"></div>
-                                                    </div>
-                                                </td>
-                                            </tr>
-                                        `;
-                                    }).join('')}
-                                </tbody>
-                            </table>
-                        ` : '<div class="no-data">No team data available</div>'}
-                    </div>
-                </div>
-            `;
+                app.innerHTML = html;
 
-            app.innerHTML = html;
+                // Reattach event listener
+                const selector = document.getElementById('sprintSelector');
+                if (selector) {
+                    selector.removeEventListener('change', null);
+                    selector.addEventListener('change', (e) => {
+                        renderDashboard(e.target.value, '');
+                    });
+                }
 
-            // Reattach event listener
-            const selector = document.getElementById('sprintSelector');
-            if (selector) {
-                selector.removeEventListener('change', null);
-                selector.addEventListener('change', (e) => {
-                    renderDashboard(allData, sprints, e.target.value);
-                });
+                // Reattach back button
+                const backBtn = document.getElementById('backBtn');
+                if (backBtn) {
+                    backBtn.onclick = () => {
+                        window.location.href = getBackUrl();
+                    };
+                }
+            } catch (error) {
+                console.error('Error rendering dashboard:', error);
+                document.getElementById('app').innerHTML = `<div class="error">Error rendering dashboard: ${error.message}</div>`;
             }
         }
 

@@ -729,6 +729,64 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // GET /api/qtest/sprint/:sprint - Get test case metrics from QTest data
+  if (req.method === 'GET' && req.url.startsWith('/api/qtest/sprint/')) {
+    try {
+      // Extract sprint name from URL path: /api/qtest/sprint/26.1.2
+      const pathParts = req.url.split('/');
+      const sprintName = pathParts[pathParts.length - 1].split('?')[0]; // Remove query params if any
+      
+      if (!sprintName) {
+        res.writeHead(400, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: 'sprint name required' }));
+        return;
+      }
+
+      // Get test case data from db.json tests_covered section
+      const testsCovered = db.tests_covered || {};
+      let sprintData = null;
+
+      // Find sprint by number
+      if (testsCovered[sprintName]) {
+        sprintData = testsCovered[sprintName];
+      }
+
+      if (!sprintData) {
+        // Return default structure if not found
+        sprintData = {
+          sprint: sprintName,
+          summary: {
+            total_test_cases: 0,
+            total_automated: 0,
+            total_with_attachments: 0
+          },
+          teams: {}
+        };
+      }
+
+      // Format for frontend consumption
+      const summary = sprintData.summary || {};
+      const response = {
+        sprint: sprintName,
+        totals: {
+          total: summary.total_test_cases || 0,
+          automated: summary.total_automated || 0,
+          with_attachments: summary.total_with_attachments || 0,
+          without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
+        },
+        teams: sprintData.teams || {}
+      };
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(response, null, 2));
+    } catch (error) {
+      console.error('Error in /api/qtest/sprint:', error);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
   // POST /api/metrics
   if (pathname === '/api/metrics' && req.method === 'POST') {
     let body = '';
@@ -801,4 +859,6 @@ server.listen(PORT, () => {
   console.log(`   GET  /api/sprints?team=<team-id>`);
   console.log(`   GET  /api/metrics?product=<product-id>&team=<team-id>&sprint=<sprint-id>`);
   console.log(`   POST /api/metrics`);
+  console.log(`   GET  /api/qtest/sprint/<sprint-name>`);
+  console.log(`   GET  /api/defects/by-module?sprint=<sprint-name>`);
 });

@@ -668,6 +668,17 @@
                     script.src = sprintFile;
                     script.onload = () => {
                         console.log('Sprint file loaded:', sprintFile);
+                        // Map sprint-specific variable to reportData
+                        const varName = `tadTsReportSprint${selectedSprint.replace(/\./g, '_')}`;
+                        if (window[varName]) {
+                            console.log(`Mapping ${varName} to window.reportData`);
+                            window.reportData = window[varName];
+                        } else {
+                            console.log(`Variable ${varName} not found, trying tadTsReportData`);
+                            if (window.tadTsReportData) {
+                                window.reportData = window.tadTsReportData;
+                            }
+                        }
                         resolve();
                     };
                     script.onerror = () => {
@@ -677,7 +688,14 @@
                         const defaultScript = document.createElement('script');
                         defaultScript.id = 'dataScript';
                         defaultScript.src = `tad-ts-report-data.js?t=${Date.now()}`;
-                        defaultScript.onload = resolve;
+                        defaultScript.onload = () => {
+                            // Map default data variable
+                            if (window.tadTsReportData) {
+                                console.log('Mapping tadTsReportData to window.reportData');
+                                window.reportData = window.tadTsReportData;
+                            }
+                            resolve();
+                        };
                         defaultScript.onerror = reject;
                         document.head.appendChild(defaultScript);
                     };

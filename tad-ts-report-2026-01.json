@@ -2520,7 +2520,7 @@
           "status": "Pre-Refinement",
           "sprint": "No Sprint",
           "tadFound": true,
-          "tsFound": false,
+          "tsFound": true,
           "totalPrs": 1
         },
         {

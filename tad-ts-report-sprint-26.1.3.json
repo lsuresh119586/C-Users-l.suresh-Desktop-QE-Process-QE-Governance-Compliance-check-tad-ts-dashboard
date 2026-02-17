@@ -332,7 +332,7 @@
           "status": "In Progress",
           "sprint": "No Sprint",
           "tadFound": true,
-          "tsFound": false,
+          "tsFound": true,
           "totalPrs": 2,
           "tadNA": false,
           "tadNAComment": null,

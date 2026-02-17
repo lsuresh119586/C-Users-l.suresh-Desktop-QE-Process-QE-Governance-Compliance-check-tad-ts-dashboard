@@ -1,0 +1,190 @@
+{
+  "sprint_name": "Sprint 26.1.6",
+  "module_id": 68341070,
+  "generated": "2026-02-17 11:34:12",
+  "totals": {
+    "total": 23,
+    "automated": 3,
+    "with_attachments": 0,
+    "without_attachments": 3
+  },
+  "teams": {
+    "[Last Sprint Cases] Case Assessment Facet Page  for Legal-collaborator to Display Case Assessment Data": {
+      "total": 4,
+      "automated": 3,
+      "with_attachments": 0,
+      "without_attachments": 3,
+      "test_cases": [
+        {
+          "id": "TC-24685",
+          "qtest_id": 137149697,
+          "name": "Facet page displays 'Case Assessments' with correct columns invalid user",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-25279",
+          "qtest_id": 137302969,
+          "name": "Verify Case Assessment Facet New Permission",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24677",
+          "qtest_id": 137149643,
+          "name": "Create 'Case Assessments' using Non-Office network",
+          "automated": true,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24170",
+          "qtest_id": 136947630,
+          "name": "Verify Case Assessments With Lead Timekeeper Assignment With Valid Panel-Invalid Scenario",
+          "automated": true,
+          "has_attachment": false
+        }
+      ]
+    },
+    "Undo Button Requires Multiple Clicks": {
+      "total": 19,
+      "automated": 0,
+      "with_attachments": 0,
+      "without_attachments": 0,
+      "test_cases": [
+        {
+          "id": "TC-24383",
+          "qtest_id": 136991849,
+          "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Line Item Window",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24378",
+          "qtest_id": 136991721,
+          "name": "Verify Undo Operations Work On First Click After Line Adjustment in Line item Pop window",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24214",
+          "qtest_id": 136955630,
+          "name": "Verify Multiple Consecutive Undo Operations Work Without Double-Click Bug in Summary Page",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24851",
+          "qtest_id": 137167141,
+          "name": "Verify Grid View Toggle and Functionality for Work Area Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24382",
+          "qtest_id": 136991842,
+          "name": "Verify Reject Single Line Item Operation with Undo Functionality in  New Line Item Window",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24852",
+          "qtest_id": 137167143,
+          "name": "Verify Pop-over Tree Component Opening for Organization Unit Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24255",
+          "qtest_id": 136958403,
+          "name": "Verify View All, Export Excel and Edit Column Functions Work After Undo Operations in New Line Item Window",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24850",
+          "qtest_id": 137167137,
+          "name": "Verify Tree View Navigation and Item Selection for Work Area Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24209",
+          "qtest_id": 136955556,
+          "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Summary Page",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24847",
+          "qtest_id": 137167104,
+          "name": "Verify Global Search Respects Row-Level Security For Invoice Visibility",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24782",
+          "qtest_id": 137164605,
+          "name": "Verify User Cannot See Invoices For Unauthorized Matters - Matter-006",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24780",
+          "qtest_id": 137164600,
+          "name": "Verify Multi-Role User Sees All Invoices From Any Authorized Role - Network F",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24849",
+          "qtest_id": 137167130,
+          "name": "Verify Search Functionality in Work Area Pop-over Tree Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24855",
+          "qtest_id": 137167189,
+          "name": "Verify Search and Selection Functionality for Organization Unit Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24848",
+          "qtest_id": 137167127,
+          "name": "Verify Pop-over Tree Component Opening for Work Area Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24856",
+          "qtest_id": 137167190,
+          "name": "Verify Complete Financial Department Pop-over Workflow and Integration",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24853",
+          "qtest_id": 137167185,
+          "name": "Verify Pop-over Tree Component Opening for Financial Department Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24854",
+          "qtest_id": 137167187,
+          "name": "Verify Error Handling and Edge Cases in Pop-over Tree Component",
+          "automated": false,
+          "has_attachment": false
+        },
+        {
+          "id": "TC-24381",
+          "qtest_id": 136991828,
+          "name": "Verify Multiple Consecutive Undo Operations Work Without Double-Click Bug in Line item pop-Up Window",
+          "automated": false,
+          "has_attachment": false
+        }
+      ]
+    }
+  }
+}

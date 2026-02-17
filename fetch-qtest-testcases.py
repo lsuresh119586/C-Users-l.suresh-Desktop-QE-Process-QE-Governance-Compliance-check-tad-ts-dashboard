@@ -334,8 +334,8 @@ def main():
         '26.1.2': 68209714,
         '26.1.3': 68209719,
         '26.1.4': 68289134,
-        '26.1.5': 0,  # TODO: Update with correct module ID
-        '26.1.6': 0,  # TODO: Update with correct module ID
+        '26.1.5': 68341069,
+        '26.1.6': 68341070,
     }
     
     # Expected team distributions per sprint (for validation)

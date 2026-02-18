@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polaris ELM Metrics Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: #f5f7fa;
+        color: #333;
+      }
+
+      .dashboard {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 0;
+      }
+
+      .dashboard-header {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+      .dashboard-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .dashboard-header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        font-weight: 700;
+      }
+
+      .dashboard-header p {
+        margin: 10px 0 0 0;
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .controls {
+        display: flex;
+        gap: 20px;
+        padding: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+        background: white;
+        margin: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 200px;
+      }
+
+      .control-group label {
+        font-weight: 600;
+        color: #333;
+        font-size: 0.95em;
+      }
+
+      .control-group select {
+        padding: 10px 12px;
+        border: 2px solid #e0e0e0;
+        border-radius: 4px;
+        font-size: 1em;
+        cursor: pointer;
+        background: white;
+        transition: border-color 0.3s, box-shadow 0.3s;
+      }
+
+      .control-group select:hover {
+        border-color: #667eea;
+      }
+
+      .control-group select:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+
+      .error-message {
+        background: #fee;
+        color: #c00;
+        padding: 15px 20px;
+        margin: 20px;
+        border-radius: 4px;
+        border-left: 4px solid #c00;
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 1.2em;
+        color: #667eea;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .metric-card {
+        background: white;
+        border-radius: 8px;
+        padding: 25px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+        border-left: 5px solid #667eea;
+      }
+
+      .metric-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+      }
+
+      /* Color variants for metric cards */
+      .metric-card.card-blue {
+        border-left-color: #3b82f6;
+        background: linear-gradient(135deg, rgba(59, 130, 246, 0.05) 0%, rgba(29, 78, 216, 0.05) 100%);
+      }
+
+      .metric-card.card-green {
+        border-left-color: #10b981;
+        background: linear-gradient(135deg, rgba(16, 185, 129, 0.05) 0%, rgba(4, 120, 87, 0.05) 100%);
+      }
+
+      .metric-card.card-purple {
+        border-left-color: #8b5cf6;
+        background: linear-gradient(135deg, rgba(139, 92, 246, 0.05) 0%, rgba(109, 40, 217, 0.05) 100%);
+      }
+
+      .metric-card.card-red {
+        border-left-color: #ef4444;
+        background: linear-gradient(135deg, rgba(239, 68, 68, 0.05) 0%, rgba(220, 38, 38, 0.05) 100%);
+      }
+
+      .metric-card.card-orange {
+        border-left-color: #a4cd58;
+        background: linear-gradient(135deg, rgba(164, 205, 88, 0.08) 0%, rgba(132, 182, 64, 0.08) 100%);
+      }
+
+      .metric-quality-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 600;
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .quality-excellent {
+        background-color: #4caf50;
+        color: white;
+      }
+
+      .quality-fair {
+        background-color: #ff9800;
+        color: white;
+      }
+
+      .quality-action-required {
+        background-color: #f44336;
+        color: white;
+      }
+
+      .metric-label {
+        color: #666;
+        font-size: 0.95em;
+        font-weight: 500;
+        margin-bottom: 12px;
+      }
+
+      .metric-value {
+        font-size: 2.5em;
+        font-weight: 700;
+        color: #667eea;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 40px 20px;
+        color: #999;
+        font-size: 1.1em;
+      }
+
+      .placeholder {
+        text-align: center;
+        padding: 60px 20px;
+        color: #999;
+        font-size: 1.1em;
+      }
+    </style>
+  </head>
+  <body>
+    <nav style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white; padding: 15px 20px; text-align: center;">
+      <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: flex-end; align-items: center;">
+        <div style="display: flex; gap: 15px;">
+          <a href="index.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">📊 Dashboard</a>
+          <a href="unified-dashboard.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">📈 Unified Metrics</a>
+          <a href="tests-covered.html" style="color: white; text-decoration: none; padding: 8px 15px; border-radius: 4px; background: rgba(255,255,255,0.2);">✅ Tests Covered</a>
+        </div>
+      </div>
+    </nav>
+    <div id="app"></div>
+    <script>
+      const API_BASE_URL = 'http://localhost:3000/api';
+
+      let state = {
+        products: [],
+        teams: [],
+        sprints: [],
+        metrics: null,
+        selectedProduct: '',
+        selectedTeam: '',
+        selectedSprint: '',
+        loading: false,
+        error: null,
+        currentView: 'dashboard'
+      };
+
+      const apiService = {
+        getProducts: async () => {
+          try {
+            const response = await fetch(`${API_BASE_URL}/products`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getProducts failed:', err);
+            throw err;
+          }
+        },
+        getTeams: async (product) => {
+          try {
+            const params = product ? `?product=${product}` : '';
+            const response = await fetch(`${API_BASE_URL}/teams${params}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getTeams failed:', err);
+            throw err;
+          }
+        },
+        getSprints: async (team, product) => {
+          try {
+            let params = [];
+            if (team) params.push(`team=${team}`);
+            if (product) params.push(`product=${product}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/sprints${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getSprints failed:', err);
+            throw err;
+          }
+        },
+        getMetrics: async (product, team, sprint) => {
+          try {
+            let params = [];
+            if (product) params.push(`product=${product}`);
+            if (team) params.push(`team=${team}`);
+            if (sprint) params.push(`sprint=${sprint}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/metrics${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getMetrics failed:', err);
+            throw err;
+          }
+        }
+      };
+
+      async function loadProducts() {
+        try {
+          state.loading = true;
+          console.log('🔵 STEP 1: Fetching products...');
+          state.products = await apiService.getProducts();
+          console.log('✅ Products loaded:', state.products);
+          state.error = null;
+        } catch (err) {
+          console.error('❌ Error loading products:', err);
+          state.error = 'Failed to load products: ' + err.message;
+          state.loading = false;
+          render();
+          return;
+        }
+        
+        // Auto-select first product and load its teams
+        if (state.products.length > 0) {
+          state.selectedProduct = state.products[0].id;
+          console.log('🟠 STEP 2: Auto-selected product:', state.selectedProduct);
+          
+          try {
+            console.log('🔵 STEP 3: Fetching teams for product:', state.selectedProduct);
+            state.teams = await apiService.getTeams(state.selectedProduct);
+            console.log('✅ Teams loaded:', state.teams);
+            
+            // Auto-select first team and load its sprints
+            if (state.teams.length > 0) {
+              state.selectedTeam = state.teams[0].id;
+              console.log('🟠 STEP 4: Auto-selected team:', state.selectedTeam);
+              
+              try {
+                console.log('🔵 STEP 5: Fetching sprints for team:', state.selectedTeam);
+                state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+                console.log('✅ Sprints loaded:', state.sprints);
+                
+                // Auto-select first sprint and load metrics
+                if (state.sprints.length > 0) {
+                  state.selectedSprint = state.sprints[0].id;
+                  console.log('🟠 STEP 6: Auto-selected sprint:', state.selectedSprint);
+                  
+                  try {
+                    console.log('🔵 STEP 7: Fetching metrics...');
+                    const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                    console.log('✅ Metrics response:', metricsArray);
+                    
+                    if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                      state.metrics = metricsArray[0];
+                      console.log('🟢 STEP 8: SUCCESS! Metrics set:', state.metrics);
+                    } else {
+                      console.warn('⚠️ Metrics array is empty');
+                      state.metrics = null;
+                    }
+                  } catch (err) {
+                    console.error('❌ Error loading metrics:', err);
+                    state.error = 'Failed to load metrics: ' + err.message;
+                  }
+                }
+              } catch (err) {
+                console.error('❌ Error loading sprints:', err);
+                state.error = 'Failed to load sprints: ' + err.message;
+              }
+            }
+          } catch (err) {
+            console.error('❌ Error loading teams:', err);
+            state.error = 'Failed to load teams: ' + err.message;
+          }
+        }
+        
+        state.loading = false;
+        render();
+      }
+
+      async function handleProductChange(e) {
+        state.selectedProduct = e.target.value;
+        if (!state.selectedProduct) {
+          state.teams = [];
+          state.sprints = [];
+          state.selectedTeam = '';
+          state.selectedSprint = '';
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+          console.log('📦 Loading teams for product:', state.selectedProduct);
+          state.teams = await apiService.getTeams(state.selectedProduct);
+          console.log('✅ Teams loaded:', state.teams);
+          state.selectedTeam = '';
+          state.selectedSprint = '';
+          state.sprints = [];
+          state.metrics = null;
+          state.error = null;
+          
+          // Auto-select first team and cascade
+          if (state.teams.length > 0) {
+            state.selectedTeam = state.teams[0].id;
+            console.log('👉 Auto-selecting first team:', state.selectedTeam);
+            
+            // Now load sprints for this team
+            try {
+              console.log('📦 Loading sprints for team:', state.selectedTeam);
+              state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+              console.log('✅ Sprints loaded:', state.sprints);
+              
+              // Auto-select first sprint and load metrics
+              if (state.sprints.length > 0) {
+                state.selectedSprint = state.sprints[0].id;
+                console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+                
+                // Load metrics for this sprint
+                try {
+                  console.log('📦 Loading metrics...');
+                  const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                  console.log('✅ Metrics response:', metricsArray);
+                  
+                  if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                    state.metrics = metricsArray[0];
+                    console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                  }
+                } catch (err) {
+                  console.error('❌ Error loading metrics:', err);
+                  state.error = 'Failed to load metrics: ' + err.message;
+                }
+              }
+            } catch (err) {
+              console.error('❌ Error loading sprints:', err);
+              state.error = 'Failed to load sprints: ' + err.message;
+            }
+          }
+        } catch (err) {
+          console.error('❌ Error loading teams:', err);
+          state.error = 'Failed to load teams: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      async function handleTeamChange(e) {
+        state.selectedTeam = e.target.value;
+        if (!state.selectedTeam) {
+          state.sprints = [];
+          state.selectedSprint = '';
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+          console.log('📦 Loading sprints for team:', state.selectedTeam);
+          state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+          console.log('✅ Sprints loaded:', state.sprints);
+          state.selectedSprint = '';
+          state.metrics = null;
+          state.error = null;
+          
+          // Auto-select first sprint and load metrics
+          if (state.sprints.length > 0) {
+            state.selectedSprint = state.sprints[0].id;
+            console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+            render();
+            
+            // Load metrics for this sprint
+            try {
+              console.log('📦 Loading metrics...');
+              const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+              console.log('✅ Metrics response:', metricsArray);
+              
+              if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                state.metrics = metricsArray[0];
+                console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+              }
+            } catch (err) {
+              console.error('❌ Error loading metrics:', err);
+              state.error = 'Failed to load metrics: ' + err.message;
+            }
+          }
+        } catch (err) {
+          console.error('❌ Error loading sprints:', err);
+          state.error = 'Failed to load sprints: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      async function handleSprintChange(e) {
+        state.selectedSprint = e.target.value;
+        await loadMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+      }
+
+      async function loadMetrics(product, team, sprint) {
+        if (!product) {
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+          const metricsArray = await apiService.getMetrics(product, team, sprint);
+          console.log('Metrics response:', metricsArray);
+          
+          // API returns an array, but we want a single metric object
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+            console.log('Selected first metric:', state.metrics);
+          } else {
+            state.metrics = null;
+            console.log('No metrics found for:', { product, team, sprint });
+          }
+          
+          state.error = null;
+        } catch (err) {
+          state.error = 'Failed to load metrics: ' + err.message;
+          console.error('Error loading metrics:', err);
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      function render() {
+        const app = document.getElementById('app');
+
+        // Show Tests Covered view if selected
+        if (state.currentView === 'testsCovered') {
+          let html = `
+            <div class="dashboard">
+              <header class="dashboard-header">
+                <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+                <h1>📊 Tests Covered Dashboard</h1>
+              </header>
+              <div id="testsCoveredContainer"></div>
+            </div>
+          `;
+          app.innerHTML = html;
+
+          document.getElementById('backBtn').addEventListener('click', () => {
+            state.currentView = 'dashboard';
+            render();
+          });
+
+          loadTestsCoveredView();
+          return;
+        }
+
+        // Show main dashboard view
+        let html = `
+          <div class="dashboard">
+            <header class="dashboard-header">
+              <div class="dashboard-header-inner">
+                <img src="/public/wk-logo.svg" alt="Wolters Kluwer" style="height: 224px; width: auto; display: block;" />
+                <h1>📊 Polaris ELM Metrics Dashboard</h1>
+              </div>
+              <p>Hierarchical Metrics View: Product → Team → Sprint</p>
+            </header>
+
+            ${state.error ? `<div class="error-message">${state.error}</div>` : ''}
+
+            <div class="controls">
+              <div class="control-group">
+                <label for="product">Product</label>
+                <select id="product">
+                  <option value="">-- Select Product --</option>
+                  ${state.products.map(p => `
+                    <option value="${p.id}" ${p.id === state.selectedProduct ? 'selected' : ''}>
+                      ${p.name}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+
+              ${state.teams.length > 0 ? `
+                <div class="control-group">
+                  <label for="team">Team</label>
+                  <select id="team">
+                    <option value="">-- All Teams --</option>
+                    ${state.teams.map(t => `
+                      <option value="${t.id}" ${t.id === state.selectedTeam ? 'selected' : ''}>
+                        ${t.name}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+
+              ${state.sprints.length > 0 ? `
+                <div class="control-group">
+                  <label for="sprint">Sprint</label>
+                  <select id="sprint">
+                    <option value="">-- All Sprints --</option>
+                    ${state.sprints.map(s => `
+                      <option value="${s.id}" ${s.id === state.selectedSprint ? 'selected' : ''}>
+                        ${s.name}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+            </div>
+
+            ${state.loading ? '<div class="loading">Loading...</div>' : ''}
+
+            ${state.metrics ? `
+              <div class="metrics-grid">
+                <div class="metric-card card-blue">
+                  <div class="metric-label">📋 Requirements Covered</div>
+                  <div class="metric-value">${state.metrics.requirementsCovered}%</div>
+                </div>
+                <div class="metric-card card-green clickable" id="testsCoveredCard">
+                  <div class="metric-label">✅ Tests Covered</div>
+                  <div class="metric-value">${state.metrics.testsCovered}%</div>
+                  <div class="card-hint">Click to view details →</div>
+                </div>
+                <div class="metric-card card-purple">
+                  <div class="metric-label">🚨 Open Defects</div>
+                  <div class="metric-value">${state.metrics.defectsOpen}</div>
+                </div>
+                <div class="metric-card card-red">
+                  <div class="metric-label">✓ Closed Defects</div>
+                  <div class="metric-value">${state.metrics.defectsClosed}</div>
+                </div>
+                <div class="metric-card card-orange">
+                  <div class="metric-label">↩️ Reopened Defects</div>
+                  <div class="metric-value">${state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null ? Math.round(state.metrics.reopenedRate) + '%' : '0%'}</div>
+                  <div class="metric-quality-badge ${
+                    state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                      ? (state.metrics.reopenedRate < 10 ? 'quality-excellent' : state.metrics.reopenedRate <= 25 ? 'quality-fair' : 'quality-action-required')
+                      : 'quality-excellent'
+                  }">${
+                    state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                      ? (state.metrics.reopenedRate < 10 ? 'Excellent' : state.metrics.reopenedRate <= 25 ? 'Fair' : 'Action Required')
+                      : 'Excellent'
+                  }</div>
+                </div>
+                <div class="metric-card card-blue">
+                  <div class="metric-label">🚀 Deployment Readiness</div>
+                  <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
+                </div>
+                <div class="metric-card card-green">
+                  <div class="metric-label">⭐ Code Quality</div>
+                  <div class="metric-value">${state.metrics.codeQuality}%</div>
+                </div>
+              </div>
+            ` : !state.loading && state.selectedProduct ? `
+              <div class="no-data">No metrics available for selected combination</div>
+            ` : !state.selectedProduct ? `
+              <div class="placeholder">Select a product to view metrics</div>
+            ` : ''}
+          </div>
+        `;
+
+        app.innerHTML = html;
+
+        // Attach event listeners (remove old ones first)
+        const productSelect = document.getElementById('product');
+        if (productSelect) {
+          productSelect.removeEventListener('change', handleProductChange);
+          productSelect.addEventListener('change', handleProductChange);
+          console.log('📌 Product dropdown listener attached');
+        }
+        
+        const teamSelect = document.getElementById('team');
+        if (teamSelect && state.teams.length > 0) {
+          teamSelect.removeEventListener('change', handleTeamChange);
+          teamSelect.addEventListener('change', handleTeamChange);
+          console.log('📌 Team dropdown listener attached');
+        }
+        
+        const sprintSelect = document.getElementById('sprint');
+        if (sprintSelect && state.sprints.length > 0) {
+          sprintSelect.removeEventListener('change', handleSprintChange);
+          sprintSelect.addEventListener('change', handleSprintChange);
+          console.log('📌 Sprint dropdown listener attached');
+        }
+
+        // Tests Covered card click handler
+        document.getElementById('testsCoveredCard')?.addEventListener('click', () => {
+          state.currentView = 'testsCovered';
+          render();
+        });
+      }
+
+      async function loadTestsCoveredView() {
+        const container = document.getElementById('testsCoveredContainer');
+        if (!container) return;
+
+        try {
+          const response = await fetch('http://localhost:3001/api/metrics/tests-covered');
+          const allData = await response.json();
+          const sprints = Object.keys(allData).filter(k => k !== '_updated');
+
+          if (sprints.length === 0) {
+            container.innerHTML = '<div class="no-data">No sprint data available</div>';
+            return;
+          }
+
+          const selectedSprint = sprints[0];
+          renderTestsCoveredDashboard(allData, sprints, selectedSprint);
+
+          const selector = document.getElementById('testsCoveredSprintSelector');
+          if (selector) {
+            selector.addEventListener('change', (e) => {
+              renderTestsCoveredDashboard(allData, sprints, e.target.value);
+            });
+          }
+        } catch (error) {
+          console.error('Error loading tests covered:', error);
+          container.innerHTML = `<div class="error-message">Error loading data: ${error.message}</div>`;
+        }
+      }
+
+      function renderTestsCoveredDashboard(allData, sprints, selectedSprint) {
+        const container = document.getElementById('testsCoveredContainer');
+        const data = allData[selectedSprint] || {};
+
+        const totalTests = data.totalTests || 0;
+        const automatedTests = data.automatedTests || 0;
+        const manualTests = data.manualTests || 0;
+        const coverage = totalTests > 0 ? Math.round((automatedTests / totalTests) * 100) : 0;
+        const teams = data.teams || [];
+
+        let html = `
+          <div class="tests-covered-wrapper">
+            <div class="sprint-selector-wrapper">
+              <label for="testsCoveredSprintSelector">Sprint:</label>
+              <select id="testsCoveredSprintSelector">
+                ${sprints.map(s => `<option value="${s}" ${s === selectedSprint ? 'selected' : ''}>${s}</option>`).join('')}
+              </select>
+            </div>
+
+            <div class="metrics-grid">
+              <div class="metric-card highlight">
+                <div class="metric-label">Automation Coverage</div>
+                <div class="metric-value">${coverage}%</div>
+                <div class="progress-bar">
+                  <div class="progress-fill" style="width: ${coverage}%"></div>
+                </div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Total Tests</div>
+                <div class="metric-value">${totalTests}</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Automated Tests</div>
+                <div class="metric-value">${automatedTests}</div>
+              </div>
+              <div class="metric-card">
+                <div class="metric-label">Manual Tests</div>
+                <div class="metric-value">${manualTests}</div>
+              </div>
+            </div>
+
+            <div class="content-section">
+              <h2>Team Breakdown</h2>
+              ${teams.length > 0 ? `
+                <table class="teams-table">
+                  <thead>
+                    <tr>
+                      <th>Team</th>
+                      <th class="numeric">Total Tests</th>
+                      <th class="numeric">Automated</th>
+                      <th class="numeric">Manual</th>
+                      <th class="numeric">Coverage</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${teams.map(team => {
+                      const teamCoverage = team.totalTests > 0 ? Math.round((team.automatedTests / team.totalTests) * 100) : 0;
+                      return `
+                        <tr>
+                          <td class="team-name">${team.name}</td>
+                          <td class="numeric">${team.totalTests}</td>
+                          <td class="numeric">${team.automatedTests}</td>
+                          <td class="numeric">${team.manualTests}</td>
+                          <td class="numeric">
+                            ${teamCoverage}%
+                            <div class="mini-progress">
+                              <div class="mini-progress-fill" style="width: ${teamCoverage}%"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              ` : '<div class="no-data">No team data available</div>'}
+            </div>
+          </div>
+        `;
+
+        container.innerHTML = html;
+
+        const selector = document.getElementById('testsCoveredSprintSelector');
+        if (selector) {
+          selector.removeEventListener('change', null);
+          selector.addEventListener('change', (e) => {
+            renderTestsCoveredDashboard(allData, sprints, e.target.value);
+          });
+        }
+      }
+
+      // Initialize
+      console.log('🔵 Script loaded, setting up listeners');
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('🔵 DOMContentLoaded fired');
+        loadProducts();
+      });
+      
+      // Also try immediate load
+      if (document.readyState !== 'loading') {
+        console.log('🔵 Document already loaded, calling loadProducts immediately');
+        loadProducts();
+      }
+    </script>
+  </body>
+</html>

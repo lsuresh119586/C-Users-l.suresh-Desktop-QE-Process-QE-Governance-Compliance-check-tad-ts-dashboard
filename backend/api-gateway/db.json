@@ -1,0 +1,1584 @@
+{
+  "products": [
+    {
+      "id": "collaboration-portal",
+      "name": "Collaboration Portal"
+    },
+    {
+      "id": "dna",
+      "name": "DnA"
+    },
+    {
+      "id": "passport",
+      "name": "Passport"
+    },
+    {
+      "id": "t360",
+      "name": "T360"
+    }
+  ],
+  "teams": [
+    {
+      "id": "team-a",
+      "name": "Team A",
+      "product": "passport"
+    },
+    {
+      "id": "team-b",
+      "name": "Team B",
+      "product": "passport"
+    },
+    {
+      "id": "team-c",
+      "name": "Team C",
+      "product": "passport"
+    },
+    {
+      "id": "chargers",
+      "name": "Chargers",
+      "product": "t360"
+    },
+    {
+      "id": "chubb",
+      "name": "Chubb",
+      "product": "t360"
+    },
+    {
+      "id": "matrix",
+      "name": "Matrix",
+      "product": "t360"
+    },
+    {
+      "id": "mavericks",
+      "name": "Mavericks",
+      "product": "t360"
+    },
+    {
+      "id": "nexus",
+      "name": "Nexus",
+      "product": "t360"
+    },
+    {
+      "id": "vanguards",
+      "name": "Vanguards",
+      "product": "t360"
+    },
+    {
+      "id": "minerva",
+      "name": "Minerva",
+      "product": "dna",
+      "jiraProject": "ELM",
+      "boardId": 7437,
+      "sprintFormat": "Passport D&A Minerva-{sprint}",
+      "safeTeamValue": "Passport D&A Minerva"
+    },
+    {
+      "id": "guardians",
+      "name": "Guardians",
+      "product": "dna",
+      "jiraProject": "ELM",
+      "boardId": 6704,
+      "sprintFormat": "Passport D&A Guardians-{sprint}",
+      "safeTeamValue": "Passport D&A Guardians"
+    },
+    {
+      "id": "athena",
+      "name": "Athena",
+      "product": "dna",
+      "jiraProject": "GET",
+      "boardId": 6798,
+      "sprintFormat": "T360 D&A Athena-{sprint}",
+      "safeTeamValue": "T360 D&A Athena"
+    }
+  ],
+  "sprints": [
+    {
+      "id": "team-a-25.1.1",
+      "name": "Sprint 25.1.1",
+      "team": "team-a"
+    },
+    {
+      "id": "team-a-25.1.2",
+      "name": "Sprint 25.1.2",
+      "team": "team-a"
+    },
+    {
+      "id": "chargers-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "chargers"
+    },
+    {
+      "id": "chargers-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "chargers"
+    },
+    {
+      "id": "chubb-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "chubb"
+    },
+    {
+      "id": "chubb-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "chubb"
+    },
+    {
+      "id": "matrix-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "matrix"
+    },
+    {
+      "id": "matrix-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "matrix"
+    },
+    {
+      "id": "mavericks-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "mavericks"
+    },
+    {
+      "id": "mavericks-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "mavericks"
+    },
+    {
+      "id": "nexus-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "nexus"
+    },
+    {
+      "id": "nexus-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "nexus"
+    },
+    {
+      "id": "vanguards-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "vanguards"
+    },
+    {
+      "id": "vanguards-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "vanguards"
+    },
+    {
+      "id": "minerva-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "minerva"
+    },
+    {
+      "id": "minerva-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "minerva"
+    },
+    {
+      "id": "minerva-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "minerva"
+    },
+    {
+      "id": "minerva-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "minerva"
+    },
+    {
+      "id": "minerva-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "minerva"
+    },
+    {
+      "id": "minerva-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "minerva"
+    },
+    {
+      "id": "guardians-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "guardians"
+    },
+    {
+      "id": "guardians-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "guardians"
+    },
+    {
+      "id": "guardians-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "guardians"
+    },
+    {
+      "id": "guardians-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "guardians"
+    },
+    {
+      "id": "guardians-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "guardians"
+    },
+    {
+      "id": "guardians-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "guardians"
+    },
+    {
+      "id": "athena-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "athena"
+    },
+    {
+      "id": "athena-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "athena"
+    },
+    {
+      "id": "athena-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "athena"
+    },
+    {
+      "id": "athena-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "athena"
+    },
+    {
+      "id": "athena-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "athena"
+    },
+    {
+      "id": "athena-26.1.6",
+      "name": "Sprint 26.1.6",
+      "team": "athena"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "metric-team-a-25.1.1",
+      "product": "passport",
+      "team": "team-a",
+      "sprint": "team-a-25.1.1",
+      "requirementsCovered": 84,
+      "testsCovered": 81,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.565Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-team-a-25.1.2",
+      "product": "passport",
+      "team": "team-a",
+      "sprint": "team-a-25.1.2",
+      "requirementsCovered": 86,
+      "testsCovered": 80,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.1",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.1",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 1,
+      "defectsClosed": 1,
+      "deploymentReadiness": 88,
+      "codeQuality": 83,
+      "timestamp": "2026-02-12T21:18:31.785211Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.2",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.2",
+      "requirementsCovered": 90,
+      "testsCovered": 83,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.3",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.3",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 91,
+      "codeQuality": 86,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.4",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.4",
+      "requirementsCovered": 91,
+      "testsCovered": 87,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 92,
+      "codeQuality": 87,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.5",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.5",
+      "requirementsCovered": 92,
+      "testsCovered": 86,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 92,
+      "codeQuality": 87,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chargers-26.1.6",
+      "product": "t360",
+      "team": "chargers",
+      "sprint": "chargers-26.1.6",
+      "requirementsCovered": 96,
+      "testsCovered": 89,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 96,
+      "codeQuality": 91,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.1",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.1",
+      "requirementsCovered": 83,
+      "testsCovered": 81,
+      "defectsOpen": 1,
+      "defectsClosed": 1,
+      "deploymentReadiness": 85,
+      "codeQuality": 80,
+      "timestamp": "2026-02-12T21:18:31.786252Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.2",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.2",
+      "requirementsCovered": 85,
+      "testsCovered": 82,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 87,
+      "codeQuality": 82,
+      "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.3",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.3",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.4",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.4",
+      "requirementsCovered": 91,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 91,
+      "codeQuality": 86,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.5",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.5",
+      "requirementsCovered": 92,
+      "testsCovered": 85,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 92,
+      "codeQuality": 87,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-chubb-26.1.6",
+      "product": "t360",
+      "team": "chubb",
+      "sprint": "chubb-26.1.6",
+      "requirementsCovered": 92,
+      "testsCovered": 85,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 92,
+      "codeQuality": 87,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.1",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.1",
+      "requirementsCovered": 84,
+      "testsCovered": 77,
+      "defectsOpen": 1,
+      "defectsClosed": 1,
+      "deploymentReadiness": 84,
+      "codeQuality": 79,
+      "timestamp": "2026-02-12T21:18:31.786252Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.2",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.2",
+      "requirementsCovered": 85,
+      "testsCovered": 77,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 84,
+      "codeQuality": 79,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.3",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.3",
+      "requirementsCovered": 86,
+      "testsCovered": 79,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.4",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.4",
+      "requirementsCovered": 86,
+      "testsCovered": 80,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.5",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.5",
+      "requirementsCovered": 90,
+      "testsCovered": 82,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 89,
+      "codeQuality": 84,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-matrix-26.1.6",
+      "product": "t360",
+      "team": "matrix",
+      "sprint": "matrix-26.1.6",
+      "requirementsCovered": 88,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 89,
+      "codeQuality": 84,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.1",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.1",
+      "requirementsCovered": 90,
+      "testsCovered": 84,
+      "defectsOpen": 0,
+      "defectsClosed": 1,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T21:18:31.786252Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.2",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.2",
+      "requirementsCovered": 88,
+      "testsCovered": 86,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T08:42:12.568Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.3",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.3",
+      "requirementsCovered": 92,
+      "testsCovered": 87,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 93,
+      "codeQuality": 88,
+      "timestamp": "2026-02-12T08:42:12.569Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.4",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.4",
+      "requirementsCovered": 94,
+      "testsCovered": 87,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 94,
+      "codeQuality": 89,
+      "timestamp": "2026-02-12T08:42:12.569Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.5",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.5",
+      "requirementsCovered": 92,
+      "testsCovered": 88,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 93,
+      "codeQuality": 88,
+      "timestamp": "2026-02-12T08:42:12.569Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-mavericks-26.1.6",
+      "product": "t360",
+      "team": "mavericks",
+      "sprint": "mavericks-26.1.6",
+      "requirementsCovered": 95,
+      "testsCovered": 90,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 96,
+      "codeQuality": 91,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.1",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.1",
+      "requirementsCovered": 88,
+      "testsCovered": 81,
+      "defectsOpen": 1,
+      "defectsClosed": 1,
+      "deploymentReadiness": 88,
+      "codeQuality": 83,
+      "timestamp": "2026-02-12T21:18:31.786252Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.2",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.2",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 89,
+      "codeQuality": 84,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.3",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.3",
+      "requirementsCovered": 91,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 91,
+      "codeQuality": 86,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.4",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.4",
+      "requirementsCovered": 90,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.5",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.5",
+      "requirementsCovered": 91,
+      "testsCovered": 85,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 91,
+      "codeQuality": 86,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-nexus-26.1.6",
+      "product": "t360",
+      "team": "nexus",
+      "sprint": "nexus-26.1.6",
+      "requirementsCovered": 95,
+      "testsCovered": 87,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 94,
+      "codeQuality": 89,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.1",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.1",
+      "requirementsCovered": 83,
+      "testsCovered": 77,
+      "defectsOpen": 2,
+      "defectsClosed": 3,
+      "deploymentReadiness": 83,
+      "codeQuality": 78,
+      "timestamp": "2026-02-12T21:18:31.786252Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.2",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.2",
+      "requirementsCovered": 85,
+      "testsCovered": 80,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.3",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.3",
+      "requirementsCovered": 86,
+      "testsCovered": 79,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 86,
+      "codeQuality": 81,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.4",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.4",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 3,
+      "defectsClosed": 112,
+      "deploymentReadiness": 88,
+      "codeQuality": 83,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.5",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.5",
+      "requirementsCovered": 91,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 91,
+      "codeQuality": 86,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-vanguards-26.1.6",
+      "product": "t360",
+      "team": "vanguards",
+      "sprint": "vanguards-26.1.6",
+      "requirementsCovered": 90,
+      "testsCovered": 83,
+      "defectsOpen": 2,
+      "defectsClosed": 113,
+      "deploymentReadiness": 90,
+      "codeQuality": 85,
+      "timestamp": "2026-02-12T08:42:12.570Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "tests-covered-26.1.2-sample",
+      "name": "Tests Covered - 26.1.2 (Sample Data)",
+      "category": "Quality",
+      "value": 345,
+      "unit": "test cases",
+      "automation_coverage": 83.2,
+      "generated": "2026-02-06",
+      "details": {
+        "sprint": "26.1.2",
+        "module_id": 68209714,
+        "generated": "2026-02-06",
+        "summary": {
+          "total_test_cases": 345,
+          "total_automated": 287,
+          "total_with_attachments": 287,
+          "automation_coverage_percent": 83.2,
+          "teams_count": 5
+        },
+        "teams": {
+          "Chubb": {
+            "total_test_cases": 67,
+            "automated_test_cases": 58,
+            "automation_coverage_percent": 86.6,
+            "with_attachments": 58,
+            "without_attachments": 9,
+            "test_cases": [
+              {
+                "id": "TC-CHUBB-001",
+                "qtest_id": 1001,
+                "name": "Login with valid credentials",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-CHUBB-002",
+                "qtest_id": 1002,
+                "name": "Create new policy",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-CHUBB-003",
+                "qtest_id": 1003,
+                "name": "Update policy details",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 72,
+            "automated_test_cases": 61,
+            "automation_coverage_percent": 84.7,
+            "with_attachments": 61,
+            "without_attachments": 11,
+            "test_cases": [
+              {
+                "id": "TC-MATRIX-001",
+                "qtest_id": 2001,
+                "name": "SSO authentication flow",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MATRIX-002",
+                "qtest_id": 2002,
+                "name": "Angular scheduler component",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MATRIX-003",
+                "qtest_id": 2003,
+                "name": "Delete scheduled item",
+                "automated": true,
+                "status": "Active"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 68,
+            "automated_test_cases": 56,
+            "automation_coverage_percent": 82.4,
+            "with_attachments": 56,
+            "without_attachments": 12,
+            "test_cases": [
+              {
+                "id": "TC-MAV-001",
+                "qtest_id": 3001,
+                "name": "AFA amount adjustment validation",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MAV-002",
+                "qtest_id": 3002,
+                "name": "Time period editing",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-MAV-003",
+                "qtest_id": 3003,
+                "name": "AI Console UI updates",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 70,
+            "automated_test_cases": 58,
+            "automation_coverage_percent": 82.9,
+            "with_attachments": 58,
+            "without_attachments": 12,
+            "test_cases": [
+              {
+                "id": "TC-NEX-001",
+                "qtest_id": 4001,
+                "name": "Export to Excel validation",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-NEX-002",
+                "qtest_id": 4002,
+                "name": "Search performance optimization",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-NEX-003",
+                "qtest_id": 4003,
+                "name": "Token claims validation",
+                "automated": true,
+                "status": "Active"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 68,
+            "automated_test_cases": 54,
+            "automation_coverage_percent": 79.4,
+            "with_attachments": 54,
+            "without_attachments": 14,
+            "test_cases": [
+              {
+                "id": "TC-VAN-001",
+                "qtest_id": 5001,
+                "name": "Invoice AI - Line Item ID",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-VAN-002",
+                "qtest_id": 5002,
+                "name": "Invoice AI Citations",
+                "automated": true,
+                "status": "Active"
+              },
+              {
+                "id": "TC-VAN-003",
+                "qtest_id": 5003,
+                "name": "Citations to Interactive Links",
+                "automated": false,
+                "status": "Active"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "metric-minerva-26.1.1",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.1",
+      "requirementsCovered": 88,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 15,
+      "deploymentReadiness": 87,
+      "codeQuality": 85,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-minerva-26.1.2",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.2",
+      "requirementsCovered": 90,
+      "testsCovered": 86,
+      "defectsOpen": 1,
+      "defectsClosed": 18,
+      "deploymentReadiness": 89,
+      "codeQuality": 87,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-minerva-26.1.3",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.3",
+      "requirementsCovered": 91,
+      "testsCovered": 87,
+      "defectsOpen": 2,
+      "defectsClosed": 20,
+      "deploymentReadiness": 90,
+      "codeQuality": 88,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-minerva-26.1.4",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.4",
+      "requirementsCovered": 92,
+      "testsCovered": 88,
+      "defectsOpen": 1,
+      "defectsClosed": 22,
+      "deploymentReadiness": 91,
+      "codeQuality": 89,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-minerva-26.1.5",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.5",
+      "requirementsCovered": 93,
+      "testsCovered": 89,
+      "defectsOpen": 0,
+      "defectsClosed": 24,
+      "deploymentReadiness": 92,
+      "codeQuality": 90,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-minerva-26.1.6",
+      "product": "dna",
+      "team": "minerva",
+      "sprint": "minerva-26.1.6",
+      "requirementsCovered": 94,
+      "testsCovered": 90,
+      "defectsOpen": 1,
+      "defectsClosed": 25,
+      "deploymentReadiness": 93,
+      "codeQuality": 91,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.1",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.1",
+      "requirementsCovered": 86,
+      "testsCovered": 82,
+      "defectsOpen": 3,
+      "defectsClosed": 12,
+      "deploymentReadiness": 85,
+      "codeQuality": 83,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.2",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.2",
+      "requirementsCovered": 88,
+      "testsCovered": 84,
+      "defectsOpen": 2,
+      "defectsClosed": 15,
+      "deploymentReadiness": 87,
+      "codeQuality": 85,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.3",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.3",
+      "requirementsCovered": 89,
+      "testsCovered": 85,
+      "defectsOpen": 2,
+      "defectsClosed": 17,
+      "deploymentReadiness": 88,
+      "codeQuality": 86,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.4",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.4",
+      "requirementsCovered": 90,
+      "testsCovered": 86,
+      "defectsOpen": 1,
+      "defectsClosed": 19,
+      "deploymentReadiness": 89,
+      "codeQuality": 87,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.5",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.5",
+      "requirementsCovered": 91,
+      "testsCovered": 87,
+      "defectsOpen": 1,
+      "defectsClosed": 21,
+      "deploymentReadiness": 90,
+      "codeQuality": 88,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-guardians-26.1.6",
+      "product": "dna",
+      "team": "guardians",
+      "sprint": "guardians-26.1.6",
+      "requirementsCovered": 92,
+      "testsCovered": 88,
+      "defectsOpen": 0,
+      "defectsClosed": 23,
+      "deploymentReadiness": 91,
+      "codeQuality": 89,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.1",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.1",
+      "requirementsCovered": 85,
+      "testsCovered": 80,
+      "defectsOpen": 1,
+      "defectsClosed": 2,
+      "deploymentReadiness": 85,
+      "codeQuality": 82,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.2",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.2",
+      "requirementsCovered": 87,
+      "testsCovered": 82,
+      "defectsOpen": 2,
+      "defectsClosed": 14,
+      "deploymentReadiness": 86,
+      "codeQuality": 84,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.3",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.3",
+      "requirementsCovered": 88,
+      "testsCovered": 83,
+      "defectsOpen": 1,
+      "defectsClosed": 16,
+      "deploymentReadiness": 87,
+      "codeQuality": 85,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.4",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.4",
+      "requirementsCovered": 89,
+      "testsCovered": 84,
+      "defectsOpen": 1,
+      "defectsClosed": 18,
+      "deploymentReadiness": 88,
+      "codeQuality": 86,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.5",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.5",
+      "requirementsCovered": 90,
+      "testsCovered": 85,
+      "defectsOpen": 0,
+      "defectsClosed": 20,
+      "deploymentReadiness": 89,
+      "codeQuality": 87,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-athena-26.1.6",
+      "product": "dna",
+      "team": "athena",
+      "sprint": "athena-26.1.6",
+      "requirementsCovered": 91,
+      "testsCovered": 86,
+      "defectsOpen": 1,
+      "defectsClosed": 21,
+      "deploymentReadiness": 90,
+      "codeQuality": 88,
+      "timestamp": "2026-02-13T10:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    }
+  ],
+  "testCases": [],
+  "tests_covered": {
+    "26.1.1": {
+      "sprint": "26.1.1",
+      "module_id": 68209713,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 0,
+        "total_automated": 0,
+        "total_with_attachments": 0,
+        "automation_coverage_percent": 0,
+        "teams_count": 0
+      },
+      "teams": {}
+    },
+    "26.1.2": {
+      "sprint": "26.1.2",
+      "module_id": 68209714,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 345,
+        "total_automated": 287,
+        "total_with_attachments": 287,
+        "automation_coverage_percent": 83.2,
+        "teams_count": 5
+      },
+      "teams": {
+        "Chubb": {
+          "total_test_cases": 67,
+          "automated_test_cases": 58,
+          "automation_coverage_percent": 86.6,
+          "with_attachments": 58,
+          "without_attachments": 9,
+          "test_cases": [
+            {
+              "id": "TC-CHUBB-001",
+              "qtest_id": 1001,
+              "name": "Login with valid credentials",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-CHUBB-002",
+              "qtest_id": 1002,
+              "name": "Create new policy",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-CHUBB-003",
+              "qtest_id": 1003,
+              "name": "Update policy details",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        },
+        "Matrix": {
+          "total_test_cases": 72,
+          "automated_test_cases": 61,
+          "automation_coverage_percent": 84.7,
+          "with_attachments": 61,
+          "without_attachments": 11,
+          "test_cases": [
+            {
+              "id": "TC-MATRIX-001",
+              "qtest_id": 2001,
+              "name": "SSO authentication flow",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MATRIX-002",
+              "qtest_id": 2002,
+              "name": "Angular scheduler component",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MATRIX-003",
+              "qtest_id": 2003,
+              "name": "Delete scheduled item",
+              "automated": true,
+              "status": "Active"
+            }
+          ]
+        },
+        "Mavericks": {
+          "total_test_cases": 68,
+          "automated_test_cases": 56,
+          "automation_coverage_percent": 82.4,
+          "with_attachments": 56,
+          "without_attachments": 12,
+          "test_cases": [
+            {
+              "id": "TC-MAV-001",
+              "qtest_id": 3001,
+              "name": "AFA amount adjustment validation",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MAV-002",
+              "qtest_id": 3002,
+              "name": "Time period editing",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-MAV-003",
+              "qtest_id": 3003,
+              "name": "AI Console UI updates",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        },
+        "Nexus": {
+          "total_test_cases": 70,
+          "automated_test_cases": 58,
+          "automation_coverage_percent": 82.9,
+          "with_attachments": 58,
+          "without_attachments": 12,
+          "test_cases": [
+            {
+              "id": "TC-NEX-001",
+              "qtest_id": 4001,
+              "name": "Export to Excel validation",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-NEX-002",
+              "qtest_id": 4002,
+              "name": "Search performance optimization",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-NEX-003",
+              "qtest_id": 4003,
+              "name": "Token claims validation",
+              "automated": true,
+              "status": "Active"
+            }
+          ]
+        },
+        "Vanguards": {
+          "total_test_cases": 68,
+          "automated_test_cases": 54,
+          "automation_coverage_percent": 79.4,
+          "with_attachments": 54,
+          "without_attachments": 14,
+          "test_cases": [
+            {
+              "id": "TC-VAN-001",
+              "qtest_id": 5001,
+              "name": "Invoice AI - Line Item ID",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-VAN-002",
+              "qtest_id": 5002,
+              "name": "Invoice AI Citations",
+              "automated": true,
+              "status": "Active"
+            },
+            {
+              "id": "TC-VAN-003",
+              "qtest_id": 5003,
+              "name": "Citations to Interactive Links",
+              "automated": false,
+              "status": "Active"
+            }
+          ]
+        }
+      }
+    },
+    "26.1.3": {
+      "sprint": "26.1.3",
+      "module_id": 68209719,
+      "generated": "2026-02-06",
+      "summary": {
+        "total_test_cases": 0,
+        "total_automated": 0,
+        "total_with_attachments": 0,
+        "automation_coverage_percent": 0,
+        "teams_count": 0
+      },
+      "teams": {}
+    }
+  }
+}

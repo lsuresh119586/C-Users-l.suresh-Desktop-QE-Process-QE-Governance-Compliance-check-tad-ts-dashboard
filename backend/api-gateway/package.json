@@ -1,0 +1,41 @@
+{
+  "name": "polaris-elm-api-gateway",
+  "version": "1.0.0",
+  "description": "API Gateway for Polaris ELM Metrics Dashboard",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js",
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js",
+    "test:coverage": "node --experimental-vm-modules node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"
+  },
+  "dependencies": {
+    "dotenv": "^16.0.0",
+    "mssql": "^9.0.0"
+  },
+  "devDependencies": {
+    "@jest/globals": "^29.7.0",
+    "jest": "^29.7.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "transform": {},
+    "testMatch": [
+      "**/*.test.js"
+    ],
+    "coveragePathIgnorePatterns": [
+      "/node_modules/",
+      "/tests/"
+    ],
+    "collectCoverageFrom": [
+      "*.js",
+      "!server.js",
+      "!*.test.js"
+    ]
+  }
+}

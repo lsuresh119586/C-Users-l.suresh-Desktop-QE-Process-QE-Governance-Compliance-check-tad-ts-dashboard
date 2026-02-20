@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Debug</title>
+    <style>
+        body { font-family: monospace; padding: 20px; background: #f0f0f0; }
+        .section { background: white; padding: 15px; margin: 10px 0; border-radius: 5px; }
+        .success { color: green; }
+        .error { color: red; }
+        .info { color: blue; }
+        pre { background: #eee; padding: 10px; overflow-x: auto; }
+    </style>
+</head>
+<body>
+    <h1>🔍 Dashboard Debug Console</h1>
+    
+    <div class="section">
+        <h2>Environment</h2>
+        <p>Frontend URL: <span id="frontend-url"></span></p>
+        <p>Backend URL: <span id="backend-url"></span></p>
+    </div>
+    
+    <div class="section">
+        <h2>API Tests</h2>
+        <div id="api-results"></div>
+    </div>
+    
+    <div class="section">
+        <h2>Page State</h2>
+        <p>Document Ready State: <span id="ready-state"></span></p>
+        <p>Sprint Selector: <span id="sprint-selector"></span></p>
+    </div>
+    
+    <div class="section">
+        <h2>Data Simulation</h2>
+        <button onclick="simulateDataLoad()">Simulate Data Load</button>
+        <pre id="simulation-result"></pre>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        const resultsDiv = document.getElementById('api-results');
+        
+        // Show environment
+        document.getElementById('frontend-url').textContent = window.location.href;
+        document.getElementById('backend-url').textContent = API_BASE;
+        document.getElementById('ready-state').textContent = document.readyState;
+        
+        async function runTests() {
+            console.log('[Debug] Starting API tests...');
+            
+            try {
+                // Test 1: QTest API
+                console.log('[Debug] Testing /api/qtest/sprint/26.1.2');
+                resultsDiv.innerHTML += '<p><strong>Testing QTest API...</strong></p>';
+                const qTestUrl = `${API_BASE}/api/qtest/sprint/26.1.2`;
+                const r1 = await fetch(qTestUrl);
+                console.log('[Debug] QTest response:', r1.status);
+                
+                if (r1.ok) {
+                    const d1 = await r1.json();
+                    console.log('[Debug] QTest data:', d1);
+                    resultsDiv.innerHTML += `<p class="success">✅ QTest API: ${d1.totals.total} tests</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p class="error">❌ QTest API: Status ${r1.status}</p>`;
+                }
+                
+                // Test 2: Defects API
+                console.log('[Debug] Testing /api/defects/by-module?sprint=26.1.2');
+                resultsDiv.innerHTML += '<p><strong>Testing Defects API...</strong></p>';
+                const defectUrl = `${API_BASE}/api/defects/by-module?sprint=26.1.2`;
+                const r2 = await fetch(defectUrl);
+                console.log('[Debug] Defects response:', r2.status);
+                
+                if (r2.ok) {
+                    const d2 = await r2.json();
+                    console.log('[Debug] Defects data:', d2);
+                    resultsDiv.innerHTML += `<p class="success">✅ Defects API: ${d2.totals.open} open defects</p>`;
+                } else {
+                    resultsDiv.innerHTML += `<p class="error">❌ Defects API: Status ${r2.status}</p>`;
+                }
+                
+                resultsDiv.innerHTML += '<p class="success"><strong>✅ All APIs accessible!</strong></p>';
+            } catch (err) {
+                console.error('[Debug] Error:', err);
+                resultsDiv.innerHTML += `<p class="error">❌ Error: ${err.message}</p>`;
+            }
+        }
+        
+        function simulateDataLoad() {
+            const result = document.getElementById('simulation-result');
+            result.textContent = `
+Current Sprint: 26.1.2
+API_BASE: ${API_BASE}
+
+This would load:
+1. ${API_BASE}/api/qtest/sprint/26.1.2
+2. ${API_BASE}/api/defects/by-module?sprint=26.1.2
+
+Then render the data in the tabs.
+            `;
+        }
+        
+        // Run tests on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            console.log('[Debug] Page DOMContentLoaded fired');
+            document.getElementById('sprint-selector').textContent = 'Ready';
+            runTests();
+        });
+        
+        // Also run immediately if page is already loaded
+        if (document.readyState !== 'loading') {
+            console.log('[Debug] Page already loaded, running tests immediately');
+            setTimeout(runTests, 500);
+        }
+    </script>
+</body>
+</html>

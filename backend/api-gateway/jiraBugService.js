@@ -58,6 +58,7 @@ class JiraBugService {
     this.apiToken = process.env.JIRA_API_TOKEN;
     this.apiTokenDna = process.env.JIRA_API_TOKEN_DNA || this.apiToken;
     this.apiTokenT360 = process.env.JIRA_API_TOKEN_T360 || this.apiToken;
+    this.apiTokenPassport = process.env.JIRA_API_TOKEN_PASSPORT || this.apiToken;
     this.safeTeamField = 'customfield_13392';
     
     if (!this.apiToken && !this.apiTokenDna && !this.apiTokenT360) {
@@ -171,10 +172,15 @@ class JiraBugService {
    * @private
    */
   getHeaders(teamId) {
-    // Use product-specific token: DnA teams use DNA token, T360 teams use T360 token
-    const token = teamId && !this.isDnaTeam(teamId)
-      ? this.apiTokenT360
-      : this.apiTokenDna;
+    // Use product-specific token: DnA teams use DNA token, T360 teams use T360 token, Passport/Collaboration Portal use Passport token
+    let token;
+    if (teamId && this.isPassportTeam(teamId)) {
+      token = this.apiTokenPassport;
+    } else if (teamId && !this.isDnaTeam(teamId)) {
+      token = this.apiTokenT360;
+    } else {
+      token = this.apiTokenDna;
+    }
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -334,6 +340,18 @@ class JiraBugService {
    */
   isDnaTeam(teamId) {
     return !!this.dnaTeams[teamId];
+  }
+
+  /**
+   * Check if a team belongs to Passport or Collaboration Portal product
+   * 
+   * @param {string} teamId - Team identifier
+   * @returns {boolean} True if team is a Passport or Collaboration Portal team
+   * @private
+   */
+  isPassportTeam(teamId) {
+    const passportTeamIds = ['team-a', 'team-b', 'team-c'];
+    return passportTeamIds.includes(teamId);
   }
 
   /**

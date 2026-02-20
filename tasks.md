@@ -4409,3 +4409,155 @@ Replaced the "🚀 Speckit Dashboard" placeholder text in the nav bar with the o
 
 **Next Phase:** Phase 3 - Expand to T360/Passport/Collaboration Portal teams + auto-refresh + background jobs
 
+---
+
+## 🔄 Update (February 20, 2026)
+
+### TASK-TC-001: Tests Covered Inline View in Main Dashboard 🟢
+
+**Category:** Frontend Enhancement  
+**Estimate:** M (4-6 hours)  
+**Status:** ✅ Complete  
+**Dependencies:** Tests Covered API endpoint (`/api/metrics/tests-covered`)  
+**Phase:** 1.7  
+**Traceability:**  
+  - Spec: Section 3.2.12 — Tests Covered Inline View  
+  - Plan: Phase 1.7 — Tests Covered Inline View & Product Filtering  
+
+**Description:**  
+Embedded the Tests Covered view directly within the main dashboard (`index.html`) as an inline view. Previously, clicking the "Tests Covered" tile navigated to a separate page that showed no records. Now it opens an inline view within the same dashboard, fetching data from the `/api/metrics/tests-covered` endpoint on port 3000.
+
+**Root Cause of Original Bug:**  
+- `loadTestsCoveredView()` was fetching from port 3001 (server-temp.js) which was not running  
+- API response structure was `{ data: {...}, available_sprints: [...] }` but code expected flat sprint-keyed objects  
+- Field names were mismatched (`totalTests` vs `summary.total_test_cases`)  
+- Teams was an object but code expected an array  
+
+**Changes Made:**  
+- ✅ Fixed fetch URL from port 3001 → port 3000  
+- ✅ Fixed API response parsing (`result.data` wrapper)  
+- ✅ Fixed field name mapping to match actual db.json structure  
+- ✅ Converted teams object to array with proper field extraction  
+- ✅ Added sprint selector with dynamic re-render on change  
+- ✅ Added 5 summary cards: Total Test Cases, Automated, Automation Coverage (with progress bar), With Scripts, Teams  
+- ✅ Added Team Breakdown table with Coverage % and mini progress bars  
+- ✅ Added footer with Generated date and Sprint label  
+
+**Acceptance Criteria:**  
+- [x] Clicking "Tests Covered" tile opens inline view (no page navigation)  
+- [x] Data fetched from `/api/metrics/tests-covered` on port 3000  
+- [x] Sprint selector allows switching between available sprints  
+- [x] Summary cards display correct totals  
+- [x] Team table shows all teams with coverage percentages and progress bars  
+- [x] Back button returns to main dashboard  
+- [x] Error handling for failed API calls  
+
+**Files Modified:**  
+- `frontend/index.html` — `loadTestsCoveredView()`, `renderTestsCoveredDashboard()`, CSS styles  
+- `frontend/src/components/TestsCovered.tsx` — Port change (3001 → 3000)  
+
+---
+
+### TASK-TC-002: Tests Covered CSS Alignment with React Component 🟢
+
+**Category:** Frontend Styling  
+**Estimate:** S (2-3 hours)  
+**Status:** ✅ Complete  
+**Dependencies:** TASK-TC-001  
+**Phase:** 1.7  
+**Traceability:**  
+  - Spec: Section 3.2.12 — Tests Covered Inline View  
+  - Plan: Phase 1.7 — Tests Covered Inline View & Product Filtering  
+
+**Description:**  
+Copied the React `TestsCovered.tsx` component's CSS styling into the `index.html` inline view so the formatting matches exactly. All CSS class names are prefixed with `tc-` to avoid conflicts with the main dashboard's `.metric-card` styles.
+
+**Changes Made:**  
+- ✅ Added complete CSS from `TestsCovered.css` into `<style>` block in `index.html`  
+- ✅ Prefixed all class names: `.tests-covered-container`, `.tests-covered-header`, `.tests-covered-summary`, `.summary-card`, `.highlight`, `.tc-teams-table`, `.tc-mini-progress`, `.tc-progress-bar`, `.tests-covered-footer`  
+- ✅ Matched layout: 5-card summary grid, gradient highlight card, team table with progress bars  
+- ✅ Compact back button header replacing full dashboard header  
+
+**Acceptance Criteria:**  
+- [x] Inline view visually matches React `TestsCovered` component  
+- [x] No CSS conflicts with main dashboard metric cards  
+- [x] Responsive layout maintained  
+- [x] Gradient highlight on Automation Coverage card  
+- [x] Mini progress bars in team table  
+
+**Files Modified:**  
+- `frontend/index.html` — CSS `<style>` block (tc- prefixed classes), `renderTestsCoveredDashboard()` HTML template  
+
+---
+
+### TASK-TC-003: Tests Covered Product-Based Team Filtering 🟢
+
+**Category:** Frontend Enhancement  
+**Estimate:** S (2-3 hours)  
+**Status:** ✅ Complete  
+**Dependencies:** TASK-TC-001, TASK-TC-002  
+**Phase:** 1.7  
+**Traceability:**  
+  - Spec: Section 3.2.13 — Tests Covered Product-Based Filtering  
+  - Plan: Phase 1.7 — Tests Covered Inline View & Product Filtering  
+
+**Description:**  
+Added product-based filtering to the Tests Covered inline view so that only teams belonging to the currently selected product are displayed. Previously, all T360 teams (Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards) were shown regardless of which product was selected.
+
+**Root Cause:**  
+- `tests_covered` data in `db.json` only contains T360 team data  
+- `loadTestsCoveredView()` did not use `state.selectedProduct`  
+- `renderTestsCoveredDashboard()` rendered all teams without filtering  
+
+**Changes Made:**  
+- ✅ Added `productTeamMap` constant mapping product IDs to team names:  
+  - `t360` → Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards  
+  - `dna` → Minerva, Guardians, Athena  
+  - `passport` → Team A, Team B, Team C  
+  - `collaboration-portal` → (empty)  
+- ✅ `loadTestsCoveredView()` captures `state.selectedProduct` and passes to render function  
+- ✅ `renderTestsCoveredDashboard()` filters teams using case-insensitive `productTeamMap` lookup  
+- ✅ Summary stats (Total, Automated, Coverage, With Scripts, Teams) recalculated from filtered teams  
+- ✅ `withAttachments` computed from per-team `with_attachments` field (not approximate)  
+- ✅ Header displays "🧪 Tests Covered — [Product Name]" with formatted label  
+- ✅ Empty state: "No test coverage data available for [Product]. Test coverage data is currently tracked for T360 teams only."  
+- ✅ Sprint selector change event passes `selectedProduct` through to re-render  
+
+**Acceptance Criteria:**  
+- [x] Selecting T360 product → Tests Covered shows only T360 teams (Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards)  
+- [x] Selecting DnA product → Tests Covered shows "No test coverage data available for Dna"  
+- [x] Selecting Passport product → Tests Covered shows "No test coverage data available for Passport"  
+- [x] Summary stats computed from filtered teams only (not global totals)  
+- [x] Header indicates which product is selected  
+- [x] Sprint switching preserves product filter  
+- [x] No backend changes required  
+
+**Files Modified:**  
+- `frontend/index.html` — `productTeamMap` constant, `loadTestsCoveredView()`, `renderTestsCoveredDashboard()` (filtering logic, summary recalculation, empty state, header label)  
+
+---
+
+### TASK-CLEANUP-001: Remove Non-Speckit Documentation Files 🟢
+
+**Category:** Project Cleanup  
+**Estimate:** XS (30 minutes)  
+**Status:** ✅ Complete  
+**Dependencies:** None  
+**Phase:** 1.7  
+
+**Description:**  
+Removed all `.md` files that are not part of the speckit documentation framework. Speckit files retained: `spec.md`, `plan.md`, `tasks.md`, `.specify/` templates/memory, `.claude/commands/speckit.*`, `.github/agents/speckit.*`, `.github/prompts/speckit.*`. All other auto-generated session summaries, implementation notes, and redundant documentation files removed to reduce clutter.
+
+**Files Removed:**  
+- Root: `TECH-STACK.md`, `SPRINT_26.1.1_DEFECTS_FINAL.md`, `SESSION-SUMMARY.md`, `requirements-questionnaire.md`, `README_SPRINT_26.1.1.md`, `README.md`, `IMPLEMENTATION_SUMMARY.md`, `IMPLEMENTATION-SUMMARY.md`, `GETTING-STARTED.md`, `DEFECTS_CONFIGURATION.md`  
+- `backend/api-gateway/`: `IMPLEMENTATION_SUMMARY.md`, `TESTS_COVERED_README.md`, `TESTS_COVERED_START_HERE.md`, `TESTS_COVERED_QUICK_REFERENCE.md`, `TESTS_COVERED_GUIDE.md`, `TESTS_COVERED_FILE_INDEX.md`, `TAD_TS_README.md`, `SQL_SERVER_SYNC.md`, `SQL_SERVER_SETUP.md`, `QUICK_REFERENCE.md`, `BUG_METRICS_UNIVERSAL_IMPLEMENTATION.md`, `BUG_METRICS_QUALITY_SUMMARY.md`  
+- `database/`: `README.md`  
+- `frontend/`: `README.md`  
+- `tests/`: `E2E-TESTING-DEMO-GUIDE.md`  
+- `tests/e2e/`: `README.md`  
+- `backend/integration-service/`: `README.md`  
+
+---
+
+**Next Phase:** Phase 3 - Expand to T360/Passport/Collaboration Portal teams + auto-refresh + background jobs
+

@@ -2336,9 +2336,41 @@ Display: "74.3" with Yellow color (70-89% range)
 
 ---
 
+#### 3.2.12 Tests Covered Inline View (Added February 20, 2026)
+
+- **Definition**: Inline dashboard view showing test coverage metrics (total test cases, automated count, automation coverage %, scripts with attachments) aggregated from qTest data
+- **Data Source**: `backend/api-gateway/db.json` → `tests_covered` section, synced from qTest API (Project 114345)
+- **Sprint Coverage**: 26.1.1, 26.1.2, 26.1.3, 26.1.4, 26.1.6 (26.1.5 empty — no test cases in module)
+- **Access**: Clickable "Tests Covered" tile on main dashboard → opens inline view (no page navigation)
+- **Sprint Selector**: Dropdown to switch between available sprints; data updates dynamically
+- **Summary Cards** (5 cards): Total Test Cases, Automated, Automation Coverage (gradient highlight + progress bar), With Scripts, Teams
+- **Team Breakdown Table**: Columns — Team, Total Tests, Automated, Coverage %, Progress (mini progress bar)
+- **Footer**: Generated timestamp + Sprint label
+- **Formatting**: Matches the React `TestsCovered.tsx` component styling exactly (CSS classes prefixed with `tc-` to avoid conflicts)
+
+#### 3.2.13 Tests Covered Product-Based Filtering (Added February 20, 2026)
+
+- **Definition**: Tests Covered view filters teams based on the currently selected product, ensuring teams from other products are not displayed
+- **Product-Team Mapping**:
+  - **T360**: Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards
+  - **DnA**: Minerva, Guardians, Athena
+  - **Passport**: Team A, Team B, Team C
+  - **Collaboration Portal**: (no teams mapped)
+- **Filtering Behaviour**:
+  - `state.selectedProduct` is captured when user clicks the Tests Covered tile
+  - Teams are filtered using a `productTeamMap` lookup (case-insensitive matching)
+  - Summary statistics (Total, Automated, Coverage, With Scripts, Teams count) are **recalculated** from filtered teams only
+  - If no matching teams exist for the selected product, an empty state message is shown: "No test coverage data available for [Product]. Test coverage data is currently tracked for T360 teams only."
+- **Header**: Displays "🧪 Tests Covered — [Product Name]" with properly formatted product label
+- **Current Data Scope**: `tests_covered` in `db.json` only contains T360 team data; other products show the empty-state message until their qTest data is synced
+- **Non-Breaking**: Product selection state and main dashboard metrics unaffected
+
+---
+
 **End of Specification**
 
 **Document Status**: Draft v1.0  
+**Last Updated**: February 20, 2026  
 **Next Steps**: 
 1. Stakeholder review and approval
 2. Create implementation plan (`/speckit.plan`)

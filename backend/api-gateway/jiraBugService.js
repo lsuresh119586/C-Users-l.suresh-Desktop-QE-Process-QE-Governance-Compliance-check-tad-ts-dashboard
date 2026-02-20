@@ -56,10 +56,12 @@ class JiraBugService {
   constructor() {
     this.jiraUrl = process.env.JIRA_BASE_URL || process.env.JIRA_URL || 'https://jira.wolterskluwer.io/jira';
     this.apiToken = process.env.JIRA_API_TOKEN;
+    this.apiTokenDna = process.env.JIRA_API_TOKEN_DNA || this.apiToken;
+    this.apiTokenT360 = process.env.JIRA_API_TOKEN_T360 || this.apiToken;
     this.safeTeamField = 'customfield_13392';
     
-    if (!this.apiToken) {
-      throw new JiraAuthenticationError('JIRA_API_TOKEN environment variable is required');
+    if (!this.apiToken && !this.apiTokenDna && !this.apiTokenT360) {
+      throw new JiraAuthenticationError('At least one JIRA_API_TOKEN environment variable is required');
     }
 
     // DnA Teams Configuration with board IDs and Safe-Team values
@@ -124,7 +126,7 @@ class JiraBugService {
         jiraProject: 'GET',
         boardId: 6793,
         sprintFormat: 'T360 ICD CHUBB-{sprint}',
-        safeTeamValues: ['CHUBB', 'T360 CHUBB', 'Chubb', 'T360 Chubb']
+        safeTeamValues: ['CHUBB', 'T360 CHUBB', 'Chubb', 'T360 Chubb', 'T360 ICD Chubb', 'T360 ICD CHUBB', 'ICD Chubb', 'ICD CHUBB']
       },
       matrix: {
         name: 'Matrix',
@@ -168,11 +170,15 @@ class JiraBugService {
    * @returns {Object} Headers object with authentication and content-type
    * @private
    */
-  getHeaders() {
+  getHeaders(teamId) {
+    // Use product-specific token: DnA teams use DNA token, T360 teams use T360 token
+    const token = teamId && !this.isDnaTeam(teamId)
+      ? this.apiTokenT360
+      : this.apiTokenDna;
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${this.apiToken}`
+      'Authorization': `Bearer ${token}`
     };
   }
 
@@ -195,10 +201,10 @@ class JiraBugService {
    *   maxResults: 50
    * });
    */
-  async makeRequest(path, method = 'GET', body = null, retries = 3) {
+  async makeRequest(path, method = 'GET', body = null, retries = 3, teamId = null) {
     for (let attempt = 1; attempt <= retries; attempt++) {
       try {
-        return await this._makeRequestInternal(path, method, body);
+        return await this._makeRequestInternal(path, method, body, teamId);
       } catch (error) {
         console.error(`JIRA API attempt ${attempt}/${retries} failed:`, error.message);
         
@@ -233,7 +239,7 @@ class JiraBugService {
    * @throws {JiraError} For other API errors
    * @private
    */
-  async _makeRequestInternal(path, method, body) {
+  async _makeRequestInternal(path, method, body, teamId = null) {
     return new Promise((resolve, reject) => {
       // Build the full URL - if jiraUrl already has a path, append to it
       const baseUrl = this.jiraUrl.endsWith('/') ? this.jiraUrl.slice(0, -1) : this.jiraUrl;
@@ -247,7 +253,7 @@ class JiraBugService {
         port: 443,
         path: url.pathname + url.search,
         method: method,
-        headers: this.getHeaders(),
+        headers: this.getHeaders(teamId),
         timeout: 30000
       };
 
@@ -478,7 +484,7 @@ class JiraBugService {
       };
 
       try {
-        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload);
+        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, teamId);
         const issues = response.issues || [];
         allBugs.push(...issues);
 
@@ -557,10 +563,15 @@ class JiraBugService {
    *   console.log('History:', reopenInfo.reopenHistory);
    * }
    */
-  async detectReopenedBug(issueKey) {
+  async detectReopenedBug(issueKey, teamId = null) {
     try {
-      const response = await this.makeRequest(`/rest/api/2/issue/${issueKey}/changelog`);
-      const histories = response.values || [];
+      // Use ?expand=changelog on the issue endpoint (works on all Jira versions)
+      // The standalone /changelog endpoint returns 404 on some Jira instances
+      const response = await this.makeRequest(
+        `/rest/api/2/issue/${issueKey}?expand=changelog&fields=status`,
+        'GET', null, 3, teamId
+      );
+      const histories = response.changelog?.histories || [];
 
       let reopenCount = 0;
       const reopenHistory = [];
@@ -679,7 +690,7 @@ class JiraBugService {
 
       // Detect reopened bugs (batch processing for performance)
       console.log(`🔍 Detecting reopened bugs for ${bugs.length} issues...`);
-      const reopenPromises = bugs.map(bug => this.detectReopenedBug(bug.key));
+      const reopenPromises = bugs.map(bug => this.detectReopenedBug(bug.key, teamId));
       const reopenResults = await Promise.all(reopenPromises);
 
       // Update bug details with reopened information

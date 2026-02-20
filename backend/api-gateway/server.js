@@ -852,6 +852,44 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // GET /api/metrics/tests-covered - Get all tests-covered data
+  if (pathname === '/api/metrics/tests-covered' && req.method === 'GET') {
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered || {};
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'success',
+      data: testsCovered,
+      available_sprints: Object.keys(testsCovered),
+      total_sprints: Object.keys(testsCovered).length
+    }));
+    return;
+  }
+
+  // GET /api/metrics/tests-covered/:sprint - Get tests-covered for specific sprint
+  if (pathname.startsWith('/api/metrics/tests-covered/') && req.method === 'GET') {
+    const sprint = pathname.split('/').pop();
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered || {};
+    
+    if (testsCovered[sprint]) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        status: 'success',
+        sprint: sprint,
+        data: testsCovered[sprint]
+      }));
+    } else {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        error: 'Sprint not found',
+        available_sprints: Object.keys(testsCovered),
+        requested_sprint: sprint
+      }));
+    }
+    return;
+  }
+
   // GET /api/defects/by-module - Get defects for a specific sprint
   if (req.method === 'GET' && req.url.startsWith('/api/defects/by-module')) {
     const urlObj = new url.URL(req.url, `http://${req.headers.host}`);

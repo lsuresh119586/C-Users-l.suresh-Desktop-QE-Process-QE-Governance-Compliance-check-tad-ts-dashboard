@@ -1386,199 +1386,4212 @@
       "timestamp": "2026-02-13T10:00:00.000Z",
       "updatedFromJira": true,
       "updatedFromAnalysis": true
+    },
+    {
+      "id": "tests-covered-26.1.1",
+      "name": "Tests Covered - 26.1.1",
+      "category": "Quality",
+      "value": 143,
+      "unit": "test cases",
+      "automation_coverage": 99.3,
+      "generated": "2026-02-20",
+      "details": {
+        "sprint": "Sprint 26.1.1",
+        "module_id": 68209713,
+        "generated": "2026-02-20",
+        "summary": {
+          "total_test_cases": 143,
+          "total_automated": 142,
+          "total_with_attachments": 142,
+          "automation_coverage_percent": 99.3,
+          "teams_count": 6
+        },
+        "teams": {
+          "Chargers": {
+            "total_test_cases": 3,
+            "automated_test_cases": 2,
+            "automation_coverage_percent": 66.7,
+            "with_attachments": 2,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25953",
+                "qtest_id": 137988444,
+                "name": "Verify Dual Write Off Mode - Document Migration",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25954",
+                "qtest_id": 137988532,
+                "name": "Verify Dual Write On Mode - Document Migration",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25970",
+                "qtest_id": 138006928,
+                "name": "Verify [T360 Modernization] -Upgrade Templates to .NET 9.0",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Chubb": {
+            "total_test_cases": 17,
+            "automated_test_cases": 17,
+            "automation_coverage_percent": 100,
+            "with_attachments": 17,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25725",
+                "qtest_id": 137944979,
+                "name": "Verify Affiliated Vendor uses Data Exchange to associate with the different law firms on a matter at the same time.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25703",
+                "qtest_id": 137935209,
+                "name": "Verify action under Invoice Authority Approval Service \"Network.Bypass Claim Authority Approval Process\" listed under \"Invoice Authority Approval\"",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25915",
+                "qtest_id": 137970632,
+                "name": "Verify itp rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\"   triggers for hours less than parameter when LI configured as Yes under parameter",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25926",
+                "qtest_id": 137971339,
+                "name": "Verify itp rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\" configured at multiple times with different parameters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25704",
+                "qtest_id": 137935210,
+                "name": "Verify the \"Bypass Claim Authority Approval Process\" Permission edit. (acontrol)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25700",
+                "qtest_id": 137933451,
+                "name": "Verify Affiliated Vendor using Data Exchange when associating to multiple law firms on a matter",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25705",
+                "qtest_id": 137935211,
+                "name": "Verify that Service action \"Network.Bypass Claim Authority Approval Process\" is disable",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25701",
+                "qtest_id": 137933452,
+                "name": "Verify the error message when an Affiliated Vendor uses Data Exchange to associate with the same law firms on a matter.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25702",
+                "qtest_id": 137933453,
+                "name": "Verify error message that an Affiliated Vendor uses Data Exchange to associate with the same law firms on a matter at the same time.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25916",
+                "qtest_id": 137970671,
+                "name": "Verify ITP rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\" triggers when hours exceeds the parameter When LI configured as No under Parameter",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 14,
+            "automated_test_cases": 14,
+            "automation_coverage_percent": 100,
+            "with_attachments": 14,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25723",
+                "qtest_id": 137944889,
+                "name": "Verify Menu is not visible when service is enabled and User is non-Internal (Client) user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25724",
+                "qtest_id": 137944890,
+                "name": "Verify Menu is visible only when service is disabled and User is non-Internal (Client) - Client user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25785",
+                "qtest_id": 137957930,
+                "name": "Verify Menu is not visible when service is enabled and User is TPA user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26000",
+                "qtest_id": 138044985,
+                "name": "Verify Menu is visible when service is enabled and User is ASP user but not a system admin/with no view permission",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25781",
+                "qtest_id": 137957921,
+                "name": "Verify Menu is not visible when service is enabled and User is Lawfirm user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25722",
+                "qtest_id": 137944850,
+                "name": "Verify Menu is visible only when service is disabled and User is Internal (ASP) user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25716",
+                "qtest_id": 137942579,
+                "name": "Verify Menu is visible only when service is enabled and User is Internal (ASP) user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25780",
+                "qtest_id": 137957077,
+                "name": " Verify Menu is visible only when service is enabled and not in cross network",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25786",
+                "qtest_id": 137957959,
+                "name": "Verify Menu is visible when service is enabled and User is ASP user but not a system admin",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25989",
+                "qtest_id": 138034984,
+                "name": "Verify the data in Job table from Scheduler DB",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 21,
+            "automated_test_cases": 21,
+            "automation_coverage_percent": 100,
+            "with_attachments": 21,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25697",
+                "qtest_id": 137916993,
+                "name": "Verify AI Assistant Label Display for Multiple User Roles and Functional Regression",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25698",
+                "qtest_id": 137916994,
+                "name": "Verify AI Assistant Label Handling During Session Expiration and Browser Navigation Edge Cases",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25693",
+                "qtest_id": 137916987,
+                "name": "Verify AI Assistant Label Display After Successful Login and Matter Navigation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25694",
+                "qtest_id": 137916988,
+                "name": "Verify AI Assistant Label Consistency Across Multiple Matters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25696",
+                "qtest_id": 137916990,
+                "name": "Verify AI Assistant Label Browser Compatibility and Zoom Level Responsiveness",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25965",
+                "qtest_id": 138004449,
+                "name": "Verify Global Search Handles Query Modification With Special Characters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25964",
+                "qtest_id": 138004448,
+                "name": "Verify Global Search Shows No Results Message For Non-Matching Special Characters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25967",
+                "qtest_id": 138004452,
+                "name": "Verify Global Search With Maximum Special Characters Query",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25963",
+                "qtest_id": 138004447,
+                "name": "Verify Spinner Stops And Displays Invoice Results In Global Search",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25962",
+                "qtest_id": 138004446,
+                "name": "Verify Global Search Loads Results For Query With Special Characters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 29,
+            "automated_test_cases": 29,
+            "automation_coverage_percent": 100,
+            "with_attachments": 29,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25981",
+                "qtest_id": 138028123,
+                "name": "Verify Create New Matter with CA then Remove Company",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25982",
+                "qtest_id": 138028126,
+                "name": "Verify Create New Matter with CA then Change TK",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25985",
+                "qtest_id": 138028142,
+                "name": "Verify Edit Company with Same Timekeeper - No CA Changes Should Occur (No-Op)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25986",
+                "qtest_id": 138028143,
+                "name": "Verify Add Multiple Companies - Remove One Company and Change TK of Another",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25984",
+                "qtest_id": 138028130,
+                "name": "Verify Disable TK Service - Create Matter Company - Enable Service - Add TK to Existing Company",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25987",
+                "qtest_id": 138028144,
+                "name": "Verify Export to Excel After CA Cancellation - Verify Cancelled Status in Export",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25983",
+                "qtest_id": 138028129,
+                "name": "Verify Change Panel - CA Cancelled and New CA Created with New Panel (Reversible)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25946",
+                "qtest_id": 137979257,
+                "name": "Law firm company user with billing administration role creates Case Assessment",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24690",
+                "qtest_id": 137150092,
+                "name": "Manual Case Assessment creation for multiple companies",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25277",
+                "qtest_id": 137302845,
+                "name": "Create 'Case Assessments' when the lawfirm having active budget",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 59,
+            "automated_test_cases": 59,
+            "automation_coverage_percent": 100,
+            "with_attachments": 59,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-25971",
+                "qtest_id": 138011160,
+                "name": "Verify Password Input With Unicode Characters in Edge- Browser Compatibility",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25657",
+                "qtest_id": 137817525,
+                "name": "Verify Password Creation With International Punctuation Marks",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25669",
+                "qtest_id": 137817683,
+                "name": "Verify Password Validation At Minimum Length With Unicode Special Characters - Boundary Value",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25684",
+                "qtest_id": 137829535,
+                "name": "Verify Buffer Overflow Prevention With Long Unicode Sequences - Security",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25677",
+                "qtest_id": 137824287,
+                "name": "Verify Unicode Injection Attack Prevention - Security",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25654",
+                "qtest_id": 137817498,
+                "name": "Verify Password Creation With Unicode Emoji Symbols",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25662",
+                "qtest_id": 137817560,
+                "name": "Verify Password Rejection With Insufficient Special Characters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25670",
+                "qtest_id": 137817688,
+                "name": "Verify Password Validation With Combining Unicode Characters - Edge Case",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25659",
+                "qtest_id": 137817543,
+                "name": "Verify Password Creation With Multiple Emoji Characters",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25680",
+                "qtest_id": 137829478,
+                "name": "Verify Password Validation With Zero Special Character Requirement - Boundary Value",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "tests-covered-26.1.2",
+      "name": "Tests Covered - 26.1.2",
+      "category": "Quality",
+      "value": 92,
+      "unit": "test cases",
+      "automation_coverage": 97.8,
+      "generated": "2026-02-20",
+      "details": {
+        "sprint": "Sprint 26.1.2",
+        "module_id": 68209714,
+        "generated": "2026-02-20",
+        "summary": {
+          "total_test_cases": 92,
+          "total_automated": 90,
+          "total_with_attachments": 90,
+          "automation_coverage_percent": 97.8,
+          "teams_count": 5
+        },
+        "teams": {
+          "Chubb": {
+            "total_test_cases": 11,
+            "automated_test_cases": 11,
+            "automation_coverage_percent": 100,
+            "with_attachments": 11,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26088",
+                "qtest_id": 138102361,
+                "name": "Verify that the reviewer can't able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters with same WA. When the Network.Bypass Claim Authority Approval Process\" is not enabled.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26087",
+                "qtest_id": 138102360,
+                "name": "Verify that the reviewer can't approve invoices exceeding their authorization amount and popup should appears when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26082",
+                "qtest_id": 138092095,
+                "name": "Verify that the reviewer is able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters. when the Network.Bypass Claim Authority Approval Process\" is enabled.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26095",
+                "qtest_id": 138104259,
+                "name": "Verify that Service action \"Network.Restrict LeadTimekeeper Rate Greater than $0\" is disable",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26080",
+                "qtest_id": 138091539,
+                "name": "Verify that the reviewer can approve invoices exceeding their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is enabled.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26094",
+                "qtest_id": 138104258,
+                "name": "Verify the \"Restrict LeadTimekeeper Rate Greater than $0\" Permission edit. (acontrol)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26093",
+                "qtest_id": 138104257,
+                "name": "Verify action under Lead TimeKeeper Service \"Network.Restrict LeadTimekeeper Rate Greater than $0\"",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26092",
+                "qtest_id": 138103495,
+                "name": "Verify Authority Amount Increase Request PopUp When The \"Network.Bypass Claim Authority Approval Process\" Service Is Enabled But Permission Is Disabled In User Level.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26086",
+                "qtest_id": 138102359,
+                "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26096",
+                "qtest_id": 138104262,
+                "name": "Verify that the ‘Restrict LeadTimekeeper Rate Greater than $0\"’ option is only available for Lead TimeKeeper and not for any other service.",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 6,
+            "automated_test_cases": 6,
+            "automation_coverage_percent": 100,
+            "with_attachments": 6,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26084",
+                "qtest_id": 138093070,
+                "name": " Verify Active Microsoft SSO Session",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26089",
+                "qtest_id": 138103058,
+                "name": " Verify Non - Active Microsoft SSO Session",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26085",
+                "qtest_id": 138093428,
+                "name": " Verify Microsoft SSO login with non-User",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26025",
+                "qtest_id": 138077871,
+                "name": "Verify View Scheduled Jobs List – UI",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26023",
+                "qtest_id": 138076912,
+                "name": "Verify Delete Scheduled Job with Confirmation (UI)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26024",
+                "qtest_id": 138077224,
+                "name": "Verify Trigger Scheduled Job Execution (Run Now) – UI",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 9,
+            "automated_test_cases": 9,
+            "automation_coverage_percent": 100,
+            "with_attachments": 9,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26201",
+                "qtest_id": 138149714,
+                "name": "Verify ITP Rule Creation With Valid Matter Number And Adjustment Amount",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26226",
+                "qtest_id": 138178897,
+                "name": "Verify AFA Creation With Same Start And End Date (Single Day Range)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26099",
+                "qtest_id": 138104326,
+                "name": "Verify AFA Edit Blocked When Modifying Dates To Overlap Existing AFA",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26098",
+                "qtest_id": 138104325,
+                "name": "Verify AFA Creation Blocked When Date Range Overlaps Existing AFA",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26097",
+                "qtest_id": 138104324,
+                "name": "Verify AFA Creation With Valid Non-Overlapping Date Range",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26193",
+                "qtest_id": 138147296,
+                "name": "Verify Clear All Filters Edge Cases and No Filters Applied",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26197",
+                "qtest_id": 138148208,
+                "name": "Verify Error Message Display for Empty Required Field Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26192",
+                "qtest_id": 138147292,
+                "name": "Verify Clear All Filters With Multiple Filters Applied",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26195",
+                "qtest_id": 138147300,
+                "name": "Verify Error Message Display For Required Field Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 34,
+            "automated_test_cases": 34,
+            "automation_coverage_percent": 100,
+            "with_attachments": 34,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26064",
+                "qtest_id": 138090277,
+                "name": "Export Budget Template to Excel with budget data via Add Budget navigation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26068",
+                "qtest_id": 138090309,
+                "name": "Export Budget Template with zero budget codes (empty template)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26065",
+                "qtest_id": 138090292,
+                "name": "Export Budget Template without budget data via Add Budget through Matter navigation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26026",
+                "qtest_id": 138082303,
+                "name": "Verify Pagination Check - Search All Invoices Beta",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26027",
+                "qtest_id": 138082348,
+                "name": "Verify Pagination with Filter Application - Search All Invoices Beta",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26249",
+                "qtest_id": 138195628,
+                "name": "Verify 'Case Assessments' when the lawfirm company having only unique  Billing Administartion Role user & unque Lead Time keeper role user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26250",
+                "qtest_id": 138195629,
+                "name": "Create 'Case Assessments' when the lawfirm company having only unique  CAM Role user & unque Lead Time keeper role user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26252",
+                "qtest_id": 138195631,
+                "name": "Create 'Case Assessments' when the lawfirm company having unique  Billing Administartion Role user, unique  CAM role user  & unique Lead Time keeper role user",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26276",
+                "qtest_id": 138202314,
+                "name": "Create 'Case Assessments' when the lawfirm company does not having  Billing Administartion Role ,  CAM role  &   Lead Time keeper role",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26277",
+                "qtest_id": 138202330,
+                "name": "Create 'Case Assessments' when the lawfirm company  one user having  Billing Administartion Role ,  CAM role  &   Lead Time keeper role",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 32,
+            "automated_test_cases": 30,
+            "automation_coverage_percent": 93.8,
+            "with_attachments": 30,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26121",
+                "qtest_id": 138121035,
+                "name": "Verify Citation Reference Panel Opens with Correct Data",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26120",
+                "qtest_id": 138121034,
+                "name": "Verify AI Summary Flyout Opens and Displays All Sections",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26124",
+                "qtest_id": 138121039,
+                "name": "Verify Navigation to Other Invoice from Citation Panel",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26134",
+                "qtest_id": 138121294,
+                "name": "Verify AI Summary Flyout Close and Reopen Functionality",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26123",
+                "qtest_id": 138121038,
+                "name": "Verify Line Item Popup Close Mechanisms",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26135",
+                "qtest_id": 138121405,
+                "name": "Verify Citation Panel with Mixed Multi-Invoice Sources",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26122",
+                "qtest_id": 138121037,
+                "name": "Verify Line Item Popup Opens and Displays Details for Current Invoice",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26218",
+                "qtest_id": 138149947,
+                "name": "Verify Browser Compatibility Across Chrome",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26128",
+                "qtest_id": 138121043,
+                "name": "Verify Browser Compatibility Across Edge",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26127",
+                "qtest_id": 138121042,
+                "name": "Verify Keyboard Navigation and Accessibility",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "tests-covered-26.1.3",
+      "name": "Tests Covered - 26.1.3",
+      "category": "Quality",
+      "value": 123,
+      "unit": "test cases",
+      "automation_coverage": 100,
+      "generated": "2026-02-20",
+      "details": {
+        "sprint": "Sprint 26.1.3",
+        "module_id": 68209719,
+        "generated": "2026-02-20",
+        "summary": {
+          "total_test_cases": 123,
+          "total_automated": 123,
+          "total_with_attachments": 123,
+          "automation_coverage_percent": 100,
+          "teams_count": 5
+        },
+        "teams": {
+          "Chubb": {
+            "total_test_cases": 18,
+            "automated_test_cases": 18,
+            "automation_coverage_percent": 100,
+            "with_attachments": 18,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26481",
+                "qtest_id": 138268540,
+                "name": "Verify alert message should display for changing the billing rate is greater than $0 to the existing user secure action is enabled",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26341",
+                "qtest_id": 138222815,
+                "name": "Verify that the ITP rule is not triggered when the matter with Vendor and Affiliated Vendor",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26340",
+                "qtest_id": 138222814,
+                "name": "Verify that the ITP rule “Line Item Service Dates Must Not Overlap” is triggered when the invoice date falls within the validated service date range",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26548",
+                "qtest_id": 138290874,
+                "name": "Verify Invoice status sends to processing when the reviewer can approve invoices exceeding their authorization amount and popup should not appears noted only one reviewer on the review route",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26478",
+                "qtest_id": 138268536,
+                "name": "Verify alert message should not display while creating the new user with billing rate is equal to $0 when the secure action is enabled",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26480",
+                "qtest_id": 138268539,
+                "name": "Verify alert message should display while creating the new user with billing rate is greater than $0 when the secure action is enabled",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26479",
+                "qtest_id": 138268538,
+                "name": "Verify alert message should not display for changing the billing rate is eual to $0 to the existing user secure action is enabled",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26549",
+                "qtest_id": 138290901,
+                "name": "Verify Invoice status sends to next reviewer when the first  reviewer can approve invoices exceeding their authorization amount and popup should not appears noted only one reviewer on the review route",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26498",
+                "qtest_id": 138272397,
+                "name": "Verify alert message should not display for changing the billing rate is greater than $0 to the existing user secure action is disable",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26497",
+                "qtest_id": 138272396,
+                "name": "Verify alert message should not display while creating the new user with billing rate is greater than $0 when the secure action is disable",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 10,
+            "automated_test_cases": 10,
+            "automation_coverage_percent": 100,
+            "with_attachments": 10,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26113",
+                "qtest_id": 138120495,
+                "name": "Verify Update heartbeat for non-existent agent",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26105",
+                "qtest_id": 138106830,
+                "name": "Verify Creation Of Folder With Valid Data",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26112",
+                "qtest_id": 138120494,
+                "name": "Verify Register new agent with valid data",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26116",
+                "qtest_id": 138120498,
+                "name": "Verify Retrieve agent with non-existent ID",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26109",
+                "qtest_id": 138106834,
+                "name": "Verify Update Fails For Non-Existent Folder - Negative Test",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26115",
+                "qtest_id": 138120497,
+                "name": "Verify Retrieve agent by valid ID",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26108",
+                "qtest_id": 138106833,
+                "name": "Verify Update Of Folder With Valid Data",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26114",
+                "qtest_id": 138120496,
+                "name": "Verify Retrieve all registered agents",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26107",
+                "qtest_id": 138106832,
+                "name": "Verify Successful Deletion Of Empty Folder",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26118",
+                "qtest_id": 138120500,
+                "name": "Verify Delete existing agent",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 17,
+            "automated_test_cases": 17,
+            "automation_coverage_percent": 100,
+            "with_attachments": 17,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26568",
+                "qtest_id": 138305398,
+                "name": "Verify Appeals Data Display On Initial Line Item Expansion",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26566",
+                "qtest_id": 138305395,
+                "name": "Verify Appeals Data Display On Line Item Page Navigation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26571",
+                "qtest_id": 138305403,
+                "name": "Verify No Data Found For Non-Appealed Line Items",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26569",
+                "qtest_id": 138305400,
+                "name": "Verify Appeals Data Display After Collapse And Re-Expand",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26570",
+                "qtest_id": 138305401,
+                "name": "Verify Appeals Data Display Across Multiple Environments",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26673",
+                "qtest_id": 138352551,
+                "name": "Verify Administrator Can Successfully Create Network Announcement With Popup On Login Enabled",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26671",
+                "qtest_id": 138351981,
+                "name": "Verify Announcement Popup Display On Fresh Login After Announcement Creation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26699",
+                "qtest_id": 138371394,
+                "name": "Verify No Announcement Popup On Page Refresh For Already Logged-In Users (Defect Verification)",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26676",
+                "qtest_id": 138352640,
+                "name": "Verify Cross-Browser Compatibility For Announcement Popup Display - Chrome, Firefox, Edge, Safari",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26578",
+                "qtest_id": 138305702,
+                "name": "Verify Citation Links Behavior For Matter With No Source Documents",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 45,
+            "automated_test_cases": 45,
+            "automation_coverage_percent": 100,
+            "with_attachments": 45,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26712",
+                "qtest_id": 138398783,
+                "name": "API - CaseAssessmentSearchGridSource - Network_id Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26703",
+                "qtest_id": 138398715,
+                "name": "API - CaseAssessmentSearchGridSource - Lawfirm User Access Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26702",
+                "qtest_id": 138398714,
+                "name": "API - CaseAssessmentSearchGridSource - NA User Access Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26714",
+                "qtest_id": 138399306,
+                "name": "API - CaseAssessments Erase - CaseAssessment ID Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26713",
+                "qtest_id": 138399305,
+                "name": "API - CaseAssessments Erase - Only SA Can Access",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26701",
+                "qtest_id": 138398711,
+                "name": "API - CaseAssessmentSearchGridSource - SA User Access Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26711",
+                "qtest_id": 138398740,
+                "name": "API - CaseAssessmentSearchGridSource - desc=true Reverses Data Order",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26710",
+                "qtest_id": 138398739,
+                "name": "API - CaseAssessmentSearchGridSource - Default Sort by ca_name",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26709",
+                "qtest_id": 138398737,
+                "name": "API - CaseAssessmentSearchGridSource - Pagination Last Record Validation",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26708",
+                "qtest_id": 138398736,
+                "name": "API - CaseAssessmentSearchGridSource - Default Take is 20",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 33,
+            "automated_test_cases": 33,
+            "automation_coverage_percent": 100,
+            "with_attachments": 33,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26427",
+                "qtest_id": 138258188,
+                "name": "Verify Enable Embedded AI service in user level permission and view GET AI Summary Icon",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26424",
+                "qtest_id": 138258184,
+                "name": "Verify unauthorized User Cannot Access Invoice AI Summary",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26419",
+                "qtest_id": 138258177,
+                "name": "Verify View Embedded AI Permission in visible in Services",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26418",
+                "qtest_id": 138258176,
+                "name": "Verify Invoice AI option is not available under services",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26421",
+                "qtest_id": 138258179,
+                "name": "Verify Enable/Disable Embedded AI Service ",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26420",
+                "qtest_id": 138258178,
+                "name": "Verify Assign Embedded AI Permission to Role",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26431",
+                "qtest_id": 138258194,
+                "name": "Verify Permission UI Renders Correctly Across Browsers",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26144",
+                "qtest_id": 138122714,
+                "name": "Verify Rapid Navigation Clicks Handle Correctly",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26149",
+                "qtest_id": 138122719,
+                "name": "Verify Flyout State Across Multiple Invoices",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26148",
+                "qtest_id": 138122718,
+                "name": "Verify Flyout Close Functionality",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "tests-covered-26.1.4",
+      "name": "Tests Covered - 26.1.4",
+      "category": "Quality",
+      "value": 212,
+      "unit": "test cases",
+      "automation_coverage": 10.8,
+      "generated": "2026-02-20",
+      "details": {
+        "sprint": "Sprint 26.1.4",
+        "module_id": 68289134,
+        "generated": "2026-02-20",
+        "summary": {
+          "total_test_cases": 212,
+          "total_automated": 23,
+          "total_with_attachments": 14,
+          "automation_coverage_percent": 10.8,
+          "teams_count": 6
+        },
+        "teams": {
+          "Chargers": {
+            "total_test_cases": 41,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26285",
+                "qtest_id": 138209485,
+                "name": "Verify user successfully logs into migrated network - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26286",
+                "qtest_id": 138209880,
+                "name": "Verify user successfully logs into non-migrated network - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26291",
+                "qtest_id": 138209945,
+                "name": "Verify case sensitivity in username validation - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26290",
+                "qtest_id": 138209940,
+                "name": "Verify login with special characters in username - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26289",
+                "qtest_id": 138209893,
+                "name": "Verify multiple failed login attempts trigger account lockout - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26287",
+                "qtest_id": 138209890,
+                "name": "Verify user login with invalid password on migrated network - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26288",
+                "qtest_id": 138209891,
+                "name": "Verify user login with non-existent username - Isaac",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26499",
+                "qtest_id": 138272509,
+                "name": "Verify DB Routing Feature flag - Toggle Off ",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26362",
+                "qtest_id": 138252893,
+                "name": "Verify deep link in Migrated network - WebApi",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26361",
+                "qtest_id": 138252892,
+                "name": "Verify user login with invalid password on migrated network - T360",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Chubb": {
+            "total_test_cases": 10,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26731",
+                "qtest_id": 138454432,
+                "name": "Verify alert message  on company's TK edit and map role page  when the  Restrict TK secure action is Disabled",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26050",
+                "qtest_id": 138089499,
+                "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Single Budget",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26729",
+                "qtest_id": 138453425,
+                "name": "Verify alert message under add members to company profile page with Restrict TK service enabled",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26878",
+                "qtest_id": 138655890,
+                "name": "Verify the invoice against the specific claim amount, including prior invoices, and then approve the current invoice.",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26053",
+                "qtest_id": 138089503,
+                "name": "Verify escalation popup should not available when service is disable",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26052",
+                "qtest_id": 138089502,
+                "name": "Verify the popup should close successfully when click on cancel button in escalation popup",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26051",
+                "qtest_id": 138089501,
+                "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Multiple Budget",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26879",
+                "qtest_id": 138655892,
+                "name": "Verify invoice approval beyond reviewer authorization without popup when “Network.Bypass Claim Authority Approval Process” is enabled, ensuring correct display of claim authority amount with prior and current invoices.",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26724",
+                "qtest_id": 138453419,
+                "name": "Verify alert message  on company's TK edit and map role page  when the  Restrict TK secure action is enabled",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26727",
+                "qtest_id": 138453422,
+                "name": "Verify alert message  for changing the billing rate on TK's role page  to the existing mapped role--Restrict TK Secure action is enabled",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Matrix": {
+            "total_test_cases": 23,
+            "automated_test_cases": 23,
+            "automation_coverage_percent": 100,
+            "with_attachments": 14,
+            "without_attachments": 9,
+            "test_cases": [
+              {
+                "id": "TC-26559",
+                "qtest_id": 138296300,
+                "name": "Verify Complete workflow deletion flow - cascading deletion",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26563",
+                "qtest_id": 138303981,
+                "name": "Verify Executor Role - Execute and View Only",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26562",
+                "qtest_id": 138303659,
+                "name": "Verify Admin Role - Full Access",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26564",
+                "qtest_id": 138304339,
+                "name": "Verify Read-Only Role - View Only Access",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26554",
+                "qtest_id": 138291947,
+                "name": "Verify View Scheduled Jobs List – UI",
+                "automated": true,
+                "has_attachment": true,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26791",
+                "qtest_id": 138498593,
+                "name": "Verify Creating a New Job using JOB SCHEDULER UI - CMD",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26793",
+                "qtest_id": 138498633,
+                "name": "Verify Creating a New Job using JOB SCHEDULER UI - VBS with PARAM",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26792",
+                "qtest_id": 138498602,
+                "name": "Verify Creating a New Job using JOB SCHEDULER UI - BAT",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26794",
+                "qtest_id": 138498634,
+                "name": "Verify Creating a New Job using JOB SCHEDULER UI - POWERSHELL",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26790",
+                "qtest_id": 138498557,
+                "name": "Verify Creating a New Job using JOB SCHEDULER UI - EXE with PARAM",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Mavericks": {
+            "total_test_cases": 1,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26552",
+                "qtest_id": 138291654,
+                "name": "Demo",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Nexus": {
+            "total_test_cases": 40,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26753",
+                "qtest_id": 138469410,
+                "name": "ASP user accesses Search All Case Assessments page when CA service is active",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26754",
+                "qtest_id": 138469411,
+                "name": "View all Case Assessments across matters",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26755",
+                "qtest_id": 138469412,
+                "name": "Filter Case Assessments by status",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26756",
+                "qtest_id": 138469413,
+                "name": "ASP user can access erase function for Case Assessments",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26757",
+                "qtest_id": 138469414,
+                "name": "Check CA status with valid color combination display in grid",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26758",
+                "qtest_id": 138469415,
+                "name": "Non-ASP user cannot perform erase operation",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26759",
+                "qtest_id": 138469416,
+                "name": "Cannot erase a Case Assessment that is already in Erased status",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26760",
+                "qtest_id": 138469417,
+                "name": "Prevent erase of CA with active engagement in Taskflow",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26761",
+                "qtest_id": 138469418,
+                "name": "Delete status is eliminated from filter options as it is not valid for CA",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26762",
+                "qtest_id": 138469419,
+                "name": "Apply multiple filters to search Case Assessments",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Vanguards": {
+            "total_test_cases": 97,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26219",
+                "qtest_id": 138149948,
+                "name": "Verify Browser Compatibility Across Firefox",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25742",
+                "qtest_id": 137946174,
+                "name": "Verify Citation Click Opens Reference Panel With Line Item Details",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25784",
+                "qtest_id": 137957928,
+                "name": "Verify Sequential Citation Numbering Within Each Insight",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26501",
+                "qtest_id": 138277160,
+                "name": "Retrieve invoices for a matter with various configurations",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26528",
+                "qtest_id": 138279713,
+                "name": "Invoice List - Sort by billed total descending",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25783",
+                "qtest_id": 137957925,
+                "name": "Verify Line Items Under Other Invoices Are Non-Clickable In Citation Panel",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25902",
+                "qtest_id": 137965081,
+                "name": "Keyboard navigation through citations - WCAG AA",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26430",
+                "qtest_id": 138258193,
+                "name": "TC-GET62673-013: Permission Check Response Time Performance",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25746",
+                "qtest_id": 137946388,
+                "name": "Verify Other Invoice IDs Display As Clickable Links In Citation Panel",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26432",
+                "qtest_id": 138258195,
+                "name": "TC-GET62673-015: Keyboard Navigation and Accessibility Compliance",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "id": "tests-covered-26.1.6",
+      "name": "Tests Covered - 26.1.6",
+      "category": "Quality",
+      "value": 48,
+      "unit": "test cases",
+      "automation_coverage": 8.3,
+      "generated": "2026-02-20",
+      "details": {
+        "sprint": "Sprint 26.1.6",
+        "module_id": 68341070,
+        "generated": "2026-02-20",
+        "summary": {
+          "total_test_cases": 48,
+          "total_automated": 4,
+          "total_with_attachments": 1,
+          "automation_coverage_percent": 8.3,
+          "teams_count": 3
+        },
+        "teams": {
+          "[Last Sprint Cases] Case Assessment Facet Page  for Legal-collaborator to Display Case Assessment Data": {
+            "total_test_cases": 4,
+            "automated_test_cases": 3,
+            "automation_coverage_percent": 75,
+            "with_attachments": 0,
+            "without_attachments": 3,
+            "test_cases": [
+              {
+                "id": "TC-24685",
+                "qtest_id": 137149697,
+                "name": "Facet page displays 'Case Assessments' with correct columns invalid user",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-25279",
+                "qtest_id": 137302969,
+                "name": "Verify Case Assessment Facet New Permission",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24677",
+                "qtest_id": 137149643,
+                "name": "Create 'Case Assessments' using Non-Office network",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24170",
+                "qtest_id": 136947630,
+                "name": "Verify Case Assessments With Lead Timekeeper Assignment With Valid Panel-Invalid Scenario",
+                "automated": true,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Undo Button Requires Multiple Clicks": {
+            "total_test_cases": 19,
+            "automated_test_cases": 0,
+            "automation_coverage_percent": 0,
+            "with_attachments": 0,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-24383",
+                "qtest_id": 136991849,
+                "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Line Item Window",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24378",
+                "qtest_id": 136991721,
+                "name": "Verify Undo Operations Work On First Click After Line Adjustment in Line item Pop window",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24214",
+                "qtest_id": 136955630,
+                "name": "Verify Multiple Consecutive Undo Operations Work Without Double-Click Bug in Summary Page",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24851",
+                "qtest_id": 137167141,
+                "name": "Verify Grid View Toggle and Functionality for Work Area Component",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24382",
+                "qtest_id": 136991842,
+                "name": "Verify Reject Single Line Item Operation with Undo Functionality in  New Line Item Window",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24852",
+                "qtest_id": 137167143,
+                "name": "Verify Pop-over Tree Component Opening for Organization Unit Component",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24255",
+                "qtest_id": 136958403,
+                "name": "Verify View All, Export Excel and Edit Column Functions Work After Undo Operations in New Line Item Window",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24850",
+                "qtest_id": 137167137,
+                "name": "Verify Tree View Navigation and Item Selection for Work Area Component",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24209",
+                "qtest_id": 136955556,
+                "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Summary Page",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-24847",
+                "qtest_id": 137167104,
+                "name": "Verify Global Search Respects Row-Level Security For Invoice Visibility",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          },
+          "Untitled": {
+            "total_test_cases": 25,
+            "automated_test_cases": 1,
+            "automation_coverage_percent": 4,
+            "with_attachments": 1,
+            "without_attachments": 0,
+            "test_cases": [
+              {
+                "id": "TC-26170",
+                "qtest_id": 138124219,
+                "name": "Verify Update non-existent job",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26176",
+                "qtest_id": 138126459,
+                "name": "Verify Update schedule with valid data",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26175",
+                "qtest_id": 138126458,
+                "name": "Verify Create schedule with invalid jobData",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26169",
+                "qtest_id": 138124218,
+                "name": "Verify Update job with valid data",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26168",
+                "qtest_id": 138124217,
+                "name": "Verify Create job with non-existent job type",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26174",
+                "qtest_id": 138126457,
+                "name": "Verify Create schedule missing name",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26167",
+                "qtest_id": 138124216,
+                "name": "Verify Create job missing agentId",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26173",
+                "qtest_id": 138126456,
+                "name": "Verify Create schedule with valid data",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26180",
+                "qtest_id": 138126463,
+                "name": "Verify Describe invalid CRON - text",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              },
+              {
+                "id": "TC-26179",
+                "qtest_id": 138126462,
+                "name": "Verify Get description for valid CRON",
+                "automated": false,
+                "has_attachment": false,
+                "status": "Unknown"
+              }
+            ]
+          }
+        }
+      }
     }
   ],
   "testCases": [],
   "tests_covered": {
     "26.1.1": {
-      "sprint": "26.1.1",
+      "sprint": "Sprint 26.1.1",
       "module_id": 68209713,
-      "generated": "2026-02-06",
+      "generated": "2026-02-20",
       "summary": {
-        "total_test_cases": 0,
-        "total_automated": 0,
-        "total_with_attachments": 0,
-        "automation_coverage_percent": 0,
-        "teams_count": 0
-      },
-      "teams": {}
-    },
-    "26.1.2": {
-      "sprint": "26.1.2",
-      "module_id": 68209714,
-      "generated": "2026-02-06",
-      "summary": {
-        "total_test_cases": 345,
-        "total_automated": 287,
-        "total_with_attachments": 287,
-        "automation_coverage_percent": 83.2,
-        "teams_count": 5
+        "total_test_cases": 143,
+        "total_automated": 142,
+        "total_with_attachments": 142,
+        "automation_coverage_percent": 99.3,
+        "teams_count": 6
       },
       "teams": {
-        "Chubb": {
-          "total_test_cases": 67,
-          "automated_test_cases": 58,
-          "automation_coverage_percent": 86.6,
-          "with_attachments": 58,
-          "without_attachments": 9,
+        "Chargers": {
+          "total_test_cases": 3,
+          "automated_test_cases": 2,
+          "automation_coverage_percent": 66.7,
+          "with_attachments": 2,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-CHUBB-001",
-              "qtest_id": 1001,
-              "name": "Login with valid credentials",
+              "id": "TC-25953",
+              "qtest_id": 137988444,
+              "name": "Verify Dual Write Off Mode - Document Migration",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-CHUBB-002",
-              "qtest_id": 1002,
-              "name": "Create new policy",
+              "id": "TC-25954",
+              "qtest_id": 137988532,
+              "name": "Verify Dual Write On Mode - Document Migration",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-CHUBB-003",
-              "qtest_id": 1003,
-              "name": "Update policy details",
+              "id": "TC-25970",
+              "qtest_id": 138006928,
+              "name": "Verify [T360 Modernization] -Upgrade Templates to .NET 9.0",
               "automated": false,
-              "status": "Active"
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Chubb": {
+          "total_test_cases": 17,
+          "automated_test_cases": 17,
+          "automation_coverage_percent": 100,
+          "with_attachments": 17,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-25725",
+              "qtest_id": 137944979,
+              "name": "Verify Affiliated Vendor uses Data Exchange to associate with the different law firms on a matter at the same time.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25703",
+              "qtest_id": 137935209,
+              "name": "Verify action under Invoice Authority Approval Service \"Network.Bypass Claim Authority Approval Process\" listed under \"Invoice Authority Approval\"",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25915",
+              "qtest_id": 137970632,
+              "name": "Verify itp rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\"   triggers for hours less than parameter when LI configured as Yes under parameter",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25926",
+              "qtest_id": 137971339,
+              "name": "Verify itp rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\" configured at multiple times with different parameters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25704",
+              "qtest_id": 137935210,
+              "name": "Verify the \"Bypass Claim Authority Approval Process\" Permission edit. (acontrol)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25700",
+              "qtest_id": 137933451,
+              "name": "Verify Affiliated Vendor using Data Exchange when associating to multiple law firms on a matter",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25705",
+              "qtest_id": 137935211,
+              "name": "Verify that Service action \"Network.Bypass Claim Authority Approval Process\" is disable",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25701",
+              "qtest_id": 137933452,
+              "name": "Verify the error message when an Affiliated Vendor uses Data Exchange to associate with the same law firms on a matter.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25702",
+              "qtest_id": 137933453,
+              "name": "Verify error message that an Affiliated Vendor uses Data Exchange to associate with the same law firms on a matter at the same time.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25916",
+              "qtest_id": 137970671,
+              "name": "Verify ITP rule \"Timekeeper cannot work more than {Number} of hours across all matters in one day Include or exclude specified companies\" triggers when hours exceeds the parameter When LI configured as No under Parameter",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
             }
           ]
         },
         "Matrix": {
-          "total_test_cases": 72,
-          "automated_test_cases": 61,
-          "automation_coverage_percent": 84.7,
-          "with_attachments": 61,
-          "without_attachments": 11,
+          "total_test_cases": 14,
+          "automated_test_cases": 14,
+          "automation_coverage_percent": 100,
+          "with_attachments": 14,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-MATRIX-001",
-              "qtest_id": 2001,
-              "name": "SSO authentication flow",
+              "id": "TC-25723",
+              "qtest_id": 137944889,
+              "name": "Verify Menu is not visible when service is enabled and User is non-Internal (Client) user",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-MATRIX-002",
-              "qtest_id": 2002,
-              "name": "Angular scheduler component",
+              "id": "TC-25724",
+              "qtest_id": 137944890,
+              "name": "Verify Menu is visible only when service is disabled and User is non-Internal (Client) - Client user",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-MATRIX-003",
-              "qtest_id": 2003,
-              "name": "Delete scheduled item",
+              "id": "TC-25785",
+              "qtest_id": 137957930,
+              "name": "Verify Menu is not visible when service is enabled and User is TPA user",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26000",
+              "qtest_id": 138044985,
+              "name": "Verify Menu is visible when service is enabled and User is ASP user but not a system admin/with no view permission",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25781",
+              "qtest_id": 137957921,
+              "name": "Verify Menu is not visible when service is enabled and User is Lawfirm user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25722",
+              "qtest_id": 137944850,
+              "name": "Verify Menu is visible only when service is disabled and User is Internal (ASP) user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25716",
+              "qtest_id": 137942579,
+              "name": "Verify Menu is visible only when service is enabled and User is Internal (ASP) user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25780",
+              "qtest_id": 137957077,
+              "name": " Verify Menu is visible only when service is enabled and not in cross network",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25786",
+              "qtest_id": 137957959,
+              "name": "Verify Menu is visible when service is enabled and User is ASP user but not a system admin",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25989",
+              "qtest_id": 138034984,
+              "name": "Verify the data in Job table from Scheduler DB",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
             }
           ]
         },
         "Mavericks": {
-          "total_test_cases": 68,
-          "automated_test_cases": 56,
-          "automation_coverage_percent": 82.4,
-          "with_attachments": 56,
-          "without_attachments": 12,
+          "total_test_cases": 21,
+          "automated_test_cases": 21,
+          "automation_coverage_percent": 100,
+          "with_attachments": 21,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-MAV-001",
-              "qtest_id": 3001,
-              "name": "AFA amount adjustment validation",
+              "id": "TC-25697",
+              "qtest_id": 137916993,
+              "name": "Verify AI Assistant Label Display for Multiple User Roles and Functional Regression",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-MAV-002",
-              "qtest_id": 3002,
-              "name": "Time period editing",
+              "id": "TC-25698",
+              "qtest_id": 137916994,
+              "name": "Verify AI Assistant Label Handling During Session Expiration and Browser Navigation Edge Cases",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-MAV-003",
-              "qtest_id": 3003,
-              "name": "AI Console UI updates",
-              "automated": false,
-              "status": "Active"
+              "id": "TC-25693",
+              "qtest_id": 137916987,
+              "name": "Verify AI Assistant Label Display After Successful Login and Matter Navigation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25694",
+              "qtest_id": 137916988,
+              "name": "Verify AI Assistant Label Consistency Across Multiple Matters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25696",
+              "qtest_id": 137916990,
+              "name": "Verify AI Assistant Label Browser Compatibility and Zoom Level Responsiveness",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25965",
+              "qtest_id": 138004449,
+              "name": "Verify Global Search Handles Query Modification With Special Characters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25964",
+              "qtest_id": 138004448,
+              "name": "Verify Global Search Shows No Results Message For Non-Matching Special Characters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25967",
+              "qtest_id": 138004452,
+              "name": "Verify Global Search With Maximum Special Characters Query",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25963",
+              "qtest_id": 138004447,
+              "name": "Verify Spinner Stops And Displays Invoice Results In Global Search",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25962",
+              "qtest_id": 138004446,
+              "name": "Verify Global Search Loads Results For Query With Special Characters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
             }
           ]
         },
         "Nexus": {
-          "total_test_cases": 70,
-          "automated_test_cases": 58,
-          "automation_coverage_percent": 82.9,
-          "with_attachments": 58,
-          "without_attachments": 12,
+          "total_test_cases": 29,
+          "automated_test_cases": 29,
+          "automation_coverage_percent": 100,
+          "with_attachments": 29,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-NEX-001",
-              "qtest_id": 4001,
-              "name": "Export to Excel validation",
+              "id": "TC-25981",
+              "qtest_id": 138028123,
+              "name": "Verify Create New Matter with CA then Remove Company",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-NEX-002",
-              "qtest_id": 4002,
-              "name": "Search performance optimization",
+              "id": "TC-25982",
+              "qtest_id": 138028126,
+              "name": "Verify Create New Matter with CA then Change TK",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-NEX-003",
-              "qtest_id": 4003,
-              "name": "Token claims validation",
+              "id": "TC-25985",
+              "qtest_id": 138028142,
+              "name": "Verify Edit Company with Same Timekeeper - No CA Changes Should Occur (No-Op)",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25986",
+              "qtest_id": 138028143,
+              "name": "Verify Add Multiple Companies - Remove One Company and Change TK of Another",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25984",
+              "qtest_id": 138028130,
+              "name": "Verify Disable TK Service - Create Matter Company - Enable Service - Add TK to Existing Company",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25987",
+              "qtest_id": 138028144,
+              "name": "Verify Export to Excel After CA Cancellation - Verify Cancelled Status in Export",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25983",
+              "qtest_id": 138028129,
+              "name": "Verify Change Panel - CA Cancelled and New CA Created with New Panel (Reversible)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25946",
+              "qtest_id": 137979257,
+              "name": "Law firm company user with billing administration role creates Case Assessment",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24690",
+              "qtest_id": 137150092,
+              "name": "Manual Case Assessment creation for multiple companies",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25277",
+              "qtest_id": 137302845,
+              "name": "Create 'Case Assessments' when the lawfirm having active budget",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
             }
           ]
         },
         "Vanguards": {
-          "total_test_cases": 68,
-          "automated_test_cases": 54,
-          "automation_coverage_percent": 79.4,
-          "with_attachments": 54,
-          "without_attachments": 14,
+          "total_test_cases": 59,
+          "automated_test_cases": 59,
+          "automation_coverage_percent": 100,
+          "with_attachments": 59,
+          "without_attachments": 0,
           "test_cases": [
             {
-              "id": "TC-VAN-001",
-              "qtest_id": 5001,
-              "name": "Invoice AI - Line Item ID",
+              "id": "TC-25971",
+              "qtest_id": 138011160,
+              "name": "Verify Password Input With Unicode Characters in Edge- Browser Compatibility",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-VAN-002",
-              "qtest_id": 5002,
-              "name": "Invoice AI Citations",
+              "id": "TC-25657",
+              "qtest_id": 137817525,
+              "name": "Verify Password Creation With International Punctuation Marks",
               "automated": true,
-              "status": "Active"
+              "has_attachment": true,
+              "status": "Unknown"
             },
             {
-              "id": "TC-VAN-003",
-              "qtest_id": 5003,
-              "name": "Citations to Interactive Links",
+              "id": "TC-25669",
+              "qtest_id": 137817683,
+              "name": "Verify Password Validation At Minimum Length With Unicode Special Characters - Boundary Value",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25684",
+              "qtest_id": 137829535,
+              "name": "Verify Buffer Overflow Prevention With Long Unicode Sequences - Security",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25677",
+              "qtest_id": 137824287,
+              "name": "Verify Unicode Injection Attack Prevention - Security",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25654",
+              "qtest_id": 137817498,
+              "name": "Verify Password Creation With Unicode Emoji Symbols",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25662",
+              "qtest_id": 137817560,
+              "name": "Verify Password Rejection With Insufficient Special Characters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25670",
+              "qtest_id": 137817688,
+              "name": "Verify Password Validation With Combining Unicode Characters - Edge Case",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25659",
+              "qtest_id": 137817543,
+              "name": "Verify Password Creation With Multiple Emoji Characters",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25680",
+              "qtest_id": 137829478,
+              "name": "Verify Password Validation With Zero Special Character Requirement - Boundary Value",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        }
+      }
+    },
+    "26.1.2": {
+      "sprint": "Sprint 26.1.2",
+      "module_id": 68209714,
+      "generated": "2026-02-20",
+      "summary": {
+        "total_test_cases": 92,
+        "total_automated": 90,
+        "total_with_attachments": 90,
+        "automation_coverage_percent": 97.8,
+        "teams_count": 5
+      },
+      "teams": {
+        "Chubb": {
+          "total_test_cases": 11,
+          "automated_test_cases": 11,
+          "automation_coverage_percent": 100,
+          "with_attachments": 11,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26088",
+              "qtest_id": 138102361,
+              "name": "Verify that the reviewer can't able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters with same WA. When the Network.Bypass Claim Authority Approval Process\" is not enabled.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26087",
+              "qtest_id": 138102360,
+              "name": "Verify that the reviewer can't approve invoices exceeding their authorization amount and popup should appears when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26082",
+              "qtest_id": 138092095,
+              "name": "Verify that the reviewer is able to approve an invoice that exceeds their authorization amount when the invoice is submitted through multiple matters. when the Network.Bypass Claim Authority Approval Process\" is enabled.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26095",
+              "qtest_id": 138104259,
+              "name": "Verify that Service action \"Network.Restrict LeadTimekeeper Rate Greater than $0\" is disable",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26080",
+              "qtest_id": 138091539,
+              "name": "Verify that the reviewer can approve invoices exceeding their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is enabled.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26094",
+              "qtest_id": 138104258,
+              "name": "Verify the \"Restrict LeadTimekeeper Rate Greater than $0\" Permission edit. (acontrol)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26093",
+              "qtest_id": 138104257,
+              "name": "Verify action under Lead TimeKeeper Service \"Network.Restrict LeadTimekeeper Rate Greater than $0\"",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26092",
+              "qtest_id": 138103495,
+              "name": "Verify Authority Amount Increase Request PopUp When The \"Network.Bypass Claim Authority Approval Process\" Service Is Enabled But Permission Is Disabled In User Level.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26086",
+              "qtest_id": 138102359,
+              "name": "Verify that the reviewer can approve invoices below their authorization amount and popup should not appears. when the \"Network.Bypass Claim Authority Approval Process\" services is not enabled.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26096",
+              "qtest_id": 138104262,
+              "name": "Verify that the ‘Restrict LeadTimekeeper Rate Greater than $0\"’ option is only available for Lead TimeKeeper and not for any other service.",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Matrix": {
+          "total_test_cases": 6,
+          "automated_test_cases": 6,
+          "automation_coverage_percent": 100,
+          "with_attachments": 6,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26084",
+              "qtest_id": 138093070,
+              "name": " Verify Active Microsoft SSO Session",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26089",
+              "qtest_id": 138103058,
+              "name": " Verify Non - Active Microsoft SSO Session",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26085",
+              "qtest_id": 138093428,
+              "name": " Verify Microsoft SSO login with non-User",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26025",
+              "qtest_id": 138077871,
+              "name": "Verify View Scheduled Jobs List – UI",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26023",
+              "qtest_id": 138076912,
+              "name": "Verify Delete Scheduled Job with Confirmation (UI)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26024",
+              "qtest_id": 138077224,
+              "name": "Verify Trigger Scheduled Job Execution (Run Now) – UI",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Mavericks": {
+          "total_test_cases": 9,
+          "automated_test_cases": 9,
+          "automation_coverage_percent": 100,
+          "with_attachments": 9,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26201",
+              "qtest_id": 138149714,
+              "name": "Verify ITP Rule Creation With Valid Matter Number And Adjustment Amount",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26226",
+              "qtest_id": 138178897,
+              "name": "Verify AFA Creation With Same Start And End Date (Single Day Range)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26099",
+              "qtest_id": 138104326,
+              "name": "Verify AFA Edit Blocked When Modifying Dates To Overlap Existing AFA",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26098",
+              "qtest_id": 138104325,
+              "name": "Verify AFA Creation Blocked When Date Range Overlaps Existing AFA",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26097",
+              "qtest_id": 138104324,
+              "name": "Verify AFA Creation With Valid Non-Overlapping Date Range",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26193",
+              "qtest_id": 138147296,
+              "name": "Verify Clear All Filters Edge Cases and No Filters Applied",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26197",
+              "qtest_id": 138148208,
+              "name": "Verify Error Message Display for Empty Required Field Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26192",
+              "qtest_id": 138147292,
+              "name": "Verify Clear All Filters With Multiple Filters Applied",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26195",
+              "qtest_id": 138147300,
+              "name": "Verify Error Message Display For Required Field Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Nexus": {
+          "total_test_cases": 34,
+          "automated_test_cases": 34,
+          "automation_coverage_percent": 100,
+          "with_attachments": 34,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26064",
+              "qtest_id": 138090277,
+              "name": "Export Budget Template to Excel with budget data via Add Budget navigation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26068",
+              "qtest_id": 138090309,
+              "name": "Export Budget Template with zero budget codes (empty template)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26065",
+              "qtest_id": 138090292,
+              "name": "Export Budget Template without budget data via Add Budget through Matter navigation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26026",
+              "qtest_id": 138082303,
+              "name": "Verify Pagination Check - Search All Invoices Beta",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26027",
+              "qtest_id": 138082348,
+              "name": "Verify Pagination with Filter Application - Search All Invoices Beta",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26249",
+              "qtest_id": 138195628,
+              "name": "Verify 'Case Assessments' when the lawfirm company having only unique  Billing Administartion Role user & unque Lead Time keeper role user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26250",
+              "qtest_id": 138195629,
+              "name": "Create 'Case Assessments' when the lawfirm company having only unique  CAM Role user & unque Lead Time keeper role user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26252",
+              "qtest_id": 138195631,
+              "name": "Create 'Case Assessments' when the lawfirm company having unique  Billing Administartion Role user, unique  CAM role user  & unique Lead Time keeper role user",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26276",
+              "qtest_id": 138202314,
+              "name": "Create 'Case Assessments' when the lawfirm company does not having  Billing Administartion Role ,  CAM role  &   Lead Time keeper role",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26277",
+              "qtest_id": 138202330,
+              "name": "Create 'Case Assessments' when the lawfirm company  one user having  Billing Administartion Role ,  CAM role  &   Lead Time keeper role",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Vanguards": {
+          "total_test_cases": 32,
+          "automated_test_cases": 30,
+          "automation_coverage_percent": 93.8,
+          "with_attachments": 30,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26121",
+              "qtest_id": 138121035,
+              "name": "Verify Citation Reference Panel Opens with Correct Data",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26120",
+              "qtest_id": 138121034,
+              "name": "Verify AI Summary Flyout Opens and Displays All Sections",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26124",
+              "qtest_id": 138121039,
+              "name": "Verify Navigation to Other Invoice from Citation Panel",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26134",
+              "qtest_id": 138121294,
+              "name": "Verify AI Summary Flyout Close and Reopen Functionality",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26123",
+              "qtest_id": 138121038,
+              "name": "Verify Line Item Popup Close Mechanisms",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26135",
+              "qtest_id": 138121405,
+              "name": "Verify Citation Panel with Mixed Multi-Invoice Sources",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26122",
+              "qtest_id": 138121037,
+              "name": "Verify Line Item Popup Opens and Displays Details for Current Invoice",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26218",
+              "qtest_id": 138149947,
+              "name": "Verify Browser Compatibility Across Chrome",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26128",
+              "qtest_id": 138121043,
+              "name": "Verify Browser Compatibility Across Edge",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26127",
+              "qtest_id": 138121042,
+              "name": "Verify Keyboard Navigation and Accessibility",
               "automated": false,
-              "status": "Active"
+              "has_attachment": false,
+              "status": "Unknown"
             }
           ]
         }
       }
     },
     "26.1.3": {
-      "sprint": "26.1.3",
+      "sprint": "Sprint 26.1.3",
       "module_id": 68209719,
-      "generated": "2026-02-06",
+      "generated": "2026-02-20",
       "summary": {
-        "total_test_cases": 0,
-        "total_automated": 0,
-        "total_with_attachments": 0,
-        "automation_coverage_percent": 0,
-        "teams_count": 0
+        "total_test_cases": 123,
+        "total_automated": 123,
+        "total_with_attachments": 123,
+        "automation_coverage_percent": 100,
+        "teams_count": 5
       },
-      "teams": {}
+      "teams": {
+        "Chubb": {
+          "total_test_cases": 18,
+          "automated_test_cases": 18,
+          "automation_coverage_percent": 100,
+          "with_attachments": 18,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26481",
+              "qtest_id": 138268540,
+              "name": "Verify alert message should display for changing the billing rate is greater than $0 to the existing user secure action is enabled",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26341",
+              "qtest_id": 138222815,
+              "name": "Verify that the ITP rule is not triggered when the matter with Vendor and Affiliated Vendor",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26340",
+              "qtest_id": 138222814,
+              "name": "Verify that the ITP rule “Line Item Service Dates Must Not Overlap” is triggered when the invoice date falls within the validated service date range",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26548",
+              "qtest_id": 138290874,
+              "name": "Verify Invoice status sends to processing when the reviewer can approve invoices exceeding their authorization amount and popup should not appears noted only one reviewer on the review route",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26478",
+              "qtest_id": 138268536,
+              "name": "Verify alert message should not display while creating the new user with billing rate is equal to $0 when the secure action is enabled",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26480",
+              "qtest_id": 138268539,
+              "name": "Verify alert message should display while creating the new user with billing rate is greater than $0 when the secure action is enabled",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26479",
+              "qtest_id": 138268538,
+              "name": "Verify alert message should not display for changing the billing rate is eual to $0 to the existing user secure action is enabled",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26549",
+              "qtest_id": 138290901,
+              "name": "Verify Invoice status sends to next reviewer when the first  reviewer can approve invoices exceeding their authorization amount and popup should not appears noted only one reviewer on the review route",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26498",
+              "qtest_id": 138272397,
+              "name": "Verify alert message should not display for changing the billing rate is greater than $0 to the existing user secure action is disable",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26497",
+              "qtest_id": 138272396,
+              "name": "Verify alert message should not display while creating the new user with billing rate is greater than $0 when the secure action is disable",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Matrix": {
+          "total_test_cases": 10,
+          "automated_test_cases": 10,
+          "automation_coverage_percent": 100,
+          "with_attachments": 10,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26113",
+              "qtest_id": 138120495,
+              "name": "Verify Update heartbeat for non-existent agent",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26105",
+              "qtest_id": 138106830,
+              "name": "Verify Creation Of Folder With Valid Data",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26112",
+              "qtest_id": 138120494,
+              "name": "Verify Register new agent with valid data",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26116",
+              "qtest_id": 138120498,
+              "name": "Verify Retrieve agent with non-existent ID",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26109",
+              "qtest_id": 138106834,
+              "name": "Verify Update Fails For Non-Existent Folder - Negative Test",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26115",
+              "qtest_id": 138120497,
+              "name": "Verify Retrieve agent by valid ID",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26108",
+              "qtest_id": 138106833,
+              "name": "Verify Update Of Folder With Valid Data",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26114",
+              "qtest_id": 138120496,
+              "name": "Verify Retrieve all registered agents",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26107",
+              "qtest_id": 138106832,
+              "name": "Verify Successful Deletion Of Empty Folder",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26118",
+              "qtest_id": 138120500,
+              "name": "Verify Delete existing agent",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Mavericks": {
+          "total_test_cases": 17,
+          "automated_test_cases": 17,
+          "automation_coverage_percent": 100,
+          "with_attachments": 17,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26568",
+              "qtest_id": 138305398,
+              "name": "Verify Appeals Data Display On Initial Line Item Expansion",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26566",
+              "qtest_id": 138305395,
+              "name": "Verify Appeals Data Display On Line Item Page Navigation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26571",
+              "qtest_id": 138305403,
+              "name": "Verify No Data Found For Non-Appealed Line Items",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26569",
+              "qtest_id": 138305400,
+              "name": "Verify Appeals Data Display After Collapse And Re-Expand",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26570",
+              "qtest_id": 138305401,
+              "name": "Verify Appeals Data Display Across Multiple Environments",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26673",
+              "qtest_id": 138352551,
+              "name": "Verify Administrator Can Successfully Create Network Announcement With Popup On Login Enabled",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26671",
+              "qtest_id": 138351981,
+              "name": "Verify Announcement Popup Display On Fresh Login After Announcement Creation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26699",
+              "qtest_id": 138371394,
+              "name": "Verify No Announcement Popup On Page Refresh For Already Logged-In Users (Defect Verification)",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26676",
+              "qtest_id": 138352640,
+              "name": "Verify Cross-Browser Compatibility For Announcement Popup Display - Chrome, Firefox, Edge, Safari",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26578",
+              "qtest_id": 138305702,
+              "name": "Verify Citation Links Behavior For Matter With No Source Documents",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Nexus": {
+          "total_test_cases": 45,
+          "automated_test_cases": 45,
+          "automation_coverage_percent": 100,
+          "with_attachments": 45,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26712",
+              "qtest_id": 138398783,
+              "name": "API - CaseAssessmentSearchGridSource - Network_id Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26703",
+              "qtest_id": 138398715,
+              "name": "API - CaseAssessmentSearchGridSource - Lawfirm User Access Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26702",
+              "qtest_id": 138398714,
+              "name": "API - CaseAssessmentSearchGridSource - NA User Access Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26714",
+              "qtest_id": 138399306,
+              "name": "API - CaseAssessments Erase - CaseAssessment ID Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26713",
+              "qtest_id": 138399305,
+              "name": "API - CaseAssessments Erase - Only SA Can Access",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26701",
+              "qtest_id": 138398711,
+              "name": "API - CaseAssessmentSearchGridSource - SA User Access Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26711",
+              "qtest_id": 138398740,
+              "name": "API - CaseAssessmentSearchGridSource - desc=true Reverses Data Order",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26710",
+              "qtest_id": 138398739,
+              "name": "API - CaseAssessmentSearchGridSource - Default Sort by ca_name",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26709",
+              "qtest_id": 138398737,
+              "name": "API - CaseAssessmentSearchGridSource - Pagination Last Record Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26708",
+              "qtest_id": 138398736,
+              "name": "API - CaseAssessmentSearchGridSource - Default Take is 20",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Vanguards": {
+          "total_test_cases": 33,
+          "automated_test_cases": 33,
+          "automation_coverage_percent": 100,
+          "with_attachments": 33,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26427",
+              "qtest_id": 138258188,
+              "name": "Verify Enable Embedded AI service in user level permission and view GET AI Summary Icon",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26424",
+              "qtest_id": 138258184,
+              "name": "Verify unauthorized User Cannot Access Invoice AI Summary",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26419",
+              "qtest_id": 138258177,
+              "name": "Verify View Embedded AI Permission in visible in Services",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26418",
+              "qtest_id": 138258176,
+              "name": "Verify Invoice AI option is not available under services",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26421",
+              "qtest_id": 138258179,
+              "name": "Verify Enable/Disable Embedded AI Service ",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26420",
+              "qtest_id": 138258178,
+              "name": "Verify Assign Embedded AI Permission to Role",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26431",
+              "qtest_id": 138258194,
+              "name": "Verify Permission UI Renders Correctly Across Browsers",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26144",
+              "qtest_id": 138122714,
+              "name": "Verify Rapid Navigation Clicks Handle Correctly",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26149",
+              "qtest_id": 138122719,
+              "name": "Verify Flyout State Across Multiple Invoices",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26148",
+              "qtest_id": 138122718,
+              "name": "Verify Flyout Close Functionality",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        }
+      }
+    },
+    "26.1.4": {
+      "sprint": "Sprint 26.1.4",
+      "module_id": 68289134,
+      "generated": "2026-02-20",
+      "summary": {
+        "total_test_cases": 212,
+        "total_automated": 23,
+        "total_with_attachments": 14,
+        "automation_coverage_percent": 10.8,
+        "teams_count": 6
+      },
+      "teams": {
+        "Chargers": {
+          "total_test_cases": 41,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26285",
+              "qtest_id": 138209485,
+              "name": "Verify user successfully logs into migrated network - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26286",
+              "qtest_id": 138209880,
+              "name": "Verify user successfully logs into non-migrated network - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26291",
+              "qtest_id": 138209945,
+              "name": "Verify case sensitivity in username validation - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26290",
+              "qtest_id": 138209940,
+              "name": "Verify login with special characters in username - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26289",
+              "qtest_id": 138209893,
+              "name": "Verify multiple failed login attempts trigger account lockout - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26287",
+              "qtest_id": 138209890,
+              "name": "Verify user login with invalid password on migrated network - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26288",
+              "qtest_id": 138209891,
+              "name": "Verify user login with non-existent username - Isaac",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26499",
+              "qtest_id": 138272509,
+              "name": "Verify DB Routing Feature flag - Toggle Off ",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26362",
+              "qtest_id": 138252893,
+              "name": "Verify deep link in Migrated network - WebApi",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26361",
+              "qtest_id": 138252892,
+              "name": "Verify user login with invalid password on migrated network - T360",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Chubb": {
+          "total_test_cases": 10,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26731",
+              "qtest_id": 138454432,
+              "name": "Verify alert message  on company's TK edit and map role page  when the  Restrict TK secure action is Disabled",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26050",
+              "qtest_id": 138089499,
+              "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Single Budget",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26729",
+              "qtest_id": 138453425,
+              "name": "Verify alert message under add members to company profile page with Restrict TK service enabled",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26878",
+              "qtest_id": 138655890,
+              "name": "Verify the invoice against the specific claim amount, including prior invoices, and then approve the current invoice.",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26053",
+              "qtest_id": 138089503,
+              "name": "Verify escalation popup should not available when service is disable",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26052",
+              "qtest_id": 138089502,
+              "name": "Verify the popup should close successfully when click on cancel button in escalation popup",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26051",
+              "qtest_id": 138089501,
+              "name": "Verify Warning Popup When User Is the Final Reviewer but Lacks Sufficient Authorization to Approve the Selected Multiple Budget",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26879",
+              "qtest_id": 138655892,
+              "name": "Verify invoice approval beyond reviewer authorization without popup when “Network.Bypass Claim Authority Approval Process” is enabled, ensuring correct display of claim authority amount with prior and current invoices.",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26724",
+              "qtest_id": 138453419,
+              "name": "Verify alert message  on company's TK edit and map role page  when the  Restrict TK secure action is enabled",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26727",
+              "qtest_id": 138453422,
+              "name": "Verify alert message  for changing the billing rate on TK's role page  to the existing mapped role--Restrict TK Secure action is enabled",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Matrix": {
+          "total_test_cases": 23,
+          "automated_test_cases": 23,
+          "automation_coverage_percent": 100,
+          "with_attachments": 14,
+          "without_attachments": 9,
+          "test_cases": [
+            {
+              "id": "TC-26559",
+              "qtest_id": 138296300,
+              "name": "Verify Complete workflow deletion flow - cascading deletion",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26563",
+              "qtest_id": 138303981,
+              "name": "Verify Executor Role - Execute and View Only",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26562",
+              "qtest_id": 138303659,
+              "name": "Verify Admin Role - Full Access",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26564",
+              "qtest_id": 138304339,
+              "name": "Verify Read-Only Role - View Only Access",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26554",
+              "qtest_id": 138291947,
+              "name": "Verify View Scheduled Jobs List – UI",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26791",
+              "qtest_id": 138498593,
+              "name": "Verify Creating a New Job using JOB SCHEDULER UI - CMD",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26793",
+              "qtest_id": 138498633,
+              "name": "Verify Creating a New Job using JOB SCHEDULER UI - VBS with PARAM",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26792",
+              "qtest_id": 138498602,
+              "name": "Verify Creating a New Job using JOB SCHEDULER UI - BAT",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26794",
+              "qtest_id": 138498634,
+              "name": "Verify Creating a New Job using JOB SCHEDULER UI - POWERSHELL",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26790",
+              "qtest_id": 138498557,
+              "name": "Verify Creating a New Job using JOB SCHEDULER UI - EXE with PARAM",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Mavericks": {
+          "total_test_cases": 1,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26552",
+              "qtest_id": 138291654,
+              "name": "Demo",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Nexus": {
+          "total_test_cases": 40,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26753",
+              "qtest_id": 138469410,
+              "name": "ASP user accesses Search All Case Assessments page when CA service is active",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26754",
+              "qtest_id": 138469411,
+              "name": "View all Case Assessments across matters",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26755",
+              "qtest_id": 138469412,
+              "name": "Filter Case Assessments by status",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26756",
+              "qtest_id": 138469413,
+              "name": "ASP user can access erase function for Case Assessments",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26757",
+              "qtest_id": 138469414,
+              "name": "Check CA status with valid color combination display in grid",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26758",
+              "qtest_id": 138469415,
+              "name": "Non-ASP user cannot perform erase operation",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26759",
+              "qtest_id": 138469416,
+              "name": "Cannot erase a Case Assessment that is already in Erased status",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26760",
+              "qtest_id": 138469417,
+              "name": "Prevent erase of CA with active engagement in Taskflow",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26761",
+              "qtest_id": 138469418,
+              "name": "Delete status is eliminated from filter options as it is not valid for CA",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26762",
+              "qtest_id": 138469419,
+              "name": "Apply multiple filters to search Case Assessments",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Vanguards": {
+          "total_test_cases": 97,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26219",
+              "qtest_id": 138149948,
+              "name": "Verify Browser Compatibility Across Firefox",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25742",
+              "qtest_id": 137946174,
+              "name": "Verify Citation Click Opens Reference Panel With Line Item Details",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25784",
+              "qtest_id": 137957928,
+              "name": "Verify Sequential Citation Numbering Within Each Insight",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26501",
+              "qtest_id": 138277160,
+              "name": "Retrieve invoices for a matter with various configurations",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26528",
+              "qtest_id": 138279713,
+              "name": "Invoice List - Sort by billed total descending",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25783",
+              "qtest_id": 137957925,
+              "name": "Verify Line Items Under Other Invoices Are Non-Clickable In Citation Panel",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25902",
+              "qtest_id": 137965081,
+              "name": "Keyboard navigation through citations - WCAG AA",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26430",
+              "qtest_id": 138258193,
+              "name": "TC-GET62673-013: Permission Check Response Time Performance",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25746",
+              "qtest_id": 137946388,
+              "name": "Verify Other Invoice IDs Display As Clickable Links In Citation Panel",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26432",
+              "qtest_id": 138258195,
+              "name": "TC-GET62673-015: Keyboard Navigation and Accessibility Compliance",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        }
+      }
+    },
+    "26.1.6": {
+      "sprint": "Sprint 26.1.6",
+      "module_id": 68341070,
+      "generated": "2026-02-20",
+      "summary": {
+        "total_test_cases": 48,
+        "total_automated": 4,
+        "total_with_attachments": 1,
+        "automation_coverage_percent": 8.3,
+        "teams_count": 3
+      },
+      "teams": {
+        "[Last Sprint Cases] Case Assessment Facet Page  for Legal-collaborator to Display Case Assessment Data": {
+          "total_test_cases": 4,
+          "automated_test_cases": 3,
+          "automation_coverage_percent": 75,
+          "with_attachments": 0,
+          "without_attachments": 3,
+          "test_cases": [
+            {
+              "id": "TC-24685",
+              "qtest_id": 137149697,
+              "name": "Facet page displays 'Case Assessments' with correct columns invalid user",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-25279",
+              "qtest_id": 137302969,
+              "name": "Verify Case Assessment Facet New Permission",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24677",
+              "qtest_id": 137149643,
+              "name": "Create 'Case Assessments' using Non-Office network",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24170",
+              "qtest_id": 136947630,
+              "name": "Verify Case Assessments With Lead Timekeeper Assignment With Valid Panel-Invalid Scenario",
+              "automated": true,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Undo Button Requires Multiple Clicks": {
+          "total_test_cases": 19,
+          "automated_test_cases": 0,
+          "automation_coverage_percent": 0,
+          "with_attachments": 0,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-24383",
+              "qtest_id": 136991849,
+              "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Line Item Window",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24378",
+              "qtest_id": 136991721,
+              "name": "Verify Undo Operations Work On First Click After Line Adjustment in Line item Pop window",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24214",
+              "qtest_id": 136955630,
+              "name": "Verify Multiple Consecutive Undo Operations Work Without Double-Click Bug in Summary Page",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24851",
+              "qtest_id": 137167141,
+              "name": "Verify Grid View Toggle and Functionality for Work Area Component",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24382",
+              "qtest_id": 136991842,
+              "name": "Verify Reject Single Line Item Operation with Undo Functionality in  New Line Item Window",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24852",
+              "qtest_id": 137167143,
+              "name": "Verify Pop-over Tree Component Opening for Organization Unit Component",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24255",
+              "qtest_id": 136958403,
+              "name": "Verify View All, Export Excel and Edit Column Functions Work After Undo Operations in New Line Item Window",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24850",
+              "qtest_id": 137167137,
+              "name": "Verify Tree View Navigation and Item Selection for Work Area Component",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24209",
+              "qtest_id": 136955556,
+              "name": "Verify Batch Reject Multiple Selected Line Items with Undo Functionality in Summary Page",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-24847",
+              "qtest_id": 137167104,
+              "name": "Verify Global Search Respects Row-Level Security For Invoice Visibility",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "Untitled": {
+          "total_test_cases": 25,
+          "automated_test_cases": 1,
+          "automation_coverage_percent": 4,
+          "with_attachments": 1,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-26170",
+              "qtest_id": 138124219,
+              "name": "Verify Update non-existent job",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26176",
+              "qtest_id": 138126459,
+              "name": "Verify Update schedule with valid data",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26175",
+              "qtest_id": 138126458,
+              "name": "Verify Create schedule with invalid jobData",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26169",
+              "qtest_id": 138124218,
+              "name": "Verify Update job with valid data",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26168",
+              "qtest_id": 138124217,
+              "name": "Verify Create job with non-existent job type",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26174",
+              "qtest_id": 138126457,
+              "name": "Verify Create schedule missing name",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26167",
+              "qtest_id": 138124216,
+              "name": "Verify Create job missing agentId",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26173",
+              "qtest_id": 138126456,
+              "name": "Verify Create schedule with valid data",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26180",
+              "qtest_id": 138126463,
+              "name": "Verify Describe invalid CRON - text",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            },
+            {
+              "id": "TC-26179",
+              "qtest_id": 138126462,
+              "name": "Verify Get description for valid CRON",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        }
+      }
     }
   }
 }

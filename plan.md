@@ -3020,6 +3020,59 @@ For each component we port:
 
 ---
 
+### Phase 1.7: Tests Covered Inline View & Product Filtering (NEW - February 20, 2026) ✅
+
+**Goal:** Embed the Tests Covered view inline within the main dashboard (no page navigation), match the React component's styling, and filter teams by the currently selected product.
+
+**Deliverables:**
+- ✅ Tests Covered tile click opens inline view instead of navigating to a separate page
+- ✅ Inline view fetches from `/api/metrics/tests-covered` (port 3000)
+- ✅ Sprint selector allows switching between available sprints dynamically
+- ✅ 5 summary cards: Total Test Cases, Automated, Automation Coverage (highlight + progress bar), With Scripts, Teams
+- ✅ Team Breakdown table with Coverage % and mini progress bars
+- ✅ CSS styling matches React `TestsCovered.tsx` component exactly (tc- prefixed classes)
+- ✅ Product-based filtering: teams filtered by `state.selectedProduct` using `productTeamMap`
+- ✅ Summary stats recalculated from filtered teams only
+- ✅ Empty state shown for products with no test coverage data
+- ✅ Header shows "Tests Covered — [Product Name]"
+- ✅ Non-breaking: main dashboard, product selection, and metrics unaffected
+
+**Implementation Approach:**
+
+**Step 1 — Inline View (Frontend Only):**
+1. `loadTestsCoveredView()` fetches `/api/metrics/tests-covered` from port 3000
+2. Parses `result.data` (sprint-keyed object) and `result.available_sprints`
+3. `renderTestsCoveredDashboard()` generates full HTML with summary cards + team table + footer
+4. Sprint selector re-renders on change
+
+**Step 2 — CSS Alignment:**
+1. Copied all CSS from `TestsCovered.css` into `index.html` `<style>` block
+2. Prefixed all class names with `tc-` to avoid conflicts with main dashboard `.metric-card` styles
+3. Matched: `.tests-covered-container`, `.tests-covered-header`, `.tests-covered-summary`, `.summary-card`, `.highlight`, `.tc-teams-table`, `.tc-mini-progress`, `.tests-covered-footer`
+
+**Step 3 — Product-Based Filtering:**
+1. Added `productTeamMap` constant mapping product IDs to team names
+2. `loadTestsCoveredView()` captures `state.selectedProduct` and passes to render
+3. `renderTestsCoveredDashboard()` filters teams using case-insensitive match against `productTeamMap`
+4. All summary stats (total, automated, coverage, withAttachments, teamsCount) recalculated from filtered teams
+5. Empty state message shown when no matching teams found
+
+**Product-Team Mapping:**
+| Product | Teams |
+|---------|-------|
+| T360 | Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards |
+| DnA | Minerva, Guardians, Athena |
+| Passport | Team A, Team B, Team C |
+| Collaboration Portal | (none mapped) |
+
+**Backend Changes:** NONE — existing `/api/metrics/tests-covered` endpoint unchanged
+
+**Files Modified:**
+- `frontend/index.html` — CSS (tc- prefixed styles), `loadTestsCoveredView()`, `renderTestsCoveredDashboard()`, `productTeamMap` constant
+- `frontend/src/components/TestsCovered.tsx` — Port change (3001 → 3000)
+
+---
+
 ## Next Steps
 
 1. **Review & Approve Plan** ✅ (User review)

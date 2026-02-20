@@ -246,8 +246,9 @@
                 
                 // Get available sprints
                 const response = await fetch(API_URL);
-                const allData = await response.json();
-                const sprints = Object.keys(allData).filter(k => k !== '_updated');
+                const result = await response.json();
+                const allData = result.data || {};
+                const sprints = result.available_sprints || Object.keys(allData).filter(k => k !== '_updated');
 
                 if (sprints.length === 0) {
                     app.innerHTML = '<div class="no-data">No sprint data available</div>';
@@ -272,14 +273,23 @@
         }
 
         function renderDashboard(allData, sprints, selectedSprint) {
-            const data = allData[selectedSprint] || {};
+            const sprintData = allData[selectedSprint] || {};
             const app = document.getElementById('app');
+            const summary = sprintData.summary || {};
+            const teamsObj = sprintData.teams || {};
 
-            const totalTests = data.totalTests || 0;
-            const automatedTests = data.automatedTests || 0;
-            const manualTests = data.manualTests || 0;
+            const totalTests = summary.total_test_cases || 0;
+            const automatedTests = summary.total_automated || 0;
+            const manualTests = totalTests - automatedTests;
             const coverage = totalTests > 0 ? Math.round((automatedTests / totalTests) * 100) : 0;
-            const teams = data.teams || [];
+            // Convert teams object to array for rendering
+            const teams = Object.entries(teamsObj).map(([name, stats]) => ({
+                name: name,
+                totalTests: stats.total_test_cases || 0,
+                automatedTests: stats.automated_test_cases || 0,
+                manualTests: (stats.total_test_cases || 0) - (stats.automated_test_cases || 0),
+                coverage: stats.automation_coverage_percent || 0
+            }));
 
             let html = `
                 <div class="tests-covered-container">

@@ -443,3 +443,4 @@ function renderTestsCoveredDashboard(allData, sprints, selectedSprint) {
     });
   }
 }
+*/

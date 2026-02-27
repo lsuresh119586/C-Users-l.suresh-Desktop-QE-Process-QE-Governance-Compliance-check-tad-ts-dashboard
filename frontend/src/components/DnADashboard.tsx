@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { BugMetricsCard, QualityGuidelinesLegend, BugMetrics } from './BugMetrics';
+import { BugMetricsCard, QualityGuidelinesLegend } from './BugMetrics';
+import type { BugMetrics } from './BugMetrics';
 import './DnADashboard.css';
 
 interface Team {
@@ -275,25 +276,25 @@ const DnADashboard: React.FC = () => {
         {metrics.length > 0 && (
           <div className="overview-cards">
             <div className="overview-card">
-              <h4>Requirements Coverage</h4>
+              <h4>DoR Readiness %</h4>
               <div className="overview-value">
                 {metrics[0].requirementsCovered}%
               </div>
             </div>
             <div className="overview-card">
-              <h4>Tests Coverage</h4>
+              <h4>Automation Coverage %</h4>
               <div className="overview-value">
                 {metrics[0].testsCovered}%
               </div>
             </div>
             <div className="overview-card">
-              <h4>Deployment Readiness</h4>
+              <h4>DoD Completion/Release Readiness %</h4>
               <div className="overview-value">
                 {metrics[0].deploymentReadiness}%
               </div>
             </div>
             <div className="overview-card">
-              <h4>Code Quality</h4>
+              <h4>Automation Code Quality</h4>
               <div className="overview-value">
                 {metrics[0].codeQuality}%
               </div>

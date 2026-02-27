@@ -14,6 +14,7 @@ export default defineConfig({
         main: resolve(__dirname, 'index-react.html'),
         legacy: resolve(__dirname, 'index.html'),
         testsCovered: resolve(__dirname, 'tests-covered.html'),
+        unified: resolve(__dirname, 'unified-dashboard.html'),
       }
     }
   }

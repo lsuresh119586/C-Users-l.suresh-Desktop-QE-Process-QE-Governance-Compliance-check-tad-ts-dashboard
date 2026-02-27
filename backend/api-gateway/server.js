@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 import { getSprintDefectsData } from './sample-tadts-data.js';
 import JiraBugService from './jiraBugService.js';
 import MetricsPersistence from './metricsPersistence.js';
+import { fetchSprintTestCases } from './qtest-integration.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -720,6 +721,78 @@ const server = http.createServer(async (req, res) => {
 
   const db = readDatabase();
 
+  // GET /api/qtest/sprint/:sprint - Fetch qTest test case data for a sprint
+  // Uses local db.json tests_covered data first, falls back to live qTest API
+  if (pathname.startsWith('/api/qtest/sprint/') && req.method === 'GET') {
+    const sprintName = pathname.replace('/api/qtest/sprint/', '');
+    const checkAttachments = query.attachments === 'true';
+
+    // Try local db.json tests_covered data first (reliable, no external API dependency)
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered?.[sprintName];
+    if (testsCovered && testsCovered.teams && Object.keys(testsCovered.teams).length > 0) {
+      // Transform tests_covered format to match expected frontend format
+      const teams = {};
+      for (const [teamName, teamData] of Object.entries(testsCovered.teams)) {
+        teams[teamName] = {
+          total: teamData.total_test_cases || teamData.total || 0,
+          automated: teamData.automated_test_cases || teamData.automated || 0,
+          with_attachments: teamData.with_attachments || 0,
+          without_attachments: teamData.without_attachments || 0,
+          test_cases: teamData.test_cases || []
+        };
+      }
+      const totals = {
+        total: testsCovered.summary?.total_test_cases || Object.values(teams).reduce((s, t) => s + t.total, 0),
+        automated: testsCovered.summary?.total_automated || Object.values(teams).reduce((s, t) => s + t.automated, 0),
+        with_attachments: testsCovered.summary?.total_with_attachments || Object.values(teams).reduce((s, t) => s + t.with_attachments, 0),
+        without_attachments: Object.values(teams).reduce((s, t) => s + t.without_attachments, 0)
+      };
+      const result = {
+        sprint_name: sprintName,
+        module_id: testsCovered.module_id || null,
+        generated: testsCovered.generated || new Date().toISOString(),
+        source: 'local',
+        totals,
+        teams
+      };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+      return;
+    }
+
+    // Fallback to live qTest API with timeout
+    try {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('qTest API request timed out')), 15000)
+      );
+      const data = await Promise.race([
+        fetchSprintTestCases(sprintName, checkAttachments),
+        timeoutPromise
+      ]);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error(`Error fetching qTest sprint data: ${error.message}`);
+      // On timeout/error, try stale cache as last resort
+      try {
+        const cacheFile = path.join(__dirname, '.qtest-cache', `qtest-sprint-${sprintName}.json`);
+        if (fs.existsSync(cacheFile)) {
+          const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+          console.log(`Returning stale cached data for sprint ${sprintName}`);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(cached.data));
+          return;
+        }
+      } catch (cacheErr) {
+        console.error(`Cache read failed: ${cacheErr.message}`);
+      }
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
   // GET /api/products
   if (pathname === '/api/products' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -890,7 +963,7 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
-  // GET /api/defects/by-module - Get defects for a specific sprint
+  // GET /api/defects/by-module - Get LIVE defects from Jira for a specific sprint
   if (req.method === 'GET' && req.url.startsWith('/api/defects/by-module')) {
     const urlObj = new url.URL(req.url, `http://${req.headers.host}`);
     const sprintName = urlObj.searchParams.get('sprint');
@@ -901,9 +974,131 @@ const server = http.createServer(async (req, res) => {
       return;
     }
 
-    const defectData = getSprintDefectsData(sprintName);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(defectData, null, 2));
+    // If Jira service is not available, fall back to mock data
+    if (!jiraBugService) {
+      console.log('⚠️  Jira Bug Service not available, falling back to mock defect data');
+      const defectData = getSprintDefectsData(sprintName);
+      defectData.source = 'mock';
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(defectData, null, 2));
+      return;
+    }
+
+    try {
+      console.log(`🔍 Fetching LIVE defects from Jira for sprint ${sprintName}...`);
+
+      // Fetch from both DnA and T360 teams in parallel
+      const [dnaResults, t360Results] = await Promise.all([
+        jiraBugService.getAllDnATeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  DnA team metrics failed: ${err.message}`);
+          return [];
+        }),
+        jiraBugService.getAllT360TeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  T360 team metrics failed: ${err.message}`);
+          return [];
+        })
+      ]);
+
+      const allTeamMetrics = [...dnaResults, ...t360Results];
+
+      // Aggregate across all teams
+      let totalOpen = 0, totalClosed = 0, totalReopened = 0;
+      const teams = {};
+      const priorityCounts = { critical: 0, high: 0, medium: 0, low: 0 };
+      const statusCounts = { open: 0, 'in-progress': 0, closed: 0 };
+      const moduleMap = {};  // team name → defect count (team acts as "module")
+
+      for (const teamMetric of allTeamMetrics) {
+        const teamName = teamMetric.teamId;
+        const teamDisplayName = teamName.charAt(0).toUpperCase() + teamName.slice(1);
+        
+        totalOpen += teamMetric.openBugs || 0;
+        totalClosed += teamMetric.closedBugs || 0;
+        totalReopened += teamMetric.reopenedBugs || 0;
+
+        teams[teamDisplayName] = {
+          open: teamMetric.openBugs || 0,
+          closed: teamMetric.closedBugs || 0,
+          total: teamMetric.totalBugs || 0,
+          reopened: teamMetric.reopenedBugs || 0,
+          bugs: (teamMetric.bugDetails || []).map(b => ({
+            key: b.key,
+            summary: b.summary,
+            status: b.status,
+            priority: b.priority,
+            created: b.created,
+            updated: b.updated,
+            isOpen: b.isOpen,
+            reopened: b.reopened || false,
+            reopenCount: b.reopenCount || 0
+          }))
+        };
+
+        // Count by priority and status from bug details
+        for (const bug of (teamMetric.bugDetails || [])) {
+          const priority = (bug.priority || 'None').toLowerCase();
+          if (priority === 'critical' || priority === 'highest') priorityCounts.critical++;
+          else if (priority === 'high') priorityCounts.high++;
+          else if (priority === 'medium' || priority === 'normal') priorityCounts.medium++;
+          else priorityCounts.low++;
+
+          const status = (bug.status || '').toLowerCase();
+          if (status === 'closed' || status === 'done' || status === 'resolved') {
+            statusCounts.closed++;
+          } else if (status === 'in progress' || status === 'in-progress') {
+            statusCounts['in-progress']++;
+          } else {
+            statusCounts.open++;
+          }
+        }
+
+        // Build module (team) breakdown — only include teams with defects
+        if (teamMetric.totalBugs > 0) {
+          const topSeverity = teamMetric.bugDetails?.find(b => b.isOpen)?.priority?.toLowerCase() || 'low';
+          moduleMap[teamDisplayName] = {
+            module: teamDisplayName,
+            defects: teamMetric.totalBugs,
+            open: teamMetric.openBugs,
+            closed: teamMetric.closedBugs,
+            severity: topSeverity,
+            status: teamMetric.openBugs > 0 ? 'open' : 'closed'
+          };
+        }
+      }
+
+      const totalAll = totalOpen + totalClosed;
+
+      const result = {
+        sprint: sprintName,
+        source: 'jira-live',
+        fetchedAt: new Date().toISOString(),
+        totals: {
+          open: totalOpen,    // everything not closed/resolved
+          closed: totalClosed,
+          total: totalAll,
+          critical: priorityCounts.critical,
+          high: priorityCounts.high,
+          reopened: totalReopened
+        },
+        byModule: Object.values(moduleMap),
+        bySeverity: priorityCounts,
+        byStatus: statusCounts,
+        teams: teams
+      };
+
+      console.log(`✅ Live defect data: ${totalAll} total (${totalOpen} open, ${totalClosed} closed) across ${allTeamMetrics.length} teams`);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result, null, 2));
+    } catch (error) {
+      console.error('❌ Error fetching live defect data:', error.message);
+      // Fall back to mock data on error
+      console.log('⚠️  Falling back to mock defect data');
+      const defectData = getSprintDefectsData(sprintName);
+      defectData.source = 'mock-fallback';
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(defectData, null, 2));
+    }
     return;
   }
 

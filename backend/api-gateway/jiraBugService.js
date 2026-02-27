@@ -355,6 +355,26 @@ class JiraBugService {
   }
 
   /**
+   * Maps Jira priority name to a Severity label (Sev 1 – Sev 4).
+   *
+   * Mapping:
+   *   Critical / Highest → Sev 1
+   *   High               → Sev 2
+   *   Medium / Normal     → Sev 3
+   *   Low / Lowest / None → Sev 4
+   *
+   * @param {string|undefined} priorityName - Jira priority name
+   * @returns {string} Severity label, e.g. "Sev 1"
+   */
+  mapPriorityToSeverity(priorityName) {
+    const p = (priorityName || '').toLowerCase();
+    if (p === 'critical' || p === 'highest') return 'Sev 1';
+    if (p === 'high') return 'Sev 2';
+    if (p === 'medium' || p === 'normal') return 'Sev 3';
+    return 'Sev 4';
+  }
+
+  /**
    * Match Safe-Team field value against expected team values
    * 
    * For DnA teams: Simple exact match (e.g., "Minerva")
@@ -698,6 +718,7 @@ class JiraBugService {
           key: bug.key,
           summary: bug.fields.summary,
           status: status,
+          severity: this.mapPriorityToSeverity(bug.fields.priority?.name),
           priority: bug.fields.priority?.name || 'None',
           created: bug.fields.created,
           updated: bug.fields.updated,

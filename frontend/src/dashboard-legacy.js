@@ -188,11 +188,11 @@ function render() {
       ${state.metrics ? `
         <div class="metrics-grid">
           <div class="metric-card">
-            <div class="metric-label">Requirements Covered</div>
+            <div class="metric-label">DoR Readiness %</div>
             <div class="metric-value">${state.metrics.requirementsCovered}%</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label">Tests Covered</div>
+            <div class="metric-label">Automation Coverage %</div>
             <div class="metric-value">${state.metrics.testsCovered}%</div>
           </div>
           <div class="metric-card">
@@ -204,11 +204,11 @@ function render() {
             <div class="metric-value">${state.metrics.defectsClosed}</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label">Deployment Readiness</div>
+            <div class="metric-label">DoD Completion/Release Readiness %</div>
             <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
           </div>
           <div class="metric-card">
-            <div class="metric-label">Code Quality</div>
+            <div class="metric-label">Automation Code Quality</div>
             <div class="metric-value">${state.metrics.codeQuality}%</div>
           </div>
         </div>

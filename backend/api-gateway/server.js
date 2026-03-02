@@ -943,26 +943,34 @@ const server = http.createServer(async (req, res) => {
           if (complianceData && complianceData.teams) {
             metrics = metrics.map(metric => {
               const teamName = metric.team;
-              let tadPct = null;
+              let dorPct = null;
+              let teamTadPct = null, teamTsPct = null;
               // Match team name from compliance data (case-insensitive)
               for (const [compTeam, compData] of Object.entries(complianceData.teams)) {
                 if (compTeam.toLowerCase() === teamName.toLowerCase() ||
                     compTeam.toLowerCase().includes(teamName.toLowerCase()) ||
                     teamName.toLowerCase().includes(compTeam.toLowerCase())) {
-                  tadPct = compData.tadPct;
+                  // DoR requires BOTH TAD and TS — use bothPct (% of issues with both complete)
+                  teamTadPct = compData.tadPct;
+                  teamTsPct = compData.tsPct;
+                  dorPct = compData.bothPct !== undefined ? compData.bothPct : Math.min(compData.tadPct || 0, compData.tsPct || 0);
                   break;
                 }
               }
-              if (tadPct !== null && tadPct !== undefined) {
-                return { ...metric, requirementsCovered: Math.round(tadPct), dorSource: 'qtest-live' };
+              if (dorPct !== null && dorPct !== undefined) {
+                console.log(`  📊 ${teamName}: DoR=${Math.round(dorPct)}% (TAD=${teamTadPct?.toFixed(1)}%, TS=${teamTsPct?.toFixed(1)}%)`);
+                return { ...metric, requirementsCovered: Math.round(dorPct), dorSource: 'qtest-live' };
               }
-              // Use overall summary tadPct as fallback
-              if (complianceData.summary && complianceData.summary.tadPct !== undefined) {
-                return { ...metric, requirementsCovered: Math.round(complianceData.summary.tadPct), dorSource: 'qtest-live-summary' };
+              // Use overall summary bothPct as fallback
+              if (complianceData.summary) {
+                const summaryDor = complianceData.summary.bothPct !== undefined
+                  ? complianceData.summary.bothPct
+                  : Math.min(complianceData.summary.tadPct || 0, complianceData.summary.tsPct || 0);
+                return { ...metric, requirementsCovered: Math.round(summaryDor), dorSource: 'qtest-live-summary' };
               }
               return metric;
             });
-            console.log(`✅ DoR Readiness enriched from live qTest TAD/TS data`);
+            console.log(`✅ DoR Readiness enriched from live qTest TAD/TS data (TAD + TS combined)`);
           }
         }
       } catch (error) {

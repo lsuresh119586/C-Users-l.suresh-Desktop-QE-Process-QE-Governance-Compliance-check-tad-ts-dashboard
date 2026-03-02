@@ -10,6 +10,8 @@ import MetricsPersistence from './metricsPersistence.js';
 import { fetchSprintTestCases } from './qtest-integration.js';
 import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceService.js';
 import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
+import { isCpodCalendarMode } from './cpodQueryMode.js';
+import { processMetricsQuery } from './metricsQueryProcessor.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -847,18 +849,22 @@ const server = http.createServer(async (req, res) => {
 
   // GET /api/metrics
   if (pathname === '/api/metrics' && req.method === 'GET') {
-    const { product, team, sprint } = query;
-    let metrics = db.metrics;
-    
-    if (product) {
-      metrics = metrics.filter(m => m.product === product);
+    const { product, team, sprint, startDate, endDate } = query;
+
+    // Use metricsQueryProcessor for filtering (supports CPOD calendar mode)
+    const queryResult = processMetricsQuery({
+      metrics: db.metrics,
+      query: { product, team, sprint, startDate, endDate }
+    });
+
+    if (queryResult.validationError) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: queryResult.validationError }));
+      return;
     }
-    if (team) {
-      metrics = metrics.filter(m => m.team === team);
-    }
-    if (sprint) {
-      metrics = metrics.filter(m => m.sprint === sprint);
-    }
+
+    let metrics = queryResult.filteredMetrics;
+    const isCpod = isCpodCalendarMode(product, team);
     
     // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
     if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {

@@ -34,6 +34,11 @@
       "product": "passport"
     },
     {
+      "id": "cpod",
+      "name": "CPOD",
+      "product": "passport"
+    },
+    {
       "id": "chargers",
       "name": "Chargers",
       "product": "t360"
@@ -166,6 +171,31 @@
       "id": "pp-spartacles-26.1.5",
       "name": "Sprint 26.1.5",
       "team": "pp-spartacles"
+    },
+    {
+      "id": "cpod-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "cpod"
+    },
+    {
+      "id": "cpod-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "cpod"
+    },
+    {
+      "id": "cpod-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "cpod"
+    },
+    {
+      "id": "cpod-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "cpod"
+    },
+    {
+      "id": "cpod-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "cpod"
     },
     {
       "id": "chargers-26.1.1",
@@ -466,6 +496,81 @@
       "deploymentReadiness": 86,
       "codeQuality": 81,
       "timestamp": "2026-02-12T08:42:12.567Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-cpod-26.1.1",
+      "product": "passport",
+      "team": "cpod",
+      "sprint": "cpod-26.1.1",
+      "requirementsCovered": 80,
+      "testsCovered": 78,
+      "defectsOpen": 0,
+      "defectsClosed": 0,
+      "deploymentReadiness": 82,
+      "codeQuality": 80,
+      "timestamp": "2026-03-02T08:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-cpod-26.1.2",
+      "product": "passport",
+      "team": "cpod",
+      "sprint": "cpod-26.1.2",
+      "requirementsCovered": 82,
+      "testsCovered": 79,
+      "defectsOpen": 0,
+      "defectsClosed": 0,
+      "deploymentReadiness": 84,
+      "codeQuality": 81,
+      "timestamp": "2026-03-02T08:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-cpod-26.1.3",
+      "product": "passport",
+      "team": "cpod",
+      "sprint": "cpod-26.1.3",
+      "requirementsCovered": 83,
+      "testsCovered": 80,
+      "defectsOpen": 0,
+      "defectsClosed": 0,
+      "deploymentReadiness": 85,
+      "codeQuality": 82,
+      "timestamp": "2026-03-02T08:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-cpod-26.1.4",
+      "product": "passport",
+      "team": "cpod",
+      "sprint": "cpod-26.1.4",
+      "requirementsCovered": 84,
+      "testsCovered": 81,
+      "defectsOpen": 0,
+      "defectsClosed": 0,
+      "deploymentReadiness": 86,
+      "codeQuality": 83,
+      "timestamp": "2026-03-02T08:00:00.000Z",
+      "updatedFromJira": true,
+      "updatedFromAnalysis": true
+    },
+    {
+      "id": "metric-cpod-26.1.5",
+      "product": "passport",
+      "team": "cpod",
+      "sprint": "cpod-26.1.5",
+      "requirementsCovered": 85,
+      "testsCovered": 82,
+      "defectsOpen": 0,
+      "defectsClosed": 0,
+      "deploymentReadiness": 87,
+      "codeQuality": 84,
+      "timestamp": "2026-03-02T08:00:00.000Z",
       "updatedFromJira": true,
       "updatedFromAnalysis": true
     },

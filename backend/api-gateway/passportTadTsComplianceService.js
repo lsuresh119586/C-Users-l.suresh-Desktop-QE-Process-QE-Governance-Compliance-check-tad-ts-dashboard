@@ -33,6 +33,7 @@ const TEAM_MAPPING = {
   'PP Genesis': 'PP Genesis',
   'PP Pioneers': 'PP Pioneers',
   'PP Spartacles': 'PP Spartacles',
+  'CPOD': 'CPOD',
 };
 
 // Safe-SDLC activities to exclude for bugs

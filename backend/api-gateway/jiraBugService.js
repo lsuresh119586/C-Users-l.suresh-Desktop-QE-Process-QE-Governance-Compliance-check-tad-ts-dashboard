@@ -177,6 +177,13 @@ class JiraBugService {
         boardId: null,
         sprintFormat: '{sprint}',
         safeTeamValues: ['PP Spartacles']
+      },
+      'cpod': {
+        name: 'CPOD',
+        jiraProject: 'ELM',
+        boardId: null,
+        sprintFormat: '{sprint}',
+        safeTeamValues: ['CPOD']
       }
     };
 
@@ -513,7 +520,10 @@ class JiraBugService {
     // Build project clause: DnA teams search primary + Tech Ops, T360 teams search GET only, Passport teams search ELM with SAFe Team filter
     let projectClause;
     let jql;
-    if (this.isPassportTeam(teamId)) {
+    if (teamId === 'cpod') {
+      // CPOD team: ELM project, type Bug, sprint-based, no SAFe Team filter (CPOD is not a SAFe Team option)
+      jql = `project = ELM AND type = Bug AND Sprint in ('${sprintNumber}') AND status NOT IN ('New') ORDER BY created DESC`;
+    } else if (this.isPassportTeam(teamId)) {
       // Passport teams: ELM project with SAFe Team filtering in JQL and Sprint by number
       const safeTeamValues = team.safeTeamValues || [team.safeTeamValue];
       const teamFilter = safeTeamValues.map(t => `'${t}'`).join(', ');

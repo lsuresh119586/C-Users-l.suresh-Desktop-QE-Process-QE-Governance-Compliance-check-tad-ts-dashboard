@@ -136,6 +136,58 @@
         box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
       }
 
+      .control-group input[type="date"] {
+        padding: 10px 12px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.08);
+        color: #e0e0e0;
+        transition: all 0.3s ease;
+        color-scheme: dark;
+      }
+
+      .control-group input[type="date"]:hover {
+        border-color: #00b4d8;
+        background: rgba(0, 180, 216, 0.1);
+      }
+
+      .control-group input[type="date"]:focus {
+        outline: none;
+        border-color: #00b4d8;
+        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+      }
+
+      .cpod-date-controls {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+
+      .cpod-date-controls .control-group {
+        min-width: 160px;
+      }
+
+      .cpod-load-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #00b4d8, #0096c7);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: fit-content;
+        align-self: flex-end;
+      }
+
+      .cpod-load-btn:hover {
+        background: linear-gradient(135deg, #0096c7, #0077b6);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+      }
+
       .control-group select option {
         background: #1a1a2e;
         color: #e0e0e0;
@@ -727,6 +779,8 @@
         selectedProduct: '',
         selectedTeam: '',
         selectedSprint: '',
+        cpodStartDate: '',
+        cpodEndDate: '',
         loading: false,
         error: null,
         currentView: 'dashboard'
@@ -782,12 +836,14 @@
             throw err;
           }
         },
-        getMetrics: async (product, team, sprint) => {
+        getMetrics: async (product, team, sprint, startDate, endDate) => {
           try {
             let params = [];
             if (product) params.push(`product=${product}`);
             if (team) params.push(`team=${team}`);
             if (sprint) params.push(`sprint=${sprint}`);
+            if (startDate) params.push(`startDate=${startDate}`);
+            if (endDate) params.push(`endDate=${endDate}`);
             const query = params.length ? `?${params.join('&')}` : '';
             const response = await fetch(`${API_BASE_URL}/metrics${query}`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
@@ -798,6 +854,33 @@
           }
         }
       };
+
+      // Helper: check if the selected team is CPOD (uses date-range instead of sprint)
+      function isCpodTeam() {
+        return state.selectedProduct === 'passport' && state.selectedTeam === 'cpod';
+      }
+
+      // Load metrics using CPOD date-range or regular sprint mode
+      async function loadMetricsAuto() {
+        if (isCpodTeam()) {
+          const startDate = state.cpodStartDate;
+          const endDate = state.cpodEndDate;
+          if (!startDate || !endDate) return;
+          const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, null, startDate, endDate);
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+          } else {
+            state.metrics = null;
+          }
+        } else {
+          const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+          } else {
+            state.metrics = null;
+          }
+        }
+      }
 
       async function loadProducts() {
         try {
@@ -899,35 +982,53 @@
             state.selectedTeam = state.teams[0].id;
             console.log('👉 Auto-selecting first team:', state.selectedTeam);
             
-            // Now load sprints for this team
-            try {
-              console.log('📦 Loading sprints for team:', state.selectedTeam);
-              state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
-              console.log('✅ Sprints loaded:', state.sprints);
-              
-              // Auto-select first sprint and load metrics
-              if (state.sprints.length > 0) {
-                state.selectedSprint = state.sprints[0].id;
-                console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
-                
-                // Load metrics for this sprint
-                try {
-                  console.log('📦 Loading metrics...');
-                  const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
-                  console.log('✅ Metrics response:', metricsArray);
-                  
-                  if (Array.isArray(metricsArray) && metricsArray.length > 0) {
-                    state.metrics = metricsArray[0];
-                    console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
-                  }
-                } catch (err) {
-                  console.error('❌ Error loading metrics:', err);
-                  state.error = 'Failed to load metrics: ' + err.message;
-                }
+            // Check if the auto-selected team is CPOD (date-range mode)
+            if (isCpodTeam()) {
+              console.log('📅 CPOD team auto-selected — switching to date-range mode');
+              const today = new Date().toISOString().slice(0, 10);
+              state.cpodStartDate = today;
+              state.cpodEndDate = today;
+              state.sprints = [];
+              state.selectedSprint = '';
+              try {
+                await loadMetricsAuto();
+              } catch (err) {
+                console.error('❌ Error loading CPOD metrics:', err);
+                state.error = 'Failed to load CPOD metrics: ' + err.message;
               }
-            } catch (err) {
-              console.error('❌ Error loading sprints:', err);
-              state.error = 'Failed to load sprints: ' + err.message;
+            } else {
+              state.cpodStartDate = '';
+              state.cpodEndDate = '';
+              // Now load sprints for this team
+              try {
+                console.log('📦 Loading sprints for team:', state.selectedTeam);
+                state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+                console.log('✅ Sprints loaded:', state.sprints);
+              
+                // Auto-select first sprint and load metrics
+                if (state.sprints.length > 0) {
+                  state.selectedSprint = state.sprints[0].id;
+                  console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+                
+                  // Load metrics for this sprint
+                  try {
+                    console.log('📦 Loading metrics...');
+                    const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                    console.log('✅ Metrics response:', metricsArray);
+                  
+                    if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                      state.metrics = metricsArray[0];
+                      console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                    }
+                  } catch (err) {
+                    console.error('❌ Error loading metrics:', err);
+                    state.error = 'Failed to load metrics: ' + err.message;
+                  }
+                }
+              } catch (err) {
+                console.error('❌ Error loading sprints:', err);
+                state.error = 'Failed to load sprints: ' + err.message;
+              }
             }
           }
         } catch (err) {
@@ -944,6 +1045,8 @@
         if (!state.selectedTeam) {
           state.sprints = [];
           state.selectedSprint = '';
+          state.cpodStartDate = '';
+          state.cpodEndDate = '';
           state.metrics = null;
           render();
           return;
@@ -951,32 +1054,59 @@
 
         try {
           state.loading = true;
-          console.log('📦 Loading sprints for team:', state.selectedTeam);
-          state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
-          console.log('✅ Sprints loaded:', state.sprints);
-          state.selectedSprint = '';
-          state.metrics = null;
-          state.error = null;
-          
-          // Auto-select first sprint and load metrics
-          if (state.sprints.length > 0) {
-            state.selectedSprint = state.sprints[0].id;
-            console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+
+          // CPOD team uses date-range mode instead of sprints
+          if (isCpodTeam()) {
+            console.log('📅 CPOD team selected — switching to date-range mode');
+            state.sprints = [];
+            state.selectedSprint = '';
+            // Default to today's date for both start and end
+            const today = new Date().toISOString().slice(0, 10);
+            state.cpodStartDate = today;
+            state.cpodEndDate = today;
+            state.metrics = null;
+            state.error = null;
             render();
-            
-            // Load metrics for this sprint
+
+            // Auto-load metrics for today
             try {
-              console.log('📦 Loading metrics...');
-              const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
-              console.log('✅ Metrics response:', metricsArray);
-              
-              if (Array.isArray(metricsArray) && metricsArray.length > 0) {
-                state.metrics = metricsArray[0];
-                console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
-              }
+              console.log('📦 Loading CPOD metrics for date range:', state.cpodStartDate, '-', state.cpodEndDate);
+              await loadMetricsAuto();
+              console.log('✅ CPOD Metrics loaded:', state.metrics);
             } catch (err) {
-              console.error('❌ Error loading metrics:', err);
-              state.error = 'Failed to load metrics: ' + err.message;
+              console.error('❌ Error loading CPOD metrics:', err);
+              state.error = 'Failed to load CPOD metrics: ' + err.message;
+            }
+          } else {
+            state.cpodStartDate = '';
+            state.cpodEndDate = '';
+            console.log('📦 Loading sprints for team:', state.selectedTeam);
+            state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+            console.log('✅ Sprints loaded:', state.sprints);
+            state.selectedSprint = '';
+            state.metrics = null;
+            state.error = null;
+          
+            // Auto-select first sprint and load metrics
+            if (state.sprints.length > 0) {
+              state.selectedSprint = state.sprints[0].id;
+              console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+              render();
+            
+              // Load metrics for this sprint
+              try {
+                console.log('📦 Loading metrics...');
+                const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                console.log('✅ Metrics response:', metricsArray);
+              
+                if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                  state.metrics = metricsArray[0];
+                  console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                }
+              } catch (err) {
+                console.error('❌ Error loading metrics:', err);
+                state.error = 'Failed to load metrics: ' + err.message;
+              }
             }
           }
         } catch (err) {
@@ -991,6 +1121,29 @@
       async function handleSprintChange(e) {
         state.selectedSprint = e.target.value;
         await loadMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+      }
+
+      async function handleCpodDateChange() {
+        if (!state.cpodStartDate || !state.cpodEndDate) return;
+        if (state.cpodStartDate > state.cpodEndDate) {
+          state.error = 'Start date must be before or equal to end date';
+          state.metrics = null;
+          render();
+          return;
+        }
+        try {
+          state.loading = true;
+          state.error = null;
+          render();
+          console.log('📅 Loading CPOD metrics for:', state.cpodStartDate, 'to', state.cpodEndDate);
+          await loadMetricsAuto();
+        } catch (err) {
+          console.error('❌ Error loading CPOD metrics:', err);
+          state.error = 'Failed to load CPOD metrics: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
       }
 
       async function loadMetrics(product, team, sprint) {
@@ -1132,7 +1285,19 @@
                 </div>
               ` : ''}
 
-              ${state.sprints.length > 0 ? `
+              ${isCpodTeam() ? `
+                <div class="cpod-date-controls">
+                  <div class="control-group">
+                    <label for="cpodStartDate">Start Date</label>
+                    <input type="date" id="cpodStartDate" value="${state.cpodStartDate}" />
+                  </div>
+                  <div class="control-group">
+                    <label for="cpodEndDate">End Date</label>
+                    <input type="date" id="cpodEndDate" value="${state.cpodEndDate}" />
+                  </div>
+                  <button class="cpod-load-btn" id="cpodLoadBtn">Load Metrics</button>
+                </div>
+              ` : state.sprints.length > 0 ? `
                 <div class="control-group">
                   <label for="sprint">Sprint</label>
                   <select id="sprint">
@@ -1224,6 +1389,27 @@
           sprintSelect.removeEventListener('change', handleSprintChange);
           sprintSelect.addEventListener('change', handleSprintChange);
           console.log('📌 Sprint dropdown listener attached');
+        }
+
+        // CPOD date picker listeners
+        const cpodStartInput = document.getElementById('cpodStartDate');
+        const cpodEndInput = document.getElementById('cpodEndDate');
+        const cpodLoadBtn = document.getElementById('cpodLoadBtn');
+        if (cpodStartInput) {
+          cpodStartInput.addEventListener('change', (e) => {
+            state.cpodStartDate = e.target.value;
+            console.log('📅 CPOD start date changed:', state.cpodStartDate);
+          });
+        }
+        if (cpodEndInput) {
+          cpodEndInput.addEventListener('change', (e) => {
+            state.cpodEndDate = e.target.value;
+            console.log('📅 CPOD end date changed:', state.cpodEndDate);
+          });
+        }
+        if (cpodLoadBtn) {
+          cpodLoadBtn.addEventListener('click', handleCpodDateChange);
+          console.log('📌 CPOD Load Metrics button listener attached');
         }
 
         // Tests Covered card click handler
@@ -1473,7 +1659,7 @@
       const productTeamMap = {
         't360': ['Chargers', 'Chubb', 'Matrix', 'Mavericks', 'Nexus', 'Vanguards'],
         'dna': ['Minerva', 'Guardians', 'Athena'],
-        'passport': ['PP Genesis', 'PP Pioneers', 'PP Spartacles'],
+        'passport': ['PP Genesis', 'PP Pioneers', 'PP Spartacles', 'CPOD'],
         'collaboration-portal': []
       };
 

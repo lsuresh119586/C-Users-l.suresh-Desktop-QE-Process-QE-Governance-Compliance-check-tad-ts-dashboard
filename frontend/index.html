@@ -763,16 +763,16 @@
             const response = await fetch(`${API_BASE_URL}/sprints${query}`);
             if (!response.ok) throw new Error(`HTTP ${response.status}`);
             const sprints = await response.json();
-            // Sort sprints descending (newest first); IP sprints come first
+            // Sort sprints ascending (oldest first); IP sprints come last
             sprints.sort((a, b) => {
               const aId = a.id || a.name || '';
               const bId = b.id || b.name || '';
-              if (aId.includes('IP') && !bId.includes('IP')) return -1;
-              if (!aId.includes('IP') && bId.includes('IP')) return 1;
+              if (aId.includes('IP') && !bId.includes('IP')) return 1;
+              if (!aId.includes('IP') && bId.includes('IP')) return -1;
               const partsA = aId.split('.').map(Number);
               const partsB = bId.split('.').map(Number);
               for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
-                if ((partsB[i] || 0) !== (partsA[i] || 0)) return (partsB[i] || 0) - (partsA[i] || 0);
+                if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
               }
               return 0;
             });
@@ -1266,13 +1266,12 @@
         const title = titleMap[defectType] || 'Defects';
         const product = state.selectedProduct || 't360';
         const team = state.selectedTeam || '';
-        const sprint = state.selectedSprint || '';
 
         container.innerHTML = `<div class="defect-detail-container"><div class="loading">Loading defect details...</div></div>`;
 
         try {
-          // Build the sprint name for the API
-          const sprintName = sprint || (state.sprints.length > 0 ? state.sprints[0].id : '26.1.5');
+          // Extract sprint number (e.g., "vanguards-26.1.2" → "26.1.2")
+          const sprintName = getSprintNumberFromState() || '26.1.5';
 
           const response = await fetch(`http://localhost:3000/api/defects/by-module?sprint=${encodeURIComponent(sprintName)}`);
           const data = await response.json();
@@ -1294,32 +1293,62 @@
         return 'priority-low';
       }
 
+      function getPriorityLabel(priority) {
+        const p = (priority || '').toLowerCase();
+        if (p === 'critical') return 'Critical';
+        if (p === 'highest') return 'Highest';
+        if (p === 'blocker') return 'Blocker';
+        if (p === 'high') return 'High';
+        if (p === 'medium') return 'Medium';
+        if (p === 'normal') return 'Normal';
+        if (p === 'low' || p === 'lowest') return 'Low';
+        if (p === 'undefined' || p === 'none' || !p) return 'Unset';
+        return priority;
+      }
+
       function getStatusClass(status) {
         const s = (status || '').toLowerCase();
         if (s === 'closed' || s === 'done' || s === 'resolved') return 'status-closed';
         if (s === 'in progress' || s === 'in-progress') return 'status-in-progress';
+        if (s === 'to verify' || s === 'in review' || s === 'ready for test') return 'status-in-progress';
         if (s.includes('reopen')) return 'status-reopened';
         return 'status-open';
       }
 
       function getStatusLabel(status) {
         const s = (status || '').toLowerCase();
-        if (s === 'closed' || s === 'done' || s === 'resolved') return 'Closed';
+        if (s === 'closed' || s === 'done') return 'Closed';
+        if (s === 'resolved') return 'Resolved';
         if (s === 'in progress' || s === 'in-progress') return 'In Progress';
+        if (s === 'to verify') return 'To Verify';
+        if (s === 'in review') return 'In Review';
+        if (s === 'ready for test') return 'Ready for Test';
+        if (s.includes('reopen')) return 'Reopened';
         return status || 'Open';
       }
 
       function renderDefectDetail(container, data, defectType, title, product, teamFilter, sprintName) {
         const teams = data.teams || {};
-        const productLabel = (product || '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        const productLabel = product === 't360' ? 'T360' : product === 'dna' ? 'DnA' : product === 'passport' ? 'Passport' : (product || '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
         const jiraBaseUrl = 'https://jira.wolterskluwer.io/jira/browse/';
 
-        // Collect bugs from all teams, filtering by defect type
+        // Filter teams by selected product
+        const allowedTeams = productTeamMap[product] || [];
+        const filteredTeams = {};
+        for (const [teamName, teamData] of Object.entries(teams)) {
+          // Match team names case-insensitively (API may capitalize differently)
+          const matches = allowedTeams.length === 0 || allowedTeams.some(t => 
+            teamName.toLowerCase().includes(t.toLowerCase()) || t.toLowerCase().includes(teamName.toLowerCase())
+          );
+          if (matches) filteredTeams[teamName] = teamData;
+        }
+
+        // Collect bugs from filtered teams, filtering by defect type
         let allBugs = [];
         let totalOpen = 0, totalClosed = 0, totalReopened = 0;
         let criticalCount = 0, highCount = 0;
 
-        for (const [teamName, teamData] of Object.entries(teams)) {
+        for (const [teamName, teamData] of Object.entries(filteredTeams)) {
           const bugs = teamData.bugs || [];
           for (const bug of bugs) {
             const isOpen = bug.isOpen !== undefined ? bug.isOpen : !['closed', 'done', 'resolved'].includes((bug.status || '').toLowerCase());
@@ -1381,8 +1410,10 @@
         }
 
         let teamsHtml = '';
-        if (Object.keys(bugsByTeam).length === 0) {
-          teamsHtml = `<div class="defect-no-data">No ${title.replace(/[^\w\s]/g, '').trim().toLowerCase()} found for Sprint ${sprintName}</div>`;
+        if (Object.keys(filteredTeams).length === 0 && product === 'collaboration-portal') {
+          teamsHtml = `<div class="defect-no-data">Defect tracking for ${productLabel} is not yet integrated with Jira. Please check Jira directly for ${productLabel} defect data.</div>`;
+        } else if (Object.keys(bugsByTeam).length === 0) {
+          teamsHtml = `<div class="defect-no-data">No ${title.replace(/[^\w\s]/g, '').trim().toLowerCase()} found for ${productLabel} in Sprint ${sprintName}</div>`;
         } else {
           for (const [teamName, bugs] of Object.entries(bugsByTeam)) {
             teamsHtml += `
@@ -1406,7 +1437,7 @@
                         <td class="bug-key"><a href="${jiraBaseUrl}${bug.key}" target="_blank" rel="noopener">${bug.key}</a></td>
                         <td>${bug.summary || 'N/A'}</td>
                         <td><span class="defect-status-badge ${getStatusClass(bug.status)}">${getStatusLabel(bug.status)}</span></td>
-                        <td><span class="defect-priority-badge ${getPriorityClass(bug.priority)}">${bug.priority || 'None'}</span></td>
+                        <td><span class="defect-priority-badge ${getPriorityClass(bug.priority)}">${getPriorityLabel(bug.priority)}</span></td>
                         ${defectType === 'reopenedDefects' ? `<td style="text-align:center; font-weight:600; color:#ffab40;">${bug.reopenCount || 1}</td>` : ''}
                         <td>${bug.created ? new Date(bug.created).toLocaleDateString() : 'N/A'}</td>
                         <td>${bug.updated ? new Date(bug.updated).toLocaleDateString() : 'N/A'}</td>
@@ -1431,6 +1462,13 @@
         `;
       }
 
+      // Helper: extract sprint number from state.selectedSprint (e.g., "vanguards-26.1.2" → "26.1.2")
+      function getSprintNumberFromState() {
+        const sprintId = state.selectedSprint || '';
+        const match = sprintId.match(/(\d+\.\d+\.\d+|\d+\.\d+\.IP)$/i);
+        return match ? match[1] : '';
+      }
+
       // Product-to-team mapping (team names as they appear in tests_covered data)
       const productTeamMap = {
         't360': ['Chargers', 'Chubb', 'Matrix', 'Mavericks', 'Nexus', 'Vanguards'],
@@ -1451,14 +1489,14 @@
           // API returns { status, data: { "26.1.1": {...}, ... }, available_sprints: [...] }
           const allData = result.data || {};
           const sprints = (result.available_sprints || Object.keys(allData));
-          // Sort sprints descending (newest first)
+          // Sort sprints ascending (oldest first); IP sprints come last
           sprints.sort((a, b) => {
-            if (a.includes('IP') && !b.includes('IP')) return -1;
-            if (!a.includes('IP') && b.includes('IP')) return 1;
+            if (a.includes('IP') && !b.includes('IP')) return 1;
+            if (!a.includes('IP') && b.includes('IP')) return -1;
             const partsA = a.split('.').map(Number);
             const partsB = b.split('.').map(Number);
             for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
-              if ((partsB[i] || 0) !== (partsA[i] || 0)) return (partsB[i] || 0) - (partsA[i] || 0);
+              if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
             }
             return 0;
           });
@@ -1468,7 +1506,9 @@
             return;
           }
 
-          const selectedSprint = sprints[0];
+          // Auto-select the sprint matching the dashboard's current selection
+          const dashboardSprintNum = getSprintNumberFromState();
+          const selectedSprint = (dashboardSprintNum && sprints.includes(dashboardSprintNum)) ? dashboardSprintNum : sprints[0];
           renderTestsCoveredDashboard(allData, sprints, selectedSprint, selectedProduct);
 
           const selector = document.getElementById('testsCoveredSprintSelector');
@@ -1658,14 +1698,14 @@
           // Normalize: sprints may be objects {id, name} or strings
           const sprints = sprintsRaw.map(s => typeof s === 'string' ? { id: s, name: s } : s);
 
-          // Sort sprints descending by id (IP sorts first)
+          // Sort sprints ascending by id (IP sorts last)
           sprints.sort((a, b) => {
-            if (a.id.includes('IP') && !b.id.includes('IP')) return -1;
-            if (!a.id.includes('IP') && b.id.includes('IP')) return 1;
+            if (a.id.includes('IP') && !b.id.includes('IP')) return 1;
+            if (!a.id.includes('IP') && b.id.includes('IP')) return -1;
             const partsA = a.id.split('.').map(Number);
             const partsB = b.id.split('.').map(Number);
             for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
-              if ((partsB[i] || 0) !== (partsA[i] || 0)) return (partsB[i] || 0) - (partsA[i] || 0);
+              if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
             }
             return 0;
           });
@@ -1694,9 +1734,9 @@
                 <label>Sprint:</label>
                 <select id="dorSprintSelect">
                   <option value="">-- Select Sprint --</option>
-                  ${sprints.map(s => `<option value="${s.id}">${s.name}</option>`).join('')}
+                  ${sprints.map(s => `<option value="${s.id}" ${s.id === getSprintNumberFromState() ? 'selected' : ''}>${s.name}</option>`).join('')}
                 </select>
-                <button id="dorLoadBtn" disabled>Analyze Sprint</button>
+                <button id="dorLoadBtn" ${getSprintNumberFromState() && sprints.some(s => s.id === getSprintNumberFromState()) ? '' : 'disabled'}>Analyze Sprint</button>
               </div>
             </div>
             <div id="dorResultsContainer">
@@ -1779,6 +1819,11 @@
             btn.textContent = 'Analyze Sprint';
           }
         });
+
+        // Auto-trigger analysis if a sprint was pre-selected from dashboard
+        if (select.value) {
+          btn.click();
+        }
       }
 
       function renderDorComplianceResults(container, data, sprintNumber) {

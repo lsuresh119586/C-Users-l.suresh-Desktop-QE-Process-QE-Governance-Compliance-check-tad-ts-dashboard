@@ -860,8 +860,8 @@ const server = http.createServer(async (req, res) => {
       metrics = metrics.filter(m => m.sprint === sprint);
     }
     
-    // Enrich DnA and T360 team metrics with actual bug data from Jira
-    if ((product === 'dna' || product === 't360') && jiraBugService) {
+    // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
+    if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {
       const enrichPromises = metrics.map(async (metric) => {
         try {
           // Extract sprint number from sprint ID (e.g., "minerva-26.1.2" -> "26.1.2")
@@ -1004,8 +1004,8 @@ const server = http.createServer(async (req, res) => {
     try {
       console.log(`🔍 Fetching LIVE defects from Jira for sprint ${sprintName}...`);
 
-      // Fetch from both DnA and T360 teams in parallel
-      const [dnaResults, t360Results] = await Promise.all([
+      // Fetch from DnA, T360, and Passport teams in parallel
+      const [dnaResults, t360Results, passportResults] = await Promise.all([
         jiraBugService.getAllDnATeamMetrics(sprintName).catch(err => {
           console.warn(`⚠️  DnA team metrics failed: ${err.message}`);
           return [];
@@ -1013,10 +1013,14 @@ const server = http.createServer(async (req, res) => {
         jiraBugService.getAllT360TeamMetrics(sprintName).catch(err => {
           console.warn(`⚠️  T360 team metrics failed: ${err.message}`);
           return [];
+        }),
+        jiraBugService.getAllPassportTeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  Passport team metrics failed: ${err.message}`);
+          return [];
         })
       ]);
 
-      const allTeamMetrics = [...dnaResults, ...t360Results];
+      const allTeamMetrics = [...dnaResults, ...t360Results, ...passportResults];
 
       // Aggregate across all teams
       let totalOpen = 0, totalClosed = 0, totalReopened = 0;

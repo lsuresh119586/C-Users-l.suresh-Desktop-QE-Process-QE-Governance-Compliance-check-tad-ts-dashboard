@@ -153,6 +153,34 @@ class JiraBugService {
     };
 
     /**
+     * Configuration for all Passport teams
+     * @type {Object.<string, TeamConfig>}
+     */
+    this.passportTeams = {
+      'pp-genesis': {
+        name: 'PP Genesis',
+        jiraProject: 'ELM',
+        boardId: null,
+        sprintFormat: '{sprint}',
+        safeTeamValues: ['PP Genesis']
+      },
+      'pp-pioneers': {
+        name: 'PP Pioneers',
+        jiraProject: 'ELM',
+        boardId: null,
+        sprintFormat: '{sprint}',
+        safeTeamValues: ['PP Pioneers']
+      },
+      'pp-spartacles': {
+        name: 'PP Spartacles',
+        jiraProject: 'ELM',
+        boardId: null,
+        sprintFormat: '{sprint}',
+        safeTeamValues: ['PP Spartacles']
+      }
+    };
+
+    /**
      * Cache storage for bug metrics with timestamps
      * @type {Map<string, {timestamp: number, data: any}>}
      */
@@ -328,7 +356,7 @@ class JiraBugService {
    * @private
    */
   getTeamConfig(teamId) {
-    return this.dnaTeams[teamId] || this.t360Teams[teamId] || null;
+    return this.dnaTeams[teamId] || this.t360Teams[teamId] || this.passportTeams[teamId] || null;
   }
 
   /**
@@ -350,8 +378,7 @@ class JiraBugService {
    * @private
    */
   isPassportTeam(teamId) {
-    const passportTeamIds = ['team-a', 'team-b', 'team-c'];
-    return passportTeamIds.includes(teamId);
+    return !!this.passportTeams[teamId];
   }
 
   /**
@@ -483,20 +510,26 @@ class JiraBugService {
 
     console.log(`🔍 Fetching bugs from Jira for ${team.name} sprint ${sprintNumber}...`);
 
-    // Build project clause: DnA teams search primary + Tech Ops, T360 teams search GET only
+    // Build project clause: DnA teams search primary + Tech Ops, T360 teams search GET only, Passport teams search ELM with SAFe Team filter
     let projectClause;
-    if (this.isDnaTeam(teamId)) {
+    let jql;
+    if (this.isPassportTeam(teamId)) {
+      // Passport teams: ELM project with SAFe Team filtering in JQL and Sprint by number
+      const safeTeamValues = team.safeTeamValues || [team.safeTeamValue];
+      const teamFilter = safeTeamValues.map(t => `'${t}'`).join(', ');
+      jql = `project = ELM AND type = Bug AND cf[13392] in (${teamFilter}) AND Sprint in ('${sprintNumber}') AND status NOT IN ('New') ORDER BY created DESC`;
+    } else if (this.isDnaTeam(teamId)) {
       // Multi-project query for DnA teams: primary project AND "ELM Tech Ops" (TO project)
       const toProject = '"ELM Tech Ops"';
       projectClause = team.jiraProject === 'ELM' 
         ? `(project = ELM OR project = ${toProject})`  // Minerva/Guardians
         : `(project = ${team.jiraProject} OR project = ${toProject})`;  // Athena
+      jql = `${projectClause} AND type = Bug AND sprint = "${sprintName}" ORDER BY created DESC`;
     } else {
       // Single project query for T360 teams
       projectClause = `project = ${team.jiraProject}`;
+      jql = `${projectClause} AND type = Bug AND sprint = "${sprintName}" ORDER BY created DESC`;
     }
-    
-    const jql = `${projectClause} AND type = Bug AND sprint = "${sprintName}" ORDER BY created DESC`;
     
     console.log(`📋 JQL Query: ${jql}`);
 
@@ -548,12 +581,13 @@ class JiraBugService {
       const safeTeamValue = safeTeamField?.value || safeTeamField;
       
       // If Safe-Team field is missing/null, include only for DnA teams (TO bugs)
+      // Passport teams already filter by SAFe Team in JQL, so exclude null Safe-Team
       if (!safeTeamValue) {
         const includeToBug = this.isDnaTeam(teamId);
         if (includeToBug) {
           console.log(`  Bug ${bug.key}: Safe-Team missing/null, including (TO bug for DnA team)`);
         } else {
-          console.log(`  Bug ${bug.key}: Safe-Team missing/null, excluding (T360 team requires Safe-Team)`);
+          console.log(`  Bug ${bug.key}: Safe-Team missing/null, excluding (${this.isPassportTeam(teamId) ? 'Passport' : 'T360'} team requires Safe-Team)`);
         }
         return includeToBug;
       }
@@ -701,11 +735,12 @@ class JiraBugService {
       const bugDetails = [];
 
       // Categorize bugs by status
-      // Simplified classification: Closed = 'Closed' only, Open = all other statuses
+      // Classification: Closed/Resolved/Done/Fixed = closed, everything else = open
+      const closedStatusSet = new Set(['closed', 'done', 'resolved', 'fixed', 'verified']);
       for (const bug of bugs) {
         const status = bug.fields.status?.name || 'Unknown';
         const normalizedStatus = status.trim().toLowerCase();
-        const isClosed = normalizedStatus === 'closed';
+        const isClosed = closedStatusSet.has(normalizedStatus);
         const isOpen = !isClosed;
 
         if (isOpen) {
@@ -829,6 +864,28 @@ class JiraBugService {
       return results;
     } catch (err) {
       console.error(`❌ Error fetching metrics for all T360 teams:`, err.message);
+      throw err;
+    }
+  }
+
+  /**
+   * Get bug metrics for all Passport teams for a specific sprint
+   * 
+   * Fetches metrics for PP Genesis, PP Pioneers, and PP Spartacles in parallel.
+   * 
+   * @param {string} sprintNumber - Sprint number (e.g., "26.1.1")
+   * @returns {Promise<Array<Object>>} Array of metrics objects, one per team
+   * @throws {Error} If any team's metrics calculation fails
+   */
+  async getAllPassportTeamMetrics(sprintNumber) {
+    const teamIds = Object.keys(this.passportTeams);
+    const promises = teamIds.map(teamId => this.calculateBugMetrics(teamId, sprintNumber));
+    
+    try {
+      const results = await Promise.all(promises);
+      return results;
+    } catch (err) {
+      console.error(`❌ Error fetching metrics for all Passport teams:`, err.message);
       throw err;
     }
   }

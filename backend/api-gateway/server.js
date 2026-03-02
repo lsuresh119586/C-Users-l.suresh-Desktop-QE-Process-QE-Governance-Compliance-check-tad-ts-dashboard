@@ -927,6 +927,48 @@ const server = http.createServer(async (req, res) => {
         }
       }
     }
+
+    // Enrich with live TAD/TS compliance data for DoR Readiness %
+    if ((product === 'dna' || product === 't360' || product === 'passport') && !isCpod) {
+      try {
+        const firstSprint = metrics[0]?.sprint;
+        const sprintMatch = firstSprint?.match(/-(.+)$/);
+        if (sprintMatch) {
+          const sprintNumber = sprintMatch[1];
+          console.log(`📋 Enriching DoR Readiness with live TAD/TS compliance for sprint ${sprintNumber}...`);
+          const complianceData = product === 'passport'
+            ? await getPassportSprintCompliance(sprintNumber)
+            : await getSprintCompliance(sprintNumber);
+
+          if (complianceData && complianceData.teams) {
+            metrics = metrics.map(metric => {
+              const teamName = metric.team;
+              let tadPct = null;
+              // Match team name from compliance data (case-insensitive)
+              for (const [compTeam, compData] of Object.entries(complianceData.teams)) {
+                if (compTeam.toLowerCase() === teamName.toLowerCase() ||
+                    compTeam.toLowerCase().includes(teamName.toLowerCase()) ||
+                    teamName.toLowerCase().includes(compTeam.toLowerCase())) {
+                  tadPct = compData.tadPct;
+                  break;
+                }
+              }
+              if (tadPct !== null && tadPct !== undefined) {
+                return { ...metric, requirementsCovered: Math.round(tadPct), dorSource: 'qtest-live' };
+              }
+              // Use overall summary tadPct as fallback
+              if (complianceData.summary && complianceData.summary.tadPct !== undefined) {
+                return { ...metric, requirementsCovered: Math.round(complianceData.summary.tadPct), dorSource: 'qtest-live-summary' };
+              }
+              return metric;
+            });
+            console.log(`✅ DoR Readiness enriched from live qTest TAD/TS data`);
+          }
+        }
+      } catch (error) {
+        console.error('Error enriching DoR Readiness with TAD/TS compliance:', error.message);
+      }
+    }
     
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(metrics));
@@ -1014,6 +1056,8 @@ const server = http.createServer(async (req, res) => {
   if (req.method === 'GET' && req.url.startsWith('/api/defects/by-module')) {
     const urlObj = new url.URL(req.url, `http://${req.headers.host}`);
     const sprintName = urlObj.searchParams.get('sprint');
+    const defectProduct = urlObj.searchParams.get('product') || '';
+    const defectTeam = urlObj.searchParams.get('team') || '';
     
     if (!sprintName) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -1032,25 +1076,47 @@ const server = http.createServer(async (req, res) => {
     }
 
     try {
-      console.log(`🔍 Fetching LIVE defects from Jira for sprint ${sprintName}...`);
+      console.log(`🔍 Fetching LIVE defects from Jira for sprint ${sprintName} (product=${defectProduct || 'all'}, team=${defectTeam || 'all'})...`);
 
-      // Fetch from DnA, T360, and Passport teams in parallel
-      const [dnaResults, t360Results, passportResults] = await Promise.all([
-        jiraBugService.getAllDnATeamMetrics(sprintName).catch(err => {
+      // Fetch only relevant product's teams (or all if no product specified)
+      const fetchPromises = [];
+      if (!defectProduct || defectProduct === 'dna') {
+        fetchPromises.push(jiraBugService.getAllDnATeamMetrics(sprintName).catch(err => {
           console.warn(`⚠️  DnA team metrics failed: ${err.message}`);
           return [];
-        }),
-        jiraBugService.getAllT360TeamMetrics(sprintName).catch(err => {
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
+      if (!defectProduct || defectProduct === 't360') {
+        fetchPromises.push(jiraBugService.getAllT360TeamMetrics(sprintName).catch(err => {
           console.warn(`⚠️  T360 team metrics failed: ${err.message}`);
           return [];
-        }),
-        jiraBugService.getAllPassportTeamMetrics(sprintName).catch(err => {
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
+      if (!defectProduct || defectProduct === 'passport') {
+        fetchPromises.push(jiraBugService.getAllPassportTeamMetrics(sprintName).catch(err => {
           console.warn(`⚠️  Passport team metrics failed: ${err.message}`);
           return [];
-        })
-      ]);
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
 
-      const allTeamMetrics = [...dnaResults, ...t360Results, ...passportResults];
+      const [dnaResults, t360Results, passportResults] = await Promise.all(fetchPromises);
+
+      let allTeamMetrics = [...dnaResults, ...t360Results, ...passportResults];
+
+      // Filter by team if specified
+      if (defectTeam) {
+        allTeamMetrics = allTeamMetrics.filter(m =>
+          m.teamId.toLowerCase() === defectTeam.toLowerCase() ||
+          m.teamId.toLowerCase().includes(defectTeam.toLowerCase()) ||
+          defectTeam.toLowerCase().includes(m.teamId.toLowerCase())
+        );
+      }
 
       // Aggregate across all teams
       let totalOpen = 0, totalClosed = 0, totalReopened = 0;

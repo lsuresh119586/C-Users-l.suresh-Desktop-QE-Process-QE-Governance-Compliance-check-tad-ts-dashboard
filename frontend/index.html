@@ -1459,7 +1459,7 @@
           // Extract sprint number (e.g., "vanguards-26.1.2" → "26.1.2")
           const sprintName = getSprintNumberFromState() || '26.1.5';
 
-          const response = await fetch(`http://localhost:3000/api/defects/by-module?sprint=${encodeURIComponent(sprintName)}`);
+          const response = await fetch(`http://localhost:3000/api/defects/by-module?sprint=${encodeURIComponent(sprintName)}&product=${encodeURIComponent(product)}&team=${encodeURIComponent(team)}`);
           const data = await response.json();
 
           if (data.error) throw new Error(data.error);
@@ -1527,6 +1527,16 @@
             teamName.toLowerCase().includes(t.toLowerCase()) || t.toLowerCase().includes(teamName.toLowerCase())
           );
           if (matches) filteredTeams[teamName] = teamData;
+        }
+
+        // Further filter by selected team if specified
+        if (teamFilter) {
+          const teamKeys = Object.keys(filteredTeams);
+          for (const teamName of teamKeys) {
+            if (!teamName.toLowerCase().includes(teamFilter.toLowerCase()) && !teamFilter.toLowerCase().includes(teamName.toLowerCase())) {
+              delete filteredTeams[teamName];
+            }
+          }
         }
 
         // Collect bugs from filtered teams, filtering by defect type

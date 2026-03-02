@@ -252,7 +252,7 @@ async function getIssueComments(issueKey) {
  * Check comments for N/A keywords for a deliverable type
  */
 function checkCommentsForNA(comments, deliverableType) {
-  const deliverableKeywords = deliverableType === 'TAD' ? ['TAD'] : ['TS', 'TEST STRATEGY'];
+  const deliverableKeywords = deliverableType === 'TAD' ? ['TAD'] : ['TS', 'TEST STRATEGY', 'TS ELM'];
 
   for (const comment of comments) {
     if (!comment) continue;
@@ -275,7 +275,7 @@ function checkDescriptionForLinks(description) {
 
   const upper = description.toUpperCase();
   const tadKeywords = ['TECHNICAL ARCHITECTURE', 'TAD DOCUMENT', 'ADR', 'ARCHITECTURE DECISION', 'DESIGN DOCUMENT', 'TECHNICAL DESIGN'];
-  const tsKeywords = ['TEST STRATEGY', 'TS FOR', 'TEST PLAN', 'TESTING STRATEGY', 'QA STRATEGY'];
+  const tsKeywords = ['TEST STRATEGY', 'TS FOR', 'TEST PLAN', 'TESTING STRATEGY', 'QA STRATEGY', 'TS ELM'];
 
   for (const kw of tadKeywords) {
     if (upper.includes(kw)) {
@@ -334,7 +334,7 @@ async function checkDeliverables(issueKey, issueId, description) {
             result.tadPr = { name: pr.name, status: prStatus, url: prUrl };
           }
 
-          if ((prName.includes('[TS]') || prName.includes('TS FOR') || prName.includes('TEST STRATEGY'))
+          if ((prName.includes('[TS]') || prName.includes('TS FOR') || prName.includes('TEST STRATEGY') || prName.includes('TS ELM'))
               && !prName.includes('TS FILE')) {
             result.tsFound = true;
             result.tsPr = { name: pr.name, status: prStatus, url: prUrl };

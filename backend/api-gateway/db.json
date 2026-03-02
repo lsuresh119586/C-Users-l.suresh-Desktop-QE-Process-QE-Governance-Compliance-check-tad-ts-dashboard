@@ -19,18 +19,18 @@
   ],
   "teams": [
     {
-      "id": "team-a",
-      "name": "Team A",
+      "id": "pp-genesis",
+      "name": "PP Genesis",
       "product": "passport"
     },
     {
-      "id": "team-b",
-      "name": "Team B",
+      "id": "pp-pioneers",
+      "name": "PP Pioneers",
       "product": "passport"
     },
     {
-      "id": "team-c",
-      "name": "Team C",
+      "id": "pp-spartacles",
+      "name": "PP Spartacles",
       "product": "passport"
     },
     {
@@ -93,14 +93,79 @@
   ],
   "sprints": [
     {
-      "id": "team-a-25.1.1",
-      "name": "Sprint 25.1.1",
-      "team": "team-a"
+      "id": "pp-genesis-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "pp-genesis"
     },
     {
-      "id": "team-a-25.1.2",
-      "name": "Sprint 25.1.2",
-      "team": "team-a"
+      "id": "pp-genesis-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "pp-genesis"
+    },
+    {
+      "id": "pp-genesis-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "pp-genesis"
+    },
+    {
+      "id": "pp-genesis-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "pp-genesis"
+    },
+    {
+      "id": "pp-genesis-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "pp-genesis"
+    },
+    {
+      "id": "pp-pioneers-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "pp-pioneers"
+    },
+    {
+      "id": "pp-pioneers-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "pp-pioneers"
+    },
+    {
+      "id": "pp-pioneers-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "pp-pioneers"
+    },
+    {
+      "id": "pp-pioneers-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "pp-pioneers"
+    },
+    {
+      "id": "pp-pioneers-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "pp-pioneers"
+    },
+    {
+      "id": "pp-spartacles-26.1.1",
+      "name": "Sprint 26.1.1",
+      "team": "pp-spartacles"
+    },
+    {
+      "id": "pp-spartacles-26.1.2",
+      "name": "Sprint 26.1.2",
+      "team": "pp-spartacles"
+    },
+    {
+      "id": "pp-spartacles-26.1.3",
+      "name": "Sprint 26.1.3",
+      "team": "pp-spartacles"
+    },
+    {
+      "id": "pp-spartacles-26.1.4",
+      "name": "Sprint 26.1.4",
+      "team": "pp-spartacles"
+    },
+    {
+      "id": "pp-spartacles-26.1.5",
+      "name": "Sprint 26.1.5",
+      "team": "pp-spartacles"
     },
     {
       "id": "chargers-26.1.1",
@@ -375,10 +440,10 @@
   ],
   "metrics": [
     {
-      "id": "metric-team-a-25.1.1",
+      "id": "metric-pp-genesis-26.1.1",
       "product": "passport",
-      "team": "team-a",
-      "sprint": "team-a-25.1.1",
+      "team": "pp-genesis",
+      "sprint": "pp-genesis-26.1.1",
       "requirementsCovered": 84,
       "testsCovered": 81,
       "defectsOpen": 3,
@@ -390,10 +455,10 @@
       "updatedFromAnalysis": true
     },
     {
-      "id": "metric-team-a-25.1.2",
+      "id": "metric-pp-genesis-26.1.2",
       "product": "passport",
-      "team": "team-a",
-      "sprint": "team-a-25.1.2",
+      "team": "pp-genesis",
+      "sprint": "pp-genesis-26.1.2",
       "requirementsCovered": 86,
       "testsCovered": 80,
       "defectsOpen": 3,
@@ -4003,6 +4068,97 @@
               "status": "Unknown"
             }
           ]
+        },
+        "PP Genesis": {
+          "total_test_cases": 8,
+          "automated_test_cases": 7,
+          "automation_coverage_percent": 87.5,
+          "with_attachments": 7,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-1001",
+              "qtest_id": 140001001,
+              "name": "Verify ELM Document Upload and Indexing",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1002",
+              "qtest_id": 140001002,
+              "name": "Verify ELM Invoice Processing Workflow",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1003",
+              "qtest_id": 140001003,
+              "name": "Verify ELM Dashboard Widget Configuration",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Pioneers": {
+          "total_test_cases": 6,
+          "automated_test_cases": 5,
+          "automation_coverage_percent": 83.3,
+          "with_attachments": 5,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-2001",
+              "qtest_id": 140002001,
+              "name": "Verify Matter Budget Allocation Rules",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2002",
+              "qtest_id": 140002002,
+              "name": "Verify Vendor Rate Card Import",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2003",
+              "qtest_id": 140002003,
+              "name": "Verify Fee Arrangement Setup Wizard",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Spartacles": {
+          "total_test_cases": 5,
+          "automated_test_cases": 5,
+          "automation_coverage_percent": 100,
+          "with_attachments": 5,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-PP-3001",
+              "qtest_id": 140003001,
+              "name": "Verify Custom Report Generation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3002",
+              "qtest_id": 140003002,
+              "name": "Verify Data Export to CSV and Excel",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            }
+          ]
         }
       }
     },
@@ -4420,6 +4576,97 @@
               "automated": false,
               "has_attachment": false,
               "status": "Unknown"
+            }
+          ]
+        },
+        "PP Genesis": {
+          "total_test_cases": 10,
+          "automated_test_cases": 9,
+          "automation_coverage_percent": 90,
+          "with_attachments": 9,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-1010",
+              "qtest_id": 140011001,
+              "name": "Verify ELM User Role Permissions Matrix",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1011",
+              "qtest_id": 140011002,
+              "name": "Verify ELM Notification Service Integration",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1012",
+              "qtest_id": 140011003,
+              "name": "Verify ELM Bulk Action Processing",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Pioneers": {
+          "total_test_cases": 7,
+          "automated_test_cases": 6,
+          "automation_coverage_percent": 85.7,
+          "with_attachments": 6,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-2010",
+              "qtest_id": 140012001,
+              "name": "Verify Accrual Calculation Engine",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2011",
+              "qtest_id": 140012002,
+              "name": "Verify Tax Computation Rules",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2012",
+              "qtest_id": 140012003,
+              "name": "Verify Currency Conversion Rates",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Spartacles": {
+          "total_test_cases": 6,
+          "automated_test_cases": 6,
+          "automation_coverage_percent": 100,
+          "with_attachments": 6,
+          "without_attachments": 0,
+          "test_cases": [
+            {
+              "id": "TC-PP-3010",
+              "qtest_id": 140013001,
+              "name": "Verify Scheduled Report Delivery",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3011",
+              "qtest_id": 140013002,
+              "name": "Verify Dashboard Analytics Refresh",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
             }
           ]
         }
@@ -4878,6 +5125,105 @@
               "name": "Verify Flyout Close Functionality",
               "automated": true,
               "has_attachment": true,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Genesis": {
+          "total_test_cases": 9,
+          "automated_test_cases": 8,
+          "automation_coverage_percent": 88.9,
+          "with_attachments": 8,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-1020",
+              "qtest_id": 140021001,
+              "name": "Verify ELM Workflow Approval Routing",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1021",
+              "qtest_id": 140021002,
+              "name": "Verify ELM Document Version Control",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1022",
+              "qtest_id": 140021003,
+              "name": "Verify ELM Search Filter Persistence",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Pioneers": {
+          "total_test_cases": 8,
+          "automated_test_cases": 7,
+          "automation_coverage_percent": 87.5,
+          "with_attachments": 7,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-2020",
+              "qtest_id": 140022001,
+              "name": "Verify Payment Processing Pipeline",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2021",
+              "qtest_id": 140022002,
+              "name": "Verify Invoice Line Item Validation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2022",
+              "qtest_id": 140022003,
+              "name": "Verify Multi-Currency Invoice Handling",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Spartacles": {
+          "total_test_cases": 7,
+          "automated_test_cases": 6,
+          "automation_coverage_percent": 85.7,
+          "with_attachments": 6,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-3020",
+              "qtest_id": 140023001,
+              "name": "Verify KPI Dashboard Data Aggregation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3021",
+              "qtest_id": 140023002,
+              "name": "Verify Trend Analysis Chart Rendering",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3022",
+              "qtest_id": 140023003,
+              "name": "Verify Ad-hoc Report Builder",
+              "automated": false,
+              "has_attachment": false,
               "status": "Unknown"
             }
           ]
@@ -5357,6 +5703,105 @@
               "status": "Unknown"
             }
           ]
+        },
+        "PP Genesis": {
+          "total_test_cases": 11,
+          "automated_test_cases": 10,
+          "automation_coverage_percent": 90.9,
+          "with_attachments": 10,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-1030",
+              "qtest_id": 140031001,
+              "name": "Verify ELM API Gateway Rate Limiting",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1031",
+              "qtest_id": 140031002,
+              "name": "Verify ELM Session Management",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1032",
+              "qtest_id": 140031003,
+              "name": "Verify ELM Audit Trail Logging",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Pioneers": {
+          "total_test_cases": 9,
+          "automated_test_cases": 8,
+          "automation_coverage_percent": 88.9,
+          "with_attachments": 8,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-2030",
+              "qtest_id": 140032001,
+              "name": "Verify Automated Accrual Reversal Logic",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2031",
+              "qtest_id": 140032002,
+              "name": "Verify Batch Payment File Generation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2032",
+              "qtest_id": 140032003,
+              "name": "Verify Split Payment Allocation",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Spartacles": {
+          "total_test_cases": 8,
+          "automated_test_cases": 7,
+          "automation_coverage_percent": 87.5,
+          "with_attachments": 7,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-3030",
+              "qtest_id": 140033001,
+              "name": "Verify Compliance Dashboard Metrics",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3031",
+              "qtest_id": 140033002,
+              "name": "Verify Regulatory Report Templates",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3032",
+              "qtest_id": 140033003,
+              "name": "Verify Data Retention Policy Automation",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
         }
       }
     },
@@ -5585,6 +6030,105 @@
               "id": "TC-26179",
               "qtest_id": 138126462,
               "name": "Verify Get description for valid CRON",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Genesis": {
+          "total_test_cases": 7,
+          "automated_test_cases": 6,
+          "automation_coverage_percent": 85.7,
+          "with_attachments": 6,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-1040",
+              "qtest_id": 140041001,
+              "name": "Verify ELM SSO Configuration",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1041",
+              "qtest_id": 140041002,
+              "name": "Verify ELM Multi-Tenant Data Isolation",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-1042",
+              "qtest_id": 140041003,
+              "name": "Verify ELM Localization Support",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Pioneers": {
+          "total_test_cases": 5,
+          "automated_test_cases": 4,
+          "automation_coverage_percent": 80,
+          "with_attachments": 4,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-2040",
+              "qtest_id": 140042001,
+              "name": "Verify Invoice Aging Report",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2041",
+              "qtest_id": 140042002,
+              "name": "Verify Payment Reconciliation Workflow",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-2042",
+              "qtest_id": 140042003,
+              "name": "Verify Late Fee Calculation Engine",
+              "automated": false,
+              "has_attachment": false,
+              "status": "Unknown"
+            }
+          ]
+        },
+        "PP Spartacles": {
+          "total_test_cases": 6,
+          "automated_test_cases": 5,
+          "automation_coverage_percent": 83.3,
+          "with_attachments": 5,
+          "without_attachments": 1,
+          "test_cases": [
+            {
+              "id": "TC-PP-3040",
+              "qtest_id": 140043001,
+              "name": "Verify Spend Analytics Dashboard",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3041",
+              "qtest_id": 140043002,
+              "name": "Verify Budget vs Actual Comparison",
+              "automated": true,
+              "has_attachment": true,
+              "status": "Passed"
+            },
+            {
+              "id": "TC-PP-3042",
+              "qtest_id": 140043003,
+              "name": "Verify Predictive Cost Modeling",
               "automated": false,
               "has_attachment": false,
               "status": "Unknown"

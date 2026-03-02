@@ -8,6 +8,8 @@ import { getSprintDefectsData } from './sample-tadts-data.js';
 import JiraBugService from './jiraBugService.js';
 import MetricsPersistence from './metricsPersistence.js';
 import { fetchSprintTestCases } from './qtest-integration.js';
+import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceService.js';
+import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -96,9 +98,9 @@ const defaultData = {
   ],
   teams: [
     // Passport teams
-    { id: 'team-a', name: 'Team A', product: 'passport' },
-    { id: 'team-b', name: 'Team B', product: 'passport' },
-    { id: 'team-c', name: 'Team C', product: 'passport' },
+    { id: 'pp-genesis', name: 'PP Genesis', product: 'passport' },
+    { id: 'pp-pioneers', name: 'PP Pioneers', product: 'passport' },
+    { id: 'pp-spartacles', name: 'PP Spartacles', product: 'passport' },
     
     // T360 teams
     { id: 'vanguards', name: 'Vanguards', product: 't360' },
@@ -109,9 +111,24 @@ const defaultData = {
     { id: 'nexus', name: 'Nexus', product: 't360' }
   ],
   sprints: [
-    // Passport sprints
-    { id: 'team-a-25.1.1', name: 'Sprint 25.1.1', team: 'team-a' },
-    { id: 'team-a-25.1.2', name: 'Sprint 25.1.2', team: 'team-a' },
+    // Passport - PP Genesis sprints
+    { id: 'pp-genesis-26.1.1', name: 'Sprint 26.1.1', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.2', name: 'Sprint 26.1.2', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.3', name: 'Sprint 26.1.3', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.4', name: 'Sprint 26.1.4', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.5', name: 'Sprint 26.1.5', team: 'pp-genesis' },
+    // Passport - PP Pioneers sprints
+    { id: 'pp-pioneers-26.1.1', name: 'Sprint 26.1.1', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.2', name: 'Sprint 26.1.2', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.3', name: 'Sprint 26.1.3', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.4', name: 'Sprint 26.1.4', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.5', name: 'Sprint 26.1.5', team: 'pp-pioneers' },
+    // Passport - PP Spartacles sprints
+    { id: 'pp-spartacles-26.1.1', name: 'Sprint 26.1.1', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.2', name: 'Sprint 26.1.2', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.3', name: 'Sprint 26.1.3', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.4', name: 'Sprint 26.1.4', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.5', name: 'Sprint 26.1.5', team: 'pp-spartacles' },
     
     // T360 - Vanguards sprints
     { id: 'vanguards-26.1.2', name: 'Sprint 26.1.2', team: 'vanguards' },
@@ -161,33 +178,33 @@ const defaultData = {
     { id: 'nexus-26.1.6', name: 'Sprint 26.1.6', team: 'nexus' }
   ],
   metrics: [
-    // Passport Team A Sprint 25.1.1
+    // Passport PP Genesis Sprint 26.1.1
     {
-      id: 'metric-team-a-25.1.1',
+      id: 'metric-pp-genesis-26.1.1',
       product: 'passport',
-      team: 'team-a',
-      sprint: 'team-a-25.1.1',
+      team: 'pp-genesis',
+      sprint: 'pp-genesis-26.1.1',
       requirementsCovered: 95,
       testsCovered: 92,
       defectsOpen: 3,
       defectsClosed: 18,
       deploymentReadiness: 90,
       codeQuality: 88,
-      timestamp: '2025-01-15T10:00:00Z'
+      timestamp: '2026-01-15T10:00:00Z'
     },
-    // Passport Team A Sprint 25.1.2
+    // Passport PP Genesis Sprint 26.1.2
     {
-      id: 'metric-team-a-25.1.2',
+      id: 'metric-pp-genesis-26.1.2',
       product: 'passport',
-      team: 'team-a',
-      sprint: 'team-a-25.1.2',
+      team: 'pp-genesis',
+      sprint: 'pp-genesis-26.1.2',
       requirementsCovered: 93,
       testsCovered: 90,
       defectsOpen: 5,
       defectsClosed: 20,
       deploymentReadiness: 87,
       codeQuality: 85,
-      timestamp: '2025-01-16T10:00:00Z'
+      timestamp: '2026-01-16T10:00:00Z'
     },
     
     // T360 - Vanguards Sprint 26.1.2
@@ -1278,6 +1295,72 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // ── TAD/TS Compliance Endpoints ──
+  if (pathname === '/api/tad-ts/sprints' && req.method === 'GET') {
+    try {
+      const sprints = await getAvailableSprints();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', sprints }));
+    } catch (error) {
+      console.error('Error fetching TAD/TS sprints:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  if (pathname.startsWith('/api/tad-ts/sprint/') && req.method === 'GET') {
+    const sprintNumber = pathname.split('/api/tad-ts/sprint/')[1];
+    if (!sprintNumber) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Sprint number required' }));
+      return;
+    }
+    try {
+      const data = await getSprintCompliance(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', data }));
+    } catch (error) {
+      console.error(`Error fetching TAD/TS compliance for sprint ${sprintNumber}:`, error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // ── Passport TAD/TS Compliance Endpoints ──
+  if (pathname === '/api/tad-ts/passport/sprints' && req.method === 'GET') {
+    try {
+      const sprints = await getPassportAvailableSprints();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', sprints }));
+    } catch (error) {
+      console.error('Error fetching Passport TAD/TS sprints:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  if (pathname.startsWith('/api/tad-ts/passport/sprint/') && req.method === 'GET') {
+    const sprintNumber = pathname.split('/api/tad-ts/passport/sprint/')[1];
+    if (!sprintNumber) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Sprint number required' }));
+      return;
+    }
+    try {
+      const data = await getPassportSprintCompliance(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', data }));
+    } catch (error) {
+      console.error(`Error fetching Passport TAD/TS compliance for sprint ${sprintNumber}:`, error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
   // 404
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Not found' }));
@@ -1300,4 +1383,8 @@ server.listen(PORT, () => {
   console.log(`   GET  /api/bugs/t360/all?sprint=<sprint-number>`);
   console.log(`   GET  /api/metrics/persisted?product=<product>&sprint=<sprint-number>`);
   console.log(`   GET  /api/defects/by-module?sprint=<sprint-name>`);
+  console.log(`   GET  /api/tad-ts/sprints`);
+  console.log(`   GET  /api/tad-ts/sprint/:sprint`);
+  console.log(`   GET  /api/tad-ts/passport/sprints`);
+  console.log(`   GET  /api/tad-ts/passport/sprint/:sprint`);
 });

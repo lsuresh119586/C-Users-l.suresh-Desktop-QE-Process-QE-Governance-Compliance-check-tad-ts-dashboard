@@ -823,6 +823,134 @@ class JiraBugService {
   }
 
   /**
+   * Get bugs for CPOD team within a date range (no sprint filter)
+   * Queries: project = ELM AND type = Bug AND created >= startDate AND created <= endDate AND status NOT IN ('New')
+   *
+   * @param {string} startDate - Start date in YYYY-MM-DD format
+   * @param {string} endDate - End date in YYYY-MM-DD format
+   * @returns {Promise<Array<Object>>} Array of bug issues
+   */
+  async getBugsForDateRange(startDate, endDate) {
+    const cacheKey = `bugs-cpod-${startDate}-${endDate}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp < this.cacheTTL)) {
+      console.log(`\u2705 Cache hit for ${cacheKey}`);
+      return cached.data;
+    }
+
+    const jql = `project = ELM AND type = Bug AND created >= '${startDate}' AND created <= '${endDate}' AND status NOT IN ('New') ORDER BY created DESC`;
+    console.log(`\ud83d\udd0d Fetching CPOD bugs by date range: ${startDate} to ${endDate}`);
+    console.log(`\ud83d\udccb JQL Query: ${jql}`);
+
+    const allBugs = [];
+    let startAt = 0;
+    const maxResults = 50;
+
+    while (true) {
+      const payload = {
+        jql: jql,
+        startAt: startAt,
+        maxResults: maxResults,
+        fields: ['key', 'summary', 'status', 'priority', 'created', 'updated', 'assignee', 'reporter', 'components', 'labels']
+      };
+
+      try {
+        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, 'cpod');
+        const issues = response.issues || [];
+        allBugs.push(...issues);
+
+        if (issues.length < maxResults) break;
+        startAt += maxResults;
+      } catch (err) {
+        console.error(`\u274c Error fetching CPOD bugs by date range: ${err.message}`);
+        throw err;
+      }
+    }
+
+    console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate}`);
+    this.cache.set(cacheKey, { data: allBugs, timestamp: Date.now() });
+    return allBugs;
+  }
+
+  /**
+   * Calculate bug metrics for CPOD using date range instead of sprint
+   *
+   * @param {string} startDate - Start date in YYYY-MM-DD format
+   * @param {string} endDate - End date in YYYY-MM-DD format
+   * @returns {Promise<Object>} Bug metrics object
+   */
+  async calculateBugMetricsByDateRange(startDate, endDate) {
+    const startTime = Date.now();
+    try {
+      const bugs = await this.getBugsForDateRange(startDate, endDate);
+
+      let totalBugs = bugs.length;
+      let openBugs = 0;
+      let closedBugs = 0;
+      let reopenedBugs = 0;
+      const bugDetails = [];
+
+      const closedStatusSet = new Set(['closed', 'done', 'resolved', 'fixed', 'verified']);
+      for (const bug of bugs) {
+        const status = bug.fields.status?.name || 'Unknown';
+        const normalizedStatus = status.trim().toLowerCase();
+        const isClosed = closedStatusSet.has(normalizedStatus);
+        const isOpen = !isClosed;
+        if (isOpen) openBugs++; else closedBugs++;
+
+        bugDetails.push({
+          key: bug.key,
+          summary: bug.fields.summary,
+          status: status,
+          severity: this.mapPriorityToSeverity(bug.fields.priority?.name),
+          priority: bug.fields.priority?.name || 'None',
+          created: bug.fields.created,
+          updated: bug.fields.updated,
+          isOpen: isOpen,
+          isClosed: isClosed
+        });
+      }
+
+      // Detect reopened bugs
+      console.log(`\ud83d\udd0d Detecting reopened bugs for ${bugs.length} CPOD issues...`);
+      const reopenPromises = bugs.map(bug => this.detectReopenedBug(bug.key, 'cpod'));
+      const reopenResults = await Promise.all(reopenPromises);
+      for (let i = 0; i < bugDetails.length; i++) {
+        bugDetails[i].reopened = reopenResults[i].reopened;
+        bugDetails[i].reopenCount = reopenResults[i].reopenCount;
+        bugDetails[i].reopenHistory = reopenResults[i].reopenHistory;
+        if (reopenResults[i].reopened) reopenedBugs++;
+      }
+
+      const reopenedRate = totalBugs > 0 ? (reopenedBugs / totalBugs) * 100 : 0;
+      let qualityIndicator = 'Excellent';
+      if (reopenedRate > 15) qualityIndicator = 'Poor';
+      else if (reopenedRate > 10) qualityIndicator = 'Needs Improvement';
+      else if (reopenedRate > 5) qualityIndicator = 'Good';
+
+      const elapsedTime = ((Date.now() - startTime) / 1000).toFixed(2);
+      console.log(`\u2705 CPOD date-range bug metrics calculated in ${elapsedTime}s: ${totalBugs} total, ${openBugs} open, ${closedBugs} closed`);
+
+      return {
+        teamId: 'cpod',
+        dateRange: { startDate, endDate },
+        totalBugs,
+        openBugs,
+        closedBugs,
+        reopenedBugs,
+        reopenedRate: parseFloat(reopenedRate.toFixed(2)),
+        qualityIndicator,
+        bugDetails,
+        fetchedAt: new Date().toISOString(),
+        processingTimeSeconds: parseFloat(elapsedTime)
+      };
+    } catch (err) {
+      console.error(`\u274c Error calculating CPOD date-range bug metrics:`, err.message);
+      throw err;
+    }
+  }
+
+  /**
    * Get bug metrics for all DnA teams for a specific sprint
    * 
    * Fetches metrics for Minerva, Guardians, and Athena teams in parallel.

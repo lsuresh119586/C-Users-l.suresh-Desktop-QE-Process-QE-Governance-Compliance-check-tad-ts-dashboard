@@ -868,39 +868,63 @@ const server = http.createServer(async (req, res) => {
     
     // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
     if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {
-      const enrichPromises = metrics.map(async (metric) => {
+      // CPOD uses date-range based Jira queries instead of sprint-based
+      if (isCpod && startDate && endDate) {
         try {
-          // Extract sprint number from sprint ID (e.g., "minerva-26.1.2" -> "26.1.2")
-          const sprintMatch = metric.sprint.match(/-(.+)$/);
-          if (sprintMatch) {
-            const sprintNumber = sprintMatch[1];
-            const bugMetrics = await jiraBugService.calculateBugMetrics(metric.team, sprintNumber);
-            
-            // Enrich metric with actual bug data
-            return {
-              ...metric,
-              totalBugs: bugMetrics.totalBugs,
-              defectsOpen: bugMetrics.openBugs,
-              defectsClosed: bugMetrics.closedBugs,
-              reopenedBugs: bugMetrics.reopenedBugs,
-              reopenedRate: bugMetrics.reopenedRate,
-              qualityIndicator: bugMetrics.qualityIndicator,
-              bugDetails: bugMetrics.bugDetails,
-              updatedFromJiraBugs: true,
-              jiraBugsFetchedAt: bugMetrics.fetchedAt
-            };
-          }
-          return metric;
+          console.log(`📅 Enriching CPOD metrics with date-range Jira data: ${startDate} to ${endDate}`);
+          const bugMetrics = await jiraBugService.calculateBugMetricsByDateRange(startDate, endDate);
+          // Apply the same bug data to all CPOD metrics in the result
+          metrics = metrics.map(metric => ({
+            ...metric,
+            totalBugs: bugMetrics.totalBugs,
+            defectsOpen: bugMetrics.openBugs,
+            defectsClosed: bugMetrics.closedBugs,
+            reopenedBugs: bugMetrics.reopenedBugs,
+            reopenedRate: bugMetrics.reopenedRate,
+            qualityIndicator: bugMetrics.qualityIndicator,
+            bugDetails: bugMetrics.bugDetails,
+            updatedFromJiraBugs: true,
+            jiraBugsFetchedAt: bugMetrics.fetchedAt,
+            dateRange: { startDate, endDate }
+          }));
         } catch (error) {
-          console.error(`Error enriching metrics for ${metric.team}:`, error.message);
-          return metric;
+          console.error('Error enriching CPOD metrics with date-range bug data:', error.message);
         }
-      });
-      
-      try {
-        metrics = await Promise.all(enrichPromises);
-      } catch (error) {
-        console.error('Error enriching metrics with bug data:', error.message);
+      } else {
+        const enrichPromises = metrics.map(async (metric) => {
+          try {
+            // Extract sprint number from sprint ID (e.g., "minerva-26.1.2" -> "26.1.2")
+            const sprintMatch = metric.sprint.match(/-(.+)$/);
+            if (sprintMatch) {
+              const sprintNumber = sprintMatch[1];
+              const bugMetrics = await jiraBugService.calculateBugMetrics(metric.team, sprintNumber);
+              
+              // Enrich metric with actual bug data
+              return {
+                ...metric,
+                totalBugs: bugMetrics.totalBugs,
+                defectsOpen: bugMetrics.openBugs,
+                defectsClosed: bugMetrics.closedBugs,
+                reopenedBugs: bugMetrics.reopenedBugs,
+                reopenedRate: bugMetrics.reopenedRate,
+                qualityIndicator: bugMetrics.qualityIndicator,
+                bugDetails: bugMetrics.bugDetails,
+                updatedFromJiraBugs: true,
+                jiraBugsFetchedAt: bugMetrics.fetchedAt
+              };
+            }
+            return metric;
+          } catch (error) {
+            console.error(`Error enriching metrics for ${metric.team}:`, error.message);
+            return metric;
+          }
+        });
+        
+        try {
+          metrics = await Promise.all(enrichPromises);
+        } catch (error) {
+          console.error('Error enriching metrics with bug data:', error.message);
+        }
       }
     }
     

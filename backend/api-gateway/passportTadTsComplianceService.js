@@ -29,11 +29,11 @@ const JIRA_API_TOKEN = process.env.JIRA_API_TOKEN_PASSPORT || process.env.JIRA_A
 const PROJECT_KEY = 'ELM';
 
 // Passport Team mapping (from customfield_13392)
+// Note: CPOD removed - not a valid SAFe Team value in JIRA cf[13392]
 const TEAM_MAPPING = {
   'PP Genesis': 'PP Genesis',
   'PP Pioneers': 'PP Pioneers',
-  'PP Spartacles': 'PP Spartacles',
-  'CPOD': 'CPOD',
+  'PP Spartacles': 'PP Spartacles'
 };
 
 // Safe-SDLC activities to exclude for bugs

@@ -177,14 +177,8 @@ class JiraBugService {
         boardId: null,
         sprintFormat: '{sprint}',
         safeTeamValues: ['PP Spartacles']
-      },
-      'cpod': {
-        name: 'CPOD',
-        jiraProject: 'ELM',
-        boardId: null,
-        sprintFormat: '{sprint}',
-        safeTeamValues: ['CPOD']
       }
+      // Note: CPOD removed - not a valid SAFe Team value in JIRA cf[13392]
     };
 
     /**

@@ -674,6 +674,7 @@
         const API_BASE = 'http://localhost:3000';
         let currentData = {
             sprint: '26.1.4',
+            product: 't360',
             qtest: null,
             defects: null
         };
@@ -730,11 +731,19 @@
             return { totals, teams };
         }
 
-        // T360 team names – only these teams should appear in defect views
+        // Team names by product
         const T360_TEAMS = ['Vanguards', 'Chargers', 'Chubb', 'Matrix', 'Mavericks', 'Nexus'];
+        const PASSPORT_TEAMS = ['PP Genesis', 'PP Pioneers', 'PP Spartacles'];
 
+        function isValidTeam(name) {
+            const product = currentData.product || 't360';
+            const teams = product === 'passport' ? PASSPORT_TEAMS : T360_TEAMS;
+            return teams.some(t => name.toLowerCase().includes(t.toLowerCase()));
+        }
+        
+        // Legacy alias for compatibility
         function isT360Team(name) {
-            return T360_TEAMS.some(t => name.toLowerCase().includes(t.toLowerCase()));
+            return isValidTeam(name);
         }
 
         /**
@@ -803,19 +812,64 @@
         async function loadData() {
             const sprint = document.getElementById('sprint-select').value;
             currentData.sprint = sprint;
+            currentData.product = 'combined';
 
-            updateStatus('Loading...');
+            updateStatus('Loading T360 + Passport data...');
             document.getElementById('refresh-btn').disabled = true;
             hideError();
 
             try {
-                // Fetch qTest data from the correct endpoint
-                const qTestResponse = await fetch(`${API_BASE}/api/metrics/tests-covered/${sprint}`);
-                if (!qTestResponse.ok) {
-                    const errBody = await qTestResponse.json().catch(() => ({}));
-                    throw new Error(errBody.error || `No test data available for Sprint ${sprint}`);
+                // Fetch BOTH T360 and Passport data in parallel, merge them
+                const [t360Response, passportResponse] = await Promise.allSettled([
+                    fetch(`${API_BASE}/api/metrics/tests-covered/${sprint}`),
+                    fetch(`${API_BASE}/api/qtest/passport/sync-from-tadts/${sprint}`)
+                ]);
+
+                // Build combined teams object
+                let combinedTeams = {};
+                let loadedProducts = [];
+
+                // Process T360 data
+                if (t360Response.status === 'fulfilled' && t360Response.value.ok) {
+                    const t360Data = await t360Response.value.json();
+                    const t360Teams = t360Data?.data?.teams || {};
+                    for (const [teamName, teamData] of Object.entries(t360Teams)) {
+                        combinedTeams[teamName] = {
+                            total_test_cases: teamData.total_test_cases || 0,
+                            automated_test_cases: teamData.automated_test_cases || 0,
+                            with_attachments: teamData.with_attachments || 0,
+                            automation_coverage_percent: teamData.automation_coverage_percent || 0
+                        };
+                    }
+                    loadedProducts.push('T360');
                 }
-                const qTestRaw = await qTestResponse.json();
+
+                // Process Passport data
+                if (passportResponse.status === 'fulfilled' && passportResponse.value.ok) {
+                    const passportData = await passportResponse.value.json();
+                    const passportTeams = passportData?.teams || {};
+                    for (const [teamName, teamData] of Object.entries(passportTeams)) {
+                        combinedTeams[teamName] = {
+                            total_test_cases: teamData.total || 0,
+                            automated_test_cases: teamData.automated || 0,
+                            with_attachments: teamData.with_attachments || 0,
+                            automation_coverage_percent: teamData.total > 0 ? ((teamData.automated / teamData.total) * 100) : 0
+                        };
+                    }
+                    loadedProducts.push('Passport');
+                }
+
+                if (Object.keys(combinedTeams).length === 0) {
+                    throw new Error(`No test data available for Sprint ${sprint} from T360 or Passport`);
+                }
+
+                // Create combined qTestRaw structure
+                const qTestRaw = {
+                    data: {
+                        teams: combinedTeams
+                    }
+                };
+                
                 currentData.qtest = normalizeQTestData(qTestRaw);
 
                 // Warn if team keys look like test case names (data quality issue)
@@ -825,13 +879,14 @@
                     showError(`⚠️ Sprint ${sprint} has incomplete team data. Team names may be incorrect. Try Sprint 26.1.4 for best results.`);
                 }
 
-                // Fetch defect data
+                // Fetch defect data (combined - no product filter)
                 const defectResponse = await fetch(`${API_BASE}/api/defects/by-module?sprint=${sprint}`);
                 if (!defectResponse.ok) throw new Error('Failed to fetch defect data');
                 const defectRaw = await defectResponse.json();
                 currentData.defects = normalizeDefectsData(defectRaw);
 
-                updateStatus(`✅ Data loaded — Sprint ${sprint}`);
+                const teamCount = Object.keys(combinedTeams).length;
+                updateStatus(`✅ Data loaded — ${loadedProducts.join(' + ')} (${teamCount} teams) — Sprint ${sprint}`);
                 renderTabs();
             } catch (err) {
                 showError(`Error: ${err.message}`);

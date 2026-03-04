@@ -71,14 +71,16 @@ const DnADashboard: React.FC = () => {
 
   const fetchTeams = async () => {
     try {
-      // Fetch both DnA and T360 teams
-      const [dnaResponse, t360Response] = await Promise.all([
+      // Fetch DnA, T360, and Passport teams
+      const [dnaResponse, t360Response, passportResponse] = await Promise.all([
         fetch(`${API_BASE_URL}/teams?product=dna`),
-        fetch(`${API_BASE_URL}/teams?product=t360`)
+        fetch(`${API_BASE_URL}/teams?product=t360`),
+        fetch(`${API_BASE_URL}/teams?product=passport`)
       ]);
       const dnaTeams = await dnaResponse.json();
       const t360Teams = await t360Response.json();
-      const allTeams = [...dnaTeams, ...t360Teams];
+      const passportTeams = await passportResponse.json();
+      const allTeams = [...dnaTeams, ...t360Teams, ...passportTeams];
       setTeams(allTeams);
       if (allTeams.length > 0) {
         setSelectedTeam(allTeams[0].id);
@@ -116,9 +118,14 @@ const DnADashboard: React.FC = () => {
       
       // Fetch ONLY live bug data from Jira API (NOT from SQL database or db.json)
       const sprintNumber = selectedSprint.split('-').pop();
-      const bugEndpoint = product === 't360' 
-        ? `${API_BASE_URL}/bugs/t360?team=${selectedTeam}&sprint=${sprintNumber}`
-        : `${API_BASE_URL}/bugs/dna?team=${selectedTeam}&sprint=${sprintNumber}`;
+      let bugEndpoint: string;
+      if (product === 't360') {
+        bugEndpoint = `${API_BASE_URL}/bugs/t360?team=${selectedTeam}&sprint=${sprintNumber}`;
+      } else if (product === 'passport') {
+        bugEndpoint = `${API_BASE_URL}/bugs/passport?team=${selectedTeam}&sprint=${sprintNumber}`;
+      } else {
+        bugEndpoint = `${API_BASE_URL}/bugs/dna?team=${selectedTeam}&sprint=${sprintNumber}`;
+      }
       
       const bugResponse = await fetch(bugEndpoint);
       const liveBugData = await bugResponse.json();
@@ -137,14 +144,16 @@ const DnADashboard: React.FC = () => {
     
     try {
       const sprintNumber = selectedSprint.split('-').pop();
-      // Fetch bug metrics for both DnA and T360 teams in parallel
-      const [dnaResponse, t360Response] = await Promise.all([
+      // Fetch bug metrics for DnA, T360, and Passport teams in parallel
+      const [dnaResponse, t360Response, passportResponse] = await Promise.all([
         fetch(`${API_BASE_URL}/bugs/dna/all?sprint=${sprintNumber}`),
-        fetch(`${API_BASE_URL}/bugs/t360/all?sprint=${sprintNumber}`)
+        fetch(`${API_BASE_URL}/bugs/t360/all?sprint=${sprintNumber}`),
+        fetch(`${API_BASE_URL}/bugs/passport/all?sprint=${sprintNumber}`)
       ]);
       const dnaData = await dnaResponse.json();
       const t360Data = await t360Response.json();
-      const allData = [...(Array.isArray(dnaData) ? dnaData : []), ...(Array.isArray(t360Data) ? t360Data : [])];
+      const passportData = await passportResponse.json();
+      const allData = [...(Array.isArray(dnaData) ? dnaData : []), ...(Array.isArray(t360Data) ? t360Data : []), ...(Array.isArray(passportData) ? passportData : [])];
       setBugMetrics(allData);
     } catch (err) {
       setError('Failed to fetch bug metrics');
@@ -162,9 +171,14 @@ const DnADashboard: React.FC = () => {
       const sprintNumber = selectedSprint.split('-').pop();
       const currentTeam = teams.find(t => t.id === selectedTeam);
       const product = currentTeam?.product || 'dna';
-      const bugEndpoint = product === 't360'
-        ? `${API_BASE_URL}/bugs/t360?team=${selectedTeam}&sprint=${sprintNumber}`
-        : `${API_BASE_URL}/bugs/dna?team=${selectedTeam}&sprint=${sprintNumber}`;
+      let bugEndpoint: string;
+      if (product === 't360') {
+        bugEndpoint = `${API_BASE_URL}/bugs/t360?team=${selectedTeam}&sprint=${sprintNumber}`;
+      } else if (product === 'passport') {
+        bugEndpoint = `${API_BASE_URL}/bugs/passport?team=${selectedTeam}&sprint=${sprintNumber}`;
+      } else {
+        bugEndpoint = `${API_BASE_URL}/bugs/dna?team=${selectedTeam}&sprint=${sprintNumber}`;
+      }
       
       const response = await fetch(bugEndpoint);
       const data = await response.json();

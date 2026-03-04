@@ -8,6 +8,7 @@ import { getSprintDefectsData } from './sample-tadts-data.js';
 import JiraBugService from './jiraBugService.js';
 import MetricsPersistence from './metricsPersistence.js';
 import { fetchSprintTestCases } from './qtest-integration.js';
+import { fetchPassportSprintCoverage, getCachedPassportData, getPassportQTestConfig } from './passport-qtest-integration.js';
 import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceService.js';
 import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
 import { isCpodCalendarMode } from './cpodQueryMode.js';
@@ -812,6 +813,142 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // GET /api/qtest/passport/sprint/:sprint - Fetch Passport qTest test coverage data
+  // Uses requirement-based linking (ELM cards → linked test cases) instead of module-based
+  if (pathname.startsWith('/api/qtest/passport/sprint/') && req.method === 'GET') {
+    const sprintName = pathname.replace('/api/qtest/passport/sprint/', '');
+    
+    console.log(`[Passport qTest] Fetching coverage for sprint ${sprintName}...`);
+
+    const passportTeams = ['PP Genesis', 'PP Pioneers', 'PP Spartacles'];
+
+    // Try cached Passport qTest LIVE data FIRST (fresher than db.json)
+    const cachedData = getCachedPassportData(sprintName);
+    if (cachedData && cachedData.source === 'passport-qtest-live') {
+      console.log(`[Passport qTest] Returning live cached data for sprint ${sprintName}`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(cachedData));
+      return;
+    }
+
+    // Fallback to local db.json tests_covered data for Passport teams
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered?.[sprintName];
+    
+    // Check if we have Passport team data in tests_covered
+    let hasPassportData = false;
+    if (testsCovered && testsCovered.teams) {
+      hasPassportData = passportTeams.some(team => testsCovered.teams[team]);
+    }
+
+    if (hasPassportData) {
+      // Return Passport-specific data from db.json
+      const teams = {};
+      for (const teamName of passportTeams) {
+        const teamData = testsCovered.teams[teamName];
+        if (teamData) {
+          teams[teamName] = {
+            total: teamData.total_test_cases || teamData.total || 0,
+            automated: teamData.automated_test_cases || teamData.automated || 0,
+            with_attachments: teamData.with_attachments || 0,
+            without_attachments: teamData.without_attachments || 0,
+            test_cases: teamData.test_cases || []
+          };
+        }
+      }
+      const totals = {
+        total: Object.values(teams).reduce((s, t) => s + t.total, 0),
+        automated: Object.values(teams).reduce((s, t) => s + t.automated, 0),
+        with_attachments: Object.values(teams).reduce((s, t) => s + t.with_attachments, 0),
+        without_attachments: Object.values(teams).reduce((s, t) => s + t.without_attachments, 0)
+      };
+      const result = {
+        sprint_name: sprintName,
+        generated: testsCovered.generated || new Date().toISOString(),
+        source: 'local-passport',
+        totals,
+        teams
+      };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+      return;
+    }
+
+    // Try any cached Passport qTest data (even older)
+    if (cachedData) {
+      console.log(`[Passport qTest] Returning cached data for sprint ${sprintName}`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(cachedData));
+      return;
+    }
+
+    // No data available - return empty structure with indicator
+    // Note: Live fetching requires ELM cards from TAD-TS compliance data
+    const emptyResult = {
+      sprint_name: sprintName,
+      generated: new Date().toISOString(),
+      source: 'no-data',
+      message: 'No Passport qTest data available. Use /api/qtest/passport/sync-from-tadts/:sprint to sync from live qTest.',
+      totals: { total: 0, automated: 0, with_attachments: 0, without_attachments: 0 },
+      teams: {}
+    };
+    for (const team of passportTeams) {
+      emptyResult.teams[team] = { total: 0, automated: 0, with_attachments: 0, without_attachments: 0, test_cases: [] };
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(emptyResult));
+    return;
+  }
+
+  // POST /api/qtest/passport/sync/:sprint - Sync Passport qTest data from live API
+  // Requires ELM cards in request body: { elmCards: [{ key: "ELM-39559", team: "PP Genesis" }] }
+  if (pathname.startsWith('/api/qtest/passport/sync/') && req.method === 'POST') {
+    const sprintName = pathname.replace('/api/qtest/passport/sync/', '');
+    
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { elmCards } = JSON.parse(body || '{}');
+        
+        if (!elmCards || !Array.isArray(elmCards) || elmCards.length === 0) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ 
+            error: 'elmCards array required in request body',
+            example: { elmCards: [{ key: 'ELM-39559', team: 'PP Genesis' }] }
+          }));
+          return;
+        }
+
+        console.log(`[Passport qTest] Syncing sprint ${sprintName} with ${elmCards.length} ELM cards...`);
+        
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Passport qTest sync timed out')), 120000)
+        );
+        
+        const data = await Promise.race([
+          fetchPassportSprintCoverage(sprintName, elmCards),
+          timeoutPromise
+        ]);
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+      } catch (error) {
+        console.error(`[Passport qTest] Sync error: ${error.message}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: error.message }));
+      }
+    });
+    return;
+  }
+
+  // GET /api/qtest/passport/config - Get Passport qTest configuration (for debugging)
+  if (pathname === '/api/qtest/passport/config' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(getPassportQTestConfig()));
+    return;
+  }
+
   // GET /api/products
   if (pathname === '/api/products' && req.method === 'GET') {
     res.writeHead(200, { 'Content-Type': 'application/json' });
@@ -1381,6 +1518,83 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // GET /api/bugs/passport - Get bug metrics for Passport teams
+  if (pathname === '/api/bugs/passport' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { team, sprint } = query;
+    
+    if (!team || !sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'team and sprint parameters required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID (e.g., "26.1.1")
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+    const teamId = team.toLowerCase(); // Normalize to match service keys
+
+    try {
+      const bugMetrics = await jiraBugService.calculateBugMetrics(teamId, sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(bugMetrics));
+
+      // Persist live data to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistBugMetrics(bugMetrics, 'Passport').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist Passport metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching Passport bug metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/passport/all - Get bug metrics for all Passport teams for a sprint
+  if (pathname === '/api/bugs/passport/all' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { sprint } = query;
+    
+    if (!sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'sprint parameter required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+
+    try {
+      const allMetrics = await jiraBugService.getAllPassportTeamMetrics(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(allMetrics));
+
+      // Persist all Passport team metrics to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistAllTeamMetrics(allMetrics, 'Passport').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist all Passport metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching all Passport team metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
   // GET /api/metrics/persisted - Read persisted bug metrics from SQL Server
   if (pathname === '/api/metrics/persisted' && req.method === 'GET') {
     if (!metricsPersistence) {
@@ -1469,6 +1683,65 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // GET /api/qtest/passport/sync-from-tadts/:sprint - Auto-sync from TAD-TS compliance ELM cards
+  if (pathname.startsWith('/api/qtest/passport/sync-from-tadts/') && req.method === 'GET') {
+    const sprintNumber = pathname.replace('/api/qtest/passport/sync-from-tadts/', '');
+    
+    console.log(`[Passport qTest] Auto-syncing from TAD-TS for sprint ${sprintNumber}...`);
+    
+    try {
+      // Step 1: Get ELM cards from TAD-TS compliance
+      const tadTsData = await getPassportSprintCompliance(sprintNumber);
+      
+      // Extract issues from teams (TAD-TS stores issues inside teams object)
+      const elmCards = [];
+      if (tadTsData.teams) {
+        for (const [teamName, teamData] of Object.entries(tadTsData.teams)) {
+          const teamIssues = teamData.issues || [];
+          for (const issue of teamIssues) {
+            elmCards.push({
+              key: issue.key,
+              team: teamName,
+              summary: issue.summary
+            });
+          }
+        }
+      }
+      
+      if (elmCards.length === 0) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          sprint_name: sprintNumber,
+          source: 'tadts-sync-empty',
+          message: 'No ELM cards found in TAD-TS compliance data',
+          totals: { total: 0, automated: 0 },
+          teams: {}
+        }));
+        return;
+      }
+      
+      console.log(`[Passport qTest] Found ${elmCards.length} ELM cards from TAD-TS`);
+      
+      // Step 2: Fetch coverage from qTest
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Passport qTest sync timed out')), 180000)
+      );
+      
+      const coverage = await Promise.race([
+        fetchPassportSprintCoverage(sprintNumber, elmCards),
+        timeoutPromise
+      ]);
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(coverage));
+    } catch (error) {
+      console.error(`[Passport qTest] Sync error: ${error.message}`);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
   // 404
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Not found' }));
@@ -1489,6 +1762,8 @@ server.listen(PORT, () => {
   console.log(`   GET  /api/bugs/dna/all?sprint=<sprint-number>`);
   console.log(`   GET  /api/bugs/t360?team=<team-id>&sprint=<sprint-number>`);
   console.log(`   GET  /api/bugs/t360/all?sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/passport?team=<team-id>&sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/passport/all?sprint=<sprint-number>`);
   console.log(`   GET  /api/metrics/persisted?product=<product>&sprint=<sprint-number>`);
   console.log(`   GET  /api/defects/by-module?sprint=<sprint-name>`);
   console.log(`   GET  /api/tad-ts/sprints`);

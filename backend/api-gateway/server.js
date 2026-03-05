@@ -13,6 +13,7 @@ import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceServi
 import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
 import { isCpodCalendarMode } from './cpodQueryMode.js';
 import { processMetricsQuery } from './metricsQueryProcessor.js';
+import { applyCpodBugMetrics, applyCpodFallbackMetrics } from './cpodMetricsMapper.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1002,6 +1003,14 @@ const server = http.createServer(async (req, res) => {
 
     let metrics = queryResult.filteredMetrics;
     const isCpod = isCpodCalendarMode(product, team);
+
+    if (isCpod && metrics.length === 0) {
+      metrics = db.metrics.filter((metric) => {
+        const metricProduct = String(metric.product || '').trim().toLowerCase();
+        const metricTeam = String(metric.team || '').trim().toLowerCase();
+        return metricProduct === 'passport' && metricTeam === 'cpod';
+      });
+    }
     
     // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
     if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {
@@ -1010,22 +1019,10 @@ const server = http.createServer(async (req, res) => {
         try {
           console.log(`📅 Enriching CPOD metrics with date-range Jira data: ${startDate} to ${endDate}`);
           const bugMetrics = await jiraBugService.calculateBugMetricsByDateRange(startDate, endDate);
-          // Apply the same bug data to all CPOD metrics in the result
-          metrics = metrics.map(metric => ({
-            ...metric,
-            totalBugs: bugMetrics.totalBugs,
-            defectsOpen: bugMetrics.openBugs,
-            defectsClosed: bugMetrics.closedBugs,
-            reopenedBugs: bugMetrics.reopenedBugs,
-            reopenedRate: bugMetrics.reopenedRate,
-            qualityIndicator: bugMetrics.qualityIndicator,
-            bugDetails: bugMetrics.bugDetails,
-            updatedFromJiraBugs: true,
-            jiraBugsFetchedAt: bugMetrics.fetchedAt,
-            dateRange: { startDate, endDate }
-          }));
+          metrics = applyCpodBugMetrics(metrics, bugMetrics, startDate, endDate);
         } catch (error) {
           console.error('Error enriching CPOD metrics with date-range bug data:', error.message);
+          metrics = applyCpodFallbackMetrics(metrics, startDate, endDate);
         }
       } else {
         const enrichPromises = metrics.map(async (metric) => {

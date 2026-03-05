@@ -594,6 +594,11 @@ data-service/
 
 **Purpose**: Add a CPOD-only `ReOpened Cards Count` metric based on Jira transition events `Closed → New` within selected date range.
 
+**Dependency Clarification (Open/Closed Logic):**
+- CPOD `Open Cards Count` and `Closed Cards Count` logic (spec 3.2.13 and 3.2.12) are baseline requirements for the same CPOD date-range mode.
+- ReOpened implementation is **incremental** to that baseline; it does not replace or bypass existing open/closed calculations.
+- Any CPOD reopened update must preserve open/closed behavior and response fields.
+
 **Scope Guardrails**:
 - Execute CPOD reopened-card query logic only when selected team is `CPOD`
 - For non-CPOD team selections, do not run CPOD-specific reopened query logic and do not render this card
@@ -610,12 +615,56 @@ data-service/
 - **Backend Changes**: Extend CPOD metrics path in `backend/api-gateway/jiraBugService.js` and mapper in `backend/api-gateway/cpodMetricsMapper.js` to return a dedicated reopened-cards count and fallback state
 - **Frontend Changes**: Render `ReOpened Cards Count` card only for CPOD in `frontend/index.html`
 - **Testing Changes**: Add/extend CPOD-focused tests in `backend/api-gateway/jiraBugService.test.js`, `backend/api-gateway/cpodMetricsMapper.test.js`, and `tests/e2e/cpod.dashboard.spec.ts`
+- **Non-Regression Requirement**: Preserve CPOD Open/Closed card logic and outputs while adding reopened-card behavior
 
 **Acceptance Alignment**:
 - Team = CPOD with date range returns count of `Closed → New` transitions in range
 - No matching issues returns `0`
 - Jira/API/query failures use dashboard-standard fallback (`0` or `Data unavailable`)
 - Date range changes trigger recomputation and UI refresh
+
+### 5.0.3 CPOD Open/Closed Cards Baseline (SPEC 3.2.12 and 3.2.13)
+
+**Purpose**: Define the CPOD baseline metrics (`Closed Cards Count`, `Open Cards Count`) that must exist and remain stable before/while adding `ReOpened Cards Count`.
+
+**Scope Guardrails**:
+- Execute CPOD open/closed logic only when selected team is `CPOD` and date range is provided.
+- For non-CPOD selections, CPOD open/closed card logic must not run and CPOD cards must not render.
+
+**Closed Cards Count Contract (Spec 3.2.12):**
+- Mandatory filters:
+  - `project = "ELM Tech Ops"`
+  - `issuetype = Bug`
+  - `"Engagement Reason" = Troubleshooting`
+  - `"Safe Product" IN (Oasis, Passport)`
+  - `"Safe-Team" IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `status CHANGED FROM "To Verify" TO Resolved DURING ("<fromDate>","<toDate>")`
+- Count semantics:
+  - Count unique issue keys only (multiple qualifying transitions on same issue count once)
+  - Show `0` when no matching records
+
+**Open Cards Count Contract (Spec 3.2.13):**
+- Mandatory filters:
+  - `project = "ELM Tech Ops"`
+  - `issuetype = Bug`
+  - `"Engagement Reason" = Troubleshooting`
+  - `"Safe Product" IN (Oasis, Passport)`
+  - `"Safe-Team" IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `status IN ("NEW","ANALYZE","PRE-REFINEMENT","RE-FINEMENT","REFINED","IN PROGRESS","CODE COMPLETE","TO VERIFY")`
+  - `created >= "<fromDate>" AND created <= "<toDate>"`
+- Count semantics:
+  - Count issues matching open-status set within created-date range
+  - Show `0` when no matching records
+
+**Fallback and Display Contract:**
+- On Jira/API/query failure, open/closed cards use dashboard-standard fallback (`0` or `Data unavailable`) without blocking other cards.
+- Response payload must include deterministic CPOD metadata for UI decisions (`safeTeamFilterApplied`, `safeProductFilterApplied`, `cpodFilterMode`, fallback flags).
+
+**Implementation Notes:**
+- Backend source: `backend/api-gateway/jiraBugService.js` CPOD date-range methods + `calculateBugMetricsByDateRange()`.
+- API mapper: `backend/api-gateway/cpodMetricsMapper.js` controls open/closed/reopened CPOD contract.
+- Frontend rendering: `frontend/index.html` CPOD-only card visibility and no-match/fallback helper text.
+- Tests: `backend/api-gateway/jiraBugService.test.js`, `backend/api-gateway/cpodMetricsMapper.test.js`, `tests/e2e/cpod.dashboard.spec.ts`.
 
 ### 5.1 Core Schema (PostgreSQL)
 
@@ -2362,23 +2411,31 @@ index.html → /api/metrics → JiraBugService.calculateBugMetrics()
 
 **Goal:** Implement CPOD-only `ReOpened Cards Count` driven by Jira transition `Closed → New` and selected date range.
 
+**Prerequisite Clarification:**
+- CPOD `Closed Cards Count` (spec 3.2.12) and `Open Cards Count` (spec 3.2.13) are prerequisite baseline capabilities.
+- ReOpened implementation in this phase extends the same CPOD date-range path and must not alter baseline open/closed semantics.
+
 **Deliverables:**
 - [ ] Backend returns CPOD reopened-cards metric using transition-time filtering (`Closed → New`)
 - [ ] Frontend shows `ReOpened Cards Count` card only for CPOD selection
 - [ ] Non-CPOD selections skip CPOD reopened query path and hide card
 - [ ] Fallback behavior follows existing dashboard standard (`0` or `Data unavailable`)
 - [ ] Unit and E2E tests cover CPOD success, no-match, non-CPOD, and fallback scenarios
+- [ ] Existing CPOD `Open Cards Count` and `Closed Cards Count` logic remains active and unchanged
 
 **Implementation Tasks:**
 1. **Backend query and mapping**
   - Update CPOD metric query logic in `backend/api-gateway/jiraBugService.js` to include `status CHANGED FROM Closed TO New` with CPOD FR-3 filters
   - Map reopened-card value and fallback signal in `backend/api-gateway/cpodMetricsMapper.js`
+  - Verify CPOD open/closed mappings remain present in response contract
 2. **Frontend conditional rendering**
   - Add CPOD-only metric card in `frontend/index.html` for reopened-cards count
   - Keep card hidden for all non-CPOD teams
+  - Keep CPOD open/closed cards and behaviors unchanged
 3. **Validation and testing**
   - Extend Jest coverage for query composition, activation guard, and fallback behavior
   - Extend CPOD Playwright checks for visibility, recomputation on date changes, and no-match behavior
+  - Include non-regression checks for CPOD open/closed card values and display states
 
 **Acceptance Criteria:**
 1. CPOD + date range displays count of bugs transitioned from `Closed` to `New` within range
@@ -2386,6 +2443,7 @@ index.html → /api/metrics → JiraBugService.calculateBugMetrics()
 3. No matching issues display `0`
 4. Non-CPOD team does not render CPOD reopened card or run CPOD reopened query logic
 5. Source failure does not break dashboard; fallback state is shown
+6. CPOD Open/Closed cards continue to use their existing logic and are not regressed by reopened-card changes
 
 ---
 

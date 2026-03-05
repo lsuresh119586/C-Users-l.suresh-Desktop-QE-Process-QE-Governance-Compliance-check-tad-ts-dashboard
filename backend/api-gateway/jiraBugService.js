@@ -59,7 +59,18 @@ class JiraBugService {
     this.apiTokenDna = process.env.JIRA_API_TOKEN_DNA || this.apiToken;
     this.apiTokenT360 = process.env.JIRA_API_TOKEN_T360 || this.apiToken;
     this.apiTokenPassport = process.env.JIRA_API_TOKEN_PASSPORT || this.apiToken;
+    this.apiTokenPassportCpod = process.env.JIRA_API_TOKEN_PASSPORT_CPOD || this.apiTokenPassport;
     this.safeTeamField = 'customfield_13392';
+    this.safeProductField = process.env.JIRA_SAFE_PRODUCT_FIELD || 'customfield_13790';
+    this.safeProductFieldCandidates = [this.safeProductField, 'Safe-Product', 'SAFe-Product'];
+    this.cpodOpenStatusSet = ['NEW', 'ANALYZE', 'PRE-REFINEMENT', 'RE-FINEMENT', 'REFINED', 'IN PROGRESS', 'CODE COMPLETE', 'TO VERIFY'];
+    this.cpodAllowedDateFields = new Set(['created']);
+    this.discoveredSafeProductField = null;
+    this.lastCpodQueryContext = {
+      safeTeamFilterApplied: null,
+      safeProductFilterApplied: null,
+      cpodFilterMode: null
+    };
     
     if (!this.apiToken && !this.apiTokenDna && !this.apiTokenT360) {
       throw new JiraAuthenticationError('At least one JIRA_API_TOKEN environment variable is required');
@@ -200,6 +211,71 @@ class JiraBugService {
     this.cacheTTL = 10 * 60 * 1000; // 10 minutes in milliseconds
   }
 
+  formatJqlField(fieldName) {
+    if (!fieldName) {
+      return '';
+    }
+
+    if (/^customfield_\d+$/i.test(fieldName)) {
+      return fieldName;
+    }
+
+    if (fieldName.startsWith('"') && fieldName.endsWith('"')) {
+      return fieldName;
+    }
+
+    return `"${fieldName}"`;
+  }
+
+  getSafeProductFieldCandidates() {
+    const source = [
+      ...(this.discoveredSafeProductField ? [this.discoveredSafeProductField] : []),
+      ...this.safeProductFieldCandidates
+    ];
+
+    const uniqueCandidates = [];
+    const seen = new Set();
+    for (const candidate of source) {
+      const normalized = String(candidate || '').trim();
+      if (!normalized) continue;
+      const key = normalized.toLowerCase();
+      if (seen.has(key)) continue;
+      seen.add(key);
+      uniqueCandidates.push(normalized);
+    }
+
+    return uniqueCandidates;
+  }
+
+  isMissingJiraFieldError(error, fieldName) {
+    const message = String(error?.message || '').toLowerCase();
+    const normalizedField = String(fieldName || '').replace(/"/g, '').toLowerCase();
+    return message.includes('does not exist') && message.includes(normalizedField);
+  }
+
+  async discoverSafeProductField() {
+    try {
+      const fields = await this.makeRequest('/rest/api/2/field', 'GET', null, 1, 'cpod');
+      if (!Array.isArray(fields)) {
+        return null;
+      }
+
+      const safeProductField = fields.find((field) => {
+        const name = String(field?.name || '').toLowerCase();
+        return name.includes('safe product') || name.includes('safe-product');
+      });
+
+      if (safeProductField?.id) {
+        this.discoveredSafeProductField = safeProductField.id;
+        return safeProductField.id;
+      }
+    } catch (error) {
+      console.warn(`⚠️  Unable to auto-discover Safe-Product field: ${error.message}`);
+    }
+
+    return null;
+  }
+
   /**
    * Create authenticated JIRA session headers
    * 
@@ -207,15 +283,32 @@ class JiraBugService {
    * @private
    */
   getHeaders(teamId) {
-    // Use product-specific token: DnA teams use DNA token, T360 teams use T360 token, Passport/Collaboration Portal use Passport token
+    // Use product/team-specific token selection.
+    // DnA teams use DNA token, T360 teams use T360 token, Passport/Collaboration Portal use Passport token,
+    // and Passport+CPOD can use a dedicated token when configured.
     let token;
+    let tokenSource;
     if (teamId && this.isPassportTeam(teamId)) {
-      token = this.apiTokenPassport;
+      const normalizedTeamId = String(teamId).trim().toLowerCase();
+      if (normalizedTeamId === 'cpod') {
+        token = this.apiTokenPassportCpod;
+        tokenSource = 'passport_cpod';
+      } else {
+        token = this.apiTokenPassport;
+        tokenSource = 'passport';
+      }
     } else if (teamId && !this.isDnaTeam(teamId)) {
       token = this.apiTokenT360;
+      tokenSource = 't360';
     } else {
       token = this.apiTokenDna;
+      tokenSource = 'dna';
     }
+
+    if (process.env.JIRA_DEBUG_TOKEN_SOURCE === 'true') {
+      console.log(`🔐 Jira token source selected: ${tokenSource} (team=${teamId || 'n/a'})`);
+    }
+
     return {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -823,57 +916,586 @@ class JiraBugService {
   }
 
   /**
-   * Get bugs for CPOD team within a date range (no sprint filter)
-   * Queries: project = ELM AND type = Bug AND created >= startDate AND created <= endDate AND status NOT IN ('New')
+   * Get CPOD Closed Cards issues within a date range.
+   *
+   * FR-3 Mandatory filters applied in JQL:
+   * - Project = "ELM Tech Ops"
+   * - Issue Type = Bug
+   * - Engagement Reason = Troubleshooting
+  * - Safe-Product IN (Oasis, Passport)
+   * - Safe-Team IN (CPOD 1, Passport Support, CPOD 3, CPOD 2)
+   * - Status transition CHANGED FROM "To Verify" TO "Resolved"
+   *
+   * FR-4 Date rule:
+   * - Transition timestamp filtered DURING (startDate, endDate)
    *
    * @param {string} startDate - Start date in YYYY-MM-DD format
    * @param {string} endDate - End date in YYYY-MM-DD format
-   * @returns {Promise<Array<Object>>} Array of bug issues
+   * @returns {Promise<Array<Object>>} Array of Jira issues matching CPOD Closed Cards criteria
    */
   async getBugsForDateRange(startDate, endDate) {
     const cacheKey = `bugs-cpod-${startDate}-${endDate}`;
     const cached = this.cache.get(cacheKey);
     if (cached && (Date.now() - cached.timestamp < this.cacheTTL)) {
       console.log(`\u2705 Cache hit for ${cacheKey}`);
+      this.lastCpodQueryContext = cached.cpodQueryContext || {
+        safeTeamFilterApplied: null,
+        safeProductFilterApplied: null,
+        cpodFilterMode: null
+      };
       return cached.data;
     }
 
-    const jql = `project = ELM AND type = Bug AND created >= '${startDate}' AND created <= '${endDate}' AND status NOT IN ('New') ORDER BY created DESC`;
     console.log(`\ud83d\udd0d Fetching CPOD bugs by date range: ${startDate} to ${endDate}`);
-    console.log(`\ud83d\udccb JQL Query: ${jql}`);
 
-    const allBugs = [];
-    let startAt = 0;
-    const maxResults = 50;
+    const fetchByJql = async (jql, tokenSource = 'cpod') => {
+      console.log(`\ud83d\udccb JQL Query: ${jql}`);
 
-    while (true) {
-      const payload = {
-        jql: jql,
-        startAt: startAt,
-        maxResults: maxResults,
-        fields: ['key', 'summary', 'status', 'priority', 'created', 'updated', 'assignee', 'reporter', 'components', 'labels']
-      };
+      const allBugs = [];
+      let startAt = 0;
+      const maxResults = 50;
 
-      try {
-        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, 'cpod');
+      while (true) {
+        const payload = {
+          jql,
+          startAt,
+          maxResults,
+          fields: ['key', 'summary', 'status', 'priority', 'created', 'updated', 'assignee', 'reporter', 'components', 'labels']
+        };
+
+        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, tokenSource);
         const issues = response.issues || [];
         allBugs.push(...issues);
 
         if (issues.length < maxResults) break;
         startAt += maxResults;
+      }
+
+      return allBugs;
+    };
+
+    const fetchBySafeProductField = async (safeProductFieldName, tokenSource = 'cpod') => {
+      const safeProductField = this.formatJqlField(safeProductFieldName);
+      const jql = `project = "ELM Tech Ops" AND issuetype = Bug AND "Engagement Reason" = Troubleshooting AND ${safeProductField} in (Oasis, Passport) AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2") AND status CHANGED FROM "To Verify" TO Resolved DURING ("${startDate}","${endDate}") ORDER BY created DESC`;
+      return fetchByJql(jql, tokenSource);
+    };
+
+    const fetchByLegacyCpodQuery = async () => {
+      const jql = `project = "ELM Tech Ops" AND issuetype = Bug AND "Engagement Reason" = Troubleshooting AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2") AND status CHANGED FROM "To Verify" TO Resolved DURING ("${startDate}","${endDate}") ORDER BY created DESC`;
+      return fetchByJql(jql, 'cpod');
+    };
+
+    const candidates = this.getSafeProductFieldCandidates();
+    let lastError = null;
+    let safeProductFieldUnavailable = false;
+    const canTryPassportTokenForCpod = Boolean(this.apiTokenPassport && this.apiTokenPassportCpod && this.apiTokenPassport !== this.apiTokenPassportCpod);
+
+    for (const candidate of candidates) {
+      try {
+        const allBugs = await fetchBySafeProductField(candidate, 'cpod');
+        console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
       } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, candidate)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`\u26a0\ufe0f  CPOD token cannot query Safe-Product field '${candidate}'. Retrying strict query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(candidate, 'passport');
+              console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, candidate)) {
+                console.error(`\u274c Error fetching CPOD bugs by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+
+          safeProductFieldUnavailable = true;
+          console.warn(`\u26a0\ufe0f  CPOD Safe-Product field '${candidate}' unavailable. Trying next candidate...`);
+          continue;
+        }
         console.error(`\u274c Error fetching CPOD bugs by date range: ${err.message}`);
         throw err;
       }
     }
 
-    console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate}`);
-    this.cache.set(cacheKey, { data: allBugs, timestamp: Date.now() });
-    return allBugs;
+    const discoveredField = await this.discoverSafeProductField();
+    if (discoveredField && !candidates.includes(discoveredField)) {
+      try {
+        const allBugs = await fetchBySafeProductField(discoveredField, 'cpod');
+        console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, discoveredField)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`\u26a0\ufe0f  CPOD token cannot query discovered Safe-Product field '${discoveredField}'. Retrying strict query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(discoveredField, 'passport');
+              console.log(`\u2705 Found ${allBugs.length} CPOD bugs for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, discoveredField)) {
+                console.error(`\u274c Error fetching CPOD bugs by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+          safeProductFieldUnavailable = true;
+        }
+      }
+    }
+
+    if (safeProductFieldUnavailable) {
+      try {
+        console.warn('\u26a0\ufe0f  Safe-Product field unavailable. Falling back to legacy CPOD query for compatibility.');
+        const allBugs = await fetchByLegacyCpodQuery();
+        console.log(`\u2705 Found ${allBugs.length} CPOD bugs using legacy fallback for ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: false,
+          cpodFilterMode: 'fallback_without_safe_product'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (legacyErr) {
+        lastError = legacyErr;
+      }
+    }
+
+    console.error(`\u274c Error fetching CPOD bugs by date range: ${lastError?.message || 'Unknown Jira field error'}`);
+    throw (lastError || new Error('Unable to resolve Safe-Product field for CPOD query'));
   }
 
   /**
-   * Calculate bug metrics for CPOD using date range instead of sprint
+   * Get CPOD Open Cards issues within a date range.
+   *
+   * FR-3 Mandatory filters applied in JQL:
+   * - Project = "ELM Tech Ops"
+   * - Issue Type = Bug
+   * - Engagement Reason = Troubleshooting
+  * - Safe-Product IN (Oasis, Passport)
+   * - Safe-Team IN (CPOD 1, Passport Support, CPOD 3, CPOD 2)
+  * - Status IN (NEW, ANALYZE, PRE-REFINEMENT, RE-FINEMENT, REFINED, IN PROGRESS, CODE COMPLETE, TO VERIFY)
+   *
+  * FR-4 Date rule:
+  * - Date filtering uses issue created timestamp
+   *
+   * @param {string} startDate - Start date in YYYY-MM-DD format
+   * @param {string} endDate - End date in YYYY-MM-DD format
+   * @param {string} dateField - Jira date field to filter by (default: created)
+   * @returns {Promise<Array<Object>>} Array of Jira issues matching CPOD Open Cards criteria
+   */
+  async getOpenCardsForDateRange(startDate, endDate, dateField = 'created') {
+    const normalizedDateField = String(dateField || 'created').trim().toLowerCase();
+    const effectiveDateField = this.cpodAllowedDateFields.has(normalizedDateField)
+      ? normalizedDateField
+      : 'created';
+    const statusClause = this.cpodOpenStatusSet.map((status) => `"${status}"`).join(',');
+
+    const cacheKey = `bugs-cpod-open-${effectiveDateField}-${startDate}-${endDate}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp < this.cacheTTL)) {
+      console.log(`✅ Cache hit for ${cacheKey}`);
+      this.lastCpodQueryContext = cached.cpodQueryContext || {
+        safeTeamFilterApplied: null,
+        safeProductFilterApplied: null,
+        cpodFilterMode: null
+      };
+      return cached.data;
+    }
+
+    console.log(`🔍 Fetching CPOD open cards by date range: ${startDate} to ${endDate} (${effectiveDateField})`);
+
+    const fetchByJql = async (jql, tokenSource = 'cpod') => {
+      console.log(`📋 JQL Query: ${jql}`);
+
+      const allBugs = [];
+      let startAt = 0;
+      const maxResults = 50;
+
+      while (true) {
+        const payload = {
+          jql,
+          startAt,
+          maxResults,
+          fields: ['key', 'summary', 'status', 'priority', 'created', 'updated', 'assignee', 'reporter', 'components', 'labels']
+        };
+
+        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, tokenSource);
+        const issues = response.issues || [];
+        allBugs.push(...issues);
+
+        if (issues.length < maxResults) break;
+        startAt += maxResults;
+      }
+
+      return allBugs;
+    };
+
+    const fetchBySafeProductField = async (safeProductFieldName, tokenSource = 'cpod') => {
+      const safeProductField = this.formatJqlField(safeProductFieldName);
+      const jql = `project = "ELM Tech Ops" AND issuetype = Bug AND "Engagement Reason" = Troubleshooting AND ${safeProductField} in (Oasis, Passport) AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2") AND status in (${statusClause}) AND ${effectiveDateField} >= "${startDate}" AND ${effectiveDateField} <= "${endDate}" ORDER BY ${effectiveDateField} DESC`;
+      return fetchByJql(jql, tokenSource);
+    };
+
+    const fetchByLegacyCpodQuery = async () => {
+      const jql = `project = "ELM Tech Ops" AND issuetype = Bug AND "Engagement Reason" = Troubleshooting AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2") AND status in (${statusClause}) AND ${effectiveDateField} >= "${startDate}" AND ${effectiveDateField} <= "${endDate}" ORDER BY ${effectiveDateField} DESC`;
+      return fetchByJql(jql, 'cpod');
+    };
+
+    const candidates = this.getSafeProductFieldCandidates();
+    let lastError = null;
+    let safeProductFieldUnavailable = false;
+    const canTryPassportTokenForCpod = Boolean(this.apiTokenPassport && this.apiTokenPassportCpod && this.apiTokenPassport !== this.apiTokenPassportCpod);
+
+    for (const candidate of candidates) {
+      try {
+        const allBugs = await fetchBySafeProductField(candidate, 'cpod');
+        console.log(`✅ Found ${allBugs.length} CPOD open cards for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'open_strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, candidate)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`⚠️  CPOD token cannot query Safe-Product field '${candidate}'. Retrying strict open-card query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(candidate, 'passport');
+              console.log(`✅ Found ${allBugs.length} CPOD open cards for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'open_strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, candidate)) {
+                console.error(`❌ Error fetching CPOD open cards by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+
+          safeProductFieldUnavailable = true;
+          console.warn(`⚠️  CPOD Safe-Product field '${candidate}' unavailable. Trying next candidate...`);
+          continue;
+        }
+        console.error(`❌ Error fetching CPOD open cards by date range: ${err.message}`);
+        throw err;
+      }
+    }
+
+    const discoveredField = await this.discoverSafeProductField();
+    if (discoveredField && !candidates.includes(discoveredField)) {
+      try {
+        const allBugs = await fetchBySafeProductField(discoveredField, 'cpod');
+        console.log(`✅ Found ${allBugs.length} CPOD open cards for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'open_strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, discoveredField)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`⚠️  CPOD token cannot query discovered Safe-Product field '${discoveredField}'. Retrying strict open-card query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(discoveredField, 'passport');
+              console.log(`✅ Found ${allBugs.length} CPOD open cards for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'open_strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, discoveredField)) {
+                console.error(`❌ Error fetching CPOD open cards by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+          safeProductFieldUnavailable = true;
+        }
+      }
+    }
+
+    if (safeProductFieldUnavailable) {
+      try {
+        console.warn('⚠️  Safe-Product field unavailable. Falling back to legacy CPOD open-card query for compatibility.');
+        const allBugs = await fetchByLegacyCpodQuery();
+        console.log(`✅ Found ${allBugs.length} CPOD open cards using legacy fallback for ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: false,
+          cpodFilterMode: 'open_fallback_without_safe_product'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (legacyErr) {
+        lastError = legacyErr;
+      }
+    }
+
+    console.error(`❌ Error fetching CPOD open cards by date range: ${lastError?.message || 'Unknown Jira field error'}`);
+    throw (lastError || new Error('Unable to resolve Safe-Product field for CPOD open-card query'));
+  }
+
+  /**
+   * Get CPOD ReOpened Cards issues within a date range.
+   *
+   * FR-3 Mandatory filters applied in JQL:
+   * - Project = "ELM Tech Ops"
+   * - Issue Type = Bug
+   * - Engagement Reason = Troubleshooting
+   * - Safe-Product IN (Oasis, Passport)
+   * - Safe-Team IN (CPOD 1, Passport Support, CPOD 3, CPOD 2)
+   * - Status transition CHANGED FROM Closed TO New
+   *
+   * FR-4 Date rule:
+   * - Transition timestamp filtered DURING (startDate, endDate)
+   * - Jira server timezone semantics are used by JQL DURING
+   *
+   * @param {string} startDate - Start date in YYYY-MM-DD format
+   * @param {string} endDate - End date in YYYY-MM-DD format
+   * @returns {Promise<Array<Object>>} Array of Jira issues matching CPOD ReOpened Cards criteria
+   */
+  async getReopenedCardsForDateRange(startDate, endDate) {
+    const cacheKey = `bugs-cpod-reopened-${startDate}-${endDate}`;
+    const cached = this.cache.get(cacheKey);
+    if (cached && (Date.now() - cached.timestamp < this.cacheTTL)) {
+      console.log(`✅ Cache hit for ${cacheKey}`);
+      this.lastCpodQueryContext = cached.cpodQueryContext || {
+        safeTeamFilterApplied: null,
+        safeProductFilterApplied: null,
+        cpodFilterMode: null
+      };
+      return cached.data;
+    }
+
+    console.log(`🔍 Fetching CPOD reopened cards by date range: ${startDate} to ${endDate}`);
+
+    const fetchByJql = async (jql, tokenSource = 'cpod') => {
+      console.log(`📋 JQL Query: ${jql}`);
+
+      const allBugs = [];
+      let startAt = 0;
+      const maxResults = 50;
+
+      while (true) {
+        const payload = {
+          jql,
+          startAt,
+          maxResults,
+          fields: ['key', 'summary', 'status', 'priority', 'created', 'updated', 'assignee', 'reporter', 'components', 'labels']
+        };
+
+        const response = await this.makeRequest('/rest/api/2/search', 'POST', payload, 3, tokenSource);
+        const issues = response.issues || [];
+        allBugs.push(...issues);
+
+        if (issues.length < maxResults) break;
+        startAt += maxResults;
+      }
+
+      return allBugs;
+    };
+
+    const fetchBySafeProductField = async (safeProductFieldName, tokenSource = 'cpod') => {
+      const safeProductField = this.formatJqlField(safeProductFieldName);
+      const jql = `project = "ELM Tech Ops" AND issuetype = Bug AND "Engagement Reason" = Troubleshooting AND ${safeProductField} in (Oasis, Passport) AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2") AND ((status CHANGED FROM Closed TO New DURING ("${startDate}","${endDate}")) OR (status CHANGED FROM Closed TO "NEW" DURING ("${startDate}","${endDate}"))) ORDER BY created DESC`;
+      return fetchByJql(jql, tokenSource);
+    };
+
+    const candidates = this.getSafeProductFieldCandidates();
+    let lastError = null;
+    const canTryPassportTokenForCpod = Boolean(this.apiTokenPassport && this.apiTokenPassportCpod && this.apiTokenPassport !== this.apiTokenPassportCpod);
+
+    for (const candidate of candidates) {
+      try {
+        const allBugs = await fetchBySafeProductField(candidate, 'cpod');
+        console.log(`✅ Found ${allBugs.length} CPOD reopened cards for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'reopen_strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, candidate)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`⚠️  CPOD token cannot query Safe-Product field '${candidate}'. Retrying strict reopened-card query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(candidate, 'passport');
+              console.log(`✅ Found ${allBugs.length} CPOD reopened cards for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'reopen_strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, candidate)) {
+                console.error(`❌ Error fetching CPOD reopened cards by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+
+          console.warn(`⚠️  CPOD Safe-Product field '${candidate}' unavailable. Trying next candidate...`);
+          continue;
+        }
+        console.error(`❌ Error fetching CPOD reopened cards by date range: ${err.message}`);
+        throw err;
+      }
+    }
+
+    const discoveredField = await this.discoverSafeProductField();
+    if (discoveredField && !candidates.includes(discoveredField)) {
+      try {
+        const allBugs = await fetchBySafeProductField(discoveredField, 'cpod');
+        console.log(`✅ Found ${allBugs.length} CPOD reopened cards for date range ${startDate} to ${endDate}`);
+        this.lastCpodQueryContext = {
+          safeTeamFilterApplied: true,
+          safeProductFilterApplied: true,
+          cpodFilterMode: 'reopen_strict'
+        };
+        this.cache.set(cacheKey, {
+          data: allBugs,
+          timestamp: Date.now(),
+          cpodQueryContext: this.lastCpodQueryContext
+        });
+        return allBugs;
+      } catch (err) {
+        lastError = err;
+        if (this.isMissingJiraFieldError(err, discoveredField)) {
+          if (canTryPassportTokenForCpod) {
+            try {
+              console.warn(`⚠️  CPOD token cannot query discovered Safe-Product field '${discoveredField}'. Retrying strict reopened-card query with Passport token...`);
+              const allBugs = await fetchBySafeProductField(discoveredField, 'passport');
+              console.log(`✅ Found ${allBugs.length} CPOD reopened cards for date range ${startDate} to ${endDate} (strict via Passport token)`);
+              this.lastCpodQueryContext = {
+                safeTeamFilterApplied: true,
+                safeProductFilterApplied: true,
+                cpodFilterMode: 'reopen_strict'
+              };
+              this.cache.set(cacheKey, {
+                data: allBugs,
+                timestamp: Date.now(),
+                cpodQueryContext: this.lastCpodQueryContext
+              });
+              return allBugs;
+            } catch (passportErr) {
+              lastError = passportErr;
+              if (!this.isMissingJiraFieldError(passportErr, discoveredField)) {
+                console.error(`❌ Error fetching CPOD reopened cards by date range with Passport token: ${passportErr.message}`);
+                throw passportErr;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    console.error(`❌ Error fetching CPOD reopened cards by date range: ${lastError?.message || 'Unknown Jira field error'}`);
+    throw (lastError || new Error('Unable to resolve Safe-Product field for CPOD reopened-card query'));
+  }
+
+  /**
+  * Calculate CPOD metrics for date-range mode.
    *
    * @param {string} startDate - Start date in YYYY-MM-DD format
    * @param {string} endDate - End date in YYYY-MM-DD format
@@ -883,15 +1505,51 @@ class JiraBugService {
     const startTime = Date.now();
     try {
       const bugs = await this.getBugsForDateRange(startDate, endDate);
+      let openCardsCount = 0;
+      let openCardsFallbackApplied = false;
+      let reOpenedCardsCount = 0;
+      let reOpenedCardsFallbackApplied = false;
+      try {
+        const openCards = await this.getOpenCardsForDateRange(startDate, endDate, 'created');
+        openCardsCount = Array.isArray(openCards) ? openCards.length : 0;
+      } catch (openCardsError) {
+        openCardsFallbackApplied = true;
+        console.warn(`⚠️  Failed to fetch CPOD open cards for date range ${startDate} to ${endDate}. Using fallback openCardsCount=0.`, openCardsError?.message || openCardsError);
+      }
+      try {
+        const reopenedCards = await this.getReopenedCardsForDateRange(startDate, endDate);
+        const uniqueReopenedIssueKeys = new Set();
+        if (Array.isArray(reopenedCards)) {
+          reopenedCards.forEach((issue) => {
+            const issueKey = String(issue?.key || '').trim();
+            if (issueKey) {
+              uniqueReopenedIssueKeys.add(issueKey);
+            }
+          });
+        }
+        reOpenedCardsCount = uniqueReopenedIssueKeys.size;
+      } catch (reopenedCardsError) {
+        reOpenedCardsFallbackApplied = true;
+        console.warn(`⚠️  Failed to fetch CPOD reopened cards for date range ${startDate} to ${endDate}. Using fallback reOpenedCardsCount=0.`, reopenedCardsError?.message || reopenedCardsError);
+      }
+      const uniqueBugs = [];
+      const seenIssueKeys = new Set();
+      for (const bug of bugs) {
+        if (!seenIssueKeys.has(bug.key)) {
+          seenIssueKeys.add(bug.key);
+          uniqueBugs.push(bug);
+        }
+      }
+      const closedCardsCount = uniqueBugs.length;
 
-      let totalBugs = bugs.length;
+      let totalBugs = closedCardsCount;
       let openBugs = 0;
       let closedBugs = 0;
       let reopenedBugs = 0;
       const bugDetails = [];
 
       const closedStatusSet = new Set(['closed', 'done', 'resolved', 'fixed', 'verified']);
-      for (const bug of bugs) {
+      for (const bug of uniqueBugs) {
         const status = bug.fields.status?.name || 'Unknown';
         const normalizedStatus = status.trim().toLowerCase();
         const isClosed = closedStatusSet.has(normalizedStatus);
@@ -912,8 +1570,8 @@ class JiraBugService {
       }
 
       // Detect reopened bugs
-      console.log(`\ud83d\udd0d Detecting reopened bugs for ${bugs.length} CPOD issues...`);
-      const reopenPromises = bugs.map(bug => this.detectReopenedBug(bug.key, 'cpod'));
+      console.log(`\ud83d\udd0d Detecting reopened bugs for ${uniqueBugs.length} CPOD issues...`);
+      const reopenPromises = uniqueBugs.map(bug => this.detectReopenedBug(bug.key, 'cpod'));
       const reopenResults = await Promise.all(reopenPromises);
       for (let i = 0; i < bugDetails.length; i++) {
         bugDetails[i].reopened = reopenResults[i].reopened;
@@ -934,6 +1592,14 @@ class JiraBugService {
       return {
         teamId: 'cpod',
         dateRange: { startDate, endDate },
+        closedCardsCount,
+        openCardsCount,
+        openCardsFallbackApplied,
+        reOpenedCardsCount,
+        reOpenedCardsFallbackApplied,
+        safeTeamFilterApplied: this.lastCpodQueryContext?.safeTeamFilterApplied ?? null,
+        safeProductFilterApplied: this.lastCpodQueryContext?.safeProductFilterApplied ?? null,
+        cpodFilterMode: this.lastCpodQueryContext?.cpodFilterMode ?? null,
         totalBugs,
         openBugs,
         closedBugs,

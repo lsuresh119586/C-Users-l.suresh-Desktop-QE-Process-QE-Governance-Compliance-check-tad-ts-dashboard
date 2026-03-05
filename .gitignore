@@ -14,11 +14,11 @@ build/
 .next/
 .cache/
 
-# Environment files
-.env
-.env.local
-.env.*.local
-*.env
+# Environment files - INCLUDED for Passport/dev branch
+# .env
+# .env.local
+# .env.*.local
+# *.env
 
 # IDE
 .vscode/*

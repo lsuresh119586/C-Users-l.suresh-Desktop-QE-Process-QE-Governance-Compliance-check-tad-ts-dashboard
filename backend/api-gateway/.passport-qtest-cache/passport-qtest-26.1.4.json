@@ -1,10 +1,61 @@
 {
-  "timestamp": 1772628633662,
+  "timestamp": 1772704169707,
   "data": {
     "sprint_name": "26.1.4",
-    "generated": "2026-03-04T12:49:49.773Z",
+    "generated": "2026-03-05T09:48:40.234Z",
     "source": "passport-qtest-live",
     "elm_cards": [
+      {
+        "elmKey": "ELM-40282",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138880492,
+            "pid": "TC-45012",
+            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880492"
+          },
+          {
+            "id": 138908895,
+            "pid": "TC-45092",
+            "name": "Verify Export History and Report Download",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138908895"
+          },
+          {
+            "id": 138880684,
+            "pid": "TC-45013",
+            "name": "Verify Bookmarking and Launching the Report",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880684"
+          },
+          {
+            "id": 138916885,
+            "pid": "TC-45115",
+            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916885"
+          }
+        ],
+        "metrics": {
+          "total": 4,
+          "automated": 4,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 59387077
+      },
       {
         "elmKey": "ELM-39119",
         "team": "PP Spartacles",
@@ -47,57 +98,6 @@
           "coveragePercentage": 100
         },
         "qtestId": 57306268
-      },
-      {
-        "elmKey": "ELM-40282",
-        "team": "PP Spartacles",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138880492,
-            "pid": "TC-45012",
-            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880492"
-          },
-          {
-            "id": 138908895,
-            "pid": "TC-45092",
-            "name": "Verify Export History and Report Download",
-            "automationStatus": "Automated",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138908895"
-          },
-          {
-            "id": 138880684,
-            "pid": "TC-45013",
-            "name": "Verify Bookmarking and Launching the Report",
-            "automationStatus": "Not Evaluated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880684"
-          },
-          {
-            "id": 138916885,
-            "pid": "TC-45115",
-            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916885"
-          }
-        ],
-        "metrics": {
-          "total": 4,
-          "automated": 3,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 1,
-          "coveragePercentage": 75
-        },
-        "qtestId": 59387077
       },
       {
         "elmKey": "ELM-40603",
@@ -394,7 +394,7 @@
         "qtestId": 56831555
       },
       {
-        "elmKey": "ELM-40980",
+        "elmKey": "ELM-40220",
         "team": "PP Genesis",
         "qtestSource": "not_found",
         "qtestProject": null,
@@ -411,7 +411,7 @@
         }
       },
       {
-        "elmKey": "ELM-40220",
+        "elmKey": "ELM-40980",
         "team": "PP Genesis",
         "qtestSource": "not_found",
         "qtestProject": null,
@@ -945,13 +945,13 @@
       "elm_cards_in_qtest": 9,
       "elm_cards_missing": 3,
       "total_test_cases": 89,
-      "automated": 67,
+      "automated": 68,
       "partially_automated": 0,
       "manual": 19,
       "not_possible": 0,
       "automation_candidate": 2,
-      "not_evaluated": 1,
-      "coverage_percentage": 75
+      "not_evaluated": 0,
+      "coverage_percentage": 76
     },
     "teams": {
       "PP Genesis": {
@@ -1371,34 +1371,10 @@
       },
       "PP Spartacles": {
         "total": 39,
-        "automated": 38,
+        "automated": 39,
         "with_attachments": 0,
         "without_attachments": 0,
         "test_cases": [
-          {
-            "id": "TC-44664",
-            "qtest_id": 138762161,
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44665",
-            "qtest_id": 138762226,
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44666",
-            "qtest_id": 138762227,
-            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
           {
             "id": "TC-45012",
             "qtest_id": 138880492,
@@ -1419,14 +1395,38 @@
             "id": "TC-45013",
             "qtest_id": 138880684,
             "name": "Verify Bookmarking and Launching the Report",
-            "automated": false,
+            "automated": true,
             "has_attachment": false,
-            "status": "Not Evaluated"
+            "status": "Automated"
           },
           {
             "id": "TC-45115",
             "qtest_id": 138916885,
             "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44664",
+            "qtest_id": 138762161,
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44665",
+            "qtest_id": 138762226,
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44666",
+            "qtest_id": 138762227,
+            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
             "automated": true,
             "has_attachment": false,
             "status": "Automated"

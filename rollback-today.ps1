@@ -1,14 +1,16 @@
 # Rollback Script for Today's Changes (March 4, 2026)
-# This script reverts all local changes made today back to commit d95f824
+# This script reverts changes from commit 01d64f2 back to commit d95f824
 # Run from: c:\git_clone\polarisdashboard
 
 param(
     [switch]$DryRun,        # Show what would be done without executing
-    [switch]$Force          # Skip confirmation prompt
+    [switch]$Force,         # Skip confirmation prompt
+    [switch]$RevertCommit   # Revert the commit (default: just reset files)
 )
 
 $RepoPath = "c:\git_clone\polarisdashboard"
 $BaseCommit = "d95f824"     # Last committed state before today's changes
+$TodayCommit = "01d64f2"    # Today's commit to rollback
 
 Write-Host "========================================" -ForegroundColor Cyan
 Write-Host " ROLLBACK SCRIPT - March 4, 2026 Changes" -ForegroundColor Cyan
@@ -49,13 +51,24 @@ if ($DryRun) {
     Write-Host "[DRY RUN] No changes will be made." -ForegroundColor Magenta
     Write-Host ""
     Write-Host "Commands that would run:" -ForegroundColor Magenta
-    Write-Host "  git checkout $BaseCommit -- <modified files>" -ForegroundColor Gray
-    Write-Host "  Remove-Item -Recurse -Force <new items>" -ForegroundColor Gray
+    if ($RevertCommit) {
+        Write-Host "  git revert $TodayCommit --no-edit" -ForegroundColor Gray
+        Write-Host "  (Creates new commit that undoes $TodayCommit)" -ForegroundColor Gray
+    } else {
+        Write-Host "  git reset --hard $BaseCommit" -ForegroundColor Gray
+        Write-Host "  git push origin feature/t360latest --force" -ForegroundColor Gray
+        Write-Host "  (Force pushes to remove commit from remote)" -ForegroundColor Gray
+    }
     exit 0
 }
 
 if (-not $Force) {
-    Write-Host "WARNING: This will discard ALL local changes made today!" -ForegroundColor Red
+    Write-Host "WARNING: This will undo today's Passport qTest changes!" -ForegroundColor Red
+    if ($RevertCommit) {
+        Write-Host "Mode: Revert (creates new commit to undo changes)" -ForegroundColor Yellow
+    } else {
+        Write-Host "Mode: Reset (removes commit from history - DESTRUCTIVE)" -ForegroundColor Yellow
+    }
     $confirm = Read-Host "Type 'YES' to confirm rollback"
     if ($confirm -ne "YES") {
         Write-Host "Rollback cancelled." -ForegroundColor Yellow
@@ -68,37 +81,30 @@ Write-Host "Starting rollback..." -ForegroundColor Green
 
 Push-Location $RepoPath
 
-# Step 1: Restore modified files to base commit
-Write-Host "`n[1/3] Restoring modified files..." -ForegroundColor Cyan
-foreach ($file in $ModifiedFiles) {
-    $fullPath = Join-Path $RepoPath $file
-    if (Test-Path $fullPath) {
-        Write-Host "  Restoring: $file" -ForegroundColor Gray
-        git checkout $BaseCommit -- $file 2>$null
-        if ($LASTEXITCODE -ne 0) {
-            Write-Host "    WARNING: Could not restore $file" -ForegroundColor Yellow
-        }
+if ($RevertCommit) {
+    # Option 1: Safe revert - creates new commit
+    Write-Host "`n[1/2] Reverting commit $TodayCommit..." -ForegroundColor Cyan
+    git revert $TodayCommit --no-edit
+    if ($LASTEXITCODE -eq 0) {
+        Write-Host "  Revert commit created successfully" -ForegroundColor Green
+        Write-Host "`n[2/2] Pushing revert to remote..." -ForegroundColor Cyan
+        git push origin feature/t360latest
+    } else {
+        Write-Host "  ERROR: Revert failed. Resolve conflicts manually." -ForegroundColor Red
+        Pop-Location
+        exit 1
     }
-}
-
-# Step 2: Delete new files/directories
-Write-Host "`n[2/3] Removing new files/directories..." -ForegroundColor Cyan
-foreach ($item in $NewItems) {
-    $fullPath = Join-Path $RepoPath $item
-    if (Test-Path $fullPath) {
-        Write-Host "  Deleting: $item" -ForegroundColor Gray
-        Remove-Item -Path $fullPath -Recurse -Force -ErrorAction SilentlyContinue
-    }
-}
-
-# Step 3: Verify clean state
-Write-Host "`n[3/3] Verifying rollback..." -ForegroundColor Cyan
-$remaining = git status -s
-if ($remaining) {
-    Write-Host "  Some changes remain:" -ForegroundColor Yellow
-    Write-Host $remaining -ForegroundColor Gray
 } else {
-    Write-Host "  Working directory is clean!" -ForegroundColor Green
+    # Option 2: Hard reset - removes commit from history
+    Write-Host "`n[1/3] Resetting to $BaseCommit..." -ForegroundColor Cyan
+    git reset --hard $BaseCommit
+    
+    Write-Host "`n[2/3] Force pushing to remote..." -ForegroundColor Cyan
+    git push origin feature/t360latest --force
+    
+    Write-Host "`n[3/3] Verifying state..." -ForegroundColor Cyan
+    $currentHead = git rev-parse --short HEAD
+    Write-Host "  HEAD is now at: $currentHead" -ForegroundColor Gray
 }
 
 Pop-Location

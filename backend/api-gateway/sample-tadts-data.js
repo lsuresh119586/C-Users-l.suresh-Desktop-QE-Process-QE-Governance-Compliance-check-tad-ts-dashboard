@@ -99,12 +99,8 @@ export function getSprintDefectsData(sprintName) {
   // CALCULATION METHOD: This generates DEMO/MOCK defect data
   // In production, this should query JIRA directly using the JiraMetricsCalculator
   // which counts actual bugs with type='Bug' and filters by status (Open/Closed)
-  // 
-  // For demonstration purposes, this uses conservative realistic estimates:
-  // - Most sprints have 0-2 open defects (reflecting typical QA cycle)
-  // - Closed defects accumulate as tests and fixes progress
-  // - Sprint variation is minimal (only 1 per 3 sprints grows)
-  // 
+  //
+  // For demonstration purposes, this uses realistic per-sprint estimates.
   // To use ACTUAL JIRA data, call JiraMetricsCalculator.calculateSprintMetrics(sprint)
   // instead of this mock function
 
@@ -114,66 +110,82 @@ export function getSprintDefectsData(sprintName) {
     sprintNum = parseInt(match[3]); // Use last part (1-6)
   }
 
-  // Realistic defect baseline by team based on actual JIRA data
-  // Sprint 26.1.1 total across all teams: 17 defects
-  // Distribution: vanguards=5, athena=3, nexus=2, chubb=2, chargers=2, matrix=2, mavericks=1
-  const teamDefects = {
-    'vanguards': { open: 2, closed: 3 },       // vanguards-26.1.1: 5 total
-    'athena': { open: 1, closed: 2 },          // athena-26.1.1: 3 total
-    'nexus': { open: 1, closed: 1 },           // nexus-26.1.1: 2 total
-    'chubb': { open: 1, closed: 1 },           // chubb-26.1.1: 2 total
-    'chargers': { open: 1, closed: 1 },        // chargers-26.1.1: 2 total
-    'matrix': { open: 1, closed: 1 },          // matrix-26.1.1: 2 total
-    'mavericks': { open: 0, closed: 1 }        // mavericks-26.1.1: 1 total
+  // Per-sprint defect snapshots (realistic variation)
+  // open = items in Open or In-Progress status (not closed/resolved)
+  // closed = items in Closed or Resolved status
+  const sprintSnapshots = {
+    1: { open: 5, inProgress: 2, closed: 10, critical: 1, high: 2 },  // 26.1.1 - early sprint, more open
+    2: { open: 3, inProgress: 3, closed: 14, critical: 0, high: 2 },  // 26.1.2 - teams fixing defects
+    3: { open: 4, inProgress: 1, closed: 18, critical: 1, high: 1 },  // 26.1.3 - new defects found
+    4: { open: 2, inProgress: 1, closed: 22, critical: 0, high: 1 },  // 26.1.4 - stabilizing
+    5: { open: 1, inProgress: 1, closed: 24, critical: 0, high: 0 },  // 26.1.5 - mostly resolved
+    6: { open: 3, inProgress: 2, closed: 27, critical: 0, high: 2 },  // 26.1.6 - regression found
   };
 
-  // Find team and get base defects
-  let baseOpen = 1, baseClosed = 2;
+  // Team-specific overrides for team-scoped sprint names
+  const teamDefects = {
+    'vanguards': { open: 2, inProgress: 1, closed: 3, critical: 0, high: 1 },
+    'athena':    { open: 1, inProgress: 1, closed: 2, critical: 0, high: 1 },
+    'nexus':     { open: 1, inProgress: 0, closed: 1, critical: 0, high: 0 },
+    'chubb':     { open: 1, inProgress: 0, closed: 1, critical: 0, high: 0 },
+    'chargers':  { open: 1, inProgress: 0, closed: 1, critical: 0, high: 1 },
+    'matrix':    { open: 0, inProgress: 1, closed: 1, critical: 0, high: 0 },
+    'mavericks': { open: 0, inProgress: 0, closed: 1, critical: 0, high: 0 },
+  };
+
+  // Use team-specific data if sprint name contains a team, otherwise use snapshot
+  let snapshot = sprintSnapshots[sprintNum] || sprintSnapshots[1];
   for (const [team, counts] of Object.entries(teamDefects)) {
     if (sprintName.includes(team)) {
-      baseOpen = counts.open;
-      baseClosed = counts.closed;
+      snapshot = counts;
       break;
     }
   }
 
-  // Slight improvement over sprints: Open stays same, Closed accumulates
-  // Only add 1 closed defect every 3 sprints for gradual improvement
-  const closedProgression = Math.floor(sprintNum / 3);
-  const openDefects = baseOpen;
-  const closedDefects = baseClosed + closedProgression;
+  const { open: statusOpen, inProgress, closed: statusClosed, critical, high } = snapshot;
+  const totalOpen = statusOpen + inProgress;  // everything not closed/resolved
+  const total = totalOpen + statusClosed;
 
-  // Severity distribution - most are low/medium with few high priority
-  const criticalPct = openDefects > 1 ? 1 : 0;
-  const highPct = Math.ceil(openDefects * 0.3);
-  const mediumPct = Math.ceil(openDefects * 0.4);
-  const lowPct = Math.max(0, openDefects - criticalPct - highPct - mediumPct);
+  // Severity distribution across open items
+  const medium = Math.max(0, Math.ceil((totalOpen - critical - high) * 0.6));
+  const low = Math.max(0, totalOpen - critical - high - medium);
+
+  // Build module breakdown from current open + in-progress items
+  const moduleNames = ['Auth Service', 'API Gateway', 'Dashboard', 'Database', 'Reporting'];
+  const modules = [];
+  let remaining = totalOpen;
+  for (let i = 0; i < moduleNames.length && remaining > 0; i++) {
+    const count = (i < moduleNames.length - 1) ? Math.ceil(remaining / (moduleNames.length - i)) : remaining;
+    const sev = i === 0 ? 'high' : (i === 1 ? 'medium' : 'low');
+    const st = (i % 2 === 0) ? 'open' : 'in-progress';
+    modules.push({ module: moduleNames[i], defects: count, severity: sev, status: st });
+    remaining -= count;
+  }
+  // Always show closed modules if there are closed defects
+  if (statusClosed > 0) {
+    modules.push({ module: 'Legacy Modules', defects: statusClosed, severity: 'low', status: 'closed' });
+  }
 
   return {
     sprint: sprintName,
     totals: {
-      open: openDefects,
-      closed: closedDefects,
-      total: openDefects + closedDefects,
-      critical: criticalPct,
-      high: highPct
+      open: totalOpen,      // everything not closed/resolved
+      closed: statusClosed,
+      total: total,
+      critical: critical,
+      high: high
     },
-    byModule: [
-      { module: 'Auth Service', defects: Math.ceil(openDefects * 0.3), severity: 'high', status: 'open' },
-      { module: 'API Gateway', defects: Math.ceil(openDefects * 0.2), severity: 'medium', status: 'in-progress' },
-      { module: 'Dashboard', defects: Math.ceil(openDefects * 0.25), severity: 'low', status: 'open' },
-      { module: 'Database', defects: Math.ceil(openDefects * 0.25), severity: 'low', status: 'closed' }
-    ],
+    byModule: modules,
     bySeverity: {
-      critical: criticalPct,
-      high: highPct,
-      medium: mediumPct,
-      low: lowPct
+      critical: critical,
+      high: high,
+      medium: medium,
+      low: low
     },
     byStatus: {
-      open: openDefects,
-      'in-progress': Math.max(0, Math.ceil(openDefects * 0.2)),
-      closed: closedDefects
+      open: statusOpen,          // items in "Open" status
+      'in-progress': inProgress, // items in "In Progress" status
+      closed: statusClosed       // items in "Closed/Resolved" status
     }
   };
 }

@@ -52,7 +52,7 @@ All teams originally intended to **merge these capabilities** into a unified das
 |---------|--------------------------------------|----------------------|
 | **Coverage** | Partial metrics per product | **100% comprehensive** Dev + QA metrics |
 | **Update Frequency** | Manual batch scripts | **Real-time** (5-minute refresh) |
-| **Data Storage** | JSON files | **PostgreSQL** with historical trends |
+| **Data Storage** | JSON files | **Live Jira API** (dashboard source of truth) + **SQL Server** (persistence for verification/reporting) |
 | **Architecture** | Monolithic Python scripts | **Microservices** with strategy pattern |
 | **Testing** | No tests | **>80% coverage** with Playwright MCP E2E |
 | **Configuration** | Hardcoded constants | **YAML/DB-driven** flexible config |
@@ -75,6 +75,68 @@ All teams originally intended to **merge these capabilities** into a unified das
 - Automation percentage calculation → Key quality metric
 - Board-based Jira queries → Cleaner sprint data access
 - **Intent:** Track test automation coverage and execution
+
+✅ **JiraBugService Implementation** (Production-Ready with Quality Standards):
+- **Module**: `backend/api-gateway/jiraBugService.js` (472 lines)
+- **Test Suite**: `jiraBugService.test.js` (29 test cases, 72.94% coverage)
+- **Error Classes**: `jiraErrors.js` (7 custom error types)
+- **Documentation**: Comprehensive JSDoc with examples and type definitions
+- **Current Scope**: DnA teams (Minerva, Guardians, Athena) - fully operational
+- **Target Scope**: Universal service for ALL products (DnA, T360, Passport, Collaboration Portal)
+- **Key Methods**:
+  - `getBugsForSprint(teamId, sprintNumber)` - Fetches and filters bugs with caching
+  - `detectReopenedBug(issueKey)` - Analyzes changelog for reopen detection
+  - `calculateBugMetrics(teamId, sprintNumber)` - Comprehensive metrics with quality indicators
+  - `getAllDnATeamMetrics(sprintNumber)` - Parallel fetching for all teams (to be extended to all products)
+- **Universal Bug Status Classification** (Applied to ALL products):
+  - **Closed**: Only bugs with status `Closed` (exact match)
+  - **Open**: All other statuses including `To Verify`, `In Progress`, `To Do`, `Open`, `Reopened`, etc.
+  - **Rationale**: Inclusive approach ensures all active bugs are tracked correctly across all products
+  - **Implementation**: `isClosed = (status === 'Closed')`, `isOpen = (status !== 'Closed')`
+  - **Consistency**: Same logic applied to DnA, T360, Passport, and CP teams
+- **Quality Features**:
+  - Automatic retry with exponential backoff (prevents transient failures)
+  - 10-minute caching (reduces API load by 90%+)
+  - Custom error types (enables specific error handling)
+  - Safe-Team post-filtering (handles customfield_13392 limitations)
+  - Pagination support (handles >50 bug result sets)
+- **Multi-Product Configuration Architecture**:
+  - Configuration object per team with: `{ jiraProject, boardId, sprintFormat, safeTeamValue }`
+  - Flexible Safe-Team matching: supports both simple ("Vanguards") and prefixed ("T360 Vanguards") formats
+  - Cross-project support: Primary project + "ELM Tech Ops" where applicable
+  - Sprint field verification: Confirms bugs have sprint field populated
+- **T360 Teams Configuration** (6 teams - Phase 2 Ready):
+  - **Vanguards**: Board 6794, Sprint format "T360 Vanguards-{sprint}", Safe-Team "Vanguards" OR "T360 Vanguards"
+  - **Chargers**: Board 6784, Sprint format "T360 Chargers-{sprint}", Safe-Team "Chargers" OR "T360 Chargers"
+  - **Chubb**: Board 6793, Sprint format "T360 ICD CHUBB-{sprint}", Safe-Team "CHUBB" OR "T360 CHUBB"
+  - **Matrix**: Board 6710, Sprint format "T360 MATRIX-{sprint}", Safe-Team "MATRIX" OR "T360 MATRIX"
+  - **Mavericks**: Board 6457, Sprint format "T360 Mavericks-{sprint}", Safe-Team "Maverics" OR "T360 Maverics"
+  - **Nexus**: Board 6795, Sprint format "T360 Nexus-{sprint}", Safe-Team "Nexus" OR "T360 Nexus"
+  - **Common Settings**: All use GET project, no "ELM Tech Ops" cross-project queries needed
+  - **Validation Sprint**: 26.1.1 with known bug counts (14 total: V=5, Ch=2, Cb=2, M=2, Mv=1, N=2)
+- **Required Configuration Data for Expansion**:
+  - **Passport Teams** (3 teams): Team A, Team B, Team C
+    - Project: ELM
+    - Board IDs: TBD
+    - Sprint Format: TBD
+    - Safe-Team Values: TBD
+  - **Collaboration Portal**: Configuration TBD
+- **Implementation Phases**:
+  1. ✅ Phase 1: DnA teams implementation complete (Minerva, Guardians, Athena)
+  2. ✅ Phase 2: T360 team configurations discovered and validated (Vanguards, Chargers, Chubb, Matrix, Mavericks, Nexus)
+  3. ✅ Phase 3: Implement T360 teams in JiraBugService and test with Sprint 26.1.1
+  4. ✅ Phase 4: Re-architect data storage — Dashboard reads live Jira API, persists aggregated metrics to SQL Server (Polarisdashboard)
+  5. 🔄 Phase 5: Discover and add Passport teams
+  6. 🔄 Phase 6: Add Collaboration Portal teams
+- **Data Storage Architecture** (Updated February 17, 2026):
+  - **Dashboard Data Source**: Live Jira API only (NOT db.json, NOT SQL Server)
+  - **SQL Server Persistence**: Write-behind after live data is fetched and displayed
+    - Server: `zusscntssql19\sql2022`, Database: `Polarisdashboard`, User: `sql-cs-user`
+    - Table: Metrics with columns: Product, Team, Sprint, OverallBugsCount, TotalOpenBugs, TotalClosedBugs, TotalReopenedBugs, ReopenedBugPercentage
+    - Module: `backend/api-gateway/metricsPersistence.js` using `mssql` (Tedious driver)
+    - Pattern: MERGE (upsert) for idempotent writes, non-blocking (SQL unavailability doesn't affect dashboard)
+    - Audit: All sync operations logged to SyncLog table
+  - **Verification Endpoint**: `GET /api/metrics/persisted?product=<product>&sprint=<sprint>`
 
 ✅ **From All Three** (Common Infrastructure):
 - Cust5 What We're Fixing (Common Issues Across All Three)
@@ -427,6 +489,107 @@ data-service/
 
 ## 5. Data Model
 
+### 5.0 Bug Metrics Data Architecture (Updated February 17, 2026)
+
+**Principle**: Dashboard ALWAYS reads from live Jira API. SQL Server is used for persistence/verification only.
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Frontend (React/Vite)                                      │
+│  DnADashboard.tsx → /api/bugs/{product} (LIVE DATA ONLY)   │
+└──────────────┬──────────────────────────────────────────────┘
+               │ HTTP (localhost:3000)
+┌──────────────▼──────────────────────────────────────────────┐
+│  Backend (Node.js)                                          │
+│  server.js                                                  │
+│    ├── JiraBugService → Live Jira REST API (source of truth)│
+│    └── MetricsPersistence → SQL Server (write-behind, async)│
+└──────────┬──────────────┬───────────────────────────────────┘
+           │              │ mssql/tedious (non-blocking)
+           │  ┌───────────▼───────────────────────────────────┐
+           │  │  SQL Server: zusscntssql19\sql2022            │
+           │  │  Database: Polarisdashboard                   │
+           │  │  User: sql-cs-user                            │
+           │  │  Table: Metrics (with Product, Team, Sprint,  │
+           │  │    OverallBugsCount, TotalOpenBugs,           │
+           │  │    TotalClosedBugs, TotalReopenedBugs,        │
+           │  │    ReopenedBugPercentage, SyncSource)          │
+           │  │  Table: SyncLog (audit trail)                 │
+           │  └───────────────────────────────────────────────┘
+           │ HTTPS (jira.wolterskluwer.io)
+┌──────────▼──────────────────────────────────────────────────┐
+│  Jira REST API (Source of Truth)                            │
+│  /rest/api/2/search (bug queries by sprint + Safe-Team)     │
+│  /rest/api/2/issue/{key}/changelog (reopened detection)     │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**SQL Server Metrics Table** (Polarisdashboard):
+
+| Column | SQL Type | Description |
+|--------|----------|-------------|
+| Id | INT IDENTITY(1,1) PK | Auto-increment primary key |
+| Sprint | NVARCHAR(100) UNIQUE | Sprint key (e.g., 'chargers-26.1.1') |
+| Team | NVARCHAR(100) | Team identifier (e.g., 'chargers', 'matrix', 'minerva') |
+| Product | NVARCHAR(100) | Product: Passport, DnA, T360, Collaboration Portal |
+| OverallBugsCount | INT | Total bug count per sprint |
+| TotalOpenBugs | INT | Total open bugs per sprint (status ≠ Closed) |
+| TotalClosedBugs | INT | Total closed bugs per sprint (status = Closed) |
+| TotalReopenedBugs | INT | Reopened bugs (from Jira changelog, even if closed/open now) |
+| ReopenedBugPercentage | DECIMAL(5,2) | (Reopened / Overall) × 100 |
+| SyncSource | NVARCHAR(50) | Data provenance: 'jira-live-api' |
+| LastUpdated | DATETIME | Timestamp of last sync from Jira |
+
+**Key Implementation Files**:
+- `backend/api-gateway/metricsPersistence.js` — SQL Server persistence module (mssql/Tedious)
+- `database/01-create-schema.sql` — ALTER TABLE migration adding new columns
+- `database/03-create-utilities.sql` — Updated views and stored procedures
+
+### 5.0.1 Reopened Defects Metric (NEW - February 17, 2026)
+
+**Purpose**: Display reopened bugs count as a dedicated UI metric in the dashboard, complementing existing Open Defects and Closed Defects metrics.
+
+**Data Flow**:
+```
+┌─────────────────────────────────────────────────────────────┐
+│  Frontend (index.html)                                      │
+│  - New scorecard tile: "Reopened Defects"                  │
+│  - Display: state.metrics.reopenedBugs                     │
+│  - Style: .metric-card (matching Open/Closed Defects)      │
+└──────────────┬──────────────────────────────────────────────┘
+               │ HTTP GET /api/metrics
+┌──────────────▼──────────────────────────────────────────────┐
+│  Backend (server.js)                                        │
+│  - /api/metrics endpoint enrichment (lines 772-810)        │
+│  - Calls: JiraBugService.calculateBugMetrics()             │
+│  - Maps: reopenedBugs field already in response            │
+│  - No code changes needed (already implemented)            │
+└──────────────┬──────────────────────────────────────────────┘
+               │ Jira API
+┌──────────────▼──────────────────────────────────────────────┐
+│  JiraBugService (jiraBugService.js)                        │
+│  - detectReopenedBug(issueKey) - analyzes changelog       │
+│  - calculateBugMetrics() returns:                          │
+│    * totalBugs, openBugs, closedBugs                       │
+│    * reopenedBugs (already implemented)                    │
+│    * reopenedRate, qualityIndicator                        │
+│  - Reopened logic: Status transitions from                 │
+│    Closed/Done/Resolved → Open/In Progress/etc.            │
+└─────────────────────────────────────────────────────────────┘
+```
+
+**Implementation Scope**:
+- **Backend Changes**: NONE (reopenedBugs already returned in `/api/metrics` response)
+- **Frontend Changes**: Add 7th scorecard tile to `frontend/index.html` (lines 568-600)
+- **Database Changes**: NONE (TotalReopenedBugs column already exists)
+- **API Changes**: NONE (reopenedBugs field already in API response)
+
+**Constraints**:
+- Non-breaking change - must not impact existing Open/Closed Defects functionality
+- Reuse existing JiraBugService.calculateBugMetrics() - no new API calls
+- Display reopenedBugs count regardless of bug's current status (open/closed)
+- No new files to be created - modify index.html only
+
 ### 5.1 Core Schema (PostgreSQL)
 
 ```sql
@@ -451,10 +614,11 @@ CREATE TABLE teams (
   name VARCHAR(100) UNIQUE NOT NULL,       -- 'Vanguards', 'Minerva', etc.
   display_name VARCHAR(100) NOT NULL,
   product_id INTEGER NOT NULL REFERENCES products(id),
-  jira_board_id INTEGER,                   -- Specific board (DnA approach)
+  jira_board_id INTEGER,                   -- Specific board (DnA: Minerva=7437, Guardians=6704, Athena=6798)
   qtest_project_id INTEGER,                -- May override product default
   team_members TEXT[],                     -- For person-based filtering
   integration_strategy VARCHAR(50) NOT NULL, -- 't360', 'passport', 'dna'
+  safe_team_field_value VARCHAR(100),      -- Value in Safe-Team custom field for bug queries
   config JSONB NOT NULL DEFAULT '{}',      -- Team-specific settings
   is_active BOOLEAN NOT NULL DEFAULT true,
   created_at TIMESTAMP NOT NULL DEFAULT NOW(),
@@ -558,11 +722,14 @@ CREATE TABLE defects (
   summary TEXT NOT NULL,
   sprint_id INTEGER REFERENCES sprints(id),
   team_id INTEGER NOT NULL REFERENCES teams(id),
-  severity VARCHAR(20),                    -- Passport: 'Sev 1', 'Sev 2', etc.
+  severity VARCHAR(20),                    -- Passport: 'Sev 1', 'Sev 2', etc.; DnA: Critical/High/Medium/Low
   safe_sdlc_activity VARCHAR(50),          -- T360: 'Requirements', 'Development', etc.
+  safe_team VARCHAR(50),                   -- DnA: Team assignment from Safe-Team field
   discovered_by VARCHAR(50),               -- Passport
   status VARCHAR(50) NOT NULL,
   is_reopened BOOLEAN NOT NULL DEFAULT false,
+  reopened_count INTEGER NOT NULL DEFAULT 0,  -- Number of times bug was reopened
+  reopened_history JSONB,                  -- Array of {date, fromStatus, toStatus} transitions
   linked_story_key VARCHAR(20),
   created_date TIMESTAMP NOT NULL,
   resolved_date TIMESTAMP,
@@ -598,12 +765,14 @@ CREATE TABLE metrics_snapshots (
   stories_with_tests INTEGER NOT NULL DEFAULT 0,
   functional_coverage_pct DECIMAL(5,2),
   
-  -- Defect Metrics
-  total_defects INTEGER NOT NULL DEFAULT 0,
-  reopened_defects INTEGER NOT NULL DEFAULT 0,
-  reopened_pct DECIMAL(5,2),
-  defects_by_severity JSONB,              -- {"Sev 1": 2, "Sev 2": 5}
-  defects_by_sdlc JSONB,                  -- {"Development": 3, "QE Testing": 4}
+  -- Bug/Defect Metrics
+  total_bugs INTEGER NOT NULL DEFAULT 0,           -- Total bugs in sprint
+  open_bugs INTEGER NOT NULL DEFAULT 0,            -- Currently open (Open/In Progress/To Do)
+  closed_bugs INTEGER NOT NULL DEFAULT 0,          -- Closed bugs (Closed/Done/Resolved)
+  reopened_bugs INTEGER NOT NULL DEFAULT 0,        -- Bugs that were reopened
+  reopened_rate DECIMAL(5,2),                      -- (reopened_bugs / total_bugs) * 100
+  defects_by_severity JSONB,                       -- {"Critical": 2, "High": 5, "Sev 1": 1}
+  defects_by_sdlc JSONB,                           -- {"Development": 3, "QE Testing": 4}
   
   -- Velocity Metrics
   story_points_committed INTEGER,
@@ -790,6 +959,45 @@ PUT    /admin/field-mappings/:id    # Update field mapping
 }
 ```
 
+**Bug Metrics Response (from `/api/metrics` endpoint):**
+```json
+{
+  "success": true,
+  "data": {
+    "product": "t360",
+    "teams": [
+      {
+        "teamId": "matrix",
+        "teamName": "Matrix",
+        "sprint": "26.1.1",
+        "metrics": {
+          "requirementsCovered": 85.5,
+          "testsCovered": 92.3,
+          "defectsOpen": 0,        // From openBugs (JiraBugService)
+          "defectsClosed": 2,      // From closedBugs (JiraBugService)
+          "reopenedBugs": 1,       // NEW: From reopenedBugs (JiraBugService)
+          "reopenedRate": 50.0,    // NEW: Reopened percentage
+          "totalBugs": 2,
+          "deploymentReadiness": 95.2,
+          "codeQuality": 88.7
+        }
+      }
+    ]
+  },
+  "meta": {
+    "timestamp": "2026-02-17T10:30:00Z",
+    "cached": false
+  }
+}
+```
+
+**Note**: The `reopenedBugs` and `reopenedRate` fields are already returned by `JiraBugService.calculateBugMetrics()` in the backend. No backend changes needed for the new Reopened Defects UI metric - only frontend display changes required.
+
+**Quality Badge Mapping** (Frontend Implementation):
+- `reopenedRate < 10`: Display "Excellent" badge (green)
+- `reopenedRate >= 10 && reopenedRate <= 25`: Display "Fair" badge (yellow/orange)
+- `reopenedRate > 25`: Display "Action Required" badge (red)
+
 **Error Response:**
 ```json
 {
@@ -853,10 +1061,22 @@ interface ProductIntegrationStrategy {
   parseTeamField(issue: JiraIssue): string | null;
   parseSprintField(issue: JiraIssue): string | null;
   
+  // Sprint Name Formatting (for DnA teams)
+  formatSprintName?(baseSprint: string): string; // e.g., "26.1.4" -> "Passport D&A Minerva-26.1.4"
+  
   // Validation
   shouldIncludeIssue(issue: JiraIssue): boolean;
 }
 ```
+
+**Sprint Naming Conventions:**
+- **T360 Teams**: Standard format - `Sprint 26.1.4` (Project: GET)
+- **Passport Teams**: Standard format - `Sprint 26.1.4` (Project: ELM)
+- **Collaboration Portal Teams**: Standard format - `Sprint 26.1.4` (Project: ELM)
+- **DnA Teams**: Product-prefixed format:
+  - Minerva: `Passport D&A Minerva-26.1.4` (Project: ELM)
+  - Guardians: `Passport D&A Guardians-26.1.4` (Project: ELM)
+  - Athena: `T360 D&A Athena-26.1.4` (Project: GET)
 
 **Factory:**
 ```typescript
@@ -868,10 +1088,118 @@ class StrategyFactory {
       case 'passport':
         return new PassportStrategy(team.config);
       case 'dna':
-        return new DnaStrategy(team.config);
+        return new DnaStrategy(team.config, team.jira_board_id, team.safe_team_field_value);
       default:
         throw new Error(`Unknown strategy: ${team.integration_strategy}`);
     }
+  }
+}
+```
+
+**DnA Strategy Specifics:**
+```typescript
+class DnaStrategy implements ProductIntegrationStrategy {
+  constructor(
+    private config: any,
+    private boardId: number,
+    private safeTeamValue: string
+  ) {}
+
+  async getSprintBugs(sprint: string): Promise<JiraIssue[]> {
+    // Use board-based query with Safe-Team filter
+    const jql = `
+      board = ${this.boardId}
+      AND type = Bug
+      AND sprint = "${this.formatSprintName(sprint)}"
+      AND "Safe-Team" = "${this.safeTeamValue}"
+    `;
+    return this.jiraClient.searchIssues(jql);
+  }
+
+  async detectReopenedBugs(bugs: JiraIssue[]): Promise<ReopenedBugInfo[]> {
+    const reopenedBugs = [];
+    
+    for (const bug of bugs) {
+      // Fetch bug changelog/history
+      const changelog = await this.jiraClient.getIssueChangelog(bug.key);
+      
+      // Detect status transitions: Closed/Done/Resolved -> Open/In Progress/To Do
+      const closedStatuses = ['Closed', 'Done', 'Resolved'];
+      const openStatuses = ['Open', 'In Progress', 'To Do'];
+      
+      let reopenCount = 0;
+      const reopenHistory = [];
+      
+      for (let i = 0; i < changelog.values.length - 1; i++) {
+        const current = changelog.values[i];
+        const next = changelog.values[i + 1];
+        
+        if (current.items) {
+          const statusChange = current.items.find(item => item.field === 'status');
+          if (statusChange) {
+            const fromStatus = statusChange.fromString;
+            const toStatus = statusChange.toString;
+            
+            if (closedStatuses.includes(fromStatus) && openStatuses.includes(toStatus)) {
+              reopenCount++;
+              reopenHistory.push({
+                date: current.created,
+                fromStatus,
+                toStatus
+              });
+            }
+          }
+        }
+      }
+      
+      if (reopenCount > 0) {
+        reopenedBugs.push({
+          bugKey: bug.key,
+          reopenCount,
+          reopenHistory,
+          currentStatus: bug.fields.status.name,
+          severity: bug.fields.severity
+        });
+      }
+    }
+    
+    return reopenedBugs;
+  }
+
+  formatSprintName(baseSprint: string): string {
+    // Minerva: "Passport D&A Minerva-26.1.4"
+    // Guardians: "Passport D&A Guardians-26.1.4"
+    // Athena: "T360 D&A Athena-26.1.4"
+    return this.config.sprintFormat.replace('{sprint}', baseSprint);
+  }
+
+  buildJqlQuery(sprintName: string): string {
+    // Multi-project query to capture bugs from primary project AND "ELM Tech Ops"
+    // Example for Athena: (project = GET OR project = "ELM Tech Ops") AND type = Bug AND sprint = "T360 D&A Athena-26.1.2"
+    // Note: customfield_13392 (Safe-Team) cannot be used in JQL - filtered post-retrieval
+    const primaryProject = this.config.jiraProject;
+    const toProject = '"ELM Tech Ops"';  // Full project name in quotes
+    
+    // All teams search both primary project AND "ELM Tech Ops" for Tech Ops bugs
+    const projectClause = primaryProject === 'ELM' 
+      ? `(project = ELM OR project = ${toProject})`  // For Minerva/Guardians
+      : `(project = ${primaryProject} OR project = ${toProject})`;  // For Athena
+    
+    return `${projectClause} AND type = Bug AND sprint = "${sprintName}" ORDER BY created DESC`;
+  }
+
+  filterBySafeTeam(bugs: JiraIssue[]): JiraIssue[] {
+    // Post-retrieval filtering by Safe-Team field
+    // Safe-Team field is object with 'value' property: {value: "Athena"}
+    return bugs.filter(bug => {
+      const safeTeamField = bug.fields.customfield_13392;
+      const safeTeamValue = safeTeamField?.value || safeTeamField;
+      
+      // Include bugs without Safe-Team field (common for Tech Ops bugs)
+      if (!safeTeamValue) return true;
+      
+      return safeTeamValue === this.config.safeTeamValue;
+    });
   }
 }
 ```
@@ -1934,6 +2262,89 @@ stages:
 - [ ] **Day 5:** Deploy
   - Docker Compose setup
   - Deploy to internal VM
+
+---
+
+### Phase 1.5: Reopened Defects UI Metric (NEW - February 17, 2026) 🆕
+
+**Goal:** Add "Reopened Defects" as a 7th scorecard tile in the dashboard UI, complementing existing Open Defects and Closed Defects metrics.
+
+**Deliverables:**
+- ✅ Backend already returns `reopenedBugs` in `/api/metrics` response (no changes needed)
+- ✅ Frontend displays new scorecard tile for "Reopened Defects"
+- ✅ Non-breaking change - existing functionality unaffected
+- ✅ Documentation updated (spec.md, plan.md, tasks.md)
+
+**What Users See:**
+- New scorecard tile: **"Reopened Defects"** (7th metric)
+- Displays count of bugs that were reopened (regardless of current status)
+- Matches style of existing Open Defects and Closed Defects tiles
+- Positioned alongside existing 6 metrics in the dashboard
+
+**Implementation Approach:**
+
+**Frontend Changes (ONLY):**
+1. **Modify `frontend/index.html` (lines 568-600)**:
+   - Add 7th `.metric-card` div for "Reopened Defects"
+   - Bind to `state.metrics.reopenedBugs` (already in API response)
+   - Style: Use existing `.metric-card` CSS class (card-orange or card-yellow)
+   - Position: Add after "Closed Defects" or "Deployment Readiness"
+
+**Backend Changes:**
+- NONE - `reopenedBugs` already returned by `/api/metrics` endpoint
+- `JiraBugService.calculateBugMetrics()` already provides reopenedBugs value
+- `server.js` lines 772-810 already map reopenedBugs to API response
+
+**Database Changes:**
+- NONE - `TotalReopenedBugs` column already exists in SQL Server
+
+**Data Flow (Already Implemented):**
+```
+index.html → /api/metrics → JiraBugService.calculateBugMetrics()
+                                → returns reopenedBugs (already working)
+```
+
+**Constraints:**
+- Non-breaking: Must not impact existing Open/Closed Defects functionality
+- No new API calls: Reuse existing JiraBugService data
+- No new files: Modify index.html only
+- Display reopenedBugs regardless of bug's current status
+
+**Effort Estimate:** 2-3 hours (S size)
+
+**Acceptance Criteria:**
+1. Dashboard displays 7 scorecard tiles (was 6)
+2. New tile shows "Reopened Defects" with:
+   - Icon: ↩️ emoji
+   - Main value: Percentage as integer (no decimals) - e.g., "15%" not "15.2%"
+   - Quality badge: "Excellent" (<10%), "Fair" (10-25%), or "Action Required" (>25%)
+   - Color: Wolters Kluwer lime green (`#a4cd58`) — implemented via `.metric-card.card-orange` CSS class
+3. Tile positioned immediately after "Closed Defects" (7th position)
+4. Tile matches existing scorecard style (.metric-card)
+5. Quality badge color-coded:
+   - Excellent: Green background or checkmark ✓
+   - Fair: Yellow/Orange background or warning ⚠️
+   - Action Required: Red background or alert 🚨
+6. Existing Open/Closed Defects tiles still work correctly (non-breaking)
+7. Matrix team Sprint 26.1.1 shows correct reopenedRate (expected: 0%)
+8. Chargers team Sprint 26.1.1 shows correct reopenedRate (expected: 0%)
+9. Edge cases handled: null/undefined values display as "0%"
+10. No impact on existing dashboard functionality or data accuracy
+
+---
+
+### Phase 2: Multi-Product Support (Weeks 4-6)
+
+**Goal:** Extend dashboard to support Passport, DnA, Collaboration Portal
+  
+- [ ] **Day 4:** Testing
+  - Manual testing all flows
+  - Fix critical bugs
+  - Basic error handling in UI
+  
+- [ ] **Day 5:** Deploy
+  - Docker Compose setup
+  - Deploy to internal VM
   - Smoke test
   - Demo to stakeholders
 
@@ -1961,7 +2372,7 @@ stages:
 
 **Deliverables:**
 - ✅ Passport teams (3 teams) added to database
-- ✅ DnA teams (3 teams) added to database
+- ✅ DnA teams (3 teams: Minerva, Guardians, Athena) added to database with sprint format configuration
 - ✅ Product switcher UI
 - ✅ Strategy pattern for product differences
 - ✅ Background jobs (BullMQ)
@@ -1973,6 +2384,65 @@ stages:
 - All 12 teams selectable
 - Dashboard auto-updates (no manual refresh needed)
 - Faster page loads (caching)
+
+**DnA Team Configuration:**
+- Minerva team: Project ELM, Board ID 7437, Sprint format "Passport D&A Minerva-{sprint}", Safe-Team field value "Minerva"
+- Guardians team: Project ELM, Board ID 6704, Sprint format "Passport D&A Guardians-{sprint}", Safe-Team field value "Guardians"
+- Athena team: Project GET, Board ID 6798, Sprint format "T360 D&A Athena-{sprint}", Safe-Team field value "Athena"
+
+**Bug Metrics Configuration with Jira MCP Integration:**
+- **Jira Instance**: https://jira.wolterskluwer.io/jira
+- **Authentication**: Jira API Token (stored in environment variable JIRA_API_TOKEN)
+- **Issue Type**: `Bug` (not Defect)
+- **Team Assignment**: Safe-Team custom field (customfield_13392)
+- **Field Availability**: Safe-Team field exists in both ELM and GET projects
+- **Testing Sprint**: 26.1.2 (closed sprint)
+- **Implementation Order**: Backend first, then frontend (Tasks 2.1 → 2.10 in sequence)
+- **No Mock Data**: All metrics from actual Jira API calls
+- **Severity Field**: Standard `Severity` field (Critical, High, Medium, Low)
+- **Reopened Detection**: 
+  - Use GitKraken MCP tool `mcp_gitkraken_issues_get_detail` to fetch bug changelog
+  - Parse changelog entries for status field changes
+  - Detect pattern: status change from [Closed, Done, Resolved] → [Open, In Progress, To Do]
+  - Track reopened count per bug and store history
+- **Status Categories**:
+  - Open: Open, In Progress, To Do
+  - Closed: Closed, Done, Resolved
+- **Reopened Quality Thresholds**:
+  - Excellent: 0-5% (Green)
+  - Good: 6-10% (Yellow) 
+  - Needs Improvement: 11-15% (Orange)
+  - Poor: >15% (Red)
+- **MCP Integration Architecture**:
+  ```typescript
+  // Use GitKraken MCP for Jira data extraction
+  interface JiraMCPClient {
+    // Fetch bug details with changelog
+    async getBugDetails(issueId: string): Promise<BugDetail>;
+    
+    // Query bugs by board and sprint
+    async getBoardBugs(boardId: number, sprint: string): Promise<Bug[]>;
+    
+    // Parse changelog for reopen events
+    async analyzeReopenHistory(bug: Bug): Promise<ReopenAnalysis>;
+  }
+  ```
+- **Data Storage Extension**:
+  ```sql
+  -- Add to defects table
+  ALTER TABLE defects ADD COLUMN reopened_count INTEGER DEFAULT 0;
+  ALTER TABLE defects ADD COLUMN reopened_history JSONB;
+  ALTER TABLE defects ADD COLUMN safe_team VARCHAR(50);
+  ALTER TABLE defects ADD COLUMN jira_changelog TEXT;
+  
+  -- Add to metrics_snapshots table
+  ALTER TABLE metrics_snapshots ADD COLUMN total_bugs INTEGER DEFAULT 0;
+  ALTER TABLE metrics_snapshots ADD COLUMN open_bugs INTEGER DEFAULT 0;
+  ALTER TABLE metrics_snapshots ADD COLUMN closed_bugs INTEGER DEFAULT 0;
+  ALTER TABLE metrics_snapshots ADD COLUMN reopened_bugs INTEGER DEFAULT 0;
+  ALTER TABLE metrics_snapshots ADD COLUMN reopened_rate DECIMAL(5,2);
+  ALTER TABLE metrics_snapshots ADD COLUMN reopened_quality_indicator VARCHAR(20);
+  ```
 
 **Tasks:**
 
@@ -2517,6 +2987,89 @@ For each component we port:
    - Project keys for each product?
    - Authentication method?
    - **Action:** User to provide SonarQube details
+
+---
+
+### Phase 1.6: Dashboard Header Branding (NEW - February 18, 2026) ✅
+
+**Goal:** Replace placeholder nav text with the official Wolters Kluwer logo, sized and positioned to match the dashboard title.
+
+**Deliverables:**
+- ✅ Official WK wheel logo (`03-wk-wheel-rev.svg`) copied to `frontend/public/wk-logo.svg`
+- ✅ Logo removed from nav bar; repositioned into `dashboard-header` alongside `<h1>` title
+- ✅ Logo and title rendered in a flex row (`dashboard-header-inner`), vertically centred
+- ✅ Logo height set to `224px` — matches visual weight of `2.5em` bold title
+- ✅ Nav bar retains right-aligned navigation links only (Dashboard, Unified Metrics, Tests Covered)
+- ✅ `frontend/server.js` updated with `image/svg+xml` MIME type for correct SVG serving
+- ✅ "🚀 Speckit Dashboard" placeholder text removed from nav
+
+**Files Modified:**
+- `frontend/index.html` — `.dashboard-header-inner` flex container, img tag, nav bar cleanup
+- `frontend/server.js` — Added `.svg`, `.png`, `.ico` MIME types to content-type switch
+- `frontend/public/wk-logo.svg` — Official WK brand asset (2492 bytes)
+
+**Architecture Note:**
+- Logo is a static asset served by `frontend/server.js` at `/public/wk-logo.svg`
+- No backend changes required
+- No new npm dependencies
+- SVG sourced from official WK logo kit (`03-wk-wheel-rev.svg`, reversed/colour variant)
+
+**Constraints Applied:**
+- Non-breaking: metrics display, data loading, and navigation links unaffected
+- No external URLs: logo served locally to avoid CDN/firewall issues
+
+---
+
+### Phase 1.7: Tests Covered Inline View & Product Filtering (NEW - February 20, 2026) ✅
+
+**Goal:** Embed the Tests Covered view inline within the main dashboard (no page navigation), match the React component's styling, and filter teams by the currently selected product.
+
+**Deliverables:**
+- ✅ Tests Covered tile click opens inline view instead of navigating to a separate page
+- ✅ Inline view fetches from `/api/metrics/tests-covered` (port 3000)
+- ✅ Sprint selector allows switching between available sprints dynamically
+- ✅ 5 summary cards: Total Test Cases, Automated, Automation Coverage (highlight + progress bar), With Scripts, Teams
+- ✅ Team Breakdown table with Coverage % and mini progress bars
+- ✅ CSS styling matches React `TestsCovered.tsx` component exactly (tc- prefixed classes)
+- ✅ Product-based filtering: teams filtered by `state.selectedProduct` using `productTeamMap`
+- ✅ Summary stats recalculated from filtered teams only
+- ✅ Empty state shown for products with no test coverage data
+- ✅ Header shows "Tests Covered — [Product Name]"
+- ✅ Non-breaking: main dashboard, product selection, and metrics unaffected
+
+**Implementation Approach:**
+
+**Step 1 — Inline View (Frontend Only):**
+1. `loadTestsCoveredView()` fetches `/api/metrics/tests-covered` from port 3000
+2. Parses `result.data` (sprint-keyed object) and `result.available_sprints`
+3. `renderTestsCoveredDashboard()` generates full HTML with summary cards + team table + footer
+4. Sprint selector re-renders on change
+
+**Step 2 — CSS Alignment:**
+1. Copied all CSS from `TestsCovered.css` into `index.html` `<style>` block
+2. Prefixed all class names with `tc-` to avoid conflicts with main dashboard `.metric-card` styles
+3. Matched: `.tests-covered-container`, `.tests-covered-header`, `.tests-covered-summary`, `.summary-card`, `.highlight`, `.tc-teams-table`, `.tc-mini-progress`, `.tests-covered-footer`
+
+**Step 3 — Product-Based Filtering:**
+1. Added `productTeamMap` constant mapping product IDs to team names
+2. `loadTestsCoveredView()` captures `state.selectedProduct` and passes to render
+3. `renderTestsCoveredDashboard()` filters teams using case-insensitive match against `productTeamMap`
+4. All summary stats (total, automated, coverage, withAttachments, teamsCount) recalculated from filtered teams
+5. Empty state message shown when no matching teams found
+
+**Product-Team Mapping:**
+| Product | Teams |
+|---------|-------|
+| T360 | Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards |
+| DnA | Minerva, Guardians, Athena |
+| Passport | Team A, Team B, Team C |
+| Collaboration Portal | (none mapped) |
+
+**Backend Changes:** NONE — existing `/api/metrics/tests-covered` endpoint unchanged
+
+**Files Modified:**
+- `frontend/index.html` — CSS (tc- prefixed styles), `loadTestsCoveredView()`, `renderTestsCoveredDashboard()`, `productTeamMap` constant
+- `frontend/src/components/TestsCovered.tsx` — Port change (3001 → 3000)
 
 ---
 

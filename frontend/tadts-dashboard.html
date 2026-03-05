@@ -18,14 +18,14 @@
         }
 
         body {
-            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            background: #0f0f1a;
         }
 
         .tadts-dashboard {
             min-height: 100vh;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
             padding: 2rem;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
         }
 
         .dashboard-header {
@@ -40,72 +40,88 @@
             font-weight: 700;
             margin: 0 0 0.5rem 0;
             letter-spacing: -1px;
+            background: linear-gradient(135deg, #00b4d8, #7c4dff, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
         .header-subtitle {
             font-size: 1rem;
-            opacity: 0.95;
+            opacity: 0.7;
             margin: 0;
             font-weight: 300;
+            color: #8899aa;
         }
 
         .sprint-selector-section {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
             padding: 1.5rem;
             margin-bottom: 2rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             display: flex;
             align-items: center;
             gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .sprint-selector-section label {
             font-weight: 600;
-            color: #333;
+            color: #8899aa;
             font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .sprint-selector {
             flex: 1;
             max-width: 300px;
             padding: 0.75rem 1rem;
-            border: 2px solid #e0e0e0;
-            border-radius: 8px;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
             font-size: 1rem;
             cursor: pointer;
             transition: all 0.3s ease;
-            background: white;
-            color: #333;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e0e0e0;
+        }
+
+        .sprint-selector option {
+            background: #1a1a2e;
+            color: #e0e0e0;
         }
 
         .sprint-selector:hover {
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
         }
 
         .sprint-selector:focus {
             outline: none;
-            border-color: #667eea;
-            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
         }
 
         .loading-state, .error-state {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
             padding: 3rem;
             text-align: center;
             font-size: 1.1rem;
-            color: #667eea;
+            color: #00b4d8;
             font-weight: 500;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
             animation: pulse 1.5s ease-in-out infinite;
         }
 
         .error-state {
-            color: #c33;
-            background: #fee;
-            border-left: 4px solid #c33;
+            color: #ff6b6b;
+            background: rgba(255, 82, 82, 0.08);
+            border-left: 4px solid #ff5252;
             animation: none;
         }
 
@@ -113,33 +129,35 @@
             display: flex;
             gap: 1rem;
             margin-bottom: 2rem;
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
             padding: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .tab-button {
             flex: 1;
             padding: 0.75rem 1.5rem;
             border: none;
-            background: #f5f5f5;
-            color: #666;
+            background: rgba(255, 255, 255, 0.05);
+            color: #667;
             font-size: 1rem;
             font-weight: 500;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .tab-button:hover {
-            background: #e8e8e8;
+            background: rgba(255, 255, 255, 0.08);
+            color: #8899aa;
         }
 
         .tab-button.active {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
             color: white;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4);
         }
 
         .tab-content {
@@ -154,23 +172,25 @@
         }
 
         .compliance-card {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
             overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .compliance-card:hover {
             transform: translateY(-4px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 180, 216, 0.2);
         }
 
         .card-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
             color: white;
             padding: 1.5rem;
-            border-bottom: 4px solid #555;
+            border-bottom: none;
         }
 
         .card-header h3 {
@@ -181,6 +201,7 @@
 
         .card-body {
             padding: 2rem;
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .compliance-stat {
@@ -191,20 +212,23 @@
         .stat-value {
             font-size: 2.5rem;
             font-weight: 700;
-            color: #667eea;
+            background: linear-gradient(135deg, #00b4d8, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
             display: block;
         }
 
         .stat-label {
             font-size: 0.9rem;
-            color: #999;
+            color: #8899aa;
             margin-top: 0.5rem;
         }
 
         .progress-bar-container {
             width: 100%;
             height: 12px;
-            background: #e0e0e0;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 6px;
             overflow: hidden;
             margin-bottom: 1.5rem;
@@ -214,7 +238,7 @@
             height: 100%;
             border-radius: 6px;
             transition: width 0.6s ease, background-color 0.3s ease;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 180, 216, 0.3);
         }
 
         .stat-breakdown {
@@ -234,18 +258,21 @@
         }
 
         .breakdown-item.compliant {
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: rgba(0, 230, 118, 0.1);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.2);
         }
 
         .breakdown-item.missing {
-            background: #ffebee;
-            color: #c62828;
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 82, 82, 0.2);
         }
 
         .breakdown-item.na {
-            background: #f5f5f5;
-            color: #666;
+            background: rgba(255, 255, 255, 0.04);
+            color: #667;
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .breakdown-item .badge {
@@ -261,18 +288,21 @@
         }
 
         .stat-box {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
             padding: 1.5rem;
             display: flex;
             align-items: center;
             gap: 1rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .stat-box:hover {
-            transform: translateY(-2px);
+            transform: translateY(-3px);
+            border-color: rgba(0, 180, 216, 0.2);
         }
 
         .stat-icon {
@@ -286,20 +316,21 @@
         .stat-number {
             font-size: 1.75rem;
             font-weight: 700;
-            color: #667eea;
+            color: #00b4d8;
         }
 
         .stat-text {
             font-size: 0.9rem;
-            color: #999;
+            color: #8899aa;
             margin-top: 0.25rem;
         }
 
         .team-matrix-container {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
             overflow: auto;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .team-matrix-table {
@@ -309,7 +340,7 @@
         }
 
         .team-matrix-table thead {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
             color: white;
             font-weight: 600;
             position: sticky;
@@ -319,21 +350,26 @@
         .team-matrix-table th {
             padding: 1rem;
             text-align: left;
-            border-bottom: 2px solid #555;
+            border-bottom: none;
         }
 
         .team-matrix-table tbody tr {
-            border-bottom: 1px solid #e0e0e0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: background-color 0.2s ease;
         }
 
         .team-matrix-table tbody tr:hover {
-            background: #f9f9f9;
+            background: rgba(0, 180, 216, 0.06);
+        }
+
+        .team-matrix-table td {
+            padding: 1rem;
+            color: #c0c0c0;
         }
 
         .team-name {
             font-weight: 600;
-            color: #333;
+            color: #00b4d8;
         }
 
         .team-stat {
@@ -349,7 +385,7 @@
         .team-total {
             text-align: center;
             font-weight: 600;
-            color: #667eea;
+            color: #00b4d8;
         }
 
         .issues-list {
@@ -359,17 +395,20 @@
         }
 
         .issue-card {
-            background: white;
-            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
             padding: 1.5rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
             transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border-left: 4px solid #667eea;
+            border-left: 4px solid #00b4d8;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 4px solid #00b4d8;
         }
 
         .issue-card:hover {
             transform: translateX(4px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-left-color: #7c4dff;
         }
 
         .issue-header {
@@ -383,7 +422,7 @@
         .issue-key {
             font-family: 'Courier New', monospace;
             font-weight: 700;
-            color: #667eea;
+            color: #00b4d8;
             font-size: 1rem;
         }
 
@@ -394,8 +433,9 @@
             font-size: 0.75rem;
             font-weight: 600;
             text-transform: uppercase;
-            background: #e3f2fd;
-            color: #1565c0;
+            background: rgba(0, 180, 216, 0.15);
+            color: #00b4d8;
+            border: 1px solid rgba(0, 180, 216, 0.3);
         }
 
         .issue-status {
@@ -405,14 +445,15 @@
             font-size: 0.85rem;
             font-weight: 600;
             text-transform: capitalize;
-            background: #dbeafe;
-            color: #0c4a6e;
+            background: rgba(0, 180, 216, 0.15);
+            color: #00b4d8;
+            border: 1px solid rgba(0, 180, 216, 0.3);
         }
 
         .issue-summary {
             font-size: 1.05rem;
             font-weight: 500;
-            color: #333;
+            color: #c0c0c0;
             margin-bottom: 1rem;
             line-height: 1.4;
         }
@@ -422,8 +463,8 @@
             gap: 2rem;
             margin: 1rem 0;
             padding: 1rem 0;
-            border-top: 1px solid #e0e0e0;
-            border-bottom: 1px solid #e0e0e0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         .compliance-item {
@@ -435,40 +476,43 @@
 
         .compliance-label {
             font-weight: 600;
-            color: #666;
+            color: #8899aa;
             min-width: 50px;
         }
 
         .status-badge {
             display: inline-block;
             padding: 0.4rem 0.8rem;
-            border-radius: 6px;
+            border-radius: 8px;
             font-size: 0.85rem;
             font-weight: 600;
             white-space: nowrap;
-            background: #e8f5e9;
-            color: #2e7d32;
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
         }
 
         .status-badge.missing {
-            background: #ffebee;
-            color: #c62828;
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 82, 82, 0.3);
         }
 
         .status-badge.na {
-            background: #f5f5f5;
-            color: #666;
-            border: 1px dashed #ccc;
+            background: rgba(255, 255, 255, 0.04);
+            color: #667;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
         }
 
         .no-issues {
             text-align: center;
             padding: 3rem;
-            color: #999;
+            color: #8899aa;
             font-size: 1.05rem;
-            background: white;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
         }
 
         @keyframes slideDown {
@@ -528,9 +572,9 @@
             </div>
 
             <div class="tab-content" id="overview-tab">
-                <div style="background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
-                    <p><strong id="sprint-info-sprint">Sprint:</strong> <span id="sprint-info-value">-</span></p>
-                    <p style="margin-top: 0.5rem;"><strong>Total Issues:</strong> <span id="sprint-info-total">-</span></p>
+                <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.08); color: #c0c0c0;">
+                    <p><strong id="sprint-info-sprint" style="color: #8899aa;">Sprint:</strong> <span id="sprint-info-value">-</span></p>
+                    <p style="margin-top: 0.5rem;"><strong style="color: #8899aa;">Total Issues:</strong> <span id="sprint-info-total">-</span></p>
                 </div>
 
                 <div class="compliance-cards-grid">
@@ -542,7 +586,7 @@
                                 <div class="stat-label">Compliance Rate</div>
                             </div>
                             <div class="progress-bar-container">
-                                <div class="progress-bar" id="tad-progress" style="width: 0%; background: #667eea;"></div>
+                                <div class="progress-bar" id="tad-progress" style="width: 0%; background: linear-gradient(90deg, #00b4d8, #7c4dff);"></div>
                             </div>
                             <div class="stat-breakdown">
                                 <div class="breakdown-item compliant"><span class="badge">✓</span><span><span id="tad-compliant">0</span> Compliant</span></div>
@@ -560,7 +604,7 @@
                                 <div class="stat-label">Compliance Rate</div>
                             </div>
                             <div class="progress-bar-container">
-                                <div class="progress-bar" id="ts-progress" style="width: 0%; background: #667eea;"></div>
+                                <div class="progress-bar" id="ts-progress" style="width: 0%; background: linear-gradient(90deg, #7c4dff, #e91e63);"></div>
                             </div>
                             <div class="stat-breakdown">
                                 <div class="breakdown-item compliant"><span class="badge">✓</span><span><span id="ts-compliant">0</span> Compliant</span></div>
@@ -597,19 +641,20 @@
             </div>
 
             <div class="tab-content hidden" id="issues-tab">
-                <div style="background: white; border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);">
+                <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap;">
                     <div style="display: flex; gap: 0.75rem; align-items: center;">
-                        <label for="type-filter" style="font-weight: 600; color: #333;">Type:</label>
-                        <select id="type-filter" style="padding: 0.5rem 0.75rem; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer;">
+                        <label for="type-filter" style="font-weight: 600; color: #8899aa;">Type:</label>
+                        <select id="type-filter" style="padding: 0.5rem 0.75rem; border: 2px solid rgba(255,255,255,0.12); border-radius: 6px; cursor: pointer; background: rgba(255,255,255,0.06); color: #e0e0e0;">
                             <option value="">All Types</option>
                         </select>
                     </div>
                     <div style="display: flex; gap: 0.75rem; align-items: center;">
-                        <label for="status-filter" style="font-weight: 600; color: #333;">Status:</label>
-                        <select id="status-filter" style="padding: 0.5rem 0.75rem; border: 2px solid #e0e0e0; border-radius: 6px; cursor: pointer;">
+                        <label for="status-filter" style="font-weight: 600; color: #8899aa;">Status:</label>
+                        <select id="status-filter" style="padding: 0.5rem 0.75rem; border: 2px solid rgba(255,255,255,0.12); border-radius: 6px; cursor: pointer; background: rgba(255,255,255,0.06); color: #e0e0e0;">
                             <option value="">All Statuses</option>
                         </select>
                     </div>
+
                 </div>
                 <div class="issues-list" id="issues-list">
                     <div class="no-issues">No issues loaded</div>
@@ -852,7 +897,7 @@
                             <span class="status-badge ${tsClass}">${tsStatus}</span>
                         </div>
                     </div>
-                    ${issue.assignee ? `<div style="font-size: 0.9rem; color: #666; margin-top: 0.75rem;">Assigned to: ${issue.assignee}</div>` : ''}
+                    ${issue.assignee ? `<div style="font-size: 0.9rem; color: #8899aa; margin-top: 0.75rem;">Assigned to: ${issue.assignee}</div>` : ''}
                 `;
 
                 issuesList.appendChild(card);

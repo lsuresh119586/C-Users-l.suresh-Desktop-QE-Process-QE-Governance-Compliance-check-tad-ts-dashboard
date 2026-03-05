@@ -11,7 +11,7 @@
 
 ### 1.1 Business Problem
 
-The ELM (Enterprise Lifecycle Management) organization comprises 11 teams across 4 product areas, operating within the SAFE (Scaled Agile Framework) methodology. Currently, there is no centralized, real-time visibility into critical quality metrics across the organization. Stakeholders at multiple levels—from individual contributors to executive leadership—lack a unified view of:
+The ELM (Enterprise Lifecycle Management) organization comprises 13 teams across 4 product areas, operating within the SAFE (Scaled Agile Framework) methodology. Currently, there is no centralized, real-time visibility into critical quality metrics across the organization. Stakeholders at multiple levels—from individual contributors to executive leadership—lack a unified view of:
 
 - Sprint and release readiness
 - Technical Architecture Document (TAD) completion
@@ -78,14 +78,19 @@ Organization (ELM)
 │   ├── Team 1: Passport Rangers
 │   └── Team 2: Passport Navigators
 ├── Product Area 2: Tymetrix 360 (T360)
-│   ├── Team 3: T360 Vanguards
-│   └── Team 4: T360 Pioneers
+│   └── Team 3: T360 Chargers
+│   └── Team 4: T360 Nexus
+│   ├── Team 5: T360 ICD CHUBB
+│   └── Team 6: T360 Mavericks
+│   └── Team 7: T360 MATRIX
+│   └── Team 8: T360 Vanguards
 ├── Product Area 3: Data & Analytics (DnA)
-│   ├── Team 5: DnA Explorers
-│   └── Team 6: DnA Innovators
+│   ├── Team 9: Minerva
+│   ├── Team 10: Guardians
+│   └── Team 11: Athena
 └── Product Area 4: Collaboration Portal
-    ├── Team 7: Collab Guardians
-    └── Team 8: Collab Builders
+    ├── Team 12: Collab Guardians
+    └── Team 13: Collab Builders
 ```
 
 **Metric Aggregation Levels:**
@@ -553,7 +558,229 @@ Acceptance Criteria:
 - **Drill-Down**: Click activity to see list of defects in that phase
 - **Export**: Include in all report formats
 
-#### 3.2.10 Release Readiness Score (Composite)
+#### 3.2.10 Bug Metrics (Open, Closed, Reopened)
+
+- **Definition**: Comprehensive bug tracking metrics for sprint quality assessment using actual Jira data
+- **Data Source**: Jira (https://jira.wolterskluwer.io/jira) via Node.js JiraBugService with Bearer token authentication
+  - **Authentication**: Jira API Token (Bearer token in JIRA_API_TOKEN environment variable)
+  - **Implementation**: `backend/api-gateway/jiraBugService.js` - production-ready service with:
+    - **Comprehensive JSDoc documentation** - All public methods documented with parameters, returns, examples
+    - **Custom error classes** (`jiraErrors.js`) - Specific error types for auth, query, timeout, rate limit scenarios
+    - **Unit test coverage**: 72.94% (29 test cases in `jiraBugService.test.js`)
+    - **Automatic retry logic** - Exponential backoff (3 retries) with smart error detection
+    - **10-minute caching** - Reduces API load, improves performance
+    - **Cross-project support** - Queries both primary project and "ELM Tech Ops" in single request
+  - Issue Type = `Bug`
+  - Filtered by team's Safe-Team field (customfield_13392) and sprint
+  - Real-time data extraction from Jira boards
+  - **Testing Sprint**: 26.1.2 (closed sprint for initial validation)
+  - **No Mock Data**: All bug metrics extracted from actual Jira issues
+- **Components**:
+  - **Total Bugs**: Count of all bugs in the sprint
+  - **Open Bugs**: Bugs with any status except `Closed` (includes `In Progress`, `To Do`, `To Verify`, `Open`, `Reopened`, etc.)
+  - **Closed Bugs**: Bugs with status `Closed` only
+  - **Reopened Bugs**: Bugs that transitioned from closed states (Closed/Done/Resolved) back to open states (Open/In Progress/To Do/To Verify)
+  - **Reopened Rate**: (Reopened Bugs / Total Bugs) × 100
+- **Dashboard UI Display** (Updated February 17, 2026):
+  - **Scorecard Metrics Displayed**:
+    1. **Open Defects** - Displayed in purple scorecard tile with 🚨 icon
+    2. **Closed Defects** - Displayed in red scorecard tile with ✓ icon
+    3. **Reopened Defects** (NEW) - Displayed in orange scorecard tile with 🔄 icon
+  - **Reopened Defects Metric Specification**:
+    - **Display Name**: "↩️ Reopened Defects"
+    - **Data Source**: Existing JiraBugService `reopenedBugs` and `reopenedRate` fields from `calculateBugMetrics()` method
+    - **Count Logic**: Number of bugs that have been reopened at least once, **regardless of current status** (includes both open and closed bugs)
+    - **Percentage Calculation**: `(reopenedBugs / totalBugs) × 100` - displayed as integer without decimals
+    - **UI Component**: New scorecard tile added to dashboard metrics grid (similar to Open/Closed Defects tiles)
+    - **Color Scheme**: Wolters Kluwer lime green (`#a4cd58`) — matches WK brand palette, NOT red
+    - **Icon**: ↩️ emoji (or bug cycle icon if available)
+    - **Positioning**: Placed immediately after "Closed Defects" tile in the metrics grid (7th metric)
+    - **Display Format**: 
+      - Main value: Percentage as integer (e.g., "15%" not "15.2%")
+      - Quality badge/tag displayed below or beside percentage
+    - **Quality Thresholds & Badges**:
+      - **Excellent**: < 10% reopened (Green badge or checkmark ✓)
+      - **Fair**: 10-25% reopened (Yellow/Orange badge or warning ⚠️)
+      - **Action Required**: > 25% reopened (Red badge or alert 🚨)
+    - **API Integration**: Fetched from live Jira API via `/api/metrics` endpoint (enriched with JiraBugService data)
+    - **Non-Breaking Requirement**: Must NOT impact existing Open Defects and Closed Defects functionality
+    - **Edge Cases**: Display "0%" if reopenedBugs is null/undefined or if totalBugs is 0
+  - **Implementation Approach**:
+    - Leverage existing `reopenedBugs` count already calculated by JiraBugService
+    - Add new UI scorecard tile in dashboard component (frontend/src/components/DnADashboard.tsx or frontend/index.html)
+    - Use same data flow as existing bug metrics (Live Jira API → Dashboard UI)
+    - No backend changes required (reopened data already available in API response)
+- **Status Classification Logic**:
+  - **Closed**: Only bugs with exact status `Closed` are considered closed
+  - **Open**: All other statuses are considered open (inclusive approach)
+  - **Rationale**: Ensures all active bugs (including `To Verify`, `In Progress`, `To Do`, `Reopened`) are tracked as open
+  - **Implementation**: Simple binary classification - `isClosed = (status === 'Closed')`, `isOpen = (status !== 'Closed')`
+- **Reopened Detection Logic**: 
+  - Query bug history/changelog via Jira REST API changelog endpoint
+  - Parse issue changelog to identify status transitions
+  - Identify transitions: `Closed|Done|Resolved` → `Open|In Progress|To Do|To Verify|Reopened`
+  - Count unique bugs that have been reopened at least once
+  - Track reopened count per bug for detailed analysis
+  - Store reopened history with timestamps and status changes
+  - **Note**: While reopened detection tracks multiple closed/open statuses, the Open/Closed classification uses simplified logic (Closed = status 'Closed', Open = all other statuses)
+- **DnA Team Configuration** (Initial Implementation Scope):
+  - **Minerva Team**: 
+    - Primary Jira Project: `ELM` (Enterprise Legal Management)
+    - Board ID: `7437`
+    - Sprint Format: `Passport D&A Minerva-{sprint}` (e.g., "Passport D&A Minerva-26.1.4")
+    - Safe-Team Field Value: `Minerva`
+    - **Multi-Project Bug Coverage**: Searches both `ELM` (primary) and `"ELM Tech Ops"` projects
+  - **Guardians Team**: 
+    - Primary Jira Project: `ELM` (Enterprise Legal Management)
+    - Board ID: `6704`
+    - Sprint Format: `Passport D&A Guardians-{sprint}` (e.g., "Passport D&A Guardians-26.1.4")
+    - Safe-Team Field Value: `Guardians`
+    - **Multi-Project Bug Coverage**: Searches both `ELM` (primary) and `"ELM Tech Ops"` projects
+  - **Athena Team**: 
+    - Primary Jira Project: `GET` (GRC ELM T360)
+    - Board ID: `6798`
+    - Sprint Format: `T360 D&A Athena-{sprint}` (e.g., "T360 D&A Athena-26.1.4")
+    - Safe-Team Field Value: `Athena`
+    - **Multi-Project Bug Coverage**: Searches both `GET` (primary) and `"ELM Tech Ops"` projects
+- **T360 Team Configuration** (Phase 2 Implementation - Ready):
+  - **Vanguards Team**:
+    - Primary Jira Project: `GET` (GRC ELM T360)
+    - Board ID: `6794`
+    - Sprint Format: `T360 Vanguards-{sprint}` (e.g., "T360 Vanguards-26.1.1")
+    - Safe-Team Field Value: `Vanguards` (no prefix) OR `T360 Vanguards` (with prefix)
+    - **Testing Sprint**: 26.1.1 (known to have 5 bugs)
+  - **Chargers Team**:
+    - Primary Jira Project: `GET`
+    - Board ID: `6784`
+    - Sprint Format: `T360 Chargers-{sprint}`
+    - Safe-Team Field Value: `Chargers` OR `T360 Chargers`
+    - **Testing Sprint**: 26.1.1 (known to have 2 bugs)
+  - **Chubb Team**:
+    - Primary Jira Project: `GET`
+    - Board ID: `6793`
+    - Sprint Format: `T360 ICD CHUBB-{sprint}`
+    - Safe-Team Field Value: `CHUBB` OR `T360 CHUBB`
+    - **Testing Sprint**: 26.1.1 (known to have 2 bugs)
+  - **Matrix Team**:
+    - Primary Jira Project: `GET`
+    - Board ID: `6710`
+    - Sprint Format: `T360 MATRIX-{sprint}`
+    - Safe-Team Field Value: `MATRIX` OR `T360 MATRIX`
+    - **Testing Sprint**: 26.1.1 (known to have 2 bugs)
+  - **Mavericks Team**:
+    - Primary Jira Project: `GET`
+    - Board ID: `6457`
+    - Sprint Format: `T360 Mavericks-{sprint}`
+    - Safe-Team Field Value: `Maverics` OR `T360 Maverics` (note: spelling variation)
+    - **Testing Sprint**: 26.1.1 (known to have 1 bug)
+  - **Nexus Team**:
+    - Primary Jira Project: `GET`
+    - Board ID: `6795`
+    - Sprint Format: `T360 Nexus-{sprint}`
+    - Safe-Team Field Value: `Nexus` OR `T360 Nexus`
+    - **Testing Sprint**: 26.1.1 (known to have 2 bugs)
+  - **Safe-Team Field Matching Strategy**:
+    - Flexible matching supports both simple ("Vanguards") and prefixed ("T360 Vanguards") formats
+    - Implementation: `matches = (safeTeamValue === teamValue) || (safeTeamValue === 'T360 ' + teamValue)`
+    - Handles case sensitivity and spelling variations (e.g., "Maverics" vs "Mavericks")
+- **Code Quality Standards** (Following speckit-implement-agent.md):
+  - **Documentation**: JSDoc comments for all public APIs with examples and type definitions
+  - **Error Handling**: Custom error classes (JiraAuthenticationError, JiraQueryError, JiraTimeoutError, etc.)
+  - **Testing**: Unit test suite with 72.94% code coverage, 28 passing tests
+  - **Best Practices**: Proper encapsulation, reusable methods, configuration-driven team setup
+  - **Maintainability**: Clear separation of concerns, well-documented business logic
+- **Jira API Integration**:
+  - Direct Jira REST API calls using Node.js https module with retry logic
+  - **Cross-Project Query Strategy**: Query bugs across multiple projects with post-retrieval Safe-Team filtering
+    - JQL Pattern: `(project = <PRIMARY> OR project = "ELM Tech Ops") AND type = Bug AND sprint = "<SPRINT_NAME>" ORDER BY created DESC`
+    - Examples:
+      - Minerva/Guardians: `(project = ELM OR project = "ELM Tech Ops") AND type = Bug AND sprint = "Passport D&A Minerva-26.1.2"`
+      - Athena: `(project = GET OR project = "ELM Tech Ops") AND type = Bug AND sprint = "T360 D&A Athena-26.1.2"`
+    - Ensures bugs from both primary project and Tech Ops project are captured
+    - **Post-Retrieval Filtering**: Safe-Team field (customfield_13392) cannot be used in JQL queries; filtering done in application code after retrieval
+    - Safe-Team field is an object with `value` property (e.g., `{value: "Athena"}`)
+    - Bugs without Safe-Team field (null/undefined) are included if they match the sprint name
+    - Sprint name format is consistent across all projects (ELM, GET, "ELM Tech Ops")
+  - Fetch bug details including status, severity, assignee, created/resolved dates
+  - Extract changelog history for reopened bug detection
+  - Handle pagination for large result sets (>50 bugs)
+- **Reopened Bugs Quality Ranges**:
+  - **Excellent**: 0-5% reopened rate (Green indicator)
+  - **Good**: 6-10% reopened rate (Yellow indicator)
+  - **Needs Improvement**: 11-15% reopened rate (Orange indicator)
+  - **Poor**: >15% reopened rate (Red indicator)
+- **Refresh Frequency**: Real-time via Jira MCP (cache 10 minutes to avoid API rate limits)
+- **Visualization**:
+  - Metric cards showing Total Bugs, Open Bugs (red), Closed Bugs (green), Reopened Bugs (color-coded by quality range)
+  - Reopened Rate as percentage with trend indicator and quality badge
+  - Bar chart comparing open/closed/reopened across sprints
+  - Bugs by Severity table (Critical, High, Medium, Low)
+  - Reopened Bugs trend chart (sprint over sprint)
+- **Drill-Down**: Click any metric to see bug list with status, severity, reopen history, and Jira links
+- **Export**: Include in all report formats (PDF, Excel, PowerPoint)
+- **Multi-Product Implementation Status**:
+  - ✅ **DnA Teams**: Fully implemented and operational (Minerva, Guardians, Athena)
+  - ✅ **T360 Teams**: Configuration complete, ready for implementation (Vanguards, Chargers, Chubb, Matrix, Mavericks, Nexus)
+  - 🔄 **Passport Teams**: Configuration needed (Team A, Team B, Team C)
+  - 🔄 **Collaboration Portal**: Configuration needed
+- **Universal Bug Service Architecture**:
+  - Single `JiraBugService` class supporting all products
+  - Configuration-driven team setup (board ID, project, sprint format, Safe-Team value)
+  - Consistent status classification across all products: `Closed` = closed, all other statuses = open
+  - Cross-project bug support (primary project + "ELM Tech Ops" for relevant teams)
+  - Post-retrieval Safe-Team filtering (customfield_13392)
+- **Configuration Requirements for T360/Passport/CP Teams**:
+  - **Board IDs**: Jira board ID for each team (e.g., T360 Vanguards board ID)
+  - **Primary Project**: Jira project key (GET for T360, ELM for Passport/CP)
+  - **Sprint Format**: Sprint name pattern (e.g., "Sprint {sprint}" or "T360 {team}-{sprint}")
+  - **Safe-Team Field Values**: Exact value in customfield_13392 (may be "{team}" or "{product} {team}")
+    - Example patterns: "Vanguards" OR "T360 Vanguards", "Team A" OR "Passport Team A"
+  - **Sprint Field**: Verify bugs have sprint field populated in Jira
+- **Implementation Approach**:
+  1. Query actual Jira instance to discover team configurations
+  2. Test with a single T360 team (e.g., Vanguards) using known sprint (26.1.1)
+  3. Identify Safe-Team field value patterns for T360/Passport teams
+  4. Extend JiraBugService with all team configurations
+  5. Verify bug counts match expected results
+  6. Deploy to all teams
+- **Data Storage & Persistence Architecture** (Updated February 17, 2026):
+  - **Dashboard Data Source**: Dashboard bug metrics ALWAYS come from **live Jira API** (source of truth)
+    - Dashboard → `/api/bugs/{product}` → JiraBugService → Live Jira REST API
+    - Bug details, open/closed counts, reopened data are all real-time from Jira
+    - **NOT from db.json** (stale in-memory store)
+    - **NOT from SQL Server** (used only for persistence/verification)
+  - **SQL Server Persistence** (Write-behind after dashboard display):
+    - After live Jira data is fetched and returned to the dashboard, aggregated metrics are asynchronously persisted to SQL Server
+    - Server: `zusscntssql19\sql2022`, Database: `Polarisdashboard`, User: `sql-cs-user`
+    - **Metrics Table Schema**:
+      | Column | Type | Description |
+      |--------|------|-------------|
+      | Product | NVARCHAR(100) | Product name: Passport, DnA, T360, Collaboration Portal |
+      | Team | NVARCHAR(100) | Team name (e.g., chargers, matrix, minerva) |
+      | Sprint | NVARCHAR(100) | Sprint key (e.g., chargers-26.1.1) |
+      | OverallBugsCount | INT | Total bug count per sprint |
+      | TotalOpenBugs | INT | Total open bugs per sprint (status ≠ Closed) |
+      | TotalClosedBugs | INT | Total closed bugs per sprint (status = Closed) |
+      | TotalReopenedBugs | INT | Reopened bugs per sprint (from Jira changelog, even if closed/open now) |
+      | ReopenedBugPercentage | DECIMAL(5,2) | (Reopened / Overall) × 100 |
+      | SyncSource | NVARCHAR(50) | Always 'jira-live-api' (data provenance) |
+      | LastUpdated | DATETIME | Timestamp of last sync |
+    - **Persistence is non-blocking**: SQL Server unavailability does NOT affect dashboard functionality
+    - **ORM**: Uses `mssql` (Tedious driver) with MERGE (upsert) pattern for idempotent writes
+    - **SyncLog Table**: All persistence operations are audit-logged in the SyncLog table
+  - **Data Flow Summary**:
+    ```
+    1. User opens dashboard → selects team + sprint
+    2. Dashboard calls /api/bugs/{product}?team=X&sprint=Y
+    3. Server calls JiraBugService → Live Jira API (source of truth)
+    4. Server returns live data to dashboard (displayed immediately)
+    5. Server asynchronously persists aggregated metrics to SQL Server
+    6. SQL Server data available for verification, reporting, historical analysis
+    ```
+  - **Sprints**: Current PI sprints 26.1.1 through 26.1.6
+  - **Products**: Passport, DnA, T360, Collaboration Portal (all products use same architecture)
+
+#### 3.2.11 Release Readiness Score (Composite)
 
 - **Definition**: Composite metric indicating readiness for release (0-100 scale)
 - **Calculation**: Weighted average of:
@@ -561,12 +788,14 @@ Acceptance Criteria:
   - TS Completion (25%)
   - Unit Test Coverage (15%)
   - Functional Test Coverage (15%)
-  - Open P0/P1 Defects (20%, inverse: fewer defects = higher score)
+  - Open P0/P1 Defects (15%, inverse: fewer defects = higher score)
+  - Reopened Bugs Rate (5%, inverse: lower reopen rate = higher score)
 - **Formula**: 
   ```
-  Score = (TAD% × 0.25) + (TS% × 0.25) + (UnitCov% × 0.15) + (FuncCov% × 0.15) + (DefectScore × 0.20)
+  Score = (TAD% × 0.25) + (TS% × 0.25) + (UnitCov% × 0.15) + (FuncCov% × 0.15) + (DefectScore × 0.15) + (ReopenScore × 0.05)
   
   DefectScore = 100 - (P0_count × 20 + P1_count × 10), capped at 0
+  ReopenScore = 100 - (ReopenedRate × 2), capped at 0
   ```
 - **Refresh Frequency**: Real-time (cache 5 minutes)
 - **Visualization**: 
@@ -843,6 +1072,65 @@ Organization > T360 > Chubb Team > Sprint 26.1.2 > ELM-12345
 - Fetch all defects: `project = ELM AND type = Defect AND status != Closed`
 - Fetch stories by team: `project = ELM AND component = "Chubb Team" AND sprint = "Sprint 26.1.2"`
 
+**DnA Team Query Patterns (Board-Based with Jira MCP):**
+- **Primary Data Source**: GitKraken Jira MCP integration for real-time bug extraction
+- **Jira Instance**: https://jira.wolterskluwer.io/jira
+- **MCP Tools Used**:
+  - `mcp_gitkraken_issues_get_detail`: Fetch individual bug details with changelog
+  - Jira API board queries for sprint bug lists
+- **Query Construction**:
+  - Fetch bugs for Minerva: `project = ELM AND type = Bug AND sprint = "Passport D&A Minerva-26.1.4" AND "Safe-Team" = "Minerva"`
+  - Fetch bugs for Guardians: `project = ELM AND type = Bug AND sprint = "Passport D&A Guardians-26.1.4" AND "Safe-Team" = "Guardians"`
+  - Fetch bugs for Athena: `project = GET AND type = Bug AND sprint = "T360 D&A Athena-26.1.4" AND "Safe-Team" = "Athena"`
+  - Fetch open bugs: Add `AND status IN ("Open", "In Progress", "To Do")`
+  - Fetch closed bugs: Add `AND status IN ("Closed", "Done", "Resolved")`
+- **Reopened Bug Detection**:
+  - For each bug, call `mcp_gitkraken_issues_get_detail` with bug ID
+  - Parse changelog to find status transitions
+  - Identify pattern: Any transition from [Closed, Done, Resolved] → [Open, In Progress, To Do]
+  - Count total reopens per bug
+  - Store reopened history: [{date, fromStatus, toStatus}]
+- **Data Extraction Workflow**:
+  1. Query board for sprint bugs (by board ID and sprint name)
+  2. Filter by Safe-Team custom field
+  3. Categorize by current status (open vs closed)
+  4. For each bug, fetch detailed changelog via MCP
+  5. Analyze changelog for reopen events
+  6. Calculate reopened rate and assign quality indicator
+  7. Return live data to dashboard (displayed immediately)
+  8. Asynchronously persist aggregated metrics to SQL Server (Polarisdashboard) via MetricsPersistence module
+  9. Log sync operation to SyncLog table for audit trail
+- **Error Handling**:
+  - Retry failed MCP calls (3 attempts with exponential backoff)
+  - Log Jira API errors for troubleshooting
+  - Fallback to cached data if Jira is unavailable
+  - Graceful degradation (show last known data with staleness indicator)
+
+**Sprint Naming Conventions by Product:**
+- **T360 Teams**: Standard format - `Sprint 26.1.4`
+- **Passport Teams**: Standard format - `Sprint 26.1.4`
+- **Collaboration Portal Teams**: Standard format - `Sprint 26.1.4`
+- **DnA Teams**: Product-prefixed format:
+  - Minerva: `Passport D&A Minerva-26.1.4`
+  - Guardians: `Passport D&A Guardians-26.1.4`
+  - Athena: `T360 D&A Athena-26.1.4`
+
+**Jira Project Mappings:**
+- **T360 Teams**: Project `GET` (GRC ELM T360)
+- **Passport Teams**: Project `ELM` (Enterprise Legal Management)
+- **Collaboration Portal Teams**: Project `ELM` (Enterprise Legal Management)
+- **DnA Teams**:
+  - Minerva: Project `ELM` (Enterprise Legal Management), Board ID: 7437
+  - Guardians: Project `ELM` (Enterprise Legal Management), Board ID: 6704
+  - Athena: Project `GET` (GRC ELM T360), Board ID: 6798
+
+**Defect/Bug Configuration:**
+- **Issue Type**: `Bug` (used across all projects)
+- **Team Assignment**: `Safe-Team` custom field contains team name
+- **Severity Field**: `Severity` field (standard field)
+- **Status Tracking**: Bug status field (Open, In Progress, Closed, Done, Resolved)
+- **Reopened Detection**: Check bug `History` for status transitions from Closed/Done/Resolved back to Open/In Progress
+
 **Refresh Strategy:**
 - Real-time queries for current sprint data (cache 5 minutes)
 - Batch sync every 30 minutes for historical data
@@ -959,9 +1247,20 @@ Organization > T360 > Chubb Team > Sprint 26.1.2 > ELM-12345
 - Retain 6 months of historical data in database
 - Archive older data to object storage (future)
 
+**Bug Metrics Persistence** (Updated February 17, 2026):
+- **Live Data → SQL Server Write-Behind**: After every dashboard API call, aggregated bug metrics are persisted to SQL Server
+- **Database**: Polarisdashboard on `zusscntssql19\sql2022`, User: `sql-cs-user`
+- **Table**: Metrics (with Product, Team, Sprint, OverallBugsCount, TotalOpenBugs, TotalClosedBugs, TotalReopenedBugs, ReopenedBugPercentage columns)
+- **Persistence Module**: `backend/api-gateway/metricsPersistence.js` using `mssql` (Tedious driver)
+- **Pattern**: MERGE (upsert) — insert new rows, update existing rows by Sprint key
+- **Non-Blocking**: SQL Server unavailability does NOT affect dashboard functionality
+- **Audit Trail**: All sync operations logged in SyncLog table
+- **Verification Endpoint**: `GET /api/metrics/persisted?product=<product>&sprint=<sprint>` reads from SQL Server
+
 **Snapshot Schema**:
 - Date, Sprint, Team, Product
 - TAD completion %, TS completion %, Unit coverage %, Functional coverage %, Sprint velocity %, Defect counts
+- Bug metrics: OverallBugsCount, TotalOpenBugs, TotalClosedBugs, TotalReopenedBugs, ReopenedBugPercentage
 - Calculated metrics: Release Readiness Score
 
 **Trend Calculation**:
@@ -1908,9 +2207,10 @@ Display: "74.3" with Yellow color (70-89% range)
   // Collaboration Portal Teams (1 team)
   { "id": 9, "name": "Pioneers", "displayName": "Collab Pioneers", "productId": 4 },
   
-  // DnA Teams (2 teams)
-  { "id": 10, "name": "Guardians", "displayName": "DnA Guardians", "productId": 3 },
-  { "id": 11, "name": "Athena", "displayName": "DnA Athena", "productId": 3 }
+  // DnA Teams (3 teams)
+  { "id": 10, "name": "Minerva", "displayName": "DnA Minerva", "productId": 3, "jiraProject": "ELM", "jiraBoardId": 7437, "sprintFormat": "Passport D&A Minerva-{sprint}" },
+  { "id": 11, "name": "Guardians", "displayName": "DnA Guardians", "productId": 3, "jiraProject": "ELM", "jiraBoardId": 6704, "sprintFormat": "Passport D&A Guardians-{sprint}" },
+  { "id": 12, "name": "Athena", "displayName": "DnA Athena", "productId": 3, "jiraProject": "GET", "jiraBoardId": 6798, "sprintFormat": "T360 D&A Athena-{sprint}" }
 ]
 ```
 
@@ -1959,11 +2259,13 @@ Display: "74.3" with Yellow color (70-89% range)
 ```json
 {
   "id": "string (Jira key)",
-  "severity": "string (P0/Critical, P1/High, P2/Medium, P3/Low)",
-  "status": "string (Open, In Progress, Resolved, Closed, Reopened)",
+  "severity": "string (Critical, High, Medium, Low)",
+  "status": "string (Open, In Progress, Resolved, Closed, Done)",
   "sdlcActivity": "string (Requirements, Design, Development, Testing, Deployment, Production)",
   "linkedStoryId": "string (Jira key)",
-  "reopened": "boolean"
+  "reopened": "boolean",
+  "reopenedCount": "number (times bug was reopened)",
+  "reopenedHistory": "array of {date, fromStatus, toStatus}"
 }
 ```
 
@@ -1993,9 +2295,11 @@ Display: "74.3" with Yellow color (70-89% range)
     "totalTestRuns": "number"
   },
   "defectMetrics": {
-    "totalDefects": "number",
-    "reopenedDefects": "number",
-    "reopenedPct": "number (0-100)",
+    "totalBugs": "number",
+    "openBugs": "number",
+    "closedBugs": "number",
+    "reopenedBugs": "number",
+    "reopenedRate": "number (0-100)",
     "bySeverity": {
       "Critical": "number",
       "High": "number",
@@ -2016,9 +2320,57 @@ Display: "74.3" with Yellow color (70-89% range)
 
 ---
 
+#### 3.2.11 Dashboard Header Branding (Updated February 18, 2026)
+
+- **Logo**: Wolters Kluwer official wheel logo displayed in the dashboard header
+  - **Source File**: `frontend/public/wk-logo.svg` (official brand asset from WK logo kit: `03-wk-wheel-rev.svg`)
+  - **Variant**: Reversed (white/colour on transparent) — no registered trademark symbol visible
+  - **Positioning**: Displayed inline alongside the dashboard `<h1>` title on the same horizontal line
+  - **Size**: `224px` height — visually proportionate to the `2.5em` bold dashboard title
+  - **Vertical Alignment**: `align-items: center` — logo and title centred on the same baseline
+  - **Layout**: Flex row container (`dashboard-header-inner`) wraps logo + title with `24px` gap
+- **Navigation Bar**: Top nav displays only navigation links (Dashboard, Unified Metrics, Tests Covered) right-aligned; no logo in nav bar
+- **Title Text**: `📊 Polaris ELM Metrics Dashboard` — displayed as `<h1>` in `dashboard-header`, `font-size: 2.5em`, `font-weight: 700`
+- **Removed**: "🚀 Speckit Dashboard" placeholder text removed from nav header
+- **Non-Breaking**: Header branding changes must not affect metrics display, data loading, or navigation
+
+---
+
+#### 3.2.12 Tests Covered Inline View (Added February 20, 2026)
+
+- **Definition**: Inline dashboard view showing test coverage metrics (total test cases, automated count, automation coverage %, scripts with attachments) aggregated from qTest data
+- **Data Source**: `backend/api-gateway/db.json` → `tests_covered` section, synced from qTest API (Project 114345)
+- **Sprint Coverage**: 26.1.1, 26.1.2, 26.1.3, 26.1.4, 26.1.6 (26.1.5 empty — no test cases in module)
+- **Access**: Clickable "Tests Covered" tile on main dashboard → opens inline view (no page navigation)
+- **Sprint Selector**: Dropdown to switch between available sprints; data updates dynamically
+- **Summary Cards** (5 cards): Total Test Cases, Automated, Automation Coverage (gradient highlight + progress bar), With Scripts, Teams
+- **Team Breakdown Table**: Columns — Team, Total Tests, Automated, Coverage %, Progress (mini progress bar)
+- **Footer**: Generated timestamp + Sprint label
+- **Formatting**: Matches the React `TestsCovered.tsx` component styling exactly (CSS classes prefixed with `tc-` to avoid conflicts)
+
+#### 3.2.13 Tests Covered Product-Based Filtering (Added February 20, 2026)
+
+- **Definition**: Tests Covered view filters teams based on the currently selected product, ensuring teams from other products are not displayed
+- **Product-Team Mapping**:
+  - **T360**: Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards
+  - **DnA**: Minerva, Guardians, Athena
+  - **Passport**: Team A, Team B, Team C
+  - **Collaboration Portal**: (no teams mapped)
+- **Filtering Behaviour**:
+  - `state.selectedProduct` is captured when user clicks the Tests Covered tile
+  - Teams are filtered using a `productTeamMap` lookup (case-insensitive matching)
+  - Summary statistics (Total, Automated, Coverage, With Scripts, Teams count) are **recalculated** from filtered teams only
+  - If no matching teams exist for the selected product, an empty state message is shown: "No test coverage data available for [Product]. Test coverage data is currently tracked for T360 teams only."
+- **Header**: Displays "🧪 Tests Covered — [Product Name]" with properly formatted product label
+- **Current Data Scope**: `tests_covered` in `db.json` only contains T360 team data; other products show the empty-state message until their qTest data is synced
+- **Non-Breaking**: Product selection state and main dashboard metrics unaffected
+
+---
+
 **End of Specification**
 
 **Document Status**: Draft v1.0  
+**Last Updated**: February 20, 2026  
 **Next Steps**: 
 1. Stakeholder review and approval
 2. Create implementation plan (`/speckit.plan`)

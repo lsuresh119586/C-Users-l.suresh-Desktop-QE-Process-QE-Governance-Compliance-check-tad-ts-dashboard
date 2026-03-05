@@ -3,133 +3,63 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import url from 'url';
-import https from 'https';
+import dotenv from 'dotenv';
 import { getSprintDefectsData } from './sample-tadts-data.js';
+import JiraBugService from './jiraBugService.js';
+import MetricsPersistence from './metricsPersistence.js';
+import { fetchSprintTestCases } from './qtest-integration.js';
+import { fetchPassportSprintCoverage, getCachedPassportData, getPassportQTestConfig } from './passport-qtest-integration.js';
+import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceService.js';
+import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
+import { isCpodCalendarMode } from './cpodQueryMode.js';
+import { processMetricsQuery } from './metricsQueryProcessor.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Load environment variables from the api-gateway directory
+dotenv.config({ path: path.join(__dirname, '.env') });
 const dbFile = path.join(__dirname, 'db.json');
 
-// QTest API configuration
-const QTEST_CONFIG = {
-  baseUrl: 'https://wk.qtestnet.com/api/v3',
-  projectId: '114345',
-  apiToken: process.env.QTEST_API_TOKEN || '',
-  // Sprint name to QTest project ID mapping
-  sprintMapping: {
-    '26.1.1': 68209713,
-    '26.1.2': 68209714,
-    '26.1.3': 68209719,
-    '26.1.4': 68289134,
-    '26.1.5': 68341069,
-    '26.1.6': 68341070,
-    'chargers-26.1.1': 68209713,
-    'chargers-26.1.2': 68209714,
-    'chargers-26.1.3': 68209719,
-    'chargers-26.1.4': 68289134,
-    'chargers-26.1.5': 68341069,
-    'chargers-26.1.6': 68341070
-  }
-};
+// Initialize Jira Bug Service
+let jiraBugService = null;
+try {
+  jiraBugService = new JiraBugService();
+  console.log('✅ Jira Bug Service initialized');
+} catch (error) {
+  console.error('⚠️  Jira Bug Service initialization failed:', error.message);
+}
 
-// Fetch data from QTest API
-const fetchQTestData = (apiUrl, method = 'GET') => {
-  return new Promise((resolve, reject) => {
-    if (!QTEST_CONFIG.apiToken) {
-      reject(new Error('QTEST_API_TOKEN environment variable not set'));
-      return;
+// Prevent unhandled promise rejections from crashing the server
+process.on('unhandledRejection', (reason, promise) => {
+  console.warn('⚠️  Unhandled Promise Rejection:', reason?.message || reason);
+});
+
+// Prevent uncaught exceptions from crashing the server (for mssql error events)
+process.on('uncaughtException', (error) => {
+  console.warn('⚠️  Uncaught Exception (non-fatal):', error?.message || error);
+});
+
+// Initialize Metrics Persistence (SQL Server)
+let metricsPersistence = null;
+try {
+  metricsPersistence = new MetricsPersistence();
+  // Connect asynchronously - don't block server startup
+  metricsPersistence.connect().then(connected => {
+    if (connected) {
+      console.log('✅ Metrics Persistence connected to SQL Server');
+    } else {
+      console.warn('⚠️  Metrics Persistence: SQL Server unavailable - persistence disabled (dashboard still works with live Jira data)');
+      metricsPersistence = null; // Disable persistence
     }
-
-    console.log(`[fetchQTest] URL: ${apiUrl}`);
-    console.log(`[fetchQTest] Token: ${QTEST_CONFIG.apiToken.substring(0, 20)}...`);
-
-    const urlObj = new URL(apiUrl);
-    const options = {
-      hostname: urlObj.hostname,
-      path: urlObj.pathname + urlObj.search,
-      method: method,
-      headers: {
-        'Authorization': `Bearer ${QTEST_CONFIG.apiToken}`,
-        'Content-Type': 'application/json',
-        'User-Agent': 'QTest-Dashboard/1.0'
-      }
-    };
-
-    console.log(`[fetchQTest] Headers:`, JSON.stringify(options.headers, null, 2));
-
-    const req = https.request(options, (res) => {
-      let data = '';
-      console.log(`[fetchQTest] Response status: ${res.statusCode}`);
-      res.on('data', chunk => { data += chunk; });
-      res.on('end', () => {
-        try {
-          const parsed = JSON.parse(data);
-          console.log(`[fetchQTest] Parsed successfully. Keys: ${Object.keys(parsed).join(', ')}`);
-          resolve(parsed);
-        } catch (err) {
-          reject(new Error(`Failed to parse QTest response: ${err.message}`));
-        }
-      });
-    });
-
-    req.on('error', (e) => {
-      console.error(`[fetchQTest] Request error:`, e.message);
-      reject(e);
-    });
-    req.setTimeout(15000, () => {
-      req.destroy();
-      reject(new Error('QTest API request timeout'));
-    });
-    req.end();
+  }).catch(err => {
+    console.warn('⚠️  Metrics Persistence connection error:', err.message);
+    metricsPersistence = null; // Disable persistence
   });
-};
-
-// Aggregate test case metrics from QTest data
-const aggregateTestMetrics = (testCases, sprintName) => {
-  const totals = {
-    total: testCases.length,
-    automated: 0,
-    with_attachments: 0,
-    without_attachments: 0
-  };
-
-  const teams = {};
-
-  testCases.forEach(tc => {
-    // Count automated test cases
-    if (tc.automation_status === 'AUTOMATED' || tc.automated === true) {
-      totals.automated++;
-    }
-
-    // Count test cases with attachments
-    if (tc.attachments && tc.attachments.length > 0) {
-      totals.with_attachments++;
-    }
-
-    // Group by team/module
-    const team = tc.assigned_team || tc.team || 'Unassigned';
-    if (!teams[team]) {
-      teams[team] = {
-        total_test_cases: 0,
-        automated_test_cases: 0,
-        with_attachments: 0
-      };
-    }
-    teams[team].total_test_cases++;
-
-    if (tc.automation_status === 'AUTOMATED' || tc.automated === true) {
-      teams[team].automated_test_cases++;
-    }
-
-    if (tc.attachments && tc.attachments.length > 0) {
-      teams[team].with_attachments++;
-    }
-  });
-
-  totals.without_attachments = Math.max(0, totals.automated - totals.with_attachments);
-
-  return { sprint: sprintName, totals, teams };
-};
+} catch (error) {
+  console.error('⚠️  Metrics Persistence initialization failed:', error.message);
+  console.warn('   Dashboard will continue to work with live Jira data only');
+}
 
 const parseJson = (body) => {
   try {
@@ -171,9 +101,9 @@ const defaultData = {
   ],
   teams: [
     // Passport teams
-    { id: 'team-a', name: 'Team A', product: 'passport' },
-    { id: 'team-b', name: 'Team B', product: 'passport' },
-    { id: 'team-c', name: 'Team C', product: 'passport' },
+    { id: 'pp-genesis', name: 'PP Genesis', product: 'passport' },
+    { id: 'pp-pioneers', name: 'PP Pioneers', product: 'passport' },
+    { id: 'pp-spartacles', name: 'PP Spartacles', product: 'passport' },
     
     // T360 teams
     { id: 'vanguards', name: 'Vanguards', product: 't360' },
@@ -184,9 +114,24 @@ const defaultData = {
     { id: 'nexus', name: 'Nexus', product: 't360' }
   ],
   sprints: [
-    // Passport sprints
-    { id: 'team-a-25.1.1', name: 'Sprint 25.1.1', team: 'team-a' },
-    { id: 'team-a-25.1.2', name: 'Sprint 25.1.2', team: 'team-a' },
+    // Passport - PP Genesis sprints
+    { id: 'pp-genesis-26.1.1', name: 'Sprint 26.1.1', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.2', name: 'Sprint 26.1.2', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.3', name: 'Sprint 26.1.3', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.4', name: 'Sprint 26.1.4', team: 'pp-genesis' },
+    { id: 'pp-genesis-26.1.5', name: 'Sprint 26.1.5', team: 'pp-genesis' },
+    // Passport - PP Pioneers sprints
+    { id: 'pp-pioneers-26.1.1', name: 'Sprint 26.1.1', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.2', name: 'Sprint 26.1.2', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.3', name: 'Sprint 26.1.3', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.4', name: 'Sprint 26.1.4', team: 'pp-pioneers' },
+    { id: 'pp-pioneers-26.1.5', name: 'Sprint 26.1.5', team: 'pp-pioneers' },
+    // Passport - PP Spartacles sprints
+    { id: 'pp-spartacles-26.1.1', name: 'Sprint 26.1.1', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.2', name: 'Sprint 26.1.2', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.3', name: 'Sprint 26.1.3', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.4', name: 'Sprint 26.1.4', team: 'pp-spartacles' },
+    { id: 'pp-spartacles-26.1.5', name: 'Sprint 26.1.5', team: 'pp-spartacles' },
     
     // T360 - Vanguards sprints
     { id: 'vanguards-26.1.2', name: 'Sprint 26.1.2', team: 'vanguards' },
@@ -236,33 +181,33 @@ const defaultData = {
     { id: 'nexus-26.1.6', name: 'Sprint 26.1.6', team: 'nexus' }
   ],
   metrics: [
-    // Passport Team A Sprint 25.1.1
+    // Passport PP Genesis Sprint 26.1.1
     {
-      id: 'metric-team-a-25.1.1',
+      id: 'metric-pp-genesis-26.1.1',
       product: 'passport',
-      team: 'team-a',
-      sprint: 'team-a-25.1.1',
+      team: 'pp-genesis',
+      sprint: 'pp-genesis-26.1.1',
       requirementsCovered: 95,
       testsCovered: 92,
       defectsOpen: 3,
       defectsClosed: 18,
       deploymentReadiness: 90,
       codeQuality: 88,
-      timestamp: '2025-01-15T10:00:00Z'
+      timestamp: '2026-01-15T10:00:00Z'
     },
-    // Passport Team A Sprint 25.1.2
+    // Passport PP Genesis Sprint 26.1.2
     {
-      id: 'metric-team-a-25.1.2',
+      id: 'metric-pp-genesis-26.1.2',
       product: 'passport',
-      team: 'team-a',
-      sprint: 'team-a-25.1.2',
+      team: 'pp-genesis',
+      sprint: 'pp-genesis-26.1.2',
       requirementsCovered: 93,
       testsCovered: 90,
       defectsOpen: 5,
       defectsClosed: 20,
       deploymentReadiness: 87,
       codeQuality: 85,
-      timestamp: '2025-01-16T10:00:00Z'
+      timestamp: '2026-01-16T10:00:00Z'
     },
     
     // T360 - Vanguards Sprint 26.1.2
@@ -778,7 +723,7 @@ const initDatabase = () => {
 // Start server
 const PORT = 3000;
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
   const query = parsedUrl.query;
@@ -795,6 +740,214 @@ const server = http.createServer((req, res) => {
   }
 
   const db = readDatabase();
+
+  // GET /api/qtest/sprint/:sprint - Fetch qTest test case data for a sprint
+  // Uses local db.json tests_covered data first, falls back to live qTest API
+  if (pathname.startsWith('/api/qtest/sprint/') && req.method === 'GET') {
+    const sprintName = pathname.replace('/api/qtest/sprint/', '');
+    const checkAttachments = query.attachments === 'true';
+
+    // Try local db.json tests_covered data first (reliable, no external API dependency)
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered?.[sprintName];
+    if (testsCovered && testsCovered.teams && Object.keys(testsCovered.teams).length > 0) {
+      // Transform tests_covered format to match expected frontend format
+      const teams = {};
+      for (const [teamName, teamData] of Object.entries(testsCovered.teams)) {
+        teams[teamName] = {
+          total: teamData.total_test_cases || teamData.total || 0,
+          automated: teamData.automated_test_cases || teamData.automated || 0,
+          with_attachments: teamData.with_attachments || 0,
+          without_attachments: teamData.without_attachments || 0,
+          test_cases: teamData.test_cases || []
+        };
+      }
+      const totals = {
+        total: testsCovered.summary?.total_test_cases || Object.values(teams).reduce((s, t) => s + t.total, 0),
+        automated: testsCovered.summary?.total_automated || Object.values(teams).reduce((s, t) => s + t.automated, 0),
+        with_attachments: testsCovered.summary?.total_with_attachments || Object.values(teams).reduce((s, t) => s + t.with_attachments, 0),
+        without_attachments: Object.values(teams).reduce((s, t) => s + t.without_attachments, 0)
+      };
+      const result = {
+        sprint_name: sprintName,
+        module_id: testsCovered.module_id || null,
+        generated: testsCovered.generated || new Date().toISOString(),
+        source: 'local',
+        totals,
+        teams
+      };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+      return;
+    }
+
+    // Fallback to live qTest API with timeout
+    try {
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('qTest API request timed out')), 15000)
+      );
+      const data = await Promise.race([
+        fetchSprintTestCases(sprintName, checkAttachments),
+        timeoutPromise
+      ]);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(data));
+    } catch (error) {
+      console.error(`Error fetching qTest sprint data: ${error.message}`);
+      // On timeout/error, try stale cache as last resort
+      try {
+        const cacheFile = path.join(__dirname, '.qtest-cache', `qtest-sprint-${sprintName}.json`);
+        if (fs.existsSync(cacheFile)) {
+          const cached = JSON.parse(fs.readFileSync(cacheFile, 'utf8'));
+          console.log(`Returning stale cached data for sprint ${sprintName}`);
+          res.writeHead(200, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify(cached.data));
+          return;
+        }
+      } catch (cacheErr) {
+        console.error(`Cache read failed: ${cacheErr.message}`);
+      }
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/qtest/passport/sprint/:sprint - Fetch Passport qTest test coverage data
+  // Uses requirement-based linking (ELM cards → linked test cases) instead of module-based
+  if (pathname.startsWith('/api/qtest/passport/sprint/') && req.method === 'GET') {
+    const sprintName = pathname.replace('/api/qtest/passport/sprint/', '');
+    
+    console.log(`[Passport qTest] Fetching coverage for sprint ${sprintName}...`);
+
+    const passportTeams = ['PP Genesis', 'PP Pioneers', 'PP Spartacles'];
+
+    // Try cached Passport qTest LIVE data FIRST (fresher than db.json)
+    const cachedData = getCachedPassportData(sprintName);
+    if (cachedData && cachedData.source === 'passport-qtest-live') {
+      console.log(`[Passport qTest] Returning live cached data for sprint ${sprintName}`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(cachedData));
+      return;
+    }
+
+    // Fallback to local db.json tests_covered data for Passport teams
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered?.[sprintName];
+    
+    // Check if we have Passport team data in tests_covered
+    let hasPassportData = false;
+    if (testsCovered && testsCovered.teams) {
+      hasPassportData = passportTeams.some(team => testsCovered.teams[team]);
+    }
+
+    if (hasPassportData) {
+      // Return Passport-specific data from db.json
+      const teams = {};
+      for (const teamName of passportTeams) {
+        const teamData = testsCovered.teams[teamName];
+        if (teamData) {
+          teams[teamName] = {
+            total: teamData.total_test_cases || teamData.total || 0,
+            automated: teamData.automated_test_cases || teamData.automated || 0,
+            with_attachments: teamData.with_attachments || 0,
+            without_attachments: teamData.without_attachments || 0,
+            test_cases: teamData.test_cases || []
+          };
+        }
+      }
+      const totals = {
+        total: Object.values(teams).reduce((s, t) => s + t.total, 0),
+        automated: Object.values(teams).reduce((s, t) => s + t.automated, 0),
+        with_attachments: Object.values(teams).reduce((s, t) => s + t.with_attachments, 0),
+        without_attachments: Object.values(teams).reduce((s, t) => s + t.without_attachments, 0)
+      };
+      const result = {
+        sprint_name: sprintName,
+        generated: testsCovered.generated || new Date().toISOString(),
+        source: 'local-passport',
+        totals,
+        teams
+      };
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result));
+      return;
+    }
+
+    // Try any cached Passport qTest data (even older)
+    if (cachedData) {
+      console.log(`[Passport qTest] Returning cached data for sprint ${sprintName}`);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(cachedData));
+      return;
+    }
+
+    // No data available - return empty structure with indicator
+    // Note: Live fetching requires ELM cards from TAD-TS compliance data
+    const emptyResult = {
+      sprint_name: sprintName,
+      generated: new Date().toISOString(),
+      source: 'no-data',
+      message: 'No Passport qTest data available. Use /api/qtest/passport/sync-from-tadts/:sprint to sync from live qTest.',
+      totals: { total: 0, automated: 0, with_attachments: 0, without_attachments: 0 },
+      teams: {}
+    };
+    for (const team of passportTeams) {
+      emptyResult.teams[team] = { total: 0, automated: 0, with_attachments: 0, without_attachments: 0, test_cases: [] };
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(emptyResult));
+    return;
+  }
+
+  // POST /api/qtest/passport/sync/:sprint - Sync Passport qTest data from live API
+  // Requires ELM cards in request body: { elmCards: [{ key: "ELM-39559", team: "PP Genesis" }] }
+  if (pathname.startsWith('/api/qtest/passport/sync/') && req.method === 'POST') {
+    const sprintName = pathname.replace('/api/qtest/passport/sync/', '');
+    
+    let body = '';
+    req.on('data', chunk => body += chunk);
+    req.on('end', async () => {
+      try {
+        const { elmCards } = JSON.parse(body || '{}');
+        
+        if (!elmCards || !Array.isArray(elmCards) || elmCards.length === 0) {
+          res.writeHead(400, { 'Content-Type': 'application/json' });
+          res.end(JSON.stringify({ 
+            error: 'elmCards array required in request body',
+            example: { elmCards: [{ key: 'ELM-39559', team: 'PP Genesis' }] }
+          }));
+          return;
+        }
+
+        console.log(`[Passport qTest] Syncing sprint ${sprintName} with ${elmCards.length} ELM cards...`);
+        
+        const timeoutPromise = new Promise((_, reject) =>
+          setTimeout(() => reject(new Error('Passport qTest sync timed out')), 120000)
+        );
+        
+        const data = await Promise.race([
+          fetchPassportSprintCoverage(sprintName, elmCards),
+          timeoutPromise
+        ]);
+        
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+      } catch (error) {
+        console.error(`[Passport qTest] Sync error: ${error.message}`);
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({ error: error.message }));
+      }
+    });
+    return;
+  }
+
+  // GET /api/qtest/passport/config - Get Passport qTest configuration (for debugging)
+  if (pathname === '/api/qtest/passport/config' && req.method === 'GET') {
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify(getPassportQTestConfig()));
+    return;
+  }
 
   // GET /api/products
   if (pathname === '/api/products' && req.method === 'GET') {
@@ -833,140 +986,137 @@ const server = http.createServer((req, res) => {
 
   // GET /api/metrics
   if (pathname === '/api/metrics' && req.method === 'GET') {
-    const { product, team, sprint } = query;
-    let metrics = db.metrics;
+    const { product, team, sprint, startDate, endDate } = query;
+
+    // Use metricsQueryProcessor for filtering (supports CPOD calendar mode)
+    const queryResult = processMetricsQuery({
+      metrics: db.metrics,
+      query: { product, team, sprint, startDate, endDate }
+    });
+
+    if (queryResult.validationError) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: queryResult.validationError }));
+      return;
+    }
+
+    let metrics = queryResult.filteredMetrics;
+    const isCpod = isCpodCalendarMode(product, team);
     
-    if (product) {
-      metrics = metrics.filter(m => m.product === product);
+    // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
+    if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {
+      // CPOD uses date-range based Jira queries instead of sprint-based
+      if (isCpod && startDate && endDate) {
+        try {
+          console.log(`📅 Enriching CPOD metrics with date-range Jira data: ${startDate} to ${endDate}`);
+          const bugMetrics = await jiraBugService.calculateBugMetricsByDateRange(startDate, endDate);
+          // Apply the same bug data to all CPOD metrics in the result
+          metrics = metrics.map(metric => ({
+            ...metric,
+            totalBugs: bugMetrics.totalBugs,
+            defectsOpen: bugMetrics.openBugs,
+            defectsClosed: bugMetrics.closedBugs,
+            reopenedBugs: bugMetrics.reopenedBugs,
+            reopenedRate: bugMetrics.reopenedRate,
+            qualityIndicator: bugMetrics.qualityIndicator,
+            bugDetails: bugMetrics.bugDetails,
+            updatedFromJiraBugs: true,
+            jiraBugsFetchedAt: bugMetrics.fetchedAt,
+            dateRange: { startDate, endDate }
+          }));
+        } catch (error) {
+          console.error('Error enriching CPOD metrics with date-range bug data:', error.message);
+        }
+      } else {
+        const enrichPromises = metrics.map(async (metric) => {
+          try {
+            // Extract sprint number from sprint ID (e.g., "minerva-26.1.2" -> "26.1.2")
+            const sprintMatch = metric.sprint.match(/-(.+)$/);
+            if (sprintMatch) {
+              const sprintNumber = sprintMatch[1];
+              const bugMetrics = await jiraBugService.calculateBugMetrics(metric.team, sprintNumber);
+              
+              // Enrich metric with actual bug data
+              return {
+                ...metric,
+                totalBugs: bugMetrics.totalBugs,
+                defectsOpen: bugMetrics.openBugs,
+                defectsClosed: bugMetrics.closedBugs,
+                reopenedBugs: bugMetrics.reopenedBugs,
+                reopenedRate: bugMetrics.reopenedRate,
+                qualityIndicator: bugMetrics.qualityIndicator,
+                bugDetails: bugMetrics.bugDetails,
+                updatedFromJiraBugs: true,
+                jiraBugsFetchedAt: bugMetrics.fetchedAt
+              };
+            }
+            return metric;
+          } catch (error) {
+            console.error(`Error enriching metrics for ${metric.team}:`, error.message);
+            return metric;
+          }
+        });
+        
+        try {
+          metrics = await Promise.all(enrichPromises);
+        } catch (error) {
+          console.error('Error enriching metrics with bug data:', error.message);
+        }
+      }
     }
-    if (team) {
-      metrics = metrics.filter(m => m.team === team);
-    }
-    if (sprint) {
-      metrics = metrics.filter(m => m.sprint === sprint);
+
+    // Enrich with live TAD/TS compliance data for DoR Readiness %
+    if ((product === 'dna' || product === 't360' || product === 'passport') && !isCpod) {
+      try {
+        const firstSprint = metrics[0]?.sprint;
+        const sprintMatch = firstSprint?.match(/-(.+)$/);
+        if (sprintMatch) {
+          const sprintNumber = sprintMatch[1];
+          console.log(`📋 Enriching DoR Readiness with live TAD/TS compliance for sprint ${sprintNumber}...`);
+          const complianceData = product === 'passport'
+            ? await getPassportSprintCompliance(sprintNumber)
+            : await getSprintCompliance(sprintNumber);
+
+          if (complianceData && complianceData.teams) {
+            metrics = metrics.map(metric => {
+              const teamName = metric.team;
+              let dorPct = null;
+              let teamTadPct = null, teamTsPct = null;
+              // Match team name from compliance data (case-insensitive)
+              for (const [compTeam, compData] of Object.entries(complianceData.teams)) {
+                if (compTeam.toLowerCase() === teamName.toLowerCase() ||
+                    compTeam.toLowerCase().includes(teamName.toLowerCase()) ||
+                    teamName.toLowerCase().includes(compTeam.toLowerCase())) {
+                  // DoR requires BOTH TAD and TS — use bothPct (% of issues with both complete)
+                  teamTadPct = compData.tadPct;
+                  teamTsPct = compData.tsPct;
+                  dorPct = compData.bothPct !== undefined ? compData.bothPct : Math.min(compData.tadPct || 0, compData.tsPct || 0);
+                  break;
+                }
+              }
+              if (dorPct !== null && dorPct !== undefined) {
+                console.log(`  📊 ${teamName}: DoR=${Math.round(dorPct)}% (TAD=${teamTadPct?.toFixed(1)}%, TS=${teamTsPct?.toFixed(1)}%)`);
+                return { ...metric, requirementsCovered: Math.round(dorPct), dorSource: 'qtest-live' };
+              }
+              // Use overall summary bothPct as fallback
+              if (complianceData.summary) {
+                const summaryDor = complianceData.summary.bothPct !== undefined
+                  ? complianceData.summary.bothPct
+                  : Math.min(complianceData.summary.tadPct || 0, complianceData.summary.tsPct || 0);
+                return { ...metric, requirementsCovered: Math.round(summaryDor), dorSource: 'qtest-live-summary' };
+              }
+              return metric;
+            });
+            console.log(`✅ DoR Readiness enriched from live qTest TAD/TS data (TAD + TS combined)`);
+          }
+        }
+      } catch (error) {
+        console.error('Error enriching DoR Readiness with TAD/TS compliance:', error.message);
+      }
     }
     
     res.writeHead(200, { 'Content-Type': 'application/json' });
     res.end(JSON.stringify(metrics));
-    return;
-  }
-
-  // GET /api/qtest/sprint/:sprint - Get test case metrics from QTest API (live data)
-  if (req.method === 'GET' && req.url.startsWith('/api/qtest/sprint/')) {
-    try {
-      // Extract sprint name from URL path: /api/qtest/sprint/26.1.2
-      const pathParts = req.url.split('/');
-      const sprintName = pathParts[pathParts.length - 1].split('?')[0]; // Remove query params if any
-      const useBackup = req.url.includes('?backup=true');
-      
-      if (!sprintName) {
-        res.writeHead(400, { 'Content-Type': 'application/json' });
-        res.end(JSON.stringify({ error: 'sprint name required' }));
-        return;
-      }
-
-      // Function to handle request
-      const handleQTestRequest = async () => {
-        try {
-          // PRIORITY 1: Use mock data from db.json (has proper team breakdown)
-          console.log(`[QTest] Loading mock data for sprint ${sprintName}`);
-          const testsCovered = db.tests_covered || {};
-          let sprintData = testsCovered[sprintName];
-
-          // If mock data exists and has teams with test cases, use it
-          if (sprintData && sprintData.teams && Object.keys(sprintData.teams).length > 0) {
-            console.log(`[QTest] ✓ Found mock data with ${Object.keys(sprintData.teams).length} teams`);
-            const summary = sprintData.summary || {};
-            const response = {
-              sprint: sprintName,
-              totals: {
-                total: summary.total_test_cases || 0,
-                automated: summary.total_automated || 0,
-                with_attachments: summary.total_with_attachments || 0,
-                without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
-              },
-              teams: sprintData.teams || {},
-              source: 'mock-data'
-            };
-            res.writeHead(200, { 'Content-Type': 'application/json' });
-            res.end(JSON.stringify(response, null, 2));
-            return;
-          }
-
-          // PRIORITY 2: Fall back to live QTest API if no mock data
-          if (!useBackup && QTEST_CONFIG.apiToken) {
-            const qTestSprintId = QTEST_CONFIG.sprintMapping[sprintName];
-            if (qTestSprintId) {
-              try {
-                console.log(`[QTest] No mock data found, fetching live data for sprint ${sprintName} (ID: ${qTestSprintId})`);
-                // Use the working QTest API endpoint format
-                const qTestUrl = `${QTEST_CONFIG.baseUrl}/projects/${QTEST_CONFIG.projectId}/test-cases?pageSize=500&sprintId=${qTestSprintId}`;
-                const qTestData = await fetchQTestData(qTestUrl);
-                
-                console.log(`[QTest] Response type: ${Array.isArray(qTestData) ? 'Array' : typeof qTestData}, length: ${qTestData.length || Object.keys(qTestData).length}`);
-                
-                if (Array.isArray(qTestData) && qTestData.length > 0) {
-                  console.log(`[QTest] ✓ Got ${qTestData.length} test cases from QTest API`);
-                  const aggregated = aggregateTestMetrics(qTestData, sprintName);
-                  aggregated.source = 'qtest-live';
-                  res.writeHead(200, { 'Content-Type': 'application/json' });
-                  res.end(JSON.stringify(aggregated, null, 2));
-                  return;
-                } else if (qTestData && qTestData.items && Array.isArray(qTestData.items)) {
-                  console.log(`[QTest] ✓ Got ${qTestData.items.length} test cases (items format)`);
-                  const aggregated = aggregateTestMetrics(qTestData.items, sprintName);
-                  aggregated.source = 'qtest-live';
-                  res.writeHead(200, { 'Content-Type': 'application/json' });
-                  res.end(JSON.stringify(aggregated, null, 2));
-                  return;
-                }
-              } catch (qtestErr) {
-                console.warn(`[QTest] Live API error: ${qtestErr.message}`);
-              }
-            }
-          }
-
-          // PRIORITY 3: Return empty mock data if nothing else available
-          if (!sprintData) {
-            sprintData = {
-              sprint: sprintName,
-              summary: {
-                total_test_cases: 0,
-                total_automated: 0,
-                total_with_attachments: 0
-              },
-              teams: {}
-            };
-          }
-
-          const summary = sprintData.summary || {};
-          const response = {
-            sprint: sprintName,
-            totals: {
-              total: summary.total_test_cases || 0,
-              automated: summary.total_automated || 0,
-              with_attachments: summary.total_with_attachments || 0,
-              without_attachments: Math.max(0, (summary.total_automated || 0) - (summary.total_with_attachments || 0))
-            },
-            teams: sprintData.teams || {},
-            source: 'mock-data'
-          };
-
-          res.writeHead(200, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify(response, null, 2));
-        } catch (error) {
-          console.error('[QTest] Error fetching sprint data:', error);
-          res.writeHead(500, { 'Content-Type': 'application/json' });
-          res.end(JSON.stringify({ error: error.message, source: 'error' }));
-        }
-      };
-
-      handleQTestRequest();
-    } catch (error) {
-      console.error('Error in /api/qtest/sprint:', error);
-      res.writeHead(500, { 'Content-Type': 'application/json' });
-      res.end(JSON.stringify({ error: error.message }));
-    }
     return;
   }
 
@@ -1009,10 +1159,50 @@ const server = http.createServer((req, res) => {
     return;
   }
 
-  // GET /api/defects/by-module - Get defects for a specific sprint
+  // GET /api/metrics/tests-covered - Get all tests-covered data
+  if (pathname === '/api/metrics/tests-covered' && req.method === 'GET') {
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered || {};
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({
+      status: 'success',
+      data: testsCovered,
+      available_sprints: Object.keys(testsCovered),
+      total_sprints: Object.keys(testsCovered).length
+    }));
+    return;
+  }
+
+  // GET /api/metrics/tests-covered/:sprint - Get tests-covered for specific sprint
+  if (pathname.startsWith('/api/metrics/tests-covered/') && req.method === 'GET') {
+    const sprint = pathname.split('/').pop();
+    const db = readDatabase();
+    const testsCovered = db?.tests_covered || {};
+    
+    if (testsCovered[sprint]) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        status: 'success',
+        sprint: sprint,
+        data: testsCovered[sprint]
+      }));
+    } else {
+      res.writeHead(404, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({
+        error: 'Sprint not found',
+        available_sprints: Object.keys(testsCovered),
+        requested_sprint: sprint
+      }));
+    }
+    return;
+  }
+
+  // GET /api/defects/by-module - Get LIVE defects from Jira for a specific sprint
   if (req.method === 'GET' && req.url.startsWith('/api/defects/by-module')) {
     const urlObj = new url.URL(req.url, `http://${req.headers.host}`);
     const sprintName = urlObj.searchParams.get('sprint');
+    const defectProduct = urlObj.searchParams.get('product') || '';
+    const defectTeam = urlObj.searchParams.get('team') || '';
     
     if (!sprintName) {
       res.writeHead(400, { 'Content-Type': 'application/json' });
@@ -1020,9 +1210,535 @@ const server = http.createServer((req, res) => {
       return;
     }
 
-    const defectData = getSprintDefectsData(sprintName);
-    res.writeHead(200, { 'Content-Type': 'application/json' });
-    res.end(JSON.stringify(defectData, null, 2));
+    // If Jira service is not available, fall back to mock data
+    if (!jiraBugService) {
+      console.log('⚠️  Jira Bug Service not available, falling back to mock defect data');
+      const defectData = getSprintDefectsData(sprintName);
+      defectData.source = 'mock';
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(defectData, null, 2));
+      return;
+    }
+
+    try {
+      console.log(`🔍 Fetching LIVE defects from Jira for sprint ${sprintName} (product=${defectProduct || 'all'}, team=${defectTeam || 'all'})...`);
+
+      // Fetch only relevant product's teams (or all if no product specified)
+      const fetchPromises = [];
+      if (!defectProduct || defectProduct === 'dna') {
+        fetchPromises.push(jiraBugService.getAllDnATeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  DnA team metrics failed: ${err.message}`);
+          return [];
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
+      if (!defectProduct || defectProduct === 't360') {
+        fetchPromises.push(jiraBugService.getAllT360TeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  T360 team metrics failed: ${err.message}`);
+          return [];
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
+      if (!defectProduct || defectProduct === 'passport') {
+        fetchPromises.push(jiraBugService.getAllPassportTeamMetrics(sprintName).catch(err => {
+          console.warn(`⚠️  Passport team metrics failed: ${err.message}`);
+          return [];
+        }));
+      } else {
+        fetchPromises.push(Promise.resolve([]));
+      }
+
+      const [dnaResults, t360Results, passportResults] = await Promise.all(fetchPromises);
+
+      let allTeamMetrics = [...dnaResults, ...t360Results, ...passportResults];
+
+      // Filter by team if specified
+      if (defectTeam) {
+        allTeamMetrics = allTeamMetrics.filter(m =>
+          m.teamId.toLowerCase() === defectTeam.toLowerCase() ||
+          m.teamId.toLowerCase().includes(defectTeam.toLowerCase()) ||
+          defectTeam.toLowerCase().includes(m.teamId.toLowerCase())
+        );
+      }
+
+      // Aggregate across all teams
+      let totalOpen = 0, totalClosed = 0, totalReopened = 0;
+      const teams = {};
+      const priorityCounts = { critical: 0, high: 0, medium: 0, low: 0 };
+      const statusCounts = { open: 0, 'in-progress': 0, closed: 0 };
+      const moduleMap = {};  // team name → defect count (team acts as "module")
+
+      for (const teamMetric of allTeamMetrics) {
+        const teamName = teamMetric.teamId;
+        const teamDisplayName = teamName.charAt(0).toUpperCase() + teamName.slice(1);
+        
+        totalOpen += teamMetric.openBugs || 0;
+        totalClosed += teamMetric.closedBugs || 0;
+        totalReopened += teamMetric.reopenedBugs || 0;
+
+        teams[teamDisplayName] = {
+          open: teamMetric.openBugs || 0,
+          closed: teamMetric.closedBugs || 0,
+          total: teamMetric.totalBugs || 0,
+          reopened: teamMetric.reopenedBugs || 0,
+          bugs: (teamMetric.bugDetails || []).map(b => ({
+            key: b.key,
+            summary: b.summary,
+            status: b.status,
+            priority: b.priority,
+            created: b.created,
+            updated: b.updated,
+            isOpen: b.isOpen,
+            reopened: b.reopened || false,
+            reopenCount: b.reopenCount || 0
+          }))
+        };
+
+        // Count by priority and status from bug details
+        for (const bug of (teamMetric.bugDetails || [])) {
+          const priority = (bug.priority || 'None').toLowerCase();
+          if (priority === 'critical' || priority === 'highest') priorityCounts.critical++;
+          else if (priority === 'high') priorityCounts.high++;
+          else if (priority === 'medium' || priority === 'normal') priorityCounts.medium++;
+          else priorityCounts.low++;
+
+          const status = (bug.status || '').toLowerCase();
+          if (status === 'closed' || status === 'done' || status === 'resolved') {
+            statusCounts.closed++;
+          } else if (status === 'in progress' || status === 'in-progress') {
+            statusCounts['in-progress']++;
+          } else {
+            statusCounts.open++;
+          }
+        }
+
+        // Build module (team) breakdown — only include teams with defects
+        if (teamMetric.totalBugs > 0) {
+          const topSeverity = teamMetric.bugDetails?.find(b => b.isOpen)?.priority?.toLowerCase() || 'low';
+          moduleMap[teamDisplayName] = {
+            module: teamDisplayName,
+            defects: teamMetric.totalBugs,
+            open: teamMetric.openBugs,
+            closed: teamMetric.closedBugs,
+            severity: topSeverity,
+            status: teamMetric.openBugs > 0 ? 'open' : 'closed'
+          };
+        }
+      }
+
+      const totalAll = totalOpen + totalClosed;
+
+      const result = {
+        sprint: sprintName,
+        source: 'jira-live',
+        fetchedAt: new Date().toISOString(),
+        totals: {
+          open: totalOpen,    // everything not closed/resolved
+          closed: totalClosed,
+          total: totalAll,
+          critical: priorityCounts.critical,
+          high: priorityCounts.high,
+          reopened: totalReopened
+        },
+        byModule: Object.values(moduleMap),
+        bySeverity: priorityCounts,
+        byStatus: statusCounts,
+        teams: teams
+      };
+
+      console.log(`✅ Live defect data: ${totalAll} total (${totalOpen} open, ${totalClosed} closed) across ${allTeamMetrics.length} teams`);
+
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(result, null, 2));
+    } catch (error) {
+      console.error('❌ Error fetching live defect data:', error.message);
+      // Fall back to mock data on error
+      console.log('⚠️  Falling back to mock defect data');
+      const defectData = getSprintDefectsData(sprintName);
+      defectData.source = 'mock-fallback';
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(defectData, null, 2));
+    }
+    return;
+  }
+
+  // GET /api/bugs/dna - Get bug metrics for DnA teams
+  if (pathname === '/api/bugs/dna' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { team, sprint } = query;
+    
+    if (!team || !sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'team and sprint parameters required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID (e.g., "26.1.2")
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+    const teamId = team.toLowerCase(); // Normalize to match service keys
+
+    try {
+      const bugMetrics = await jiraBugService.calculateBugMetrics(teamId, sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(bugMetrics));
+
+      // Persist live data to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistBugMetrics(bugMetrics, 'DnA').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist DnA metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching bug metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/dna/all - Get bug metrics for all DnA teams for a sprint
+  if (pathname === '/api/bugs/dna/all' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { sprint } = query;
+    
+    if (!sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'sprint parameter required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+
+    try {
+      const allMetrics = await jiraBugService.getAllDnATeamMetrics(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(allMetrics));
+
+      // Persist all DnA team metrics to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistAllTeamMetrics(allMetrics, 'DnA').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist all DnA metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching all DnA team metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/t360 - Get bug metrics for T360 teams
+  if (pathname === '/api/bugs/t360' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { team, sprint } = query;
+    
+    if (!team || !sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'team and sprint parameters required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID (e.g., "26.1.1")
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+    const teamId = team.toLowerCase(); // Normalize to match service keys
+
+    try {
+      const bugMetrics = await jiraBugService.calculateBugMetrics(teamId, sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(bugMetrics));
+
+      // Persist live data to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistBugMetrics(bugMetrics, 'T360').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist T360 metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching T360 bug metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/t360/all - Get bug metrics for all T360 teams for a sprint
+  if (pathname === '/api/bugs/t360/all' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { sprint } = query;
+    
+    if (!sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'sprint parameter required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+
+    try {
+      const allMetrics = await jiraBugService.getAllT360TeamMetrics(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(allMetrics));
+
+      // Persist all T360 team metrics to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistAllTeamMetrics(allMetrics, 'T360').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist all T360 metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching all T360 team metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/passport - Get bug metrics for Passport teams
+  if (pathname === '/api/bugs/passport' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { team, sprint } = query;
+    
+    if (!team || !sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'team and sprint parameters required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID (e.g., "26.1.1")
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+    const teamId = team.toLowerCase(); // Normalize to match service keys
+
+    try {
+      const bugMetrics = await jiraBugService.calculateBugMetrics(teamId, sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(bugMetrics));
+
+      // Persist live data to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistBugMetrics(bugMetrics, 'Passport').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist Passport metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching Passport bug metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/bugs/passport/all - Get bug metrics for all Passport teams for a sprint
+  if (pathname === '/api/bugs/passport/all' && req.method === 'GET') {
+    if (!jiraBugService) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Jira Bug Service not available' }));
+      return;
+    }
+
+    const { sprint } = query;
+    
+    if (!sprint) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'sprint parameter required' }));
+      return;
+    }
+
+    // Extract sprint number from sprint ID
+    const sprintNumber = sprint.includes('-') ? sprint.split('-').pop() : sprint;
+
+    try {
+      const allMetrics = await jiraBugService.getAllPassportTeamMetrics(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(allMetrics));
+
+      // Persist all Passport team metrics to SQL Server (async, non-blocking)
+      if (metricsPersistence) {
+        metricsPersistence.persistAllTeamMetrics(allMetrics, 'Passport').catch(err => {
+          console.warn('⚠️  Non-blocking: Failed to persist all Passport metrics to SQL:', err.message);
+        });
+      }
+    } catch (error) {
+      console.error('Error fetching all Passport team metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/metrics/persisted - Read persisted bug metrics from SQL Server
+  if (pathname === '/api/metrics/persisted' && req.method === 'GET') {
+    if (!metricsPersistence) {
+      res.writeHead(503, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Metrics Persistence not available' }));
+      return;
+    }
+
+    const { product, sprint } = query;
+
+    try {
+      const metrics = await metricsPersistence.readMetrics(product || null, sprint || null);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(metrics));
+    } catch (error) {
+      console.error('Error reading persisted metrics:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // ── TAD/TS Compliance Endpoints ──
+  if (pathname === '/api/tad-ts/sprints' && req.method === 'GET') {
+    try {
+      const sprints = await getAvailableSprints();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', sprints }));
+    } catch (error) {
+      console.error('Error fetching TAD/TS sprints:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  if (pathname.startsWith('/api/tad-ts/sprint/') && req.method === 'GET') {
+    const sprintNumber = pathname.split('/api/tad-ts/sprint/')[1];
+    if (!sprintNumber) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Sprint number required' }));
+      return;
+    }
+    try {
+      const data = await getSprintCompliance(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', data }));
+    } catch (error) {
+      console.error(`Error fetching TAD/TS compliance for sprint ${sprintNumber}:`, error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // ── Passport TAD/TS Compliance Endpoints ──
+  if (pathname === '/api/tad-ts/passport/sprints' && req.method === 'GET') {
+    try {
+      const sprints = await getPassportAvailableSprints();
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', sprints }));
+    } catch (error) {
+      console.error('Error fetching Passport TAD/TS sprints:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  if (pathname.startsWith('/api/tad-ts/passport/sprint/') && req.method === 'GET') {
+    const sprintNumber = pathname.split('/api/tad-ts/passport/sprint/')[1];
+    if (!sprintNumber) {
+      res.writeHead(400, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: 'Sprint number required' }));
+      return;
+    }
+    try {
+      const data = await getPassportSprintCompliance(sprintNumber);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ status: 'ok', data }));
+    } catch (error) {
+      console.error(`Error fetching Passport TAD/TS compliance for sprint ${sprintNumber}:`, error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/qtest/passport/sync-from-tadts/:sprint - Auto-sync from TAD-TS compliance ELM cards
+  if (pathname.startsWith('/api/qtest/passport/sync-from-tadts/') && req.method === 'GET') {
+    const sprintNumber = pathname.replace('/api/qtest/passport/sync-from-tadts/', '');
+    
+    console.log(`[Passport qTest] Auto-syncing from TAD-TS for sprint ${sprintNumber}...`);
+    
+    try {
+      // Step 1: Get ELM cards from TAD-TS compliance
+      const tadTsData = await getPassportSprintCompliance(sprintNumber);
+      
+      // Extract issues from teams (TAD-TS stores issues inside teams object)
+      const elmCards = [];
+      if (tadTsData.teams) {
+        for (const [teamName, teamData] of Object.entries(tadTsData.teams)) {
+          const teamIssues = teamData.issues || [];
+          for (const issue of teamIssues) {
+            elmCards.push({
+              key: issue.key,
+              team: teamName,
+              summary: issue.summary
+            });
+          }
+        }
+      }
+      
+      if (elmCards.length === 0) {
+        res.writeHead(200, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify({
+          sprint_name: sprintNumber,
+          source: 'tadts-sync-empty',
+          message: 'No ELM cards found in TAD-TS compliance data',
+          totals: { total: 0, automated: 0 },
+          teams: {}
+        }));
+        return;
+      }
+      
+      console.log(`[Passport qTest] Found ${elmCards.length} ELM cards from TAD-TS`);
+      
+      // Step 2: Fetch coverage from qTest
+      const timeoutPromise = new Promise((_, reject) =>
+        setTimeout(() => reject(new Error('Passport qTest sync timed out')), 180000)
+      );
+      
+      const coverage = await Promise.race([
+        fetchPassportSprintCoverage(sprintNumber, elmCards),
+        timeoutPromise
+      ]);
+      
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify(coverage));
+    } catch (error) {
+      console.error(`[Passport qTest] Sync error: ${error.message}`);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ error: error.message }));
+    }
     return;
   }
 
@@ -1034,12 +1750,7 @@ const server = http.createServer((req, res) => {
 // Initialize DB and start server
 initDatabase();
 
-server.on('error', (err) => {
-  console.error('❌ Server error:', err.message);
-  process.exit(1);
-});
-
-const listener = server.listen(PORT, '127.0.0.1', () => {
+server.listen(PORT, () => {
   console.log(`🚀 API Server running on http://localhost:${PORT}`);
   console.log(`📊 API endpoints available:`);
   console.log(`   GET  /api/products`);
@@ -1047,19 +1758,16 @@ const listener = server.listen(PORT, '127.0.0.1', () => {
   console.log(`   GET  /api/sprints?team=<team-id>`);
   console.log(`   GET  /api/metrics?product=<product-id>&team=<team-id>&sprint=<sprint-id>`);
   console.log(`   POST /api/metrics`);
-  console.log(`   GET  /api/qtest/sprint/<sprint-name>`);
+  console.log(`   GET  /api/bugs/dna?team=<team-id>&sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/dna/all?sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/t360?team=<team-id>&sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/t360/all?sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/passport?team=<team-id>&sprint=<sprint-number>`);
+  console.log(`   GET  /api/bugs/passport/all?sprint=<sprint-number>`);
+  console.log(`   GET  /api/metrics/persisted?product=<product>&sprint=<sprint-number>`);
   console.log(`   GET  /api/defects/by-module?sprint=<sprint-name>`);
-  console.log(`✅ Callback executed successfully - server should be listening`);
-});
-
-// Keep server alive and handle graceful shutdown
-listener.keepAliveTimeout = 65000;
-console.log(`⏳ Server object created, about to listen on port ${PORT}...`);
-console.log(`✅ Listener configured - keeping process alive`);
-process.on('SIGTERM', () => {
-  console.log('\n📛 SIGTERM received, shutting down gracefully...');
-  listener.close(() => {
-    console.log('Server closed');
-    process.exit(0);
-  });
+  console.log(`   GET  /api/tad-ts/sprints`);
+  console.log(`   GET  /api/tad-ts/sprint/:sprint`);
+  console.log(`   GET  /api/tad-ts/passport/sprints`);
+  console.log(`   GET  /api/tad-ts/passport/sprint/:sprint`);
 });

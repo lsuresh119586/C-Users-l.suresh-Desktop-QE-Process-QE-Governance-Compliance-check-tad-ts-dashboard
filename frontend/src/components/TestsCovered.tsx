@@ -26,17 +26,41 @@ export function TestsCovered() {
   const [data, setData] = useState<TestsData | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [selectedSprint, setSelectedSprint] = useState('26.1.2');
+  const [selectedSprint, setSelectedSprint] = useState('26.1.1');
+  const [availableSprints, setAvailableSprints] = useState<string[]>([]);
+
+  // Fetch available sprints on mount
+  useEffect(() => {
+    const fetchSprints = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/api/metrics/tests-covered');
+        if (response.ok) {
+          const result = await response.json();
+          const sprints = result.available_sprints || [];
+          setAvailableSprints(sprints);
+          if (sprints.length > 0 && !sprints.includes(selectedSprint)) {
+            setSelectedSprint(sprints[0]);
+          }
+        }
+      } catch (err) {
+        console.error('Failed to fetch available sprints:', err);
+        // Fallback to default list
+        setAvailableSprints(['26.1.1', '26.1.2', '26.1.3', '26.1.4', '26.1.6']);
+      }
+    };
+    fetchSprints();
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading(true);
         const response = await fetch(
-          `http://localhost:3001/api/metrics/tests-covered/${selectedSprint}`
+          `http://localhost:3000/api/metrics/tests-covered/${selectedSprint}`
         );
         if (!response.ok) {
-          throw new Error('Failed to fetch test data');
+          const errBody = await response.json().catch(() => null);
+          throw new Error(errBody?.error || 'Failed to fetch test data');
         }
         const result = await response.json();
         setData(result.data);
@@ -49,7 +73,9 @@ export function TestsCovered() {
       }
     };
 
-    fetchData();
+    if (selectedSprint) {
+      fetchData();
+    }
   }, [selectedSprint]);
 
   if (loading) {
@@ -78,9 +104,9 @@ export function TestsCovered() {
         <div className="sprint-selector">
           <label>Sprint: </label>
           <select value={selectedSprint} onChange={(e) => setSelectedSprint(e.target.value)}>
-            <option value="26.1.1">26.1.1</option>
-            <option value="26.1.2">26.1.2</option>
-            <option value="26.1.3">26.1.3</option>
+            {availableSprints.map(sprint => (
+              <option key={sprint} value={sprint}>{sprint}</option>
+            ))}
           </select>
         </div>
       </div>

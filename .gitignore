@@ -14,11 +14,11 @@ build/
 .next/
 .cache/
 
-# Environment files
-.env
-.env.local
-.env.*.local
-*.env
+# Environment files - INCLUDED for Passport/dev branch
+# .env
+# .env.local
+# .env.*.local
+# *.env
 
 # IDE
 .vscode/*
@@ -66,3 +66,39 @@ temp/
 test-results/
 playwright-report/
 playwright/.cache/
+
+# QTest cache
+.qtest-cache/
+
+# Generated output files
+output.txt
+test-output.json
+server-output.log
+frontend/frontend.log
+
+# Backend one-off/dev scripts (not required for runtime)
+backend/api-gateway/server-backup.js
+backend/api-gateway/server-temp.js
+backend/api-gateway/server-sql.js
+backend/api-gateway/migrate.js
+backend/api-gateway/migrate-sqlcmd.js
+backend/api-gateway/sync-qtest-data.js
+backend/api-gateway/sync-to-sql.js
+backend/api-gateway/sync-to-sql.ps1
+backend/api-gateway/generate-sample-data.js
+backend/api-gateway/update-requirements-from-jira.js
+backend/api-gateway/update-requirements-realistic.js
+backend/api-gateway/validate-tests-covered.js
+backend/api-gateway/verify-updates.js
+backend/api-gateway/report-updates.js
+backend/api-gateway/test-live-data.js
+backend/api-gateway/add_athena_metric.py
+backend/api-gateway/query_live_defects.py
+backend/api-gateway/update_db_defects.py
+backend/api-gateway/verify_db_defects.py
+
+# Unused frontend files
+frontend/frontend.log
+frontend/index-react.html
+frontend/public/vite.svg
+frontend/src/assets/react.svg

@@ -88,6 +88,9 @@ export async function getTestCases(parentId, page = 1, pageSize = 100) {
   const url = `${QTEST_URL}/projects/${PROJECT_ID}/test-cases?parentId=${parentId}&page=${page}&size=${pageSize}`;
   try {
     const response = await makeRequest(url);
+    if (Array.isArray(response)) {
+      return response;
+    }
     return response.items || [];
   } catch (error) {
     console.error(`Error fetching test cases for module ${parentId}: ${error.message}`);
@@ -102,6 +105,9 @@ export async function getTestCaseAttachments(testCaseId) {
   const url = `${QTEST_URL}/projects/${PROJECT_ID}/test-cases/${testCaseId}/attachments`;
   try {
     const response = await makeRequest(url);
+    if (Array.isArray(response)) {
+      return response;
+    }
     return response.items || [];
   } catch (error) {
     return [];
@@ -169,19 +175,41 @@ async function processModuleRecursive(module, teamName) {
 /**
  * Analyze test cases and generate statistics
  */
-function analyzeTestCases(testCases, checkAttachments = false) {
+async function analyzeTestCases(testCases, checkAttachments = true) {
   const teamStats = {};
   const totalCases = testCases.length;
+  const automatedTestIds = [];
+  const attachmentsCache = {};
 
   console.log(`\nAnalyzing ${totalCases} test cases...`);
 
-  for (let idx = 0; idx < testCases.length; idx++) {
-    const tc = testCases[idx];
+  for (const tc of testCases) {
+    const props = tc.properties || [];
+    for (const prop of props) {
+      if (prop.field_name === 'Automation' && prop.field_value === '711' && tc.id) {
+        automatedTestIds.push(tc.id);
+        break;
+      }
+    }
+  }
+
+  if (checkAttachments && automatedTestIds.length > 0) {
+    console.log(`Checking attachments for ${automatedTestIds.length} automated tests...`);
+    for (const tcId of automatedTestIds) {
+      try {
+        const attachments = await getTestCaseAttachments(tcId);
+        attachmentsCache[tcId] = Array.isArray(attachments) && attachments.length > 0;
+      } catch {
+        attachmentsCache[tcId] = false;
+      }
+    }
+  }
+
+  for (const tc of testCases) {
     const team = tc.team || 'Unknown';
     const tcId = tc.id;
     const tcPid = tc.pid || 'Unknown';
 
-    // Initialize team stats if needed
     if (!teamStats[team]) {
       teamStats[team] = {
         total: 0,
@@ -192,25 +220,26 @@ function analyzeTestCases(testCases, checkAttachments = false) {
       };
     }
 
-    // Count total
     teamStats[team].total += 1;
 
-    // Check if automated (Automation field = 711 means "Yes")
     let isAutomated = false;
-    if (tc.properties && Array.isArray(tc.properties)) {
-      for (const prop of tc.properties) {
-        if (prop.field_name === 'Automation' && prop.field_value === '711') {
-          isAutomated = true;
-          break;
-        }
+    const props = tc.properties || [];
+    for (const prop of props) {
+      if (prop.field_name === 'Automation' && prop.field_value === '711') {
+        isAutomated = true;
+        break;
       }
     }
 
+    let hasAttachment = false;
     if (isAutomated) {
       teamStats[team].automated += 1;
-      teamStats[team].with_attachments += 1; // Assume automated tests have attachments/scripts
-    } else {
-      teamStats[team].without_attachments += 1;
+      hasAttachment = checkAttachments ? Boolean(attachmentsCache[tcId]) : false;
+      if (hasAttachment) {
+        teamStats[team].with_attachments += 1;
+      } else {
+        teamStats[team].without_attachments += 1;
+      }
     }
 
     teamStats[team].test_cases.push({
@@ -218,6 +247,7 @@ function analyzeTestCases(testCases, checkAttachments = false) {
       qtest_id: tcId,
       name: tc.name || 'Unknown',
       automated: isAutomated,
+      has_attachment: hasAttachment,
       status: tc.status || 'Unknown'
     });
   }
@@ -228,7 +258,7 @@ function analyzeTestCases(testCases, checkAttachments = false) {
 /**
  * Get sprint test cases
  */
-export async function getSprintTestCases(moduleId, sprintName, checkAttachments = false) {
+export async function getSprintTestCases(moduleId, sprintName, checkAttachments = true) {
   console.log(`\n${'='.repeat(80)}`);
   console.log(`Fetching Test Cases for ${sprintName}`);
   console.log(`Module ID: ${moduleId}`);
@@ -272,7 +302,7 @@ export async function getSprintTestCases(moduleId, sprintName, checkAttachments 
   console.log(`\nTotal test cases retrieved: ${allTestCases.length}`);
 
   // Analyze test cases
-  const teamStats = analyzeTestCases(allTestCases, checkAttachments);
+  const teamStats = await analyzeTestCases(allTestCases, checkAttachments);
 
   // Calculate totals
   const totals = {
@@ -353,6 +383,9 @@ export const SPRINT_CONFIGS = {
   '26.1.1': 68209713,
   '26.1.2': 68209714,
   '26.1.3': 68209719,
+  '26.1.4': 68289134,
+  '26.1.5': 68341069,
+  '26.1.6': 68341070,
 };
 
 export default {

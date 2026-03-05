@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import UnifiedDashboard from './components/UnifiedDashboard';
 import TestsCovered from './components/TestsCovered';
 import TADTSComplianceDashboard from './components/TADTSComplianceDashboard';
+import DnADashboard from './components/DnADashboard';
 import './App.css';
 
 export default function App() {
@@ -21,6 +22,12 @@ export default function App() {
             📊 Unified Metrics
           </button>
           <button 
+            className={`nav-button ${activeView === 'dna' ? 'active' : ''}`}
+            onClick={() => setActiveView('dna')}
+          >
+            🧬 DnA Bug Metrics
+          </button>
+          <button 
             className={`nav-button ${activeView === 'tadts' ? 'active' : ''}`}
             onClick={() => setActiveView('tadts')}
           >
@@ -37,6 +44,7 @@ export default function App() {
 
       <main className="app-main">
         {activeView === 'unified' && <UnifiedDashboard />}
+        {activeView === 'dna' && <DnADashboard />}
         {activeView === 'tadts' && <TADTSComplianceDashboard />}
         {activeView === 'tests' && <TestsCovered />}
       </main>
@@ -435,3 +443,4 @@ function renderTestsCoveredDashboard(allData, sprints, selectedSprint) {
     });
   }
 }
+*/

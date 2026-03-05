@@ -170,7 +170,7 @@ async function main() {
 
   // Fetch data
   console.log(`📥 Fetching test cases for Sprint ${sprint}...`);
-  const qTestData = await qtestService.getSprintTestCases(moduleId, `Sprint ${sprint}`, false);
+  const qTestData = await qtestService.getSprintTestCases(moduleId, `Sprint ${sprint}`, true);
 
   if (!qTestData) {
     console.error('❌ Failed to fetch test data');

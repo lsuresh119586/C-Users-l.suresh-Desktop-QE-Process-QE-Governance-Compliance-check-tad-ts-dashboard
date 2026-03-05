@@ -1,0 +1,870 @@
+{
+  "timestamp": 1772690398659,
+  "data": {
+    "sprint_name": "26.1.1",
+    "generated": "2026-03-05T05:59:27.018Z",
+    "source": "passport-qtest-live",
+    "elm_cards": [
+      {
+        "elmKey": "ELM-30725",
+        "team": "PP Genesis",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 51279472
+      },
+      {
+        "elmKey": "ELM-39352",
+        "team": "PP Genesis",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 137942193,
+            "pid": "TC-42021",
+            "name": "Verify Display movement status menu",
+            "automationStatus": "Automation Candidate",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137942193"
+          },
+          {
+            "id": 137942260,
+            "pid": "TC-42022",
+            "name": "Verify View document movement details",
+            "automationStatus": "Automation Candidate",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137942260"
+          },
+          {
+            "id": 137942275,
+            "pid": "TC-42023",
+            "name": "Verify update of movement status via scheduler",
+            "automationStatus": "Not Evaluated",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137942275"
+          },
+          {
+            "id": 137942282,
+            "pid": "TC-42025",
+            "name": "Verify event trigger when PABU changes for a matter",
+            "automationStatus": "Not Evaluated",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137942282"
+          }
+        ],
+        "metrics": {
+          "total": 4,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 2,
+          "notEvaluated": 2,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57435724
+      },
+      {
+        "elmKey": "ELM-39495",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138000750,
+            "pid": "TC-42308",
+            "name": "Verify Multi-Select Filter Functionality with full dataset records for Matter PIC filter",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138000750"
+          },
+          {
+            "id": 138031687,
+            "pid": "TC-42391",
+            "name": "Verify Multi-Select Filter Functionality for Special Character search",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138031687"
+          },
+          {
+            "id": 138000753,
+            "pid": "TC-42309",
+            "name": "Verify Multi-Select Filter Functionality error message scenarios",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138000753"
+          },
+          {
+            "id": 138034394,
+            "pid": "TC-42407",
+            "name": "Verify user can select latest updated record  using 'is\" operator in Matter PIC",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138034394"
+          },
+          {
+            "id": 135840428,
+            "pid": "TC-27067",
+            "name": "Verify Multi select filter in Invoice list page",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135840428"
+          },
+          {
+            "id": 135736726,
+            "pid": "TC-26954",
+            "name": "Verify Clearing All Selections in Filter",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135736726"
+          },
+          {
+            "id": 135736725,
+            "pid": "TC-26953",
+            "name": "Verify Multi Selection in filter and Update filter values",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135736725"
+          },
+          {
+            "id": 135840410,
+            "pid": "TC-27066",
+            "name": "Verify Multi select filter in Doc list page when no matches found for filter",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135840410"
+          },
+          {
+            "id": 135736724,
+            "pid": "TC-26952",
+            "name": "Verify Multi select filter in Matter and People list pages",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135736724"
+          },
+          {
+            "id": 135736722,
+            "pid": "TC-26950",
+            "name": "Verify Multi-Select Filter Functionality with single record in org list page",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135736722"
+          },
+          {
+            "id": 135749435,
+            "pid": "TC-26966",
+            "name": "Verify Multi-Select Filter Functionality with multiple filters",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135749435"
+          },
+          {
+            "id": 136109139,
+            "pid": "TC-27423",
+            "name": "Verify Multi select filter when no data available for the filter to select",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136109139"
+          },
+          {
+            "id": 135840520,
+            "pid": "TC-27068",
+            "name": "Verify Include option in filter combination with \"is\" comparison ",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135840520"
+          },
+          {
+            "id": 135855950,
+            "pid": "TC-27103",
+            "name": "Verify String type filter not have include Comparison type",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135855950"
+          },
+          {
+            "id": 136109131,
+            "pid": "TC-27422",
+            "name": "Verify Multi select filter switch comparison from \" is\" to include and vice versa",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136109131"
+          },
+          {
+            "id": 135982208,
+            "pid": "TC-27228",
+            "name": "Verify Multi select filter search box results empty when type irrelevant data",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135982208"
+          },
+          {
+            "id": 136236101,
+            "pid": "TC-27515",
+            "name": "Verify multi select with two same filters and Filter gets merged",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136236101"
+          },
+          {
+            "id": 135949734,
+            "pid": "TC-27185",
+            "name": "Verify Selected items listed in top if user edit the filter",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=135949734"
+          }
+        ],
+        "metrics": {
+          "total": 18,
+          "automated": 18,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 57728424
+      },
+      {
+        "elmKey": "ELM-37795",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-38539",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138031704,
+            "pid": "TC-42392",
+            "name": "Verify the system behavior when the user updates the Business unit",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138031704"
+          },
+          {
+            "id": 138033202,
+            "pid": "TC-42396",
+            "name": "Verify the system behavior when the user updates the Practice Area",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138033202"
+          },
+          {
+            "id": 138033291,
+            "pid": "TC-42397",
+            "name": "Verify the system behavior when the user updates the Group",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138033291"
+          },
+          {
+            "id": 138033393,
+            "pid": "TC-42398",
+            "name": "Verify the system behavior when the user updates the User record",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138033393"
+          }
+        ],
+        "metrics": {
+          "total": 4,
+          "automated": 4,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 56789494
+      },
+      {
+        "elmKey": "ELM-40012",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Collaboration Portal",
+        "testCases": [
+          {
+            "id": 131830831,
+            "pid": "TC-18531",
+            "name": "Verify GET Request for getInvoiceStatus endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131830831"
+          },
+          {
+            "id": 131926180,
+            "pid": "TC-18537",
+            "name": "Verify POST Request for addAttachment endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131926180"
+          },
+          {
+            "id": 131938946,
+            "pid": "TC-18540",
+            "name": "Verify GET Request for getParcelsForStatus endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131938946"
+          },
+          {
+            "id": 131942036,
+            "pid": "TC-18541",
+            "name": "Verify POST Request for setInvoiceStatus endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131942036"
+          },
+          {
+            "id": 131943034,
+            "pid": "TC-18542",
+            "name": "Verify POST Request for submitInvoice endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131943034"
+          },
+          {
+            "id": 133131847,
+            "pid": "TC-18605",
+            "name": "Verify all type Invoice Submission Round Trip - Happy Path",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=133131847"
+          },
+          {
+            "id": 133132056,
+            "pid": "TC-18606",
+            "name": "Verify all type Invoice Submission Round Trip - Warning",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=133132056"
+          },
+          {
+            "id": 133132059,
+            "pid": "TC-18607",
+            "name": "Verify all type Invoice Submission Round Trip - Error",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=133132059"
+          }
+        ],
+        "metrics": {
+          "total": 8,
+          "automated": 8,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 58099001
+      },
+      {
+        "elmKey": "ELM-38693",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Collaboration Portal",
+        "testCases": [
+          {
+            "id": 131520357,
+            "pid": "TC-15929",
+            "name": "Verify Virus Attachment Error Message 1.00 - Electronic Invoice Attachments with Virus",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131520357"
+          },
+          {
+            "id": 131767153,
+            "pid": "TC-18521",
+            "name": "Verify Get Request for clamav/ping endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131767153"
+          },
+          {
+            "id": 131924316,
+            "pid": "TC-18536",
+            "name": "Verify Post Request for ClamAV Reload[Dynamic_TestData]",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131924316"
+          },
+          {
+            "id": 131936360,
+            "pid": "TC-18539",
+            "name": "Verify Post Request for clamav/scan endpoint",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131936360"
+          },
+          {
+            "id": 133131847,
+            "pid": "TC-18605",
+            "name": "Verify all type Invoice Submission Round Trip - Happy Path",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=133131847"
+          }
+        ],
+        "metrics": {
+          "total": 5,
+          "automated": 5,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 57935122
+      },
+      {
+        "elmKey": "ELM-38692",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Collaboration Portal",
+        "testCases": [
+          {
+            "id": 131522533,
+            "pid": "TC-18090",
+            "name": "Verify Enabling Chat (Salesforce) in CP UI",
+            "automationStatus": "Not Possible",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131522533"
+          },
+          {
+            "id": 131513887,
+            "pid": "TC-9511",
+            "name": "Verify CP Application Help Popup",
+            "automationStatus": "Automated",
+            "automationTool": "Aura",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131513887"
+          },
+          {
+            "id": 131522528,
+            "pid": "TC-18085",
+            "name": "Verify Chat Access Functionality",
+            "automationStatus": "Not Possible",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/123759/portal/project#tab=testdesign&object=1&id=131522528"
+          }
+        ],
+        "metrics": {
+          "total": 3,
+          "automated": 1,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 2,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 33
+        },
+        "qtestId": 56855938
+      }
+    ],
+    "totals": {
+      "total_elm_cards": 8,
+      "elm_cards_in_qtest": 7,
+      "elm_cards_missing": 1,
+      "total_test_cases": 42,
+      "automated": 36,
+      "partially_automated": 0,
+      "manual": 0,
+      "not_possible": 2,
+      "automation_candidate": 2,
+      "not_evaluated": 2,
+      "coverage_percentage": 86
+    },
+    "teams": {
+      "PP Genesis": {
+        "total": 4,
+        "automated": 0,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-42021",
+            "qtest_id": 137942193,
+            "name": "Verify Display movement status menu",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Automation Candidate"
+          },
+          {
+            "id": "TC-42022",
+            "qtest_id": 137942260,
+            "name": "Verify View document movement details",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Automation Candidate"
+          },
+          {
+            "id": "TC-42023",
+            "qtest_id": 137942275,
+            "name": "Verify update of movement status via scheduler",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Evaluated"
+          },
+          {
+            "id": "TC-42025",
+            "qtest_id": 137942282,
+            "name": "Verify event trigger when PABU changes for a matter",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Evaluated"
+          }
+        ]
+      },
+      "PP Pioneers": {
+        "total": 16,
+        "automated": 14,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-18531",
+            "qtest_id": 131830831,
+            "name": "Verify GET Request for getInvoiceStatus endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18537",
+            "qtest_id": 131926180,
+            "name": "Verify POST Request for addAttachment endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18540",
+            "qtest_id": 131938946,
+            "name": "Verify GET Request for getParcelsForStatus endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18541",
+            "qtest_id": 131942036,
+            "name": "Verify POST Request for setInvoiceStatus endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18542",
+            "qtest_id": 131943034,
+            "name": "Verify POST Request for submitInvoice endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18605",
+            "qtest_id": 133131847,
+            "name": "Verify all type Invoice Submission Round Trip - Happy Path",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18606",
+            "qtest_id": 133132056,
+            "name": "Verify all type Invoice Submission Round Trip - Warning",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18607",
+            "qtest_id": 133132059,
+            "name": "Verify all type Invoice Submission Round Trip - Error",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-15929",
+            "qtest_id": 131520357,
+            "name": "Verify Virus Attachment Error Message 1.00 - Electronic Invoice Attachments with Virus",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18521",
+            "qtest_id": 131767153,
+            "name": "Verify Get Request for clamav/ping endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18536",
+            "qtest_id": 131924316,
+            "name": "Verify Post Request for ClamAV Reload[Dynamic_TestData]",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18539",
+            "qtest_id": 131936360,
+            "name": "Verify Post Request for clamav/scan endpoint",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18605",
+            "qtest_id": 133131847,
+            "name": "Verify all type Invoice Submission Round Trip - Happy Path",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18090",
+            "qtest_id": 131522533,
+            "name": "Verify Enabling Chat (Salesforce) in CP UI",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Possible"
+          },
+          {
+            "id": "TC-9511",
+            "qtest_id": 131513887,
+            "name": "Verify CP Application Help Popup",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18085",
+            "qtest_id": 131522528,
+            "name": "Verify Chat Access Functionality",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Possible"
+          }
+        ]
+      },
+      "PP Spartacles": {
+        "total": 22,
+        "automated": 22,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-42308",
+            "qtest_id": 138000750,
+            "name": "Verify Multi-Select Filter Functionality with full dataset records for Matter PIC filter",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42391",
+            "qtest_id": 138031687,
+            "name": "Verify Multi-Select Filter Functionality for Special Character search",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42309",
+            "qtest_id": 138000753,
+            "name": "Verify Multi-Select Filter Functionality error message scenarios",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42407",
+            "qtest_id": 138034394,
+            "name": "Verify user can select latest updated record  using 'is\" operator in Matter PIC",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27067",
+            "qtest_id": 135840428,
+            "name": "Verify Multi select filter in Invoice list page",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-26954",
+            "qtest_id": 135736726,
+            "name": "Verify Clearing All Selections in Filter",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-26953",
+            "qtest_id": 135736725,
+            "name": "Verify Multi Selection in filter and Update filter values",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27066",
+            "qtest_id": 135840410,
+            "name": "Verify Multi select filter in Doc list page when no matches found for filter",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-26952",
+            "qtest_id": 135736724,
+            "name": "Verify Multi select filter in Matter and People list pages",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-26950",
+            "qtest_id": 135736722,
+            "name": "Verify Multi-Select Filter Functionality with single record in org list page",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-26966",
+            "qtest_id": 135749435,
+            "name": "Verify Multi-Select Filter Functionality with multiple filters",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27423",
+            "qtest_id": 136109139,
+            "name": "Verify Multi select filter when no data available for the filter to select",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27068",
+            "qtest_id": 135840520,
+            "name": "Verify Include option in filter combination with \"is\" comparison ",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27103",
+            "qtest_id": 135855950,
+            "name": "Verify String type filter not have include Comparison type",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27422",
+            "qtest_id": 136109131,
+            "name": "Verify Multi select filter switch comparison from \" is\" to include and vice versa",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27228",
+            "qtest_id": 135982208,
+            "name": "Verify Multi select filter search box results empty when type irrelevant data",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27515",
+            "qtest_id": 136236101,
+            "name": "Verify multi select with two same filters and Filter gets merged",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-27185",
+            "qtest_id": 135949734,
+            "name": "Verify Selected items listed in top if user edit the filter",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42392",
+            "qtest_id": 138031704,
+            "name": "Verify the system behavior when the user updates the Business unit",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42396",
+            "qtest_id": 138033202,
+            "name": "Verify the system behavior when the user updates the Practice Area",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42397",
+            "qtest_id": 138033291,
+            "name": "Verify the system behavior when the user updates the Group",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-42398",
+            "qtest_id": 138033393,
+            "name": "Verify the system behavior when the user updates the User record",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -804,6 +804,159 @@ Acceptance Criteria:
   - Tooltip explaining formula
 - **Drill-Down**: Click to see detailed breakdown and stories at risk
 
+#### 3.2.12 Closed Cards Count (CPOD-only)
+
+- **Scope**: Display `Closed Cards Count` only when Team = `CPOD`, using Jira data filtered by selected date range and CPOD rules.
+- **Definition**: Count of Jira bugs that transitioned from `To Verify` to `Resolved` within the selected date range.
+- **Business Intent**: Surface CPOD troubleshooting closure throughput as a dedicated scorecard metric.
+- **Display Rule**: Show `Closed Cards Count` only when selected Team is `CPOD`.
+- **Non-CPOD Rule**: For all other team selections, this card is not displayed and CPOD-specific query logic is not applied.
+
+**Functional Requirements:**
+- **FR-1 Data Source**: System must fetch issue data from Jira at `https://jira.wolterskluwer.io/`.
+- **FR-2 Team-Based Activation**: This logic must execute only when selected Team is `CPOD`; if Team is not `CPOD`, CPOD-specific closed-card logic must not run.
+- **FR-3 Mandatory Jira Filters**: Count only issues that satisfy all conditions:
+  - `project = "ELM Tech Ops"`
+  - `issuetype = Bug`
+  - `"Engagement Reason" = Troubleshooting`
+  - `"Safe Product" IN (Oasis, Passport)`
+  - `"Safe-Team" IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `status CHANGED FROM "To Verify" TO Resolved`
+- **FR-4 Date Filtering Rule**: Count must be based on transition timestamp for `To Verify → Resolved`, and that timestamp must fall within selected `From Date` and `To Date`.
+- **FR-5 Card Output**: Display resulting count as `Closed Cards Count`; if no issues match, display `0`.
+- **FR-6 Error Handling**: On Jira/API/query error, apply standard fallback behavior (`0` or `Data unavailable`, per application standard).
+
+**Suggested JQL (Validation Reference):**
+```sql
+project = "ELM Tech Ops"
+AND issuetype = Bug
+AND "Engagement Reason" = Troubleshooting
+AND "Safe Product" in (Oasis, Passport)
+AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")
+AND status CHANGED FROM "To Verify" TO Resolved DURING ("<fromDate>","<toDate>")
+```
+
+**Clarifications (Execution Rules):**
+- **CR-1 Date Boundary**: `From Date` and `To Date` are inclusive for transition timestamp filtering.
+- **CR-2 Timezone**: Date filtering uses the dashboard-selected timezone; if not explicitly selected, use workspace default timezone.
+- **CR-3 Multiple Transitions**: If a single issue has multiple `To Verify → Resolved` transitions within range, count the issue once.
+- **CR-4 Immediate Refresh**: Any change to Team, From Date, or To Date triggers metric recomputation and UI update.
+- **CR-5 Default/Empty State**: If Team is not selected or Team is not `CPOD`, the card is not rendered.
+- **CR-6 Fallback Display Contract**: On source failure, component must render a non-blocking fallback (`0` or `Data unavailable`) and keep the rest of dashboard interactive.
+
+**Acceptance Criteria:**
+- [ ] Card is visible only when Team = CPOD.
+- [ ] Card is hidden for all non-CPOD team selections.
+- [ ] Count includes only issues satisfying all FR-3 conditions.
+- [ ] Date changes update count using the transition timestamp rule.
+- [ ] No matching issues return displayed value `0`.
+- [ ] Source failure shows standard fallback state without breaking dashboard rendering.
+- [ ] `From Date` and `To Date` are applied as inclusive boundaries.
+- [ ] For repeated status transitions on a single issue in range, issue is counted once.
+
+#### 3.2.13 Open Cards Count (CPOD-only)
+
+- **Scope**: Display `Open Cards Count` only when Team = `CPOD`, using Jira data filtered by selected date range and CPOD rules.
+- **Definition**: Count of Jira bugs currently in one of the defined open workflow statuses, constrained by CPOD filters and selected date range.
+- **Business Intent**: Surface CPOD troubleshooting in-flight volume as a dedicated scorecard metric.
+- **Display Rule**: Show `Open Cards Count` only when selected Team is `CPOD`.
+- **Non-CPOD Rule**: For all other team selections, this card is not displayed and CPOD-specific open-card logic is not applied.
+
+**Functional Requirements:**
+- **FR-1 Data Source**: System must fetch issue data from Jira at `https://jira.wolterskluwer.io/`.
+- **FR-2 Team-Based Activation**: This logic must execute only when selected Team is `CPOD`; if Team is not `CPOD`, CPOD-specific open-card logic must not run.
+- **FR-3 Mandatory Jira Filters**: Count only issues matching all conditions below:
+  - `project = "ELM Tech Ops"`
+  - `issuetype = Bug`
+  - `"Engagement Reason" = Troubleshooting`
+  - `"Safe Product" IN (Oasis, Passport)`
+  - `"Safe-Team" IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `status IN ("NEW", "ANALYZE", "PRE-REFINEMENT", "RE-FINEMENT", "REFIND", "IN PROGRESS", "CODE COMPLETE", "TO VERIFY")`
+- **FR-4 Date Filtering**: Count must be filtered by user-selected `From Date` and `To Date` using issue `created` timestamp. Count must refresh when selected date range changes.
+- **FR-5 Card Display**: Show resulting value in `Open Cards Count` card. If no matching issues, display `0`.
+- **FR-6 Error Handling**: On Jira/API/query error, apply standard fallback behavior (`0` or `Data unavailable`, per application standard).
+
+**Suggested JQL (Validation Reference):**
+```sql
+project = "ELM Tech Ops"
+AND issuetype = Bug
+AND "Engagement Reason" = Troubleshooting
+AND "Safe Product" in (Oasis, Passport)
+AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")
+AND status in ("NEW","ANALYZE","PRE-REFINEMENT","RE-FINEMENT","REFIND","IN PROGRESS","CODE COMPLETE","TO VERIFY")
+AND created >= "<fromDate>"
+AND created <= "<toDate>"
+```
+
+**Clarifications (Execution Rules):**
+- **CR-1 Date Field Standard**: Date filtering for Open Cards Count uses issue `created` timestamp.
+- **CR-2 Date Boundary**: `From Date` and `To Date` are inclusive.
+- **CR-3 Immediate Refresh**: Any change to Team, From Date, or To Date triggers metric recomputation and UI update.
+- **CR-4 Empty State**: If Team is not selected or Team is not `CPOD`, the card is not rendered.
+- **CR-5 Fallback Display Contract**: On source failure, component must render non-blocking fallback (`0` or `Data unavailable`) and keep the rest of dashboard interactive.
+
+**Acceptance Criteria:**
+- [ ] Card is visible only when Team = CPOD.
+- [ ] Card is hidden for all non-CPOD team selections.
+- [ ] Count includes only issues satisfying all FR-3 conditions.
+- [ ] Date filter uses issue `created` timestamp with inclusive boundaries (`created >= From Date`, `created <= To Date`).
+- [ ] Changing selected date range (`From Date` or `To Date`) updates the displayed count.
+- [ ] No matching issues return displayed value `0`.
+- [ ] Source failure shows standard fallback state without breaking dashboard rendering.
+
+#### 3.2.14 ReOpened Cards Count (CPOD-only)
+
+- **Scope**: When Team = `CPOD`, display `ReOpened Cards Count` from Jira using status transition and selected date range.
+- **Definition**: Count of Jira bugs that transitioned from `Closed` to `New` within selected date range, constrained by CPOD filters.
+- **Business Intent**: Surface CPOD reopening flow volume as a dedicated scorecard metric.
+- **Display Rule**: Show `ReOpened Cards Count` only when selected Team is `CPOD`.
+- **Non-CPOD Rule**: For all other team selections, this card is not displayed and CPOD-specific reopened-card logic is not applied.
+
+**Functional Requirements:**
+- **FR-1 Data Source**: System must connect to Jira at `https://jira.wolterskluwer.io/` and use Jira issue data to calculate count.
+- **FR-2 Team-Based Activation**: This logic must execute only when selected Team is `CPOD`; if Team is not `CPOD`, CPOD-specific reopened query must not run.
+- **FR-3 Mandatory Jira Filters**: Count only issues that satisfy all conditions:
+  - `project = "ELM Tech Ops"`
+  - `issuetype = Bug`
+  - `"Engagement Reason" = Troubleshooting`
+  - `"Safe-Product" IN (Oasis, Passport)`
+  - `"Safe-Team" IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `status CHANGED FROM Closed TO New`
+- **FR-4 Date Filtering**: Use transition timestamp for `Closed → New` as date filter basis. Include only transitions within selected `From Date` and `To Date`. Recalculate when date range changes.
+- **FR-5 Card Display**: Show result in `ReOpened Cards Count`. If no matching issues are found, display `0`.
+- **FR-6 Error Handling**: On Jira/API/query failure, apply dashboard-standard fallback behavior (`0` or `Data unavailable`, per existing standard).
+
+**Clarification Requirements:**
+- **CR-1 Counting Basis**: Count unique Jira issues that satisfy `status CHANGED FROM Closed TO New` in range. Multiple matching transitions on the same issue in range count as `1`.
+- **CR-2 Date Timezone**: Apply `From Date` and `To Date` boundaries using Jira server timezone.
+- **CR-3 Transition Match Strictness**: Match transition exactly from `Closed` to `New` only; do not include equivalent status names.
+- **CR-4 Failure Display Default**: On Jira/API/query failure, default display for this card is `Data unavailable`.
+- **CR-5 No-Match Helper Text**: When computed value is `0` due to no qualifying records (not source failure), helper text should read: `No matching Closed → New transitions in selected date range`.
+- **CR-6 Non-Zero Guardrail**: If one or more qualifying transitions exist in the selected date range after all mandatory filters, `ReOpened Cards Count` must display a value greater than `0`. Displaying `0` in this case is a defect.
+
+**Suggested JQL (Validation Reference):**
+```sql
+project = "ELM Tech Ops"
+AND issuetype = Bug
+AND "Engagement Reason" = Troubleshooting
+AND "Safe-Product" in (Oasis, Passport)
+AND "Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")
+AND status CHANGED FROM Closed TO New DURING ("<fromDate>","<toDate>")
+```
+
+**Acceptance Criteria:**
+- [ ] Given Team = CPOD and a selected date range, `ReOpened Cards Count` equals number of bugs transitioned from `Closed` to `New` in that range.
+- [ ] Only issues meeting all mandatory FR-3 filters are counted.
+- [ ] Changing date range updates count accordingly.
+- [ ] No-match scenario shows `0`.
+- [ ] When no-match scenario occurs, helper text displays `No matching Closed → New transitions in selected date range`.
+- [ ] If matching transitions exist in range, displayed count is non-zero and helper text is not shown.
+- [ ] Non-CPOD team selection does not use CPOD reopened-card logic.
+- [ ] If one issue has multiple `Closed -> New` transitions in range, it is counted once (unique-issue counting).
+- [ ] Date boundaries for transition filtering are evaluated in Jira server timezone.
+- [ ] Transition filtering matches exact `Closed -> New` only.
+- [ ] Jira/API/query failure shows `Data unavailable` for this card by default.
+
 ### 3.3 Visualizations
 
 #### 3.3.1 Compliance Donut Chart

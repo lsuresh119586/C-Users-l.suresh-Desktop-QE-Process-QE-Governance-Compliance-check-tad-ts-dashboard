@@ -23,6 +23,542 @@ These improvements make our implementation more robust and production-ready from
 
 ## 🔄 Update (February 17, 2026)
 
+## 🔄 Update (March 4, 2026)
+
+### TASK-CPOD-001: Backend CPOD Closed Cards Query Logic 🟡
+
+**Category:** Backend Feature  
+**Estimate:** M (1 day)  
+**Status:** Complete  
+**Dependencies:** Existing Jira integration and team filter plumbing  
+**Traceability:** `spec.md` Section 3.2.12 (FR-1, FR-2, FR-3, FR-4, FR-5, FR-6, CR-1, CR-3)
+
+**Description:**
+Implement CPOD-specific backend metric computation for `Closed Cards Count`, using Jira transition filtering (`To Verify → Resolved`) and selected date range.
+
+**Requirements to Implement:**
+- **FR-1 Data Source**: Query Jira source `https://jira.wolterskluwer.io/`.
+- **FR-2 Team Activation**: Execute CPOD metric logic only when selected Team = `CPOD`; do not execute CPOD path for non-CPOD teams.
+- **FR-3 Mandatory Filters (all required simultaneously)**:
+  - `Project = "ELM Tech Ops"`
+  - `Issue Type = Bug`
+  - `Engagement Reason = Troubleshooting`
+  - `Safe Product IN (Oasis, Passport)`
+  - `Safe-Team IN ("CPOD 1", "Passport Support", "CPOD 3", "CPOD 2")`
+  - `Status transition CHANGED FROM "To Verify" TO "Resolved"`
+- **FR-4 Date Rule**: Apply selected `From Date` and `To Date` to transition timestamp for `To Verify → Resolved`.
+- **FR-5 Output Rule**: Return integer `closedCardsCount`; return `0` for no matches.
+- **FR-6 Error Rule**: On Jira/query failure, return dashboard-standard fallback (`0` or `Data unavailable`) without blocking other dashboard metrics.
+- **Clarifications**:
+  - Inclusive date boundaries for `From Date` and `To Date`.
+  - De-duplicate repeated qualifying transitions so each issue contributes at most one count.
+
+**Acceptance Criteria:**
+- [x] Jira query source for this metric is `https://jira.wolterskluwer.io/`.
+- [x] For CPOD requests, backend returns deterministic integer `closedCardsCount`.
+- [x] For non-CPOD requests, CPOD query path is not executed.
+- [x] Count includes only issues matching all FR-3 mandatory filters.
+- [x] Date range uses transition timestamp and inclusive boundaries.
+- [x] Same issue with multiple qualifying transitions is counted once.
+- [x] No matches return `0`.
+- [x] Source failures do not throw unhandled errors to caller and produce fallback-compatible output.
+
+---
+
+### TASK-CPOD-002: Frontend CPOD Conditional Card + Date Refresh 🟡
+
+**Category:** Frontend Feature  
+**Estimate:** M (1 day)  
+**Status:** Complete  
+**Dependencies:** TASK-CPOD-001  
+**Traceability:** `spec.md` Section 3.2.12 (FR-2, FR-4, FR-5, FR-6, CR-4, CR-5, CR-6)
+
+**Description:**
+Render `Closed Cards Count` only for Team = `CPOD`, bind date filter changes to immediate recomputation, and preserve dashboard stability under fallback states.
+
+**Requirements to Implement:**
+- Render card only when selected Team is `CPOD`.
+- Hide card for all non-CPOD team selections and empty team state.
+- Trigger refresh when Team, From Date, or To Date changes.
+- Display integer count from backend.
+- Display `0` when no matching issues.
+- Display dashboard-standard fallback (`0` or `Data unavailable`) on source failures.
+- Keep non-CPOD dashboard behavior unchanged.
+
+**Acceptance Criteria:**
+- [x] Card visibility strictly matches CPOD selection state.
+- [x] Date filter changes refresh value without manual page reload.
+- [x] No-match state displays `0`.
+- [x] Fallback state is non-blocking and does not break other dashboard cards.
+- [x] CPOD card is not rendered when Team is empty/unselected.
+
+---
+
+### TASK-CPOD-003: API Contract + Integration Coverage 🟡
+
+**Category:** Backend Integration  
+**Estimate:** S (4-6 hours)  
+**Status:** Complete  
+**Dependencies:** TASK-CPOD-001  
+**Traceability:** `spec.md` Section 3.2.12 (FR-1 to FR-6)
+
+**Description:**
+Validate API contract for CPOD metric field behavior across success, empty, and failure scenarios.
+
+**Acceptance Criteria:**
+- [x] CPOD response includes `closedCardsCount` with integer semantics.
+- [x] Non-CPOD responses remain backward-compatible and unaffected.
+- [x] Error scenarios produce fallback-compatible response values.
+
+---
+
+### TASK-CPOD-004: Automated Test Suite (Unit + Integration + E2E) 🟡
+
+**Category:** Testing  
+**Estimate:** M (1 day)  
+**Status:** Skipped  
+**Dependencies:** TASK-CPOD-001, TASK-CPOD-002, TASK-CPOD-003  
+**Traceability:** `spec.md` Section 3.2.12 Acceptance Criteria + Clarifications
+
+**Decision:** Skipped per `/speckit.clarify` directive (March 4, 2026).  
+
+**Description:**
+Add comprehensive automated tests to prove FR/CR coverage and prevent regressions.
+
+**Test Coverage Matrix:**
+- Unit tests:
+  - Filter construction and transition-based count logic.
+  - Inclusive boundary date handling.
+  - De-duplication for repeated transitions.
+- Integration tests:
+  - API behavior for CPOD vs non-CPOD paths.
+  - Empty result and source failure response semantics.
+- Playwright E2E tests:
+  - Card visible only for CPOD team.
+  - Card hidden for non-CPOD teams.
+  - Date change causes updated metric value.
+  - Dashboard remains usable during fallback state.
+
+**Acceptance Criteria:**
+- [ ] All CPOD FR/CR clauses are mapped to one or more tests.
+- [ ] E2E tests validate visibility gating and date refresh behavior.
+- [ ] Regression tests confirm no impact to existing non-CPOD metric flows.
+
+---
+
+### TASK-CPOD-005: Release Readiness + Rollout Checklist 🟡
+
+**Category:** Delivery  
+**Estimate:** S (2-3 hours)  
+**Status:** Skipped  
+**Dependencies:** TASK-CPOD-004  
+**Traceability:** `spec.md` Section 3.2.12 + Section 7.3
+
+**Decision:** Skipped per `/speckit.clarify` directive (March 4, 2026).  
+
+**Description:**
+Prepare go-live readiness artifacts for CPOD metric rollout.
+
+**Checklist:**
+- [ ] Verify acceptance criteria completion against `spec.md` 3.2.12.
+- [ ] Capture API sample responses for CPOD success/empty/failure paths.
+- [ ] Capture UI screenshots for CPOD and non-CPOD visibility behavior.
+- [ ] Confirm test suite pass in CI/local execution.
+- [ ] Update implementation status notes.
+
+---
+
+### TASK-CPOD-OPEN-001: Implement CPOD Open Cards Backend Query Contract
+
+**Category:** Backend
+**Estimate:** M
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-001
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.13 (FR-1, FR-2, FR-3, FR-4)
+  - Plan: Section 1.5 (CPOD Cards Clarification Execution), Phase 1.8 (CPOD Open Cards Count)
+
+**Description:**
+Implement Jira query logic for `Open Cards Count` when Team = `CPOD`, enforcing all required filters including engagement type, safe-team, safe-product, and the uppercase open-status set. Apply date filtering using issue `created` timestamp with inclusive boundaries. Ensure this logic is isolated from non-CPOD requests.
+
+**Acceptance Criteria:**
+- [x] Query executes only when Team = `CPOD`.
+- [x] Query includes mandatory filters from spec FR-3, including `"Engagement Reason" = Troubleshooting`.
+- [x] Status filter uses uppercase set: `NEW`, `ANALYZE`, `PRE-REFINEMENT`, `RE-FINEMENT`, `REFIND`, `IN PROGRESS`, `CODE COMPLETE`, `TO VERIFY`.
+- [x] Date filtering uses issue `created` timestamp and applies inclusive `From Date`/`To Date`.
+- [x] Unit tests written and passing (if applicable).
+- [x] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Reuse CPOD routing guard from closed-card flow to avoid duplicate branching logic.
+- Keep query construction centralized so filter parity is easy to verify.
+- Preserve existing fallback behavior contracts and do not break non-CPOD query paths.
+
+**Files to Create/Modify:**
+- backend/api-gateway/jiraBugService.js
+- backend/api-gateway/jiraBugService.test.js
+
+---
+
+### TASK-CPOD-OPEN-002: Map Open Cards Metric to API Response
+
+**Category:** Backend
+**Estimate:** S
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-OPEN-001
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.13 (FR-5, FR-6)
+  - Plan: Section 1.5 (Planned Architecture Impact), Phase 1.8 (Deliverables)
+
+**Description:**
+Expose `openCardsCount` in CPOD API payloads with deterministic integer semantics and consistent fallback output. Ensure no-match responses return `0` and source failures return dashboard-standard fallback values without breaking other metric fields.
+
+**Acceptance Criteria:**
+- [x] CPOD API response includes `openCardsCount` as integer.
+- [x] No-match scenarios return `openCardsCount = 0`.
+- [x] Source failure scenarios return fallback-compatible output (`0` or `Data unavailable` contract).
+- [x] Non-CPOD API responses remain backward-compatible.
+- [x] Unit tests written and passing (if applicable).
+- [x] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Use existing mapper pattern for CPOD metrics to avoid response-shape drift.
+- Keep additive-only API changes (no breaking field removals/renames).
+
+**Files to Create/Modify:**
+- backend/api-gateway/server.js
+- backend/api-gateway/cpodMetricsMapper.js
+- backend/api-gateway/cpodMetricsMapper.test.js
+
+---
+
+### TASK-CPOD-OPEN-003: Add Frontend Open Cards CPOD Visibility and Refresh
+
+**Category:** Frontend
+**Estimate:** M
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-OPEN-002
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.13 (FR-2, FR-4, FR-5, FR-6; CR-3, CR-4, CR-5)
+  - Plan: Phase 1.8 (Deliverables)
+
+**Description:**
+Render `Open Cards Count` card only for CPOD and wire it to date-range-driven refresh behavior. Ensure card hides for non-CPOD, shows `0` for empty results, and displays fallback safely when backend indicates source issues.
+
+**Acceptance Criteria:**
+- [x] Card is visible only when Team = `CPOD`.
+- [x] Card is hidden for non-CPOD or empty team state.
+- [x] Date changes trigger immediate metric refresh.
+- [x] No-match state renders `0`.
+- [x] Fallback state is non-blocking and preserves dashboard usability.
+- [x] Unit tests written and passing (if applicable).
+
+**Implementation Notes:**
+- Reuse existing CPOD date filter handlers to avoid duplicate event listeners.
+- Ensure rendering order and spacing remain consistent with existing metric cards.
+
+**Files to Create/Modify:**
+- frontend/index.html
+- tests/e2e/cpod.dashboard.spec.ts
+
+---
+
+### TASK-CPOD-OPEN-004: Implement CPOD Open Cards Automated Test Coverage
+
+**Category:** Testing
+**Status:** Skipped
+**Skip Reason:** Skipped via `/speckit.clarify` directive (2026-03-04).
+**Estimate:** M
+**Priority:** P1-High
+**Dependencies:** TASK-CPOD-OPEN-001, TASK-CPOD-OPEN-002, TASK-CPOD-OPEN-003
+**Phase:** 3-Full
+**Traceability:**
+  - Spec: Section 3.2.13 Acceptance Criteria
+  - Plan: Section 6 (Testing Strategy), Phase 1.8 (Validation Coverage)
+
+**Description:**
+Create unit, integration, and E2E tests that validate all Open Cards FR/CR requirements and guard against regressions in CPOD/non-CPOD flows.
+
+**Acceptance Criteria:**
+- [ ] Unit tests validate query filter composition, status-set enforcement, and inclusive date boundaries.
+- [ ] Integration tests validate API contract for success, empty, and fallback paths.
+- [ ] E2E tests validate CPOD-only visibility, date-range refresh, and non-CPOD hiding behavior.
+- [ ] Test failures clearly identify violated requirement and map to spec clause.
+- [ ] Unit tests written and passing (if applicable).
+- [ ] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Prefer deterministic fixtures for date-boundary assertions.
+- Keep Playwright selectors stable via existing data-testid strategy.
+
+**Files to Create/Modify:**
+- backend/api-gateway/jiraBugService.test.js
+- backend/api-gateway/cpodMetricsMapper.test.js
+- tests/e2e/cpod.dashboard.spec.ts
+
+---
+
+### TASK-CPOD-OPEN-005: Publish CPOD Open Cards Readiness Notes
+
+**Category:** Documentation
+**Status:** Skipped
+**Skip Reason:** Skipped via `/speckit.clarify` directive (2026-03-04).
+**Estimate:** XS
+**Priority:** P2-Medium
+**Dependencies:** TASK-CPOD-OPEN-004
+**Phase:** 4-Polish
+**Traceability:**
+  - Spec: Section 3.2.13, Section 7 (Testing Requirements)
+  - Plan: Section 12 (Implementation Phases), Phase 1.8
+
+**Description:**
+Document implementation status, validation evidence, and known fallback caveats for Open Cards rollout so stakeholders can verify readiness and operational behavior.
+
+**Acceptance Criteria:**
+- [ ] Implementation summary references all completed CPOD Open Cards tasks.
+- [ ] Evidence includes API response examples for success/empty/fallback paths.
+- [ ] Notes include filter-application behavior and fallback interpretation guidance.
+- [ ] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Keep evidence concise and reproducible via endpoint examples.
+- Cross-link to spec and plan sections for traceability.
+
+**Files to Create/Modify:**
+- tasks.md
+- IMPLEMENTATION_STATUS.md
+- SESSION-SUMMARY.md
+
+---
+
+## 🔄 Update (March 4, 2026 - CPOD ReOpened Cards Count)
+
+### TASK-CPOD-REOPEN-001: Implement CPOD ReOpened Query Semantics
+
+**Category:** Backend
+**Estimate:** M
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-OPEN-001
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.14 (FR-1, FR-2, FR-3, FR-4, CR-1, CR-2, CR-3)
+  - Plan: Phase 1.6 (Backend query and mapping)
+
+**Description:**
+Implement CPOD-only reopened-card Jira query logic with exact transition matching `Closed -> New` and transition-time date filtering. Enforce all mandatory CPOD filters (`ELM Tech Ops`, bug type, troubleshooting engagement reason, safe-product, safe-team) and count unique issues only. Ensure non-CPOD requests never execute this query path.
+
+**Acceptance Criteria:**
+- [x] Query executes only when Team = `CPOD`.
+- [x] Query applies all FR-3 mandatory CPOD filters.
+- [x] Transition match is exact `Closed -> New` only (no equivalent-status expansion).
+- [x] Date filtering uses transition timestamps in Jira server timezone.
+- [x] Multiple qualifying transitions on one issue count as one issue.
+- [x] Unit tests written and passing (if applicable).
+- [x] Query includes status-name compatibility for `New` and `NEW` so valid `Closed -> New` transitions are not missed due to Jira status casing.
+
+**Implementation Notes:**
+- Reuse existing CPOD branch/guards to avoid branching drift across cards.
+- Keep query builder changes isolated and testable with deterministic fixtures.
+
+**Files to Create/Modify:**
+- backend/api-gateway/jiraBugService.js
+- backend/api-gateway/jiraBugService.test.js
+
+---
+
+### TASK-CPOD-REOPEN-002: Map ReOpened Metric to API Contract
+
+**Category:** Backend
+**Estimate:** S
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-REOPEN-001
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.14 (FR-5, FR-6, CR-4)
+  - Plan: Phase 1.6 (Backend query and mapping)
+
+**Description:**
+Expose `reOpenedCardsCount` in the CPOD metrics response with deterministic semantics. Return `0` for no-match scenarios and map source failures to card-level fallback metadata required by frontend rendering.
+
+**Acceptance Criteria:**
+- [x] CPOD API response includes `reOpenedCardsCount` as an integer.
+- [x] No-match scenarios return `reOpenedCardsCount = 0`.
+- [x] Failure scenarios map to fallback state compatible with `Data unavailable` display default.
+- [x] Non-CPOD response shape remains backward-compatible.
+- [x] Unit tests written and passing (if applicable).
+
+**Implementation Notes:**
+- Follow additive-only response changes to avoid breaking existing consumers.
+- Align naming with existing CPOD card field naming conventions in mapper and UI.
+
+**Files to Create/Modify:**
+- backend/api-gateway/cpodMetricsMapper.js
+- backend/api-gateway/cpodMetricsMapper.test.js
+
+---
+
+### TASK-CPOD-REOPEN-003: Add CPOD-Only ReOpened Card Rendering
+
+**Category:** Frontend
+**Estimate:** S
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-REOPEN-002
+**Phase:** 2-MVP
+**Traceability:**
+  - Spec: Section 3.2.14 (FR-2, FR-5, FR-6)
+  - Plan: Phase 1.6 (Frontend conditional rendering)
+
+**Description:**
+Add `ReOpened Cards Count` card to CPOD view only, bind it to backend response, and ensure recomputation on date-range changes. Keep card hidden for non-CPOD teams and preserve dashboard behavior for all existing cards.
+
+**Acceptance Criteria:**
+- [x] Card is rendered only when Team = `CPOD`.
+- [x] Card is hidden for non-CPOD and empty team selections.
+- [x] Date-range changes refresh card value without page reload.
+- [x] No-match state displays `0`.
+- [x] No-match helper text displays `No matching Closed → New transitions in selected date range`.
+- [x] When qualifying `Closed -> New` transitions exist in selected range, card displays non-zero value and does not show no-match helper text.
+- [x] Failure state defaults to `Data unavailable` for this card.
+- [x] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Reuse existing CPOD card layout and visibility gating patterns.
+- Avoid introducing product-wide conditional side effects.
+
+**Files to Create/Modify:**
+- frontend/index.html
+
+---
+
+### TASK-CPOD-REOPEN-004: Add Unit and Integration Validation for ReOpened Rules
+
+**Category:** Testing
+**Estimate:** M
+**Priority:** P1-High
+**Status:** Complete
+**Dependencies:** TASK-CPOD-REOPEN-001, TASK-CPOD-REOPEN-002
+**Phase:** 3-Full
+**Traceability:**
+  - Spec: Section 3.2.14 (Acceptance Criteria, CR-1 to CR-4)
+  - Plan: Phase 1.6 (Validation and testing)
+
+**Description:**
+Add backend test coverage for query composition, exact transition matching, timezone-bound date filtering, unique-issue counting, and fallback mapping. Validate that non-CPOD requests do not invoke CPOD reopened logic.
+
+**Acceptance Criteria:**
+- [x] Tests verify exact `Closed -> New` transition filtering.
+- [x] Tests verify Jira-timezone-aware date boundary behavior.
+- [x] Tests verify unique-issue counting when multiple qualifying transitions exist.
+- [x] Tests verify non-CPOD bypass of reopened query path.
+- [x] Tests verify fallback mapping for `Data unavailable` display behavior.
+- [x] Unit tests written and passing (if applicable).
+
+**Implementation Notes:**
+- Prefer fixed fixture timestamps to avoid timezone-related test flakiness.
+- Keep assertions mapped to FR/CR identifiers for auditability.
+
+**Files to Create/Modify:**
+- backend/api-gateway/jiraBugService.test.js
+- backend/api-gateway/cpodMetricsMapper.test.js
+
+---
+
+### TASK-CPOD-REOPEN-005: Add Playwright Coverage for ReOpened Card UX
+
+**Category:** Testing
+**Estimate:** S
+**Priority:** P1-High
+**Dependencies:** TASK-CPOD-REOPEN-003
+**Phase:** 3-Full
+**Traceability:**
+  - Spec: Section 3.2.14 (Acceptance Criteria)
+  - Plan: Phase 1.6 (Validation and testing)
+
+**Description:**
+Extend CPOD dashboard E2E tests to cover visibility gating, date-driven recomputation, no-match `0` display, and failure-state rendering for `ReOpened Cards Count`.
+
+**Acceptance Criteria:**
+- [ ] E2E verifies card visible for CPOD and hidden for non-CPOD.
+- [ ] E2E verifies date change triggers value refresh.
+- [ ] E2E verifies no-match displays `0`.
+- [ ] E2E verifies failure path renders `Data unavailable` for this card.
+- [ ] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Reuse existing CPOD selectors and fixtures where possible.
+- Keep assertions resilient to unrelated card ordering changes.
+
+**Files to Create/Modify:**
+- tests/e2e/cpod.dashboard.spec.ts
+
+---
+
+### TASK-CPOD-REOPEN-006: Publish ReOpened Rollout Notes and Evidence
+
+**Category:** Documentation
+**Estimate:** XS
+**Priority:** P2-Medium
+**Dependencies:** TASK-CPOD-REOPEN-004, TASK-CPOD-REOPEN-005
+**Phase:** 4-Polish
+**Traceability:**
+  - Spec: Section 3.2.14, Section 7
+  - Plan: Phase 1.6 (Deliverables and Acceptance)
+
+**Description:**
+Publish implementation and validation evidence for CPOD reopened-card rollout, including API examples, UI behavior matrix, and known operational caveats. Ensure traceability links are current and reproducible for handoff.
+
+**Acceptance Criteria:**
+- [ ] Implementation summary lists completed CPOD reopened tasks with status.
+- [ ] Evidence includes success, no-match, non-CPOD, and failure examples.
+- [ ] Notes document exact `Closed -> New` semantics and unique-issue counting rule.
+- [ ] Documentation updated (if applicable).
+
+**Implementation Notes:**
+- Keep operational notes concise and aligned to stakeholder review needs.
+- Include reproduction steps for QA verification.
+
+**Files to Create/Modify:**
+- tasks.md
+- IMPLEMENTATION_STATUS.md
+- SESSION-SUMMARY.md
+
+---
+
+### CPOD ReOpened Task Flow
+
+```text
+TASK-CPOD-REOPEN-001
+  -> TASK-CPOD-REOPEN-002
+  -> TASK-CPOD-REOPEN-003
+  -> TASK-CPOD-REOPEN-004 and TASK-CPOD-REOPEN-005
+  -> TASK-CPOD-REOPEN-006
+```
+
+### CPOD ReOpened Estimation Summary
+
+- Total Tasks: 6
+- Total Estimated Effort: ~26-34 hours
+- By Phase:
+  - 2-MVP: 3 tasks
+  - 3-Full: 2 tasks
+  - 4-Polish: 1 task
+- By Category:
+  - Backend: 2
+  - Frontend: 1
+  - Testing: 2
+  - Documentation: 1
+
+---
+
 ### TASK-BUG-001: Fix Dashboard Data Source for Live Bug Metrics 🟢
 
 **Category:** Frontend Bug Fix  
@@ -416,6 +952,7 @@ curl "http://localhost:3000/api/metrics?product=t360&sprint=26.1.1"
 - 🟡 **In Progress** - Currently being worked on
 - 🟢 **Complete** - Task finished and verified
 - 🔴 **Blocked** - Cannot proceed due to dependency
+- ⚪ **Skipped** - Intentionally excluded by scope/clarification decision
 
 ---
 

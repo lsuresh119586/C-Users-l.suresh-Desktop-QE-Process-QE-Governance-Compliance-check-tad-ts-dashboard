@@ -55,12 +55,12 @@ export default defineConfig({
   webServer: [
     {
       command: 'cd backend/api-gateway && node server.js',
-      url: 'http://localhost:3000/api/health',
+      url: 'http://localhost:3000/api/products',
       reuseExistingServer: !process.env.CI,
       timeout: 120000,
     },
     {
-      command: 'cd frontend && npm run dev',
+      command: 'cd frontend && npm run dev -- --port 5173 --strictPort',
       url: 'http://localhost:5173',
       reuseExistingServer: !process.env.CI,
       timeout: 120000,

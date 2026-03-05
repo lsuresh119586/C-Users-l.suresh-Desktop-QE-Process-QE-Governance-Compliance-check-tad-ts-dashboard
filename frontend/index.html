@@ -1326,30 +1326,66 @@
                   <div class="metric-value">${state.metrics.testsCovered}%</div>
                   <div class="card-hint">Click to view details →</div>
                 </div>
-                <div class="metric-card card-purple clickable" id="openDefectsCard">
-                  <div class="metric-label">🚨 Open Defects</div>
-                  <div class="metric-value">${state.metrics.defectsOpen}</div>
-                  <div class="card-hint">Click to view details →</div>
-                </div>
-                <div class="metric-card card-red clickable" id="closedDefectsCard">
-                  <div class="metric-label">✓ Closed Defects</div>
-                  <div class="metric-value">${state.metrics.defectsClosed}</div>
-                  <div class="card-hint">Click to view details →</div>
-                </div>
-                <div class="metric-card card-orange clickable" id="reopenedDefectsCard">
-                  <div class="metric-label">↩️ Reopened Defects</div>
-                  <div class="metric-value">${state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null ? Math.round(state.metrics.reopenedRate) + '%' : '0%'}</div>
-                  <div class="card-hint">Click to view details →</div>
-                  <div class="metric-quality-badge ${
-                    state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
-                      ? (state.metrics.reopenedRate < 10 ? 'quality-excellent' : state.metrics.reopenedRate <= 25 ? 'quality-fair' : 'quality-action-required')
-                      : 'quality-excellent'
-                  }">${
-                    state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
-                      ? (state.metrics.reopenedRate < 10 ? 'Excellent' : state.metrics.reopenedRate <= 25 ? 'Fair' : 'Action Required')
-                      : 'Excellent'
-                  }</div>
-                </div>
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-purple" id="cpodOpenCardsCard">
+                    <div class="metric-label">📂 Open Cards Count</div>
+                    <div class="metric-value">${(state.metrics.cpodDataUnavailable || (state.metrics.safeProductFilterApplied === false && state.metrics.cpodFilterMode === 'open_fallback_without_safe_product')) ? 'Data unavailable' : (state.metrics.openCardsCount ?? 0)}</div>
+                    <div class="card-hint">${state.metrics.cpodDataUnavailable
+                      ? 'Data source unavailable (fallback applied)'
+                      : (state.metrics.safeProductFilterApplied === false && state.metrics.cpodFilterMode === 'open_fallback_without_safe_product')
+                        ? 'Strict Safe Product filter unavailable for current service account'
+                      : state.metrics.openCardsFallbackApplied
+                        ? 'Open-cards query fallback applied'
+                        : ((state.metrics.openCardsCount ?? 0) === 0
+                          ? 'No matching open cards in selected date range'
+                          : 'Open workflow cards (selected date range)')}</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-purple clickable" id="openDefectsCard">
+                    <div class="metric-label">🚨 Open Defects</div>
+                    <div class="metric-value">${state.metrics.defectsOpen}</div>
+                    <div class="card-hint">Click to view details →</div>
+                  </div>
+                `}
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-red" id="cpodClosedCardsCard">
+                    <div class="metric-label">🧾 Closed Cards Count</div>
+                    <div class="metric-value">${state.metrics.cpodDataUnavailable ? 'Data unavailable' : (state.metrics.closedCardsCount ?? 0)}</div>
+                    <div class="card-hint">To Verify → Resolved (selected date range)</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-red clickable" id="closedDefectsCard">
+                    <div class="metric-label">✓ Closed Defects</div>
+                    <div class="metric-value">${state.metrics.defectsClosed}</div>
+                    <div class="card-hint">Click to view details →</div>
+                  </div>
+                `}
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-orange" id="cpodReopenedCardsCard">
+                    <div class="metric-label">↩️ ReOpened Cards Count</div>
+                    <div class="metric-value">${(state.metrics.cpodDataUnavailable || state.metrics.reOpenedCardsFallbackApplied) ? 'Data unavailable' : (state.metrics.reOpenedCardsCount ?? 0)}</div>
+                    <div class="card-hint">${(state.metrics.cpodDataUnavailable || state.metrics.reOpenedCardsFallbackApplied)
+                      ? 'Data source unavailable (fallback applied)'
+                      : ((state.metrics.reOpenedCardsCount ?? 0) === 0
+                        ? 'No matching Closed → New transitions in selected date range'
+                        : 'Closed → New transitions (selected date range)')}</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-orange clickable" id="reopenedDefectsCard">
+                    <div class="metric-label">↩️ Reopened Defects</div>
+                    <div class="metric-value">${state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null ? Math.round(state.metrics.reopenedRate) + '%' : '0%'}</div>
+                    <div class="card-hint">Click to view details →</div>
+                    <div class="metric-quality-badge ${
+                      state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                        ? (state.metrics.reopenedRate < 10 ? 'quality-excellent' : state.metrics.reopenedRate <= 25 ? 'quality-fair' : 'quality-action-required')
+                        : 'quality-excellent'
+                    }">${
+                      state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                        ? (state.metrics.reopenedRate < 10 ? 'Excellent' : state.metrics.reopenedRate <= 25 ? 'Fair' : 'Action Required')
+                        : 'Excellent'
+                    }</div>
+                  </div>
+                `}
                 <div class="metric-card card-blue">
                   <div class="metric-label">🚀 DoD Completion/Release Readiness %</div>
                   <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
@@ -1399,12 +1435,14 @@
           cpodStartInput.addEventListener('change', (e) => {
             state.cpodStartDate = e.target.value;
             console.log('📅 CPOD start date changed:', state.cpodStartDate);
+            handleCpodDateChange();
           });
         }
         if (cpodEndInput) {
           cpodEndInput.addEventListener('change', (e) => {
             state.cpodEndDate = e.target.value;
             console.log('📅 CPOD end date changed:', state.cpodEndDate);
+            handleCpodDateChange();
           });
         }
         if (cpodLoadBtn) {
@@ -1425,16 +1463,20 @@
         });
 
         // Open Defects card click handler
-        document.getElementById('openDefectsCard')?.addEventListener('click', () => {
-          state.currentView = 'openDefects';
-          render();
-        });
+        if (!isCpodTeam()) {
+          document.getElementById('openDefectsCard')?.addEventListener('click', () => {
+            state.currentView = 'openDefects';
+            render();
+          });
+        }
 
         // Closed Defects card click handler
-        document.getElementById('closedDefectsCard')?.addEventListener('click', () => {
-          state.currentView = 'closedDefects';
-          render();
-        });
+        if (!isCpodTeam()) {
+          document.getElementById('closedDefectsCard')?.addEventListener('click', () => {
+            state.currentView = 'closedDefects';
+            render();
+          });
+        }
 
         // Reopened Defects card click handler
         document.getElementById('reopenedDefectsCard')?.addEventListener('click', () => {

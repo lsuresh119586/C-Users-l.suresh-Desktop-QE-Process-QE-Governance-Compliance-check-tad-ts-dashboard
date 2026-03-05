@@ -315,6 +315,261 @@ describe('JiraBugService', () => {
     });
   });
 
+  describe('CPOD date-range metrics', () => {
+    it('should build FR-3 compliant JQL query for CPOD date range', async () => {
+      jest.spyOn(service, 'makeRequest').mockResolvedValue({ issues: [] });
+
+      await service.getBugsForDateRange('2026-03-01', '2026-03-04');
+
+      const payload = service.makeRequest.mock.calls[0][2];
+      expect(payload.jql).toContain('project = "ELM Tech Ops"');
+      expect(payload.jql).toContain('issuetype = Bug');
+      expect(payload.jql).toContain('"Engagement Reason" = Troubleshooting');
+      expect(payload.jql).toContain('customfield_13790 in (Oasis, Passport)');
+      expect(payload.jql).toContain('"Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")');
+      expect(payload.jql).toContain('status CHANGED FROM "To Verify" TO Resolved DURING ("2026-03-01","2026-03-04")');
+    });
+
+    it('should return closedCardsCount with de-duplicated issue count', async () => {
+      jest.spyOn(service, 'getBugsForDateRange').mockResolvedValue([
+        {
+          key: 'TO-101',
+          fields: {
+            summary: 'Issue A',
+            status: { name: 'Resolved' },
+            priority: { name: 'Medium' },
+            created: '2026-03-01T10:00:00.000Z',
+            updated: '2026-03-02T10:00:00.000Z'
+          }
+        },
+        {
+          key: 'TO-101',
+          fields: {
+            summary: 'Issue A duplicate row',
+            status: { name: 'Resolved' },
+            priority: { name: 'Medium' },
+            created: '2026-03-01T10:00:00.000Z',
+            updated: '2026-03-02T10:00:00.000Z'
+          }
+        },
+        {
+          key: 'TO-102',
+          fields: {
+            summary: 'Issue B',
+            status: { name: 'Open' },
+            priority: { name: 'High' },
+            created: '2026-03-03T10:00:00.000Z',
+            updated: '2026-03-04T10:00:00.000Z'
+          }
+        }
+      ]);
+      jest.spyOn(service, 'getOpenCardsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'getReopenedCardsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'detectReopenedBug').mockResolvedValue({
+        reopened: false,
+        reopenCount: 0,
+        reopenHistory: []
+      });
+
+      const result = await service.calculateBugMetricsByDateRange('2026-03-01', '2026-03-04');
+
+      expect(result.closedCardsCount).toBe(2);
+      expect(result.totalBugs).toBe(2);
+      expect(Number.isInteger(result.closedCardsCount)).toBe(true);
+    });
+
+    it('should build FR-3 compliant JQL query for CPOD reopened cards', async () => {
+      jest.spyOn(service, 'makeRequest').mockResolvedValue({ issues: [] });
+
+      await service.getReopenedCardsForDateRange('2026-03-01', '2026-03-04');
+
+      const payload = service.makeRequest.mock.calls[0][2];
+      expect(payload.jql).toContain('project = "ELM Tech Ops"');
+      expect(payload.jql).toContain('issuetype = Bug');
+      expect(payload.jql).toContain('"Engagement Reason" = Troubleshooting');
+      expect(payload.jql).toContain('customfield_13790 in (Oasis, Passport)');
+      expect(payload.jql).toContain('"Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")');
+      expect(payload.jql).toContain('(status CHANGED FROM Closed TO New DURING ("2026-03-01","2026-03-04"))');
+      expect(payload.jql).toContain('(status CHANGED FROM Closed TO "NEW" DURING ("2026-03-01","2026-03-04"))');
+    });
+
+    it('should calculate reOpenedCardsCount using unique issue keys', async () => {
+      jest.spyOn(service, 'getBugsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'getOpenCardsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'getReopenedCardsForDateRange').mockResolvedValue([
+        { key: 'TO-301', fields: { summary: 'Issue A' } },
+        { key: 'TO-301', fields: { summary: 'Issue A duplicate transition' } },
+        { key: 'TO-302', fields: { summary: 'Issue B' } }
+      ]);
+
+      const result = await service.calculateBugMetricsByDateRange('2026-03-01', '2026-03-04');
+
+      expect(result.reOpenedCardsCount).toBe(2);
+      expect(Number.isInteger(result.reOpenedCardsCount)).toBe(true);
+      expect(result.reOpenedCardsFallbackApplied).toBe(false);
+    });
+
+    it('should mark openCardsFallbackApplied when open cards query fails', async () => {
+      jest.spyOn(service, 'getBugsForDateRange').mockResolvedValue([
+        {
+          key: 'TO-201',
+          fields: {
+            summary: 'Issue A',
+            status: { name: 'Resolved' },
+            priority: { name: 'Medium' },
+            created: '2026-03-01T10:00:00.000Z',
+            updated: '2026-03-02T10:00:00.000Z'
+          }
+        }
+      ]);
+      jest.spyOn(service, 'getOpenCardsForDateRange').mockRejectedValue(new Error('simulated open cards failure'));
+      jest.spyOn(service, 'getReopenedCardsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'detectReopenedBug').mockResolvedValue({
+        reopened: false,
+        reopenCount: 0,
+        reopenHistory: []
+      });
+
+      const result = await service.calculateBugMetricsByDateRange('2026-03-01', '2026-03-04');
+
+      expect(result.openCardsCount).toBe(0);
+      expect(result.openCardsFallbackApplied).toBe(true);
+      expect(result.closedCardsCount).toBe(1);
+    });
+
+    it('should mark reOpenedCardsFallbackApplied when reopened cards query fails', async () => {
+      jest.spyOn(service, 'getBugsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'getOpenCardsForDateRange').mockResolvedValue([]);
+      jest.spyOn(service, 'getReopenedCardsForDateRange').mockRejectedValue(new Error('simulated reopened cards failure'));
+
+      const result = await service.calculateBugMetricsByDateRange('2026-03-01', '2026-03-04');
+
+      expect(result.reOpenedCardsCount).toBe(0);
+      expect(result.reOpenedCardsFallbackApplied).toBe(true);
+      expect(Number.isInteger(result.reOpenedCardsCount)).toBe(true);
+    });
+
+    it('should fallback to legacy CPOD query when Safe-Product field is unavailable', async () => {
+      const missingFieldError = new Error("Field 'Safe-Product' does not exist or you do not have permission to view it.");
+
+      jest.spyOn(service, 'getSafeProductFieldCandidates').mockReturnValue(['Safe-Product']);
+      jest.spyOn(service, 'discoverSafeProductField').mockResolvedValue(null);
+      jest.spyOn(service, 'makeRequest')
+        .mockRejectedValueOnce(missingFieldError)
+        .mockResolvedValueOnce({
+          issues: [{
+            key: 'TO-500',
+            fields: {
+              summary: 'Legacy fallback issue',
+              status: { name: 'Resolved' }
+            }
+          }]
+        });
+
+      const issues = await service.getBugsForDateRange('2026-01-01', '2026-02-28');
+
+      expect(issues).toHaveLength(1);
+      expect(service.makeRequest).toHaveBeenCalledTimes(2);
+
+      const strictPayload = service.makeRequest.mock.calls[0][2];
+      expect(strictPayload.jql).toContain('"Safe-Product" in (Oasis, Passport)');
+
+      const fallbackPayload = service.makeRequest.mock.calls[1][2];
+      expect(fallbackPayload.jql).toContain('project = "ELM Tech Ops"');
+      expect(fallbackPayload.jql).toContain('issuetype = Bug');
+      expect(fallbackPayload.jql).toContain('"Engagement Reason" = Troubleshooting');
+      expect(fallbackPayload.jql).toContain('"Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")');
+      expect(fallbackPayload.jql).toContain('status CHANGED FROM "To Verify" TO Resolved DURING ("2026-01-01","2026-02-28")');
+      expect(fallbackPayload.jql).not.toContain('Safe-Product');
+    });
+
+    it('should build FR-3 compliant JQL query for CPOD open cards with created date filtering', async () => {
+      jest.spyOn(service, 'makeRequest').mockResolvedValue({ issues: [] });
+
+      await service.getOpenCardsForDateRange('2026-03-01', '2026-03-04');
+
+      const payload = service.makeRequest.mock.calls[0][2];
+      expect(payload.jql).toContain('project = "ELM Tech Ops"');
+      expect(payload.jql).toContain('issuetype = Bug');
+      expect(payload.jql).toContain('"Engagement Reason" = Troubleshooting');
+      expect(payload.jql).toContain('customfield_13790 in (Oasis, Passport)');
+      expect(payload.jql).toContain('"Safe-Team" in ("CPOD 1","Passport Support","CPOD 3","CPOD 2")');
+      expect(payload.jql).toContain('status in ("NEW","ANALYZE","PRE-REFINEMENT","RE-FINEMENT","REFINED","IN PROGRESS","CODE COMPLETE","TO VERIFY")');
+      expect(payload.jql).toContain('created >= "2026-03-01"');
+      expect(payload.jql).toContain('created <= "2026-03-04"');
+    });
+
+    it('should fallback to created when open cards date field is not allowed', async () => {
+      jest.spyOn(service, 'makeRequest').mockResolvedValue({ issues: [] });
+
+      await service.getOpenCardsForDateRange('2026-03-01', '2026-03-04', 'updated');
+
+      const payload = service.makeRequest.mock.calls[0][2];
+      expect(payload.jql).toContain('created >= "2026-03-01"');
+      expect(payload.jql).toContain('created <= "2026-03-04"');
+      expect(payload.jql).not.toContain('updated >= "2026-03-01"');
+    });
+
+    it('should fallback to legacy CPOD open-card query when Safe-Product field is unavailable', async () => {
+      const missingFieldError = new Error("Field 'Safe-Product' does not exist or you do not have permission to view it.");
+
+      jest.spyOn(service, 'getSafeProductFieldCandidates').mockReturnValue(['Safe-Product']);
+      jest.spyOn(service, 'discoverSafeProductField').mockResolvedValue(null);
+      jest.spyOn(service, 'makeRequest')
+        .mockRejectedValueOnce(missingFieldError)
+        .mockResolvedValueOnce({
+          issues: [{
+            key: 'TO-701',
+            fields: {
+              summary: 'Open-card fallback issue',
+              status: { name: 'IN PROGRESS' }
+            }
+          }]
+        });
+
+      const issues = await service.getOpenCardsForDateRange('2026-01-01', '2026-02-28');
+
+      expect(issues).toHaveLength(1);
+      expect(service.makeRequest).toHaveBeenCalledTimes(2);
+
+      const strictPayload = service.makeRequest.mock.calls[0][2];
+      expect(strictPayload.jql).toContain('"Safe-Product" in (Oasis, Passport)');
+
+      const fallbackPayload = service.makeRequest.mock.calls[1][2];
+      expect(fallbackPayload.jql).toContain('project = "ELM Tech Ops"');
+      expect(fallbackPayload.jql).toContain('"Engagement Reason" = Troubleshooting');
+      expect(fallbackPayload.jql).toContain('status in ("NEW","ANALYZE","PRE-REFINEMENT","RE-FINEMENT","REFINED","IN PROGRESS","CODE COMPLETE","TO VERIFY")');
+      expect(fallbackPayload.jql).toContain('created >= "2026-01-01"');
+      expect(fallbackPayload.jql).toContain('created <= "2026-02-28"');
+      expect(fallbackPayload.jql).not.toContain('Safe-Product');
+    });
+
+    it('should not invoke CPOD reopened-card date-range query in non-CPOD sprint metrics path', async () => {
+      jest.spyOn(service, 'getBugsForSprint').mockResolvedValue([
+        {
+          key: 'ELM-1001',
+          fields: {
+            summary: 'Passport team bug',
+            status: { name: 'Closed' },
+            priority: { name: 'Medium' },
+            created: '2026-03-01T10:00:00.000Z',
+            updated: '2026-03-02T10:00:00.000Z'
+          }
+        }
+      ]);
+      jest.spyOn(service, 'detectReopenedBug').mockResolvedValue({
+        reopened: false,
+        reopenCount: 0,
+        reopenHistory: []
+      });
+      const reopenedDateRangeSpy = jest.spyOn(service, 'getReopenedCardsForDateRange');
+
+      await service.calculateBugMetrics('pp-genesis', '26.1.1');
+
+      expect(reopenedDateRangeSpy).not.toHaveBeenCalled();
+    });
+  });
+
   describe('detectReopenedBug()', () => {
     it('should detect reopened bug', async () => {
       const mockChangelog = {

@@ -721,8 +721,38 @@ const initDatabase = () => {
   return db;
 };
 
-// Start server
-const PORT = 3000;
+// Start server — Azure App Service injects PORT env var (typically 8080)
+// Fallback to 3000 for local development
+const PORT = process.env.PORT || 3000;
+
+// --- Production static file serving setup ---
+// Serves the Vite frontend build (frontend/dist/) for non-API routes
+// Only active when dist/ exists (i.e., production Docker container)
+// In local development (no dist/ folder), this is completely inactive
+const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
+const SERVE_STATIC = fs.existsSync(frontendDistPath);
+if (SERVE_STATIC) {
+  console.log(`📂 Production mode: serving static files from ${frontendDistPath}`);
+}
+
+const STATIC_MIME_TYPES = {
+  '.html': 'text/html',
+  '.css': 'text/css',
+  '.js': 'application/javascript',
+  '.mjs': 'application/javascript',
+  '.json': 'application/json',
+  '.svg': 'image/svg+xml',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.gif': 'image/gif',
+  '.ico': 'image/x-icon',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf',
+  '.eot': 'application/vnd.ms-fontobject',
+  '.map': 'application/json',
+};
 
 const server = http.createServer(async (req, res) => {
   const parsedUrl = url.parse(req.url, true);
@@ -1737,6 +1767,41 @@ const server = http.createServer(async (req, res) => {
       res.end(JSON.stringify({ error: error.message }));
     }
     return;
+  }
+
+  // --- Production static file serving (only when frontend/dist/ exists) ---
+  if (SERVE_STATIC) {
+    // Try to serve the exact static file requested
+    const cleanPath = pathname.split('?')[0];
+    const staticFilePath = path.join(frontendDistPath, cleanPath);
+    const ext = path.extname(staticFilePath);
+    
+    // Security: prevent directory traversal
+    if (staticFilePath.startsWith(frontendDistPath)) {
+      // If it's a known static asset extension, try to serve it
+      if (ext && STATIC_MIME_TYPES[ext]) {
+        try {
+          if (fs.existsSync(staticFilePath)) {
+            const data = fs.readFileSync(staticFilePath);
+            res.writeHead(200, { 'Content-Type': STATIC_MIME_TYPES[ext] });
+            res.end(data);
+            return;
+          }
+        } catch (e) {
+          // Fall through to SPA fallback
+        }
+      }
+      
+      // SPA fallback: serve index-react.html for all non-file routes
+      // This allows React Router to handle client-side routing
+      const spaFallback = path.join(frontendDistPath, 'index-react.html');
+      if (fs.existsSync(spaFallback)) {
+        const data = fs.readFileSync(spaFallback);
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+        res.end(data);
+        return;
+      }
+    }
   }
 
   // 404

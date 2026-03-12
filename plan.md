@@ -3187,6 +3187,144 @@ For each component we port:
 
 ---
 
+---
+
+## 16. Azure Deployment Architecture (App Service + Bitbucket Pipelines)
+
+**Traceability:** `spec.md` Section 7 (Deployment & Hosting Requirements)
+
+### 16.1 Deployment Overview
+
+The production deployment model replaces the local Docker Compose setup (Section 11) with a single-container Azure App Service deployment, using Bitbucket Pipelines for CI/CD.
+
+```
+┌─────────────────────────────────────────────────────┐
+│  Bitbucket Repository (feature/t360latest → main)   │
+│                                                     │
+│  Push to main triggers Bitbucket Pipelines:         │
+│    1. npm install (frontend)                        │
+│    2. npm run build (Vite → dist/)                  │
+│    3. docker build (multi-stage)                    │
+│    4. docker push → Azure Container Registry (ACR)  │
+│    5. az webapp restart → Azure App Service          │
+└───────────────────┬─────────────────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────────────────┐
+│  Azure Container Registry (ACR)                     │
+│    polaris-dashboard:latest                          │
+│    polaris-dashboard:<commit-sha>                    │
+└───────────────────┬─────────────────────────────────┘
+                    │
+                    ▼
+┌─────────────────────────────────────────────────────┐
+│  Azure App Service (Linux, B2 tier)                 │
+│                                                     │
+│  ┌───────────────────────────────────────────────┐  │
+│  │  Docker Container (Node.js 18 Alpine)         │  │
+│  │                                               │  │
+│  │  backend/api-gateway/server.js                │  │
+│  │    ├── PORT = process.env.PORT (Azure: 8080)  │  │
+│  │    ├── /api/* → API route handlers            │  │
+│  │    └── /* → Static files (frontend/dist/)     │  │
+│  │                                               │  │
+│  │  Environment Variables (App Settings):        │  │
+│  │    JIRA_BASE_URL, JIRA_API_TOKEN,             │  │
+│  │    QTEST_BASE_URL, QTEST_API_TOKEN,           │  │
+│  │    MSSQL_SERVER, MSSQL_DATABASE,              │  │
+│  │    MSSQL_USER, MSSQL_PASSWORD                 │  │
+│  └───────────────────────────────────────────────┘  │
+│                                                     │
+│  Built-in: SSL, Custom Domains, Staging Slots       │
+└─────────────────────────────────────────────────────┘
+```
+
+### 16.2 Dockerfile Strategy (Multi-Stage Build)
+
+**Stage 1 — Build Frontend:**
+- Base: `node:18-alpine`
+- Working directory: `/app/frontend`
+- Install dependencies: `npm ci`
+- Build: `npm run build` → produces `dist/` folder
+- Output: Static HTML/CSS/JS in `dist/`
+
+**Stage 2 — Production Runtime:**
+- Base: `node:18-alpine`
+- Working directory: `/app`
+- Copy `backend/api-gateway/` → `/app/backend/api-gateway/`
+- Install backend dependencies: `npm ci --production`
+- Copy frontend `dist/` → `/app/frontend/dist/`
+- Expose: `PORT` (dynamic, Azure provides)
+- Entrypoint: `node backend/api-gateway/server.js`
+
+**Why Multi-Stage:**
+- Build tools (Vite, React dev deps) excluded from production image
+- Final image size: ~150MB (vs ~600MB single-stage)
+- Security: no dev dependencies in production
+
+### 16.3 Backend Static File Serving
+
+The backend `server.js` requires a small, non-breaking addition to serve frontend static files in production:
+
+```javascript
+// After all /api/* route handlers, before the 404 handler:
+// --- Production static file serving ---
+const frontendDistPath = path.resolve(__dirname, '../../frontend/dist');
+if (fs.existsSync(frontendDistPath)) {
+  // Serve static assets (JS, CSS, images)
+  // For non-API routes, serve index-react.html (SPA fallback)
+}
+```
+
+**Key Principle:** This change is **additive only** — no existing API routes or logic are modified. The static serving is a fallback that only activates when:
+1. The request does NOT match any `/api/*` route
+2. The `frontend/dist/` directory exists (production only)
+
+In local development (no `dist/` folder), behavior is 100% unchanged.
+
+### 16.4 Bitbucket Pipelines CI/CD
+
+**Pipeline Stages:**
+1. **Build** (on every push to `main`):
+   - Login to Azure Container Registry
+   - Build Docker image with commit SHA tag
+   - Push image to ACR (both `:latest` and `:<sha>`)
+2. **Deploy** (after successful build):
+   - Update App Service container image reference
+   - Restart App Service
+
+**Required Bitbucket Repository Variables (Secrets):**
+| Variable | Description |
+|----------|-------------|
+| `AZURE_ACR_LOGIN_SERVER` | ACR login server (e.g., `polarisacr.azurecr.io`) |
+| `AZURE_ACR_USERNAME` | ACR admin username |
+| `AZURE_ACR_PASSWORD` | ACR admin password |
+| `AZURE_APP_ID` | Azure Service Principal App ID |
+| `AZURE_PASSWORD` | Azure Service Principal Password |
+| `AZURE_TENANT_ID` | Azure AD Tenant ID |
+| `AZURE_RESOURCE_GROUP` | Resource Group name |
+| `AZURE_APP_NAME` | App Service name |
+
+### 16.5 Azure Resource Provisioning
+
+**Resources Required:**
+| Resource | SKU | Est. Cost/Month |
+|----------|-----|-----------------|
+| App Service Plan | B2 (Linux) | $30–55 |
+| Container Registry | Basic | $5 |
+| **Total** | | **$35–60** |
+
+**App Service Application Settings (Environment Variables):**
+All sensitive configuration is set in Azure Portal → App Service → Configuration → Application Settings. These are injected into the container as environment variables at runtime.
+
+### 16.6 Rollback Strategy
+
+- ACR retains tagged images (`:<commit-sha>`)
+- Rollback: Update App Service to point to previous image tag
+- Staging slots allow blue-green deployment (swap production ↔ staging)
+
+---
+
 ## Next Steps
 
 1. **Review & Approve Plan** ✅ (User review)

@@ -2520,10 +2520,61 @@ Display: "74.3" with Yellow color (70-89% range)
 
 ---
 
+## 7. Deployment & Hosting Requirements
+
+### 7.1 Deployment Model
+
+**Requirement:** The Polaris Dashboard must be hosted on **Azure App Service (Linux)** as a single containerized deployment unit, with automated CI/CD from Bitbucket Pipelines.
+
+**Architecture:**
+```
+Bitbucket Repo (feature/t360latest)
+    │
+    ▼ (Bitbucket Pipelines CI/CD)
+    Build & Push Docker Image → Azure Container Registry (ACR)
+    │
+    ▼
+Azure App Service (Linux, B2 tier)
+    ├── Vite static build served by Node.js backend
+    └── Node.js backend (API routes on same process)
+```
+
+### 7.2 Functional Requirements
+
+- **FR-DEPLOY-1**: The application must be packaged as a single Docker container containing both the Vite frontend build output and the Node.js backend server.
+- **FR-DEPLOY-2**: The backend server must serve the Vite `dist/` static files for all non-API routes, eliminating the need for a separate frontend server.
+- **FR-DEPLOY-3**: The backend must listen on `process.env.PORT` (Azure-injected) with a fallback to port `3000` for local development.
+- **FR-DEPLOY-4**: Environment variables (Jira tokens, SQL Server connection strings, qTest tokens) must be configured via Azure App Service Application Settings, not hardcoded.
+- **FR-DEPLOY-5**: The Docker image must be pushed to Azure Container Registry (ACR) and pulled by Azure App Service on deployment.
+- **FR-DEPLOY-6**: Bitbucket Pipelines must auto-build and deploy on every push to `main` branch.
+- **FR-DEPLOY-7**: Existing dashboard functionality (all API routes, all frontend views, CORS, caching) must remain fully operational after containerization.
+
+### 7.3 Non-Functional Requirements
+
+- **NFR-DEPLOY-1 Availability**: 99.5% uptime during business hours (8am–6pm EST), leveraging Azure App Service SLA.
+- **NFR-DEPLOY-2 SSL**: Built-in SSL via Azure App Service managed certificates.
+- **NFR-DEPLOY-3 Startup**: Container must start and pass health check within 60 seconds.
+- **NFR-DEPLOY-4 Cost**: Monthly cost target ≤ $60 (App Service B2 ~$30–55 + ACR Basic ~$5).
+- **NFR-DEPLOY-5 Zero-Downtime**: Support staging slots for zero-downtime deployments.
+- **NFR-DEPLOY-6 Rollback**: Previous container image must be retainable in ACR for quick rollback.
+
+### 7.4 Acceptance Criteria
+
+- [ ] Docker image builds successfully with `docker build` containing both frontend `dist/` and backend
+- [ ] Container starts on Azure-injected `PORT` and serves both API and static frontend
+- [ ] All existing API endpoints (`/api/products`, `/api/teams`, `/api/metrics`, `/api/bugs/*`, `/api/tad-ts/*`, etc.) respond correctly from the container
+- [ ] Frontend dashboard loads from the container without a separate frontend server
+- [ ] Bitbucket Pipelines YAML triggers build and deploy on push to `main`
+- [ ] Azure App Service pulls the image from ACR and runs it successfully
+- [ ] Environment variables are read from Azure Application Settings (not hardcoded)
+- [ ] No regression in any existing dashboard functionality
+
+---
+
 **End of Specification**
 
 **Document Status**: Draft v1.0  
-**Last Updated**: February 20, 2026  
+**Last Updated**: March 12, 2026  
 **Next Steps**: 
 1. Stakeholder review and approval
 2. Create implementation plan (`/speckit.plan`)

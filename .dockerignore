@@ -1,0 +1,62 @@
+# ============================================================
+# Polaris Dashboard — Docker Ignore
+# ============================================================
+# Traceability:
+#   tasks.md TASK-DEPLOY-002
+# ============================================================
+
+# Version control
+.git
+.gitignore
+
+# Node modules (rebuilt inside container)
+**/node_modules
+
+# Frontend build output (rebuilt in Stage 1)
+frontend/dist
+
+# Test files
+tests/
+**/*.test.js
+**/*.test.ts
+**/*.spec.js
+**/*.spec.ts
+playwright.config.ts
+playwright-report/
+test-results/
+
+# Documentation
+*.md
+!backend/api-gateway/package.json
+.github/
+specs/
+
+# IDE / Editor config
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Environment files (secrets — configured via Azure App Settings)
+.env
+.env.*
+!.env.example
+
+# PowerShell scripts (dev-only)
+*.ps1
+
+# Miscellaneous dev files
+pr-result.txt
+database/
+*.sql
+.specify/
+.claude/
+
+# Cache directories
+**/.passport-qtest-cache

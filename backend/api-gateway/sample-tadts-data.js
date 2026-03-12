@@ -166,6 +166,89 @@ export function getSprintDefectsData(sprintName) {
     modules.push({ module: 'Legacy Modules', defects: statusClosed, severity: 'low', status: 'closed' });
   }
 
+  // Build mock teams data with individual bug entries
+  // This matches the live Jira API response shape expected by the frontend
+  const mockTeamNames = ['Vanguards', 'Athena', 'Nexus', 'Chubb', 'Chargers', 'Matrix', 'Mavericks'];
+  const mockPriorities = ['Critical', 'High', 'Medium', 'Low'];
+  const mockStatuses = { open: 'Open', inProgress: 'In Progress', closed: 'Closed' };
+  const teams = {};
+  let bugIndex = 1;
+
+  // Distribute defects across teams proportionally
+  let openRemaining = statusOpen;
+  let inProgressRemaining = inProgress;
+  let closedRemaining = statusClosed;
+  let criticalRemaining = critical;
+  let highRemaining = high;
+
+  for (const teamName of mockTeamNames) {
+    const teamBugs = [];
+    // Assign open bugs
+    const teamOpenCount = Math.min(openRemaining, Math.ceil(statusOpen / mockTeamNames.length));
+    for (let i = 0; i < teamOpenCount && openRemaining > 0; i++) {
+      let priority = 'Medium';
+      if (criticalRemaining > 0) { priority = 'Critical'; criticalRemaining--; }
+      else if (highRemaining > 0) { priority = 'High'; highRemaining--; }
+      teamBugs.push({
+        key: `MOCK-${sprintNum}${String(bugIndex++).padStart(3, '0')}`,
+        summary: `[Mock] ${teamName} - Open defect in ${moduleNames[bugIndex % moduleNames.length]}`,
+        status: 'Open',
+        priority,
+        created: new Date(Date.now() - (bugIndex * 86400000)).toISOString(),
+        updated: new Date(Date.now() - (bugIndex * 3600000)).toISOString(),
+        isOpen: true,
+        reopened: false,
+        reopenCount: 0
+      });
+      openRemaining--;
+    }
+    // Assign in-progress bugs
+    const teamInProgCount = Math.min(inProgressRemaining, Math.ceil(inProgress / mockTeamNames.length));
+    for (let i = 0; i < teamInProgCount && inProgressRemaining > 0; i++) {
+      teamBugs.push({
+        key: `MOCK-${sprintNum}${String(bugIndex++).padStart(3, '0')}`,
+        summary: `[Mock] ${teamName} - In-progress fix for ${moduleNames[bugIndex % moduleNames.length]}`,
+        status: 'In Progress',
+        priority: 'Medium',
+        created: new Date(Date.now() - (bugIndex * 86400000)).toISOString(),
+        updated: new Date(Date.now() - (bugIndex * 3600000)).toISOString(),
+        isOpen: true,
+        reopened: false,
+        reopenCount: 0
+      });
+      inProgressRemaining--;
+    }
+    // Assign closed bugs
+    const teamClosedCount = Math.min(closedRemaining, Math.ceil(statusClosed / mockTeamNames.length));
+    for (let i = 0; i < teamClosedCount && closedRemaining > 0; i++) {
+      const isReopened = bugIndex % 7 === 0; // ~1 in 7 bugs was reopened
+      teamBugs.push({
+        key: `MOCK-${sprintNum}${String(bugIndex++).padStart(3, '0')}`,
+        summary: `[Mock] ${teamName} - Resolved issue in ${moduleNames[bugIndex % moduleNames.length]}`,
+        status: 'Closed',
+        priority: 'Low',
+        created: new Date(Date.now() - (bugIndex * 86400000 * 2)).toISOString(),
+        updated: new Date(Date.now() - (bugIndex * 3600000)).toISOString(),
+        isOpen: false,
+        reopened: isReopened,
+        reopenCount: isReopened ? 1 : 0
+      });
+      closedRemaining--;
+    }
+
+    if (teamBugs.length > 0) {
+      const teamOpen = teamBugs.filter(b => b.isOpen).length;
+      const teamClosed = teamBugs.filter(b => !b.isOpen).length;
+      teams[teamName] = {
+        open: teamOpen,
+        closed: teamClosed,
+        total: teamBugs.length,
+        reopened: teamBugs.filter(b => b.reopened).length,
+        bugs: teamBugs
+      };
+    }
+  }
+
   return {
     sprint: sprintName,
     totals: {
@@ -186,7 +269,8 @@ export function getSprintDefectsData(sprintName) {
       open: statusOpen,          // items in "Open" status
       'in-progress': inProgress, // items in "In Progress" status
       closed: statusClosed       // items in "Closed/Resolved" status
-    }
+    },
+    teams: teams
   };
 }
 

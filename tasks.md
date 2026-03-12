@@ -5096,5 +5096,119 @@ Removed all `.md` files that are not part of the speckit documentation framework
 
 ---
 
+## 🔄 Update (March 12, 2026)
+
+### Azure Deployment — Containerization & CI/CD
+
+---
+
+### TASK-DEPLOY-001: Create Dockerfile (Multi-Stage Build) 🟡
+
+**Category:** DevOps  
+**Estimate:** S (3–4 hours)  
+**Status:** ✅ Complete  
+**Dependencies:** None  
+**Phase:** 4 - Deployment  
+**Traceability:**  
+  - Spec: Section 7.2 (FR-DEPLOY-1, FR-DEPLOY-2, FR-DEPLOY-5)  
+  - Plan: Section 16.2 (Dockerfile Strategy)  
+
+**Description:**  
+Create a multi-stage Dockerfile at the project root that builds the Vite frontend in Stage 1 and packages the Node.js backend + frontend `dist/` in a lightweight production image (Stage 2). The final image uses `node:18-alpine` and runs `backend/api-gateway/server.js` as the entrypoint.
+
+**Acceptance Criteria:**  
+- [x] Dockerfile uses multi-stage build (build stage + production stage)  
+- [x] Stage 1 builds Vite frontend → `dist/` output  
+- [x] Stage 2 copies backend + `dist/` into slim Node.js Alpine image  
+- [x] Only production dependencies included in final image (`npm ci --production`)  
+- [x] Entrypoint is `node backend/api-gateway/server.js`  
+- [x] Image builds successfully with `docker build .`  
+- [x] No existing files overwritten  
+
+**Files Created:**  
+- `Dockerfile`  
+
+---
+
+### TASK-DEPLOY-002: Create .dockerignore 🟡
+
+**Category:** DevOps  
+**Estimate:** XS (30 minutes)  
+**Status:** ✅ Complete  
+**Dependencies:** TASK-DEPLOY-001  
+**Phase:** 4 - Deployment  
+**Traceability:**  
+  - Spec: Section 7.2 (FR-DEPLOY-1)  
+  - Plan: Section 16.2 (Dockerfile Strategy)  
+
+**Description:**  
+Create a `.dockerignore` file at the project root to exclude unnecessary files from the Docker build context (node_modules, .git, test files, docs, etc.), reducing build time and image size.
+
+**Acceptance Criteria:**  
+- [x] Excludes `node_modules/`, `.git/`, test files, documentation  
+- [x] Excludes IDE/editor config files  
+- [x] Build context is minimal and clean  
+- [x] No existing files overwritten  
+
+**Files Created:**  
+- `.dockerignore`  
+
+---
+
+### TASK-DEPLOY-003: Create Bitbucket Pipelines CI/CD Configuration 🟡
+
+**Category:** DevOps  
+**Estimate:** M (1 day)  
+**Status:** ✅ Complete  
+**Dependencies:** TASK-DEPLOY-001, TASK-DEPLOY-002  
+**Phase:** 4 - Deployment  
+**Traceability:**  
+  - Spec: Section 7.2 (FR-DEPLOY-5, FR-DEPLOY-6), Section 7.3 (NFR-DEPLOY-5)  
+  - Plan: Section 16.4 (Bitbucket Pipelines CI/CD)  
+
+**Description:**  
+Create `bitbucket-pipelines.yml` at the project root to automate Docker image build, push to Azure Container Registry (ACR), and deploy to Azure App Service on every push to `main`. Includes commit SHA tagging for rollback support.
+
+**Acceptance Criteria:**  
+- [x] Pipeline triggers on push to `main` branch  
+- [x] Builds Docker image with commit SHA tag  
+- [x] Pushes image to ACR (both `:latest` and `:<sha>`)  
+- [x] Deploys to Azure App Service via Azure CLI  
+- [x] Uses Bitbucket repository variables for secrets (no hardcoded credentials)  
+- [x] No existing files overwritten  
+
+**Files Created:**  
+- `bitbucket-pipelines.yml`  
+
+---
+
+### TASK-DEPLOY-004: Backend Static File Serving for Production 🟡
+
+**Category:** Backend  
+**Estimate:** S (3–4 hours)  
+**Status:** ✅ Complete  
+**Dependencies:** TASK-DEPLOY-001  
+**Phase:** 4 - Deployment  
+**Traceability:**  
+  - Spec: Section 7.2 (FR-DEPLOY-2, FR-DEPLOY-3, FR-DEPLOY-7)  
+  - Plan: Section 16.3 (Backend Static File Serving)  
+
+**Description:**  
+Add static file serving to `backend/api-gateway/server.js` so the backend serves the Vite `dist/` folder for non-API routes in production. Also update the PORT to use `process.env.PORT` (Azure-injected) with fallback to `3000`. This is an **additive-only** change — no existing API routes or logic are modified.
+
+**Acceptance Criteria:**  
+- [x] Backend listens on `process.env.PORT || 3000`  
+- [x] Non-API requests are served from `frontend/dist/` when that directory exists  
+- [x] Static assets (JS, CSS, images, SVG) served with correct MIME types  
+- [x] SPA fallback: non-matching routes serve `index-react.html`  
+- [x] When `frontend/dist/` does not exist (local dev), behavior is 100% unchanged  
+- [x] All existing API endpoints remain fully functional  
+- [x] No regression in any existing dashboard functionality  
+
+**Files Modified:**  
+- `backend/api-gateway/server.js` (additive changes only)  
+
+---
+
 **Next Phase:** Phase 3 - Expand to T360/Passport/Collaboration Portal teams + auto-refresh + background jobs
 

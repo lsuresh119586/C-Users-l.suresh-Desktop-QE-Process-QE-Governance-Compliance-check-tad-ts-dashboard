@@ -1,0 +1,95 @@
+# ============================================================
+# Polaris ELM Metrics Dashboard — Bitbucket Pipelines CI/CD
+# ============================================================
+# Traceability:
+#   spec.md  Section 7.2 (FR-DEPLOY-5, FR-DEPLOY-6)
+#   plan.md  Section 16.4 (Bitbucket Pipelines CI/CD)
+#   tasks.md TASK-DEPLOY-003
+#
+# Required Repository Variables (set in Bitbucket → Settings → Repository Variables):
+#   AZURE_ACR_LOGIN_SERVER  — ACR login server (e.g., polarisacr.azurecr.io)
+#   AZURE_ACR_USERNAME      — ACR admin username
+#   AZURE_ACR_PASSWORD      — ACR admin password (secured)
+#   AZURE_APP_ID            — Azure Service Principal App ID
+#   AZURE_PASSWORD          — Azure Service Principal Password (secured)
+#   AZURE_TENANT_ID         — Azure AD Tenant ID
+#   AZURE_RESOURCE_GROUP    — Resource Group name
+#   AZURE_APP_NAME          — App Service name
+# ============================================================
+
+image: atlassian/default-image:4
+
+options:
+  docker: true
+  size: 2x  # Use larger runner for Docker builds
+
+pipelines:
+  # -------------------------------------------------------
+  # Auto-deploy on push to main
+  # -------------------------------------------------------
+  branches:
+    main:
+      - step:
+          name: Build & Push Docker Image to ACR
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            # Login to Azure Container Registry
+            - echo "$AZURE_ACR_PASSWORD" | docker login "$AZURE_ACR_LOGIN_SERVER" -u "$AZURE_ACR_USERNAME" --password-stdin
+
+            # Build Docker image with commit SHA and latest tags
+            - export IMAGE_TAG="${AZURE_ACR_LOGIN_SERVER}/polaris-dashboard"
+            - docker build -t "${IMAGE_TAG}:${BITBUCKET_COMMIT}" -t "${IMAGE_TAG}:latest" .
+
+            # Push both tags to ACR
+            - docker push "${IMAGE_TAG}:${BITBUCKET_COMMIT}"
+            - docker push "${IMAGE_TAG}:latest"
+
+            - echo "✅ Image pushed — ${IMAGE_TAG}:${BITBUCKET_COMMIT}"
+
+      - step:
+          name: Deploy to Azure App Service
+          deployment: production
+          script:
+            # Install Azure CLI
+            - curl -sL https://aka.ms/InstallAzureCLIDeb | bash
+
+            # Login to Azure with Service Principal
+            - az login --service-principal -u "$AZURE_APP_ID" -p "$AZURE_PASSWORD" --tenant "$AZURE_TENANT_ID"
+
+            # Set the container image for the App Service
+            - export IMAGE_TAG="${AZURE_ACR_LOGIN_SERVER}/polaris-dashboard:${BITBUCKET_COMMIT}"
+            - az webapp config container set
+                --name "$AZURE_APP_NAME"
+                --resource-group "$AZURE_RESOURCE_GROUP"
+                --container-image-name "$IMAGE_TAG"
+                --container-registry-url "https://${AZURE_ACR_LOGIN_SERVER}"
+                --container-registry-user "$AZURE_ACR_USERNAME"
+                --container-registry-password "$AZURE_ACR_PASSWORD"
+
+            # Restart the App Service to pick up the new image
+            - az webapp restart --name "$AZURE_APP_NAME" --resource-group "$AZURE_RESOURCE_GROUP"
+
+            - echo "✅ Deployed ${IMAGE_TAG} to Azure App Service ($AZURE_APP_NAME)"
+
+  # -------------------------------------------------------
+  # Manual deploy for feature branches (optional)
+  # -------------------------------------------------------
+  custom:
+    deploy-to-staging:
+      - step:
+          name: Build & Deploy to Staging
+          services:
+            - docker
+          caches:
+            - docker
+          script:
+            - echo "$AZURE_ACR_PASSWORD" | docker login "$AZURE_ACR_LOGIN_SERVER" -u "$AZURE_ACR_USERNAME" --password-stdin
+            - export IMAGE_TAG="${AZURE_ACR_LOGIN_SERVER}/polaris-dashboard"
+            - docker build -t "${IMAGE_TAG}:staging-${BITBUCKET_COMMIT}" .
+            - docker push "${IMAGE_TAG}:staging-${BITBUCKET_COMMIT}"
+            - echo "✅ Staging image pushed — ${IMAGE_TAG}:staging-${BITBUCKET_COMMIT}"
+            - echo "To deploy to a staging slot, use Azure Portal or run:"
+            - echo "  az webapp config container set --name $AZURE_APP_NAME --resource-group $AZURE_RESOURCE_GROUP --slot staging --container-image-name ${IMAGE_TAG}:staging-${BITBUCKET_COMMIT}"

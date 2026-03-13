@@ -160,8 +160,9 @@ const PLAYWRIGHT_YAML_PATTERNS = [
  * definition detail to get process.yamlFilename and repository.id.
  * 
  * YAML files may live on a team branch (e.g. Spartacles, Genesis) rather than
- * the default branch (master). When the default-branch fetch fails with a
- * GitItemNotFoundException, we retry on the pipeline's configured default branch.
+ * the repo default branch (master). When the default-branch fetch fails with a
+ * GitItemNotFoundException, we discover the pipeline's actual source branch by
+ * fetching its most recent build's sourceBranch, then retry on that branch.
  * 
  * Returns true if the YAML references Playwright, false otherwise.
  */
@@ -172,7 +173,6 @@ async function detectPlaywrightFromYaml(definition) {
     // Step 1: Fetch full definition detail (list API doesn't include process/repository)
     let yamlFilename = definition.process?.yamlFilename;
     let repoId = definition.repository?.id;
-    let defaultBranch = definition.repository?.defaultBranch; // e.g. "refs/heads/Spartacles"
 
     if (!yamlFilename || !repoId) {
       const detailUrl = `/${org}/${project}/_apis/build/definitions/${definition.id}?api-version=${apiVersion}`;
@@ -180,47 +180,47 @@ async function detectPlaywrightFromYaml(definition) {
       const fullDef = detailResult.body;
       yamlFilename = fullDef?.process?.yamlFilename;
       repoId = fullDef?.repository?.id;
-      defaultBranch = fullDef?.repository?.defaultBranch;
     }
 
     if (!yamlFilename || !repoId) return false;
 
     console.log(`     Checking YAML: ${yamlFilename} in repo ${repoId} for pipeline "${definition.name}"`);
 
-    // Step 2: Fetch the YAML file content from the repo
-    //   Try default (no branch specified) first, then fall back to the pipeline's
-    //   configured branch if the file doesn't exist on the repo default branch.
+    // Step 2: Try fetching YAML from repo default branch first
     const encodedPath = encodeURIComponent(yamlFilename);
-    const branches = [null]; // null = repo default branch
-    if (defaultBranch) {
-      // Extract branch name from "refs/heads/Spartacles" → "Spartacles"
-      const branchName = defaultBranch.replace('refs/heads/', '');
-      if (branchName && branchName !== 'master' && branchName !== 'main') {
-        branches.push(branchName);
+    try {
+      const apiUrl = `/${org}/${project}/_apis/git/repositories/${repoId}/items?path=${encodedPath}&includeContent=true&api-version=${apiVersion}`;
+      const result = await azureGet(apiUrl);
+      const content = typeof result.body === 'string' ? result.body : (result.body?.content || JSON.stringify(result.body));
+      return PLAYWRIGHT_YAML_PATTERNS.some(p => p.test(content));
+    } catch (defaultBranchErr) {
+      // If file not found on default branch, try the pipeline's actual source branch
+      if (!defaultBranchErr.message.includes('TF401174') && !defaultBranchErr.message.includes('404')) {
+        throw defaultBranchErr;
       }
     }
 
-    for (const branch of branches) {
-      try {
-        let apiUrl = `/${org}/${project}/_apis/git/repositories/${repoId}/items?path=${encodedPath}&includeContent=true&api-version=${apiVersion}`;
-        if (branch) {
-          apiUrl += `&versionDescriptor.version=${encodeURIComponent(branch)}&versionDescriptor.versionType=branch`;
+    // Step 3: YAML not on default branch — discover the actual source branch
+    //   from the most recent build for this pipeline definition
+    console.log(`       YAML not on default branch, checking most recent build for source branch...`);
+    try {
+      const buildsUrl = `/${org}/${project}/_apis/build/builds?definitions=${definition.id}&$top=1&api-version=${apiVersion}`;
+      const buildsResult = await azureGet(buildsUrl);
+      const recentBuild = (buildsResult.body.value || [])[0];
+      if (recentBuild?.sourceBranch) {
+        const sourceBranch = recentBuild.sourceBranch.replace('refs/heads/', '');
+        if (sourceBranch && sourceBranch !== 'master' && sourceBranch !== 'main') {
+          console.log(`       Retrying YAML fetch on branch "${sourceBranch}"...`);
+          const branchUrl = `/${org}/${project}/_apis/git/repositories/${repoId}/items?path=${encodedPath}&includeContent=true&versionDescriptor.version=${encodeURIComponent(sourceBranch)}&versionDescriptor.versionType=branch&api-version=${apiVersion}`;
+          const branchResult = await azureGet(branchUrl);
+          const content = typeof branchResult.body === 'string' ? branchResult.body : (branchResult.body?.content || JSON.stringify(branchResult.body));
+          const found = PLAYWRIGHT_YAML_PATTERNS.some(p => p.test(content));
+          console.log(`       (fetched from branch "${sourceBranch}" → Playwright: ${found})`);
+          return found;
         }
-        const result = await azureGet(apiUrl);
-        const content = typeof result.body === 'string' ? result.body : (result.body?.content || JSON.stringify(result.body));
-        const found = PLAYWRIGHT_YAML_PATTERNS.some(p => p.test(content));
-        if (branch) console.log(`       (fetched from branch "${branch}")`);
-        return found;
-      } catch (branchErr) {
-        // If file not found on this branch, try next
-        if (branchErr.message.includes('TF401174') || branchErr.message.includes('404')) {
-          if (branch) {
-            console.log(`       ⚠️ YAML not found on branch "${branch}" either`);
-          }
-          continue;
-        }
-        throw branchErr; // re-throw unexpected errors
       }
+    } catch (branchErr) {
+      console.log(`       ⚠️ Branch-aware YAML fetch failed: ${branchErr.message}`);
     }
 
     console.log(`     ⚠️ YAML file "${yamlFilename}" not found on any branch for "${definition.name}"`);

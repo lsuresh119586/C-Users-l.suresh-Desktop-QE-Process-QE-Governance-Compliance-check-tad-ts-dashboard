@@ -47,7 +47,17 @@
 23. **Subfolder log** — Log count of pipelines included via subfolder detection for visibility.
 24. **Branch-aware YAML fetch** — When YAML file doesn't exist on repo default branch (master), read `repository.defaultBranch` from the full definition and retry on the pipeline's configured branch (e.g. `Spartacles`, `Genesis`). Fixes `Bulk_Reassign` and similar team-branch pipelines.
 
-## Phase 8: Validation
+## Phase 8: Sprint-Aware Pipeline Tile (JIRA Sprint Dates)
+
+25. **JIRA Sprint Date Service** — New `jira-sprint-dates.js`: fetches sprint start/end dates from JIRA Agile REST API (`GET /rest/agile/1.0/board/{boardId}/sprint`). Board IDs: Genesis 5414, Pioneers 5812, Spartacles 7916. Cached 30 min.
+26. **Pipeline folderPath** — Add `folderPath` field to `mapBuild()` output in `azure-pipeline.integration.js`, pass `d.path` through `fetchBuildsForPipeline()`.
+27. **Team-folder mapping** — `TEAM_FOLDER_PATTERNS`: `pp-spartacles → /spartacles/i`, `pp-genesis → /genesis/i`, `pp-pioneers → /pioneers/i`.
+28. **API routes** — `GET /api/sprint-dates/:teamId/:sprintId`, `GET /api/sprint-dates/:teamId`, `GET /api/team-folder-patterns` in `server.js`.
+29. **Frontend state** — Add `sprintDatesCache`, `teamFolderPatterns` to state. Call `fetchSprintDatesForTile()` on team/sprint change.
+30. **Tile logic** — `getAzureTileMetrics()` uses sprint dates + team folder filter when available; falls back to 30-day window. Tile hint: "Sprint 26.1.3 · Click →" or "Last 30 days · Click →".
+31. **Board IDs** — Update `jiraBugService.js` Passport team `boardId` from `null` to actual values.
+
+## Phase 9: Validation
 
 22. Test: Select Passport → 8th tile appears with value
 23. Test: Select DnA/T360 → tile NOT shown
@@ -61,3 +71,6 @@
 31. Test: Main tile % updates when date range is changed in drill-down
 32. Test: Subfolder pipelines (Genesis: edocs, imanage, spol) appear in results after sync
 33. Test: Playwright category — verify Passport/CP pipelines using Playwright appear under "Playwright" in By Category tab
+34. Test: Select Spartacles + Sprint 26.1.3 → tile shows success rate for runs during Jan 28–Feb 11 in Spartacles folders only
+35. Test: Select Genesis + Sprint 26.1.1 → tile filters to Genesis folders during Dec 31–Jan 14
+36. Test: Sprint dates fetched from JIRA, tile hint shows "Sprint 26.1.X · Click →"

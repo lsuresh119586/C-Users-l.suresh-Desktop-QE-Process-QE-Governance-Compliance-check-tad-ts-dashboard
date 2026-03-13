@@ -135,3 +135,25 @@ All changes are in **`frontend/index.html`** only.
 - [x] 12.2 In `detectPlaywrightFromYaml()`, after fetching full definition detail, also capture `repository.defaultBranch` (e.g. `refs/heads/Spartacles`)
 - [x] 12.3 When the default-branch YAML fetch fails with `TF401174`/`404`, retry with `versionDescriptor.version={branch}&versionDescriptor.versionType=branch` using the pipeline's configured branch
 - [x] 12.4 Verify: `Bulk_Reassign` YAML fetched from `Spartacles` branch contains `pool: name: 'Playwright'` and `Run_Spatacles_Playwright` → now categorized as Playwright
+
+## Task 13: Sprint-Aware Azure Pipeline Tile (JIRA Sprint Dates)
+
+- [x] 13.1 **New file**: `backend/api-gateway/jira-sprint-dates.js` — JIRA Sprint Date Service
+  - Fetches sprint dates from JIRA Agile REST API: `GET /rest/agile/1.0/board/{boardId}/sprint`
+  - Board IDs: PP Genesis → 5414, PP Pioneers → 5812, PP Spartacles → 7916
+  - Sprint name pattern: `Passport {TeamName}-{sprintNumber}` (e.g., `Passport Spartacles-26.1.3`)
+  - Exports: `getSprintDates(teamId, sprintId)`, `getAllSprintDates(teamId)`, `TEAM_FOLDER_PATTERNS`, `PASSPORT_BOARDS`
+  - In-memory cache with 30 min TTL
+- [x] 13.2 **`azure-pipeline.integration.js`**: Add `folderPath` field to `mapBuild()` output; pass `d.path` through `fetchBuildsForPipeline()`
+- [x] 13.3 **`server.js`**: Add 3 new API routes:
+  - `GET /api/sprint-dates/:teamId/:sprintId` — returns `{ startDate, endDate, name, state }`
+  - `GET /api/sprint-dates/:teamId` — returns all sprints with dates
+  - `GET /api/team-folder-patterns` — returns team-to-regex mapping
+- [x] 13.4 **`frontend/index.html`**: Add `sprintDatesCache` and `teamFolderPatterns` to state
+- [x] 13.5 **`frontend/index.html`**: Update `aggregateAzureMetrics()` to accept optional `teamId` param; filter runs by `folderPath` regex when team specified
+- [x] 13.6 **`frontend/index.html`**: Add `getAzureTileMetrics()` function — uses sprint dates + team filter when available, falls back to 30-day window
+- [x] 13.7 **`frontend/index.html`**: Add `fetchSprintDatesForTile()` function — fetches sprint dates from `/api/sprint-dates/:teamId/:sprintId`, caches in state, triggers re-render
+- [x] 13.8 **`frontend/index.html`**: Call `fetchSprintDatesForTile()` on team/sprint change (4 locations: initial auto-select, product change, team change handler, sprint dropdown change)
+- [x] 13.9 **`frontend/index.html`**: Update tile to use `getAzureTileMetrics()` and show "Sprint 26.1.3 · Click →" hint when sprint-filtered
+- [x] 13.10 **`jiraBugService.js`**: Updated Passport team `boardId` values from `null` to actual board IDs (5414, 5812, 7916)
+- [x] 13.11 **`frontend/index.html`**: Add `loadAzurePipelineData()` call in `loadProducts()` to load pipeline data on page init

@@ -111,14 +111,35 @@ When `state.currentView === 'azurePipelines'`:
 - **Fix**: In `fetchPipelineRuns()`, changed the filter logic: pipelines in **subfolders** of the configured folder path are always included (they are purposely organized into test-category folders). Only pipelines at the **root** level of the configured path still use the name-based `isTestingPipeline()` check to exclude non-testing items like "PPOD Train Release" and "demo-delete later"
 - **Detection logic**: `d.path !== folderPath` → subfolder → auto-include; `d.path === folderPath` → root → use name check
 
+### 3.10 Sprint-Aware Azure Pipeline Tile
+- **Requirement**: When user selects a team (e.g., pp-spartacles) and sprint (e.g., 26.1.3), the Azure Pipeline tile shows the success rate for pipelines executed **during that sprint's date window** AND matching **that team's Azure DevOps folder path**
+- **Sprint dates source**: Fetched dynamically from **JIRA Agile REST API** (`GET /rest/agile/1.0/board/{boardId}/sprint`) — not hardcoded
+- **Board IDs**: PP Genesis → 5414, PP Pioneers → 5812, PP Spartacles → 7916
+- **Sprint name pattern**: `Passport {TeamName}-{sprintNumber}` (e.g., `Passport Spartacles-26.1.3`)
+- **Team-to-folder mapping**: Azure pipeline runs have a new `folderPath` field from `d.path`; filtering uses regex patterns:
+  - `pp-spartacles` → `/spartacles/i`
+  - `pp-genesis` → `/genesis/i`
+  - `pp-pioneers` → `/pioneers/i`
+- **Cache**: Sprint dates cached in-memory (30 min TTL) to avoid repeated JIRA calls
+- **Tile hint text**: Shows "Sprint 26.1.3 · Click →" when sprint-filtered, or "Last 30 days · Click →" as fallback
+- **Fallback**: If no team/sprint selected, or JIRA call fails, falls back to the existing 30-day date window filter
+- **New files**: `backend/api-gateway/jira-sprint-dates.js` — JIRA Sprint Date Service
+- **New API routes**:
+  - `GET /api/sprint-dates/:teamId/:sprintId` — single sprint dates
+  - `GET /api/sprint-dates/:teamId` — all sprint dates for a team
+  - `GET /api/team-folder-patterns` — team-to-folder regex mapping
+
 ---
 
 ## 4. Files Modified
 
 | File | Change |
 |---|---|
-| `frontend/index.html` | Add tile HTML in `render()`, add `azurePipelines` view, add CSS for 8th card + drill-down, add JS functions |
-| `backend/api-gateway/azure-pipeline.integration.js` | Enhanced Playwright YAML detection, subfolder auto-inclusion logic |
+| `frontend/index.html` | Add tile HTML in `render()`, add `azurePipelines` view, add CSS for 8th card + drill-down, add JS functions, sprint-aware tile with JIRA date filtering |
+| `backend/api-gateway/azure-pipeline.integration.js` | Enhanced Playwright YAML detection, subfolder auto-inclusion logic, `folderPath` field on pipeline runs |
+| `backend/api-gateway/jira-sprint-dates.js` | **New** — JIRA Agile API sprint date fetcher with cache |
+| `backend/api-gateway/server.js` | Sprint-dates API routes, import jira-sprint-dates module |
+| `backend/api-gateway/jiraBugService.js` | Updated Passport team `boardId` values (was `null`) |
 
 ### Files NOT Modified
 - `vite.config.ts` — no changes
@@ -142,5 +163,5 @@ When `state.currentView === 'azurePipelines'`:
 11. **Count accuracy**: Total Runs = Succeeded + Failed + Partial + Canceled (no missing runs)
 12. **Dynamic tile %**: Main dashboard tile updates to reflect the currently selected date range
 13. **Subfolder inclusion**: All pipelines in organized subfolders (Genesis, Spartacles, Passport modules, etc.) are included without needing a testing-keyword in the name
-11. **Count accuracy**: Total Runs = Succeeded + Failed + Partial + Canceled (no missing runs)
-12. **Dynamic tile %**: Main dashboard tile updates to reflect the currently selected date range
+14. **Sprint-aware tile**: When team + sprint selected, tile shows success rate filtered by JIRA sprint dates AND team folder path
+15. **JIRA sprint dates**: Sprint start/end fetched from JIRA Agile API (boards 5414, 5812, 7916), cached 30 min

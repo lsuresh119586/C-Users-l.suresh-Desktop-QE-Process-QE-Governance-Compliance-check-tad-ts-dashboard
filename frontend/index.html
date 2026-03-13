@@ -927,7 +927,14 @@
         azurePipelineLastSynced: null,
         azurePipelineError: null,
         azurePipelineDateFrom: new Date(Date.now() - 30*24*60*60*1000).toISOString().slice(0,10),
-        azurePipelineDateTo: new Date().toISOString().slice(0,10)
+        azurePipelineDateTo: new Date().toISOString().slice(0,10),
+        // Sprint-aware pipeline tile
+        sprintDatesCache: {},               // { 'pp-spartacles/26.1.3': { startDate, endDate } }
+        teamFolderPatterns: {               // team → regex source (loaded from API, with defaults)
+          'pp-spartacles': 'spartacles',
+          'pp-genesis': 'genesis',
+          'pp-pioneers': 'pioneers'
+        }
       };
 
       const apiService = {
@@ -1065,6 +1072,7 @@
                 if (state.sprints.length > 0) {
                   state.selectedSprint = state.sprints[0].id;
                   console.log('🟠 STEP 6: Auto-selected sprint:', state.selectedSprint);
+                  fetchSprintDatesForTile(); // async, updates tile when dates arrive
                   
                   try {
                     console.log('🔵 STEP 7: Fetching metrics...');
@@ -1096,6 +1104,8 @@
         
         state.loading = false;
         render();
+        // Load Azure Pipeline data in background (for 8th tile)
+        loadAzurePipelineData();
       }
 
       async function handleProductChange(e) {
@@ -1153,6 +1163,7 @@
                 if (state.sprints.length > 0) {
                   state.selectedSprint = state.sprints[0].id;
                   console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+                  fetchSprintDatesForTile(); // async, updates tile when dates arrive
                 
                   // Load metrics for this sprint
                   try {
@@ -1235,6 +1246,7 @@
             if (state.sprints.length > 0) {
               state.selectedSprint = state.sprints[0].id;
               console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+              fetchSprintDatesForTile(); // async, updates tile when dates arrive
               render();
             
               // Load metrics for this sprint
@@ -1265,6 +1277,7 @@
       async function handleSprintChange(e) {
         state.selectedSprint = e.target.value;
         await loadMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+        fetchSprintDatesForTile(); // async, updates tile when dates arrive
       }
 
       async function handleCpodDateChange() {
@@ -1705,8 +1718,11 @@
                 ${state.selectedProduct === 'passport' && !isCpodTeam() ? `
                 <div class="metric-card card-purple clickable" id="azurePipelineCard">
                   <div class="metric-label">🔧 Azure Pipelines</div>
-                  <div class="metric-value">${state.azurePipelineData ? (aggregateAzureMetrics(state.azurePipelineData, 'all', state.azurePipelineDateFrom, state.azurePipelineDateTo).success_rate + '%') : '0%'}</div>
-                  <div class="card-hint">Click to view pipeline runs →</div>
+                  <div class="metric-value">${(function() {
+                    var m = getAzureTileMetrics();
+                    return m.success_rate + '%';
+                  })()}</div>
+                  <div class="card-hint">${state.selectedTeam && state.selectedSprint && state.sprintDatesCache[state.selectedTeam + '/' + state.selectedSprint] ? ('Sprint ' + state.selectedSprint.replace(/^[a-z-]+-/, '')) : 'Last 30 days'} · Click →</div>
                 </div>
                 ` : ''}
               </div>
@@ -1851,7 +1867,7 @@
         render();
       }
 
-      function aggregateAzureMetrics(data, projectFilter, dateFrom, dateTo) {
+      function aggregateAzureMetrics(data, projectFilter, dateFrom, dateTo, teamId) {
         if (!data) return { total_runs: 0, succeeded: 0, failed: 0, partially_succeeded: 0, canceled: 0, success_rate: 0, avg_duration_minutes: 0, recent_runs: [] };
         var projectKeys = projectFilter === 'all' ? Object.keys(data) : [projectFilter];
         var allRuns = [];
@@ -1859,6 +1875,15 @@
           var proj = data[projectKeys[i]];
           if (!proj || !proj.recent_runs) continue;
           allRuns = allRuns.concat(proj.recent_runs);
+        }
+        // Filter by team folder path if teamId specified AND runs have folderPath data
+        if (teamId && state.teamFolderPatterns[teamId]) {
+          var hasAnyFolderPath = allRuns.some(function(r) { return r.folderPath; });
+          if (hasAnyFolderPath) {
+            var pattern = new RegExp(state.teamFolderPatterns[teamId], 'i');
+            allRuns = allRuns.filter(function(r) { return r.folderPath && pattern.test(r.folderPath); });
+          }
+          // If no runs have folderPath (pre-sync data), skip team filter — show all runs for the date range
         }
         // Apply date range filter
         if (dateFrom) {
@@ -1886,6 +1911,51 @@
         var avgDuration = durations.length > 0 ? Math.round((durations.reduce(function(a, b) { return a + b; }, 0) / durations.length) * 10) / 10 : 0;
         allRuns.sort(function(a, b) { return new Date(b.startTime || 0) - new Date(a.startTime || 0); });
         return { total_runs: totalRuns, succeeded: succeeded, failed: failed, partially_succeeded: partial, canceled: canceled, success_rate: successRate, avg_duration_minutes: avgDuration, recent_runs: allRuns };
+      }
+
+      /**
+       * Get the Azure Pipeline tile % based on selected team + sprint.
+       * Uses JIRA sprint dates to filter runs by timestamp + team folder path.
+       * Falls back to 30-day window if no sprint selected or dates unavailable.
+       */
+      function getAzureTileMetrics() {
+        if (!state.azurePipelineData) return { success_rate: 0, total_runs: 0 };
+        var team = state.selectedTeam;
+        var sprint = state.selectedSprint;
+        // If team + sprint selected and we have cached sprint dates, use them
+        if (team && sprint && state.sprintDatesCache[team + '/' + sprint]) {
+          var dates = state.sprintDatesCache[team + '/' + sprint];
+          var from = dates.startDate ? dates.startDate.slice(0, 10) : null;
+          var to = dates.endDate ? dates.endDate.slice(0, 10) : null;
+          return aggregateAzureMetrics(state.azurePipelineData, 'all', from, to, team);
+        }
+        // Fallback: 30-day window, no team filter
+        return aggregateAzureMetrics(state.azurePipelineData, 'all', state.azurePipelineDateFrom, state.azurePipelineDateTo);
+      }
+
+      /**
+       * Fetch and cache sprint dates from JIRA for the selected team+sprint.
+       * Called when team or sprint selection changes.
+       */
+      async function fetchSprintDatesForTile() {
+        var team = state.selectedTeam;
+        var sprint = state.selectedSprint;
+        if (!team || !sprint) return;
+        // Only for Passport non-CPOD teams
+        if (!state.teamFolderPatterns[team]) return;
+        var cacheKey = team + '/' + sprint;
+        if (state.sprintDatesCache[cacheKey]) { render(); return; }
+        try {
+          var response = await fetch(API_BASE_URL + '/sprint-dates/' + encodeURIComponent(team) + '/' + encodeURIComponent(sprint));
+          var result = await response.json();
+          if (result.success && result.data) {
+            state.sprintDatesCache[cacheKey] = result.data;
+            console.log('📅 Sprint dates loaded:', cacheKey, result.data.startDate, '→', result.data.endDate);
+          }
+        } catch (err) {
+          console.warn('⚠️ Failed to fetch sprint dates for', cacheKey, err.message);
+        }
+        render();
       }
 
       async function exportAzurePipelineCsv() {

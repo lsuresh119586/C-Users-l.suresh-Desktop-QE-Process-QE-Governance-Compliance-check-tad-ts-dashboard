@@ -13,6 +13,7 @@ import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceServi
 import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
 import { isCpodCalendarMode } from './cpodQueryMode.js';
 import { processMetricsQuery } from './metricsQueryProcessor.js';
+import { getSprintDates, getAllSprintDates, TEAM_FOLDER_PATTERNS } from './jira-sprint-dates.js';
 import { applyCpodBugMetrics, applyCpodFallbackMetrics } from './cpodMetricsMapper.js';
 import { syncAzurePipeline, getAzurePipelineData, exportAzurePipelineCsv } from './azure-pipeline.service.js';
 
@@ -1860,6 +1861,51 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // ─── Sprint Date Routes (JIRA Agile API) ────────────────────────────────
+
+  // GET /api/sprint-dates/:teamId/:sprintId — single sprint dates
+  if (pathname.match(/^\/api\/sprint-dates\/([^\/]+)\/([^\/]+)$/) && req.method === 'GET') {
+    const parts = pathname.split('/');
+    const teamId = parts[3];
+    const sprintId = parts[4];
+    try {
+      const dates = await getSprintDates(teamId, sprintId);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: dates }));
+    } catch (error) {
+      console.error('[Sprint Dates] Error:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/sprint-dates/:teamId — all sprint dates for a team
+  if (pathname.match(/^\/api\/sprint-dates\/([^\/]+)$/) && req.method === 'GET') {
+    const teamId = pathname.split('/')[3];
+    try {
+      const sprints = await getAllSprintDates(teamId);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: sprints }));
+    } catch (error) {
+      console.error('[Sprint Dates] Error:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/team-folder-patterns — team-to-Azure-folder mapping
+  if (pathname === '/api/team-folder-patterns' && req.method === 'GET') {
+    const patterns = {};
+    for (const [teamId, regex] of Object.entries(TEAM_FOLDER_PATTERNS)) {
+      patterns[teamId] = regex.source;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: true, data: patterns }));
+    return;
+  }
+
   // 404
   res.writeHead(404, { 'Content-Type': 'application/json' });
   res.end(JSON.stringify({ error: 'Not found' }));
@@ -1891,4 +1937,6 @@ server.listen(PORT, () => {
   console.log(`   POST /api/azure-pipeline/sync/:productId`);
   console.log(`   GET  /api/azure-pipeline/:productId`);
   console.log(`   GET  /api/azure-pipeline/:productId/export/csv`);
+  console.log(`   GET  /api/sprint-dates/:teamId`);
+  console.log(`   GET  /api/sprint-dates/:teamId/:sprintId`);
 });

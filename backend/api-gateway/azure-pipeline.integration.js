@@ -234,7 +234,7 @@ async function detectPlaywrightFromYaml(definition) {
 
 // ─── Map a single Azure build to our structure ──────────────────────────────
 
-function mapBuild(b, defName, yamlPlaywright = false) {
+function mapBuild(b, defName, yamlPlaywright = false, folderPath = '') {
   const startTime = b.startTime || b.queueTime;
   const finishTime = b.finishTime;
   let duration = 0;
@@ -260,20 +260,21 @@ function mapBuild(b, defName, yamlPlaywright = false) {
     startTime: startTime || null,
     finishTime: finishTime || null,
     duration,
+    folderPath: folderPath || '',
     url: `https://dev.azure.com/${org}/${project}/_build/results?buildId=${b.id}`,
   };
 }
 
 // ─── Fetch builds for a single pipeline definition ──────────────────────────
 
-async function fetchBuildsForPipeline(definitionId, defName, yamlPlaywright = false) {
+async function fetchBuildsForPipeline(definitionId, defName, yamlPlaywright = false, folderPath = '') {
   const { org, project, apiVersion } = AZURE_CONFIG;
 
   try {
     const apiUrl = `/${org}/${project}/_apis/build/builds?definitions=${definitionId}&$top=50&statusFilter=completed&api-version=${apiVersion}`;
     const result = await azureGet(apiUrl);
     const builds = result.body.value || [];
-    return builds.map(b => mapBuild(b, defName, yamlPlaywright));
+    return builds.map(b => mapBuild(b, defName, yamlPlaywright, folderPath));
   } catch (err) {
     console.warn(`⚠️  Failed to fetch builds for pipeline ${defName} (${definitionId}): ${err.message}`);
     return [];
@@ -317,14 +318,14 @@ async function fetchPipelineRuns(folderPath) {
     }
   }
 
-  // 3. Fetch builds in parallel batches of 10
+  // 3. Fetch builds in parallel batches of 10 (pass d.path for team filtering)
   const BATCH_SIZE = 10;
   const allRuns = [];
 
   for (let i = 0; i < testingDefs.length; i += BATCH_SIZE) {
     const batch = testingDefs.slice(i, i + BATCH_SIZE);
     const batchResults = await Promise.all(
-      batch.map(d => fetchBuildsForPipeline(d.id, d.name, yamlDetectionMap.get(d.id) || false))
+      batch.map(d => fetchBuildsForPipeline(d.id, d.name, yamlDetectionMap.get(d.id) || false, d.path || ''))
     );
     for (const runs of batchResults) {
       allRuns.push(...runs);

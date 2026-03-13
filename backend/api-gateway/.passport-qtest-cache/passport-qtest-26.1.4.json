@@ -1,516 +1,10 @@
 {
-  "timestamp": 1772704169707,
+  "timestamp": 1773378843354,
   "data": {
     "sprint_name": "26.1.4",
-    "generated": "2026-03-05T09:48:40.234Z",
+    "generated": "2026-03-12T18:21:10.654Z",
     "source": "passport-qtest-live",
     "elm_cards": [
-      {
-        "elmKey": "ELM-40282",
-        "team": "PP Spartacles",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138880492,
-            "pid": "TC-45012",
-            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880492"
-          },
-          {
-            "id": 138908895,
-            "pid": "TC-45092",
-            "name": "Verify Export History and Report Download",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138908895"
-          },
-          {
-            "id": 138880684,
-            "pid": "TC-45013",
-            "name": "Verify Bookmarking and Launching the Report",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880684"
-          },
-          {
-            "id": 138916885,
-            "pid": "TC-45115",
-            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916885"
-          }
-        ],
-        "metrics": {
-          "total": 4,
-          "automated": 4,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 100
-        },
-        "qtestId": 59387077
-      },
-      {
-        "elmKey": "ELM-39119",
-        "team": "PP Spartacles",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138762161,
-            "pid": "TC-44664",
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762161"
-          },
-          {
-            "id": 138762226,
-            "pid": "TC-44665",
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762226"
-          },
-          {
-            "id": 138762227,
-            "pid": "TC-44666",
-            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762227"
-          }
-        ],
-        "metrics": {
-          "total": 3,
-          "automated": 3,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 100
-        },
-        "qtestId": 57306268
-      },
-      {
-        "elmKey": "ELM-40603",
-        "team": "PP Spartacles",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 134082366,
-            "pid": "TC-23581",
-            "name": "Verify the Alert bell icon displays according to selection mode in Passport",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134082366"
-          },
-          {
-            "id": 134078675,
-            "pid": "TC-23552",
-            "name": "Verify Alignment issue in Favorite icon dropdown ",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134078675"
-          },
-          {
-            "id": 134078901,
-            "pid": "TC-23553",
-            "name": "Verify the search dropdown in the Top Framework ",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134078901"
-          },
-          {
-            "id": 134081489,
-            "pid": "TC-23575",
-            "name": "Verify the alignment of MATTER & SPEND Title in Passport",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134081489"
-          },
-          {
-            "id": 134082273,
-            "pid": "TC-23580",
-            "name": "Verify the tooltip when hovered the areas around the Print and other icons in Passport",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134082273"
-          },
-          {
-            "id": 134081604,
-            "pid": "TC-23578",
-            "name": "Verify the background color of Menubar in top framework in Passport",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134081604"
-          },
-          {
-            "id": 134084011,
-            "pid": "TC-23585",
-            "name": "Verify the alignment in the dropdown text displayed on clicking APPS, MENU in Top framework",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=134084011"
-          },
-          {
-            "id": 138498167,
-            "pid": "TC-44470",
-            "name": "Verify QuickLinks as Paralegal role user",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138498167"
-          },
-          {
-            "id": 138500475,
-            "pid": "TC-44489",
-            "name": "Verify QuickLinks as suser",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138500475"
-          },
-          {
-            "id": 138580723,
-            "pid": "TC-44556",
-            "name": "Verify Banner Message with enable and disable functionality",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138580723"
-          },
-          {
-            "id": 138580957,
-            "pid": "TC-44557",
-            "name": "Verify Acess block with enable and disable functionality",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138580957"
-          }
-        ],
-        "metrics": {
-          "total": 11,
-          "automated": 11,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 100
-        },
-        "qtestId": 59867608
-      },
-      {
-        "elmKey": "ELM-38628",
-        "team": "PP Spartacles",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138809051,
-            "pid": "TC-44780",
-            "name": "Verify Internal Role Involvement Type listed in RIT when user select internal person type",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809051"
-          },
-          {
-            "id": 138689511,
-            "pid": "TC-44631",
-            "name": "Verify Bulk Edit Admin Utility Page Layout and Default Values",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138689511"
-          },
-          {
-            "id": 138774786,
-            "pid": "TC-44764",
-            "name": "Verify Secondary Matter Type Checkbox Visibility in Bulk Edit Admin Utility",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138774786"
-          },
-          {
-            "id": 138776448,
-            "pid": "TC-44765",
-            "name": "Verify Validation in Matter Bulk Edit Admin Utility",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138776448"
-          },
-          {
-            "id": 138781885,
-            "pid": "TC-44766",
-            "name": "Verify Enable All Checkboxes in Bulk Edit Admin Utility",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138781885"
-          },
-          {
-            "id": 138787157,
-            "pid": "TC-44767",
-            "name": "Verify Matter Bulk Edit Default Fields",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138787157"
-          },
-          {
-            "id": 138809054,
-            "pid": "TC-44781",
-            "name": "Verify External Role Involvement Type listed in RIT when user select External-Other person type",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809054"
-          },
-          {
-            "id": 138809057,
-            "pid": "TC-44782",
-            "name": "Verify Internal Person only listed in Matter Person From and Matter Person To",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809057"
-          },
-          {
-            "id": 138809058,
-            "pid": "TC-44783",
-            "name": "Verify External Person only listed in Matter Person From and Matter Person To",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809058"
-          },
-          {
-            "id": 138809143,
-            "pid": "TC-44784",
-            "name": "Verify Bulk Edit \"Value is required\" validations in mandatory fields",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809143"
-          },
-          {
-            "id": 138809148,
-            "pid": "TC-44785",
-            "name": "Verify Matter Bulk Edit Visibility depends on Config",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809148"
-          },
-          {
-            "id": 138817926,
-            "pid": "TC-44829",
-            "name": "Verify Bulk Edit functionality by entering Matter Type - From and Matter Type - To values",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138817926"
-          },
-          {
-            "id": 138809973,
-            "pid": "TC-44796",
-            "name": "Verify Bulk Edit functionality by entering only Matter Type - To value",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138809973"
-          },
-          {
-            "id": 138821558,
-            "pid": "TC-44844",
-            "name": "Verify Bulk Edit Matter Type From/To and Secondary Matter Type Functionality",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138821558"
-          },
-          {
-            "id": 138867030,
-            "pid": "TC-44974",
-            "name": "Verify Disable All Checkbox in Admin Bulk Edit and Check Matter Bulk Edit Page",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138867030"
-          },
-          {
-            "id": 138826370,
-            "pid": "TC-44851",
-            "name": "Verify Secondary Matter Type Validation When Matter Type Does Not Have Associated Secondary Matter Type",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138826370"
-          },
-          {
-            "id": 138827939,
-            "pid": "TC-44855",
-            "name": "Verify Bulk Edit Matter Type Combinations of Error and Successful Matters",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138827939"
-          },
-          {
-            "id": 138829879,
-            "pid": "TC-44858",
-            "name": "Verify Bulk Edit Internal Person Role Involvement Type with Matter Person To and Task and Event",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138829879"
-          },
-          {
-            "id": 138864135,
-            "pid": "TC-44970",
-            "name": "Verify Bulk Edit Matter person external without rate and combination of error and success matter",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138864135"
-          },
-          {
-            "id": 138865660,
-            "pid": "TC-44973",
-            "name": "Verify Bulk Edit Matter Person Error Validations",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138865660"
-          },
-          {
-            "id": 138860208,
-            "pid": "TC-44939",
-            "name": "Verify Bulk Edit Matter person external with Matter Person From and To with rates",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138860208"
-          }
-        ],
-        "metrics": {
-          "total": 21,
-          "automated": 21,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 100
-        },
-        "qtestId": 56831555
-      },
-      {
-        "elmKey": "ELM-40220",
-        "team": "PP Genesis",
-        "qtestSource": "not_found",
-        "qtestProject": null,
-        "testCases": [],
-        "metrics": {
-          "total": 0,
-          "automated": 0,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 0
-        }
-      },
-      {
-        "elmKey": "ELM-40980",
-        "team": "PP Genesis",
-        "qtestSource": "not_found",
-        "qtestProject": null,
-        "testCases": [],
-        "metrics": {
-          "total": 0,
-          "automated": 0,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 0
-        }
-      },
-      {
-        "elmKey": "ELM-40483",
-        "team": "PP Genesis",
-        "qtestSource": "not_found",
-        "qtestProject": null,
-        "testCases": [],
-        "metrics": {
-          "total": 0,
-          "automated": 0,
-          "partiallyAutomated": 0,
-          "manual": 0,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 0
-        }
-      },
-      {
-        "elmKey": "ELM-40671",
-        "team": "PP Pioneers",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138261276,
-            "pid": "TC-43639",
-            "name": "TC-43639 - Verify_Reset_Password_Notification_for_user_with_gmail_address",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138261276"
-          },
-          {
-            "id": 138261521,
-            "pid": "TC-43642",
-            "name": "Verify Post Fix Email Relay: Reset Password through amazon - To address (WK Email)",
-            "automationStatus": "Manual",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138261521"
-          },
-          {
-            "id": 138264841,
-            "pid": "TC-43650",
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - event based (synchronous) - From \"sharon.y.ahcow@datacert.com\"",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138264841"
-          },
-          {
-            "id": 138381546,
-            "pid": "TC-44180",
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - From invalid email address",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138381546"
-          },
-          {
-            "id": 138339265,
-            "pid": "TC-44054",
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - event based (synchronous) - Reply All",
-            "automationStatus": "Manual",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138339265"
-          },
-          {
-            "id": 138265133,
-            "pid": "TC-43652",
-            "name": "Verify Post Fix Email Relay: PSR for coordinator through amazon - scheduled (asynchronous)",
-            "automationStatus": "Manual",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138265133"
-          }
-        ],
-        "metrics": {
-          "total": 6,
-          "automated": 3,
-          "partiallyAutomated": 0,
-          "manual": 3,
-          "notPossible": 0,
-          "automationCandidate": 0,
-          "notEvaluated": 0,
-          "coveragePercentage": 50
-        },
-        "qtestId": 59933134
-      },
       {
         "elmKey": "ELM-39643",
         "team": "PP Pioneers",
@@ -674,284 +168,185 @@
         "team": "PP Pioneers",
         "qtestSource": "requirement",
         "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138879686,
-            "pid": "TC-44993",
-            "name": "TC-44993 - Verify_Matter_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879686"
-          },
-          {
-            "id": 138879719,
-            "pid": "TC-44994",
-            "name": "TC-44994 - Verify_Person_RecordCount_Capped_At_MaxPageSize_Sorted_By_FirstName_Asc_With_Warning",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879719"
-          },
-          {
-            "id": 138879720,
-            "pid": "TC-44995",
-            "name": "TC-44995 - Verify_Document_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879720"
-          },
-          {
-            "id": 138879723,
-            "pid": "TC-44997",
-            "name": "TC-44997 - Verify_Person_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879723"
-          },
-          {
-            "id": 138879724,
-            "pid": "TC-44998",
-            "name": "TC-44998 - Verify_Document_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879724"
-          },
-          {
-            "id": 138879725,
-            "pid": "TC-44999",
-            "name": "TC-44999 - Verify_Matter_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879725"
-          },
-          {
-            "id": 138879727,
-            "pid": "TC-45001",
-            "name": "TC-45001 - Verify_Document_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879727"
-          },
-          {
-            "id": 138879728,
-            "pid": "TC-45002",
-            "name": "TC-45002 - Verify_Matter_RecordCount_Within_FallbackLimit_When_Invalid_MaxPageSize_Zero_Configured",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879728"
-          },
-          {
-            "id": 126666316,
-            "pid": "TC-18240",
-            "name": "Verify Paging 1.00: Paging",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=126666316"
-          },
-          {
-            "id": 132730025,
-            "pid": "TC-21326",
-            "name": "Verify Search by Invoices in the global search input field",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132730025"
-          },
-          {
-            "id": 132668434,
-            "pid": "TC-21255",
-            "name": "Verify default filters and filter list on Matter List",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132668434"
-          },
-          {
-            "id": 138878564,
-            "pid": "TC-44987",
-            "name": "Verify List Page Sorting with Guardrails enabled",
-            "automationStatus": "Automation Candidate",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138878564"
-          },
-          {
-            "id": 138879726,
-            "pid": "TC-45000",
-            "name": "TC-45000 - Verify_Person_RecordCount_Exceeds_MaxPageSize_Sorted_By_LastName_Asc_When_AllowFetchAll_True",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879726"
-          },
-          {
-            "id": 138879722,
-            "pid": "TC-44996",
-            "name": "TC-44996 - Verify_Matter_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879722"
-          }
-        ],
+        "testCases": [],
         "metrics": {
-          "total": 14,
-          "automated": 13,
+          "total": 0,
+          "automated": 0,
           "partiallyAutomated": 0,
           "manual": 0,
           "notPossible": 0,
-          "automationCandidate": 1,
+          "automationCandidate": 0,
           "notEvaluated": 0,
-          "coveragePercentage": 93
+          "coveragePercentage": 0
         },
         "qtestId": 57391197
       },
       {
         "elmKey": "ELM-31156",
         "team": "PP Pioneers",
-        "qtestSource": "requirement",
-        "qtestProject": "Passport",
-        "testCases": [
-          {
-            "id": 138867632,
-            "pid": "TC-44985",
-            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
-            "automationStatus": "Manual",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138867632"
-          },
-          {
-            "id": 138879719,
-            "pid": "TC-44994",
-            "name": "TC-44994 - Verify_Person_RecordCount_Capped_At_MaxPageSize_Sorted_By_FirstName_Asc_With_Warning",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879719"
-          },
-          {
-            "id": 138879686,
-            "pid": "TC-44993",
-            "name": "TC-44993 - Verify_Matter_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879686"
-          },
-          {
-            "id": 138879720,
-            "pid": "TC-44995",
-            "name": "TC-44995 - Verify_Document_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879720"
-          },
-          {
-            "id": 138879722,
-            "pid": "TC-44996",
-            "name": "TC-44996 - Verify_Matter_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879722"
-          },
-          {
-            "id": 138879723,
-            "pid": "TC-44997",
-            "name": "TC-44997 - Verify_Person_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879723"
-          },
-          {
-            "id": 138879724,
-            "pid": "TC-44998",
-            "name": "TC-44998 - Verify_Document_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879724"
-          },
-          {
-            "id": 138879725,
-            "pid": "TC-44999",
-            "name": "TC-44999 - Verify_Matter_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879725"
-          },
-          {
-            "id": 138879726,
-            "pid": "TC-45000",
-            "name": "TC-45000 - Verify_Person_RecordCount_Exceeds_MaxPageSize_Sorted_By_LastName_Asc_When_AllowFetchAll_True",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879726"
-          },
-          {
-            "id": 138879727,
-            "pid": "TC-45001",
-            "name": "TC-45001 - Verify_Document_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879727"
-          },
-          {
-            "id": 138879728,
-            "pid": "TC-45002",
-            "name": "TC-45002 - Verify_Matter_RecordCount_Within_FallbackLimit_When_Invalid_MaxPageSize_Zero_Configured",
-            "automationStatus": "Automated",
-            "automationTool": "Playwright",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879728"
-          },
-          {
-            "id": 126666316,
-            "pid": "TC-18240",
-            "name": "Verify Paging 1.00: Paging",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=126666316"
-          },
-          {
-            "id": 132730025,
-            "pid": "TC-21326",
-            "name": "Verify Search by Invoices in the global search input field",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132730025"
-          },
-          {
-            "id": 132668434,
-            "pid": "TC-21255",
-            "name": "Verify default filters and filter list on Matter List",
-            "automationStatus": "Automated",
-            "automationTool": "Tosca",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132668434"
-          },
-          {
-            "id": 138878564,
-            "pid": "TC-44987",
-            "name": "Verify List Page Sorting with Guardrails enabled",
-            "automationStatus": "Automation Candidate",
-            "automationTool": "Unknown",
-            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138878564"
-          }
-        ],
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
         "metrics": {
-          "total": 15,
-          "automated": 13,
+          "total": 0,
+          "automated": 0,
           "partiallyAutomated": 0,
-          "manual": 1,
+          "manual": 0,
           "notPossible": 0,
-          "automationCandidate": 1,
+          "automationCandidate": 0,
           "notEvaluated": 0,
-          "coveragePercentage": 87
-        },
-        "qtestId": 51623650
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40671",
+        "team": "PP Pioneers",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-39119",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40282",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40603",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-38628",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40220",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40980",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40483",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
       }
     ],
     "totals": {
       "total_elm_cards": 12,
-      "elm_cards_in_qtest": 9,
-      "elm_cards_missing": 3,
-      "total_test_cases": 89,
-      "automated": 68,
+      "elm_cards_in_qtest": 3,
+      "elm_cards_missing": 9,
+      "total_test_cases": 15,
+      "automated": 0,
       "partially_automated": 0,
-      "manual": 19,
+      "manual": 15,
       "not_possible": 0,
-      "automation_candidate": 2,
+      "automation_candidate": 0,
       "not_evaluated": 0,
-      "coverage_percentage": 76
+      "coverage_percentage": 0
     },
     "teams": {
       "PP Genesis": {
@@ -962,59 +357,11 @@
         "test_cases": []
       },
       "PP Pioneers": {
-        "total": 50,
-        "automated": 29,
+        "total": 15,
+        "automated": 0,
         "with_attachments": 0,
         "without_attachments": 0,
         "test_cases": [
-          {
-            "id": "TC-43639",
-            "qtest_id": 138261276,
-            "name": "TC-43639 - Verify_Reset_Password_Notification_for_user_with_gmail_address",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-43642",
-            "qtest_id": 138261521,
-            "name": "Verify Post Fix Email Relay: Reset Password through amazon - To address (WK Email)",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Manual"
-          },
-          {
-            "id": "TC-43650",
-            "qtest_id": 138264841,
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - event based (synchronous) - From \"sharon.y.ahcow@datacert.com\"",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44180",
-            "qtest_id": 138381546,
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - From invalid email address",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44054",
-            "qtest_id": 138339265,
-            "name": "Verify Post Fix Email Relay: Invoice Forward through amazon - event based (synchronous) - Reply All",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Manual"
-          },
-          {
-            "id": "TC-43652",
-            "qtest_id": 138265133,
-            "name": "Verify Post Fix Email Relay: PSR for coordinator through amazon - scheduled (asynchronous)",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Manual"
-          },
           {
             "id": "TC-27829",
             "qtest_id": 136445936,
@@ -1134,560 +481,15 @@
             "automated": false,
             "has_attachment": false,
             "status": "Manual"
-          },
-          {
-            "id": "TC-44993",
-            "qtest_id": 138879686,
-            "name": "TC-44993 - Verify_Matter_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44994",
-            "qtest_id": 138879719,
-            "name": "TC-44994 - Verify_Person_RecordCount_Capped_At_MaxPageSize_Sorted_By_FirstName_Asc_With_Warning",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44995",
-            "qtest_id": 138879720,
-            "name": "TC-44995 - Verify_Document_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44997",
-            "qtest_id": 138879723,
-            "name": "TC-44997 - Verify_Person_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44998",
-            "qtest_id": 138879724,
-            "name": "TC-44998 - Verify_Document_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44999",
-            "qtest_id": 138879725,
-            "name": "TC-44999 - Verify_Matter_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45001",
-            "qtest_id": 138879727,
-            "name": "TC-45001 - Verify_Document_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45002",
-            "qtest_id": 138879728,
-            "name": "TC-45002 - Verify_Matter_RecordCount_Within_FallbackLimit_When_Invalid_MaxPageSize_Zero_Configured",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-18240",
-            "qtest_id": 126666316,
-            "name": "Verify Paging 1.00: Paging",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-21326",
-            "qtest_id": 132730025,
-            "name": "Verify Search by Invoices in the global search input field",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-21255",
-            "qtest_id": 132668434,
-            "name": "Verify default filters and filter list on Matter List",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44987",
-            "qtest_id": 138878564,
-            "name": "Verify List Page Sorting with Guardrails enabled",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Automation Candidate"
-          },
-          {
-            "id": "TC-45000",
-            "qtest_id": 138879726,
-            "name": "TC-45000 - Verify_Person_RecordCount_Exceeds_MaxPageSize_Sorted_By_LastName_Asc_When_AllowFetchAll_True",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44996",
-            "qtest_id": 138879722,
-            "name": "TC-44996 - Verify_Matter_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44985",
-            "qtest_id": 138867632,
-            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Manual"
-          },
-          {
-            "id": "TC-44994",
-            "qtest_id": 138879719,
-            "name": "TC-44994 - Verify_Person_RecordCount_Capped_At_MaxPageSize_Sorted_By_FirstName_Asc_With_Warning",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44993",
-            "qtest_id": 138879686,
-            "name": "TC-44993 - Verify_Matter_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44995",
-            "qtest_id": 138879720,
-            "name": "TC-44995 - Verify_Document_RecordCount_Capped_At_MaxPageSize_And_Warning_Header_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44996",
-            "qtest_id": 138879722,
-            "name": "TC-44996 - Verify_Matter_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44997",
-            "qtest_id": 138879723,
-            "name": "TC-44997 - Verify_Person_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44998",
-            "qtest_id": 138879724,
-            "name": "TC-44998 - Verify_Document_RecordCount_Capped_At_DefaultPageSize_And_NoPagination_Warning_Returned",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44999",
-            "qtest_id": 138879725,
-            "name": "TC-44999 - Verify_Matter_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45000",
-            "qtest_id": 138879726,
-            "name": "TC-45000 - Verify_Person_RecordCount_Exceeds_MaxPageSize_Sorted_By_LastName_Asc_When_AllowFetchAll_True",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45001",
-            "qtest_id": 138879727,
-            "name": "TC-45001 - Verify_Document_RecordCount_Exceeds_MaxPageSize_When_AllowFetchAll_True_Guardrail_Bypassed",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45002",
-            "qtest_id": 138879728,
-            "name": "TC-45002 - Verify_Matter_RecordCount_Within_FallbackLimit_When_Invalid_MaxPageSize_Zero_Configured",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-18240",
-            "qtest_id": 126666316,
-            "name": "Verify Paging 1.00: Paging",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-21326",
-            "qtest_id": 132730025,
-            "name": "Verify Search by Invoices in the global search input field",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-21255",
-            "qtest_id": 132668434,
-            "name": "Verify default filters and filter list on Matter List",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44987",
-            "qtest_id": 138878564,
-            "name": "Verify List Page Sorting with Guardrails enabled",
-            "automated": false,
-            "has_attachment": false,
-            "status": "Automation Candidate"
           }
         ]
       },
       "PP Spartacles": {
-        "total": 39,
-        "automated": 39,
+        "total": 0,
+        "automated": 0,
         "with_attachments": 0,
         "without_attachments": 0,
-        "test_cases": [
-          {
-            "id": "TC-45012",
-            "qtest_id": 138880492,
-            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45092",
-            "qtest_id": 138908895,
-            "name": "Verify Export History and Report Download",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45013",
-            "qtest_id": 138880684,
-            "name": "Verify Bookmarking and Launching the Report",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-45115",
-            "qtest_id": 138916885,
-            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44664",
-            "qtest_id": 138762161,
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44665",
-            "qtest_id": 138762226,
-            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44666",
-            "qtest_id": 138762227,
-            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23581",
-            "qtest_id": 134082366,
-            "name": "Verify the Alert bell icon displays according to selection mode in Passport",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23552",
-            "qtest_id": 134078675,
-            "name": "Verify Alignment issue in Favorite icon dropdown ",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23553",
-            "qtest_id": 134078901,
-            "name": "Verify the search dropdown in the Top Framework ",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23575",
-            "qtest_id": 134081489,
-            "name": "Verify the alignment of MATTER & SPEND Title in Passport",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23580",
-            "qtest_id": 134082273,
-            "name": "Verify the tooltip when hovered the areas around the Print and other icons in Passport",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23578",
-            "qtest_id": 134081604,
-            "name": "Verify the background color of Menubar in top framework in Passport",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-23585",
-            "qtest_id": 134084011,
-            "name": "Verify the alignment in the dropdown text displayed on clicking APPS, MENU in Top framework",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44470",
-            "qtest_id": 138498167,
-            "name": "Verify QuickLinks as Paralegal role user",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44489",
-            "qtest_id": 138500475,
-            "name": "Verify QuickLinks as suser",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44556",
-            "qtest_id": 138580723,
-            "name": "Verify Banner Message with enable and disable functionality",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44557",
-            "qtest_id": 138580957,
-            "name": "Verify Acess block with enable and disable functionality",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44780",
-            "qtest_id": 138809051,
-            "name": "Verify Internal Role Involvement Type listed in RIT when user select internal person type",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44631",
-            "qtest_id": 138689511,
-            "name": "Verify Bulk Edit Admin Utility Page Layout and Default Values",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44764",
-            "qtest_id": 138774786,
-            "name": "Verify Secondary Matter Type Checkbox Visibility in Bulk Edit Admin Utility",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44765",
-            "qtest_id": 138776448,
-            "name": "Verify Validation in Matter Bulk Edit Admin Utility",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44766",
-            "qtest_id": 138781885,
-            "name": "Verify Enable All Checkboxes in Bulk Edit Admin Utility",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44767",
-            "qtest_id": 138787157,
-            "name": "Verify Matter Bulk Edit Default Fields",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44781",
-            "qtest_id": 138809054,
-            "name": "Verify External Role Involvement Type listed in RIT when user select External-Other person type",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44782",
-            "qtest_id": 138809057,
-            "name": "Verify Internal Person only listed in Matter Person From and Matter Person To",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44783",
-            "qtest_id": 138809058,
-            "name": "Verify External Person only listed in Matter Person From and Matter Person To",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44784",
-            "qtest_id": 138809143,
-            "name": "Verify Bulk Edit \"Value is required\" validations in mandatory fields",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44785",
-            "qtest_id": 138809148,
-            "name": "Verify Matter Bulk Edit Visibility depends on Config",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44829",
-            "qtest_id": 138817926,
-            "name": "Verify Bulk Edit functionality by entering Matter Type - From and Matter Type - To values",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44796",
-            "qtest_id": 138809973,
-            "name": "Verify Bulk Edit functionality by entering only Matter Type - To value",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44844",
-            "qtest_id": 138821558,
-            "name": "Verify Bulk Edit Matter Type From/To and Secondary Matter Type Functionality",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44974",
-            "qtest_id": 138867030,
-            "name": "Verify Disable All Checkbox in Admin Bulk Edit and Check Matter Bulk Edit Page",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44851",
-            "qtest_id": 138826370,
-            "name": "Verify Secondary Matter Type Validation When Matter Type Does Not Have Associated Secondary Matter Type",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44855",
-            "qtest_id": 138827939,
-            "name": "Verify Bulk Edit Matter Type Combinations of Error and Successful Matters",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44858",
-            "qtest_id": 138829879,
-            "name": "Verify Bulk Edit Internal Person Role Involvement Type with Matter Person To and Task and Event",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44970",
-            "qtest_id": 138864135,
-            "name": "Verify Bulk Edit Matter person external without rate and combination of error and success matter",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44973",
-            "qtest_id": 138865660,
-            "name": "Verify Bulk Edit Matter Person Error Validations",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          },
-          {
-            "id": "TC-44939",
-            "qtest_id": 138860208,
-            "name": "Verify Bulk Edit Matter person external with Matter Person From and To with rates",
-            "automated": true,
-            "has_attachment": false,
-            "status": "Automated"
-          }
-        ]
+        "test_cases": []
       }
     }
   }

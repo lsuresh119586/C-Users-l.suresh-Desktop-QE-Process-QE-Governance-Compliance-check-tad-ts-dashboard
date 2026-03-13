@@ -12,8 +12,9 @@
 
 | File | Type | Description |
 |------|------|-------------|
-| `backend/api-gateway/server.js` | Modified | Added 4 Passport qTest endpoints, fixed priority to use live cache before db.json |
+| `backend/api-gateway/server.js` | Modified | Added 4 Passport qTest endpoints, fixed priority to use live cache before db.json, added fallback metric generation, added qTest automation coverage enrichment |
 | `backend/api-gateway/passport-qtest-integration.js` | **NEW** | Passport-specific qTest API with requirement-based linking |
+| `backend/api-gateway/passport-qtest-integration.js` | Modified | **Phase 5:** Added TO-* key fallback — `JIRA_CONFIG`, `makeJiraRequest()`, `fetchLinkedToKeys()`, modified `processElmCard()` |
 | `backend/api-gateway/.env` | Modified | Added Passport qTest config vars |
 | `backend/api-gateway/.env.example` | Modified | Added example Passport config |
 | `backend/api-gateway/db.json` | Modified | Added 26.1.5 sprint placeholder |
@@ -22,8 +23,9 @@
 | `frontend/index.html` | Modified | Added `loadPassportTestsCovered()` for live qTest data |
 | `frontend/src/components/DnADashboard.tsx` | Modified | Minor updates |
 | `specs/002-passport-cpod-fix/` | **NEW** | CPOD fix spec docs |
-| `specs/003-passport-qtest/` | **NEW** | qTest integration spec docs |
+| `specs/003-passport-qtest/` | **NEW + Updated** | qTest integration spec docs (spec.md, plan.md, tasks.md updated for Phase 5) |
 | `PASSPORT_QTEST_INTEGRATION.md` | **NEW** | Integration guide |
+| `CHANGELOG.md` | **NEW + Updated** | Change tracking for all Passport enhancements |
 | `backend/api-gateway/.passport-qtest-cache/` | **NEW** | Cache directory for live qTest data |
 
 ---
@@ -255,5 +257,65 @@ Invoke-RestMethod -Uri "http://localhost:3000/api/qtest/passport/sync/26.1.4" `
 
 ---
 
+## Phase 5: TO-* Key Fallback Lookup (Passport Only) ✅
+
+### Task 5.1: Add Jira API Helper ✅
+**File:** `backend/api-gateway/passport-qtest-integration.js`
+
+- [x] Add `JIRA_CONFIG` constant (uses `JIRA_URL` and `JIRA_API_TOKEN_PASSPORT` from .env)
+- [x] Add `makeJiraRequest(method, urlPath)` — HTTPS helper for Jira API calls
+- [x] Handles authentication, timeout, error handling
+
+### Task 5.2: Add TO-* Key Extraction ✅
+**File:** `backend/api-gateway/passport-qtest-integration.js`
+
+- [x] Add `fetchLinkedToKeys(elmKey)` — exported function
+- [x] Calls `GET /rest/api/2/issue/{elmKey}?fields=issuelinks`
+- [x] Extracts linked issue keys starting with `TO-`
+- [x] Logs found TO-* keys for debugging
+
+### Task 5.3: Modify processElmCard for TO-* Fallback ✅
+**File:** `backend/api-gateway/passport-qtest-integration.js`
+
+- [x] When ELM key `not_found` in qTest (both primary + secondary projects)
+- [x] Call `fetchLinkedToKeys(elmKey)` to get linked TO-* keys
+- [x] Try each TO-* key in `searchRequirement()` against primary, then secondary project
+- [x] If found, set `result.linkedToKey` to track which TO-* key resolved it
+- [x] If none found, still mark as `not_found` (existing behavior)
+
+### Task 5.4: Export and Module Updates ✅
+**File:** `backend/api-gateway/passport-qtest-integration.js`
+
+- [x] Add `fetchLinkedToKeys` to default export object
+- [x] No changes to server.js required (fallback runs inside existing pipeline)
+
+### Task 5.5: Update Documentation ✅
+**Files:** `specs/003-passport-qtest/spec.md`, `plan.md`, `tasks.md`, `CHANGELOG.md`
+
+- [x] Update spec.md data flow diagram with TO-* fallback branch
+- [x] Update spec.md Key Functions table with new functions
+- [x] Update spec.md Files Modified table
+- [x] Add Phase 5 to plan.md with problem/solution/scope
+- [x] Update tasks.md Files Changed Summary
+- [x] Add Phase 5 tasks to tasks.md
+- [x] Update CHANGELOG.md with TO-* enhancement entry
+
+### Task 5.6: Cache and Verification ✅
+
+- [x] Clear stale `.passport-qtest-cache/` files to force re-sync
+- [ ] Restart backend and verify Genesis automation coverage > 0%
+- [ ] Confirm Pioneers and Spartacles unaffected
+- [ ] Confirm DnA/T360 endpoints unaffected
+
+### Scope: Passport Only — No DnA/T360 Impact
+- **Only file modified:** `passport-qtest-integration.js` (Passport-specific)
+- **NOT modified:** `qtest-integration.js` (DnA/T360)
+- **NOT modified:** `server.js` (no endpoint changes)
+- **NOT modified:** `passportTadTsComplianceService.js`
+- **NOT modified:** `jiraBugService.js`
+
+---
+
 ## Date
+March 4, 2026 (initial) | March 10, 2026 (Phase 5 added)
 March 4, 2026

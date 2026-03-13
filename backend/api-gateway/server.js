@@ -13,7 +13,9 @@ import { getAvailableSprints, getSprintCompliance } from './tadTsComplianceServi
 import { getPassportAvailableSprints, getPassportSprintCompliance } from './passportTadTsComplianceService.js';
 import { isCpodCalendarMode } from './cpodQueryMode.js';
 import { processMetricsQuery } from './metricsQueryProcessor.js';
+import { getSprintDates, getAllSprintDates, TEAM_FOLDER_PATTERNS } from './jira-sprint-dates.js';
 import { applyCpodBugMetrics, applyCpodFallbackMetrics } from './cpodMetricsMapper.js';
+import { syncAzurePipeline, getAzurePipelineData, exportAzurePipelineCsv } from './azure-pipeline.service.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -1041,6 +1043,27 @@ const server = http.createServer(async (req, res) => {
         return metricProduct === 'passport' && metricTeam === 'cpod';
       });
     }
+
+    if (!isCpod && metrics.length === 0 && product && team && sprint) {
+      const normalizedSprint = String(sprint).toLowerCase().startsWith(`${String(team).toLowerCase()}-`)
+        ? sprint
+        : `${team}-${sprint}`;
+
+      metrics = [{
+        id: `metric-${team}-${normalizedSprint}`,
+        product,
+        team,
+        sprint: normalizedSprint,
+        requirementsCovered: 0,
+        testsCovered: 0,
+        defectsOpen: 0,
+        defectsClosed: 0,
+        deploymentReadiness: 0,
+        codeQuality: 0,
+        timestamp: new Date().toISOString(),
+        generatedFallbackMetric: true
+      }];
+    }
     
     // Enrich DnA, T360, and Passport team metrics with actual bug data from Jira
     if ((product === 'dna' || product === 't360' || product === 'passport') && jiraBugService) {
@@ -1139,6 +1162,50 @@ const server = http.createServer(async (req, res) => {
         }
       } catch (error) {
         console.error('Error enriching DoR Readiness with TAD/TS compliance:', error.message);
+      }
+    }
+
+    // Enrich Passport metrics with Automation Coverage % from qTest cache
+    if (product === 'passport' && !isCpod) {
+      try {
+        const firstSprint = metrics[0]?.sprint;
+        // Extract just the version number (e.g., "pp-spartacles-26.1.4" → "26.1.4")
+        const sprintVersionMatch = firstSprint?.match(/(\d+\.\d+\.\d+)$/);
+        if (sprintVersionMatch) {
+          const sprintVersion = sprintVersionMatch[1];
+          const cachedQTestData = getCachedPassportData(sprintVersion);
+          if (cachedQTestData && cachedQTestData.teams) {
+            metrics = metrics.map(metric => {
+              const teamName = metric.team;
+              // Match team from qTest cache (e.g., "pp-spartacles" → "PP Spartacles")
+              for (const [cacheTeam, cacheData] of Object.entries(cachedQTestData.teams)) {
+                const normalizedCache = cacheTeam.toLowerCase().replace(/\s+/g, '-');
+                const normalizedMetric = teamName.toLowerCase().replace(/\s+/g, '-');
+                if (normalizedCache === normalizedMetric ||
+                    normalizedCache.includes(normalizedMetric) ||
+                    normalizedMetric.includes(normalizedCache)) {
+                  const total = cacheData.total || 0;
+                  const automated = cacheData.automated || 0;
+                  const coveragePct = total > 0 ? Math.round((automated / total) * 100) : 0;
+                  console.log(`  🧪 ${teamName}: Automation Coverage=${coveragePct}% (${automated}/${total} test cases)`);
+                  return { ...metric, testsCovered: coveragePct, automationSource: 'qtest-cache' };
+                }
+              }
+              // Fallback to overall totals if team not found
+              if (cachedQTestData.totals) {
+                const total = cachedQTestData.totals.total_test_cases || 0;
+                const automated = cachedQTestData.totals.automated || 0;
+                const coveragePct = total > 0 ? Math.round((automated / total) * 100) : 0;
+                console.log(`  🧪 ${teamName}: Automation Coverage=${coveragePct}% (overall totals fallback)`);
+                return { ...metric, testsCovered: coveragePct, automationSource: 'qtest-cache-totals' };
+              }
+              return metric;
+            });
+            console.log(`✅ Automation Coverage enriched from Passport qTest cache`);
+          }
+        }
+      } catch (error) {
+        console.error('Error enriching Automation Coverage from qTest cache:', error.message);
       }
     }
     
@@ -1769,6 +1836,106 @@ const server = http.createServer(async (req, res) => {
     return;
   }
 
+  // ─── Azure Pipeline Routes ───────────────────────────────────────────────
+
+  // POST /api/azure-pipeline/sync/:productId
+  if (pathname.match(/^\/api\/azure-pipeline\/sync\/([^\/]+)$/) && req.method === 'POST') {
+    const productId = pathname.split('/')[4];
+    try {
+      const result = await syncAzurePipeline(db, productId);
+      // Persist to db.json
+      writeDatabase(db);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: result.data, errors: result.errors }));
+    } catch (error) {
+      console.error('[Azure Pipeline] Sync error:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/azure-pipeline/:productId/export/csv  (must be before the generic GET)
+  if (pathname.match(/^\/api\/azure-pipeline\/([^\/]+)\/export\/csv$/) && req.method === 'GET') {
+    const productId = pathname.split('/')[3];
+    const project = query.project || null;
+    const filters = {
+      category: query.category || null,
+      upgradeType: query.upgradeType || null,
+      dateFrom: query.dateFrom || null,
+      dateTo: query.dateTo || null,
+    };
+    const csv = exportAzurePipelineCsv(db, productId, project, filters);
+    if (!csv) {
+      res.writeHead(200, { 'Content-Type': 'text/csv', 'Content-Disposition': 'attachment; filename=pipeline-export.csv' });
+      res.end('No data available. Trigger a sync first.');
+    } else {
+      res.writeHead(200, { 'Content-Type': 'text/csv', 'Content-Disposition': 'attachment; filename=pipeline-export.csv' });
+      res.end(csv);
+    }
+    return;
+  }
+
+  // GET /api/azure-pipeline/:productId
+  if (pathname.match(/^\/api\/azure-pipeline\/([^\/]+)$/) && req.method === 'GET') {
+    const productId = pathname.split('/')[3];
+    const project = query.project || null;
+    const data = getAzurePipelineData(db, productId, project);
+    if (!data) {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: null, message: 'No data available. Trigger a sync first.' }));
+    } else {
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data }));
+    }
+    return;
+  }
+
+  // ─── Sprint Date Routes (JIRA Agile API) ────────────────────────────────
+
+  // GET /api/sprint-dates/:teamId/:sprintId — single sprint dates
+  if (pathname.match(/^\/api\/sprint-dates\/([^\/]+)\/([^\/]+)$/) && req.method === 'GET') {
+    const parts = pathname.split('/');
+    const teamId = parts[3];
+    const sprintId = parts[4];
+    try {
+      const dates = await getSprintDates(teamId, sprintId);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: dates }));
+    } catch (error) {
+      console.error('[Sprint Dates] Error:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/sprint-dates/:teamId — all sprint dates for a team
+  if (pathname.match(/^\/api\/sprint-dates\/([^\/]+)$/) && req.method === 'GET') {
+    const teamId = pathname.split('/')[3];
+    try {
+      const sprints = await getAllSprintDates(teamId);
+      res.writeHead(200, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: true, data: sprints }));
+    } catch (error) {
+      console.error('[Sprint Dates] Error:', error.message);
+      res.writeHead(500, { 'Content-Type': 'application/json' });
+      res.end(JSON.stringify({ success: false, error: error.message }));
+    }
+    return;
+  }
+
+  // GET /api/team-folder-patterns — team-to-Azure-folder mapping
+  if (pathname === '/api/team-folder-patterns' && req.method === 'GET') {
+    const patterns = {};
+    for (const [teamId, regex] of Object.entries(TEAM_FOLDER_PATTERNS)) {
+      patterns[teamId] = regex.source;
+    }
+    res.writeHead(200, { 'Content-Type': 'application/json' });
+    res.end(JSON.stringify({ success: true, data: patterns }));
+    return;
+  }
+
   // --- Production static file serving (only when frontend/dist/ exists) ---
   if (SERVE_STATIC) {
     // Try to serve the exact static file requested
@@ -1832,4 +1999,9 @@ server.listen(PORT, () => {
   console.log(`   GET  /api/tad-ts/sprint/:sprint`);
   console.log(`   GET  /api/tad-ts/passport/sprints`);
   console.log(`   GET  /api/tad-ts/passport/sprint/:sprint`);
+  console.log(`   POST /api/azure-pipeline/sync/:productId`);
+  console.log(`   GET  /api/azure-pipeline/:productId`);
+  console.log(`   GET  /api/azure-pipeline/:productId/export/csv`);
+  console.log(`   GET  /api/sprint-dates/:teamId`);
+  console.log(`   GET  /api/sprint-dates/:teamId/:sprintId`);
 });

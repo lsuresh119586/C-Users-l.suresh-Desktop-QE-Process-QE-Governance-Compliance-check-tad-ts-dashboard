@@ -3,6 +3,7 @@ import UnifiedDashboard from './components/UnifiedDashboard';
 import TestsCovered from './components/TestsCovered';
 import TADTSComplianceDashboard from './components/TADTSComplianceDashboard';
 import DnADashboard from './components/DnADashboard';
+import AzurePipelineDashboard from './components/AzurePipelineDashboard';
 import './App.css';
 
 export default function App() {
@@ -39,6 +40,12 @@ export default function App() {
           >
             ✅ Tests Covered
           </button>
+          <button 
+            className={`nav-button ${activeView === 'pipelines' ? 'active' : ''}`}
+            onClick={() => setActiveView('pipelines')}
+          >
+            🔧 Azure Pipelines
+          </button>
         </div>
       </nav>
 
@@ -47,6 +54,7 @@ export default function App() {
         {activeView === 'dna' && <DnADashboard />}
         {activeView === 'tadts' && <TADTSComplianceDashboard />}
         {activeView === 'tests' && <TestsCovered />}
+        {activeView === 'pipelines' && <AzurePipelineDashboard />}
       </main>
     </div>
   );

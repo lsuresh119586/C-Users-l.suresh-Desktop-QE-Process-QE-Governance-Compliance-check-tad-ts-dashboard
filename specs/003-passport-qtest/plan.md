@@ -60,6 +60,27 @@ Add Passport-specific qTest integration for "Tests Covered" automation coverage 
 - [ ] Verify multi-project fallback (Passport → Collab Portal)
 - [ ] Test cache behavior
 
+## Phase 5: TO-* Key Fallback Lookup (Completed ✅)
+
+### Problem
+PP Genesis ELM cards (e.g., ELM-40980, ELM-40220, ELM-40483) returned `not_found` 
+in qTest because their test cases are linked via TO-* tickets (e.g., TO-8883) 
+rather than the ELM key itself.
+
+### Solution
+- [x] Add `JIRA_CONFIG` for Jira API access in `passport-qtest-integration.js`
+- [x] Add `makeJiraRequest()` helper function for Jira HTTPS calls
+- [x] Add `fetchLinkedToKeys(elmKey)` — fetches Jira issue links, extracts TO-* keys
+- [x] Modify `processElmCard()` — when ELM key not found in qTest, try linked TO-* keys
+- [x] Track resolved TO-* key in result via `linkedToKey` field
+- [x] Export `fetchLinkedToKeys` in module default exports
+- [x] Clear stale qTest cache files to force re-sync with new logic
+
+### Scope
+- **Passport ONLY**: Changes in `passport-qtest-integration.js` (Passport-specific file)
+- **No DnA/T360 impact**: `qtest-integration.js` (DnA/T360) is NOT modified
+- **No server.js change**: The fallback runs inside existing `processElmCard()` pipeline
+
 ## Dependencies
 
 | Dependency | Status |

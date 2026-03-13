@@ -47,6 +47,12 @@ const PASSPORT_QTEST_CONFIG = {
   sprints: ['26.1.1', '26.1.2', '26.1.3', '26.1.4', '26.1.5', '26.1.IP']
 };
 
+// Jira Configuration for TO-* key lookup (Passport only)
+const JIRA_CONFIG = {
+  url: process.env.JIRA_URL || 'https://jira.wolterskluwer.io/jira',
+  token: process.env.JIRA_API_TOKEN_PASSPORT || process.env.JIRA_API_TOKEN || ''
+};
+
 // Cache directory for Passport qTest data
 const cacheDir = path.join(__dirname, '.passport-qtest-cache');
 const getCacheFile = (sprintName) => path.join(cacheDir, `passport-qtest-${sprintName}.json`);
@@ -127,6 +133,87 @@ const makeRequest = async (endpoint, options = {}, retries = 3) => {
       if (attempt === retries) throw error;
       await new Promise(resolve => setTimeout(resolve, 500 * attempt));
     }
+  }
+};
+
+/**
+ * Make HTTPS request to Jira API (Passport only — used for TO-* key fallback lookup)
+ * @param {string} method - HTTP method
+ * @param {string} urlPath - API path (e.g., "/rest/api/2/issue/ELM-40980?fields=issuelinks")
+ * @returns {Promise<Object>}
+ */
+const makeJiraRequest = (method, urlPath) => {
+  return new Promise((resolve, reject) => {
+    const baseUrl = JIRA_CONFIG.url.endsWith('/') ? JIRA_CONFIG.url.slice(0, -1) : JIRA_CONFIG.url;
+    const apiPath = urlPath.startsWith('/') ? urlPath : `/${urlPath}`;
+    const fullUrl = `${baseUrl}${apiPath}`;
+    const parsed = new URL(fullUrl);
+
+    const options = {
+      hostname: parsed.hostname,
+      port: 443,
+      path: parsed.pathname + (parsed.search || ''),
+      method,
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${JIRA_CONFIG.token}`
+      },
+      timeout: 30000,
+      rejectUnauthorized: false
+    };
+
+    const req = https.request(options, (res) => {
+      let data = '';
+      res.on('data', chunk => data += chunk);
+      res.on('end', () => {
+        if (res.statusCode >= 200 && res.statusCode < 300) {
+          try { resolve(JSON.parse(data)); } catch { resolve(data); }
+        } else {
+          reject(new Error(`Jira API ${res.statusCode}: ${data.substring(0, 200)}`));
+        }
+      });
+    });
+
+    req.on('error', reject);
+    req.on('timeout', () => { req.destroy(); reject(new Error('Jira request timeout')); });
+    req.end();
+  });
+};
+
+/**
+ * Fetch linked TO-* issue keys from Jira for an ELM card (Passport only).
+ * When an ELM card is not found in qTest, its test cases may be linked via
+ * a TO-* ticket instead. This function fetches the ELM issue's links from Jira
+ * and returns any linked TO-* keys.
+ * 
+ * @param {string} elmKey - ELM issue key (e.g., "ELM-40980")
+ * @returns {Promise<string[]>} Array of linked TO-* issue keys (e.g., ["TO-8883"])
+ */
+export const fetchLinkedToKeys = async (elmKey) => {
+  try {
+    const data = await makeJiraRequest('GET',
+      `/rest/api/2/issue/${elmKey}?fields=issuelinks`
+    );
+    const links = (data.fields || {}).issuelinks || [];
+    const toKeys = [];
+
+    for (const link of links) {
+      const linked = link.inwardIssue || link.outwardIssue;
+      if (!linked) continue;
+      // Only extract TO-* project keys
+      if (linked.key && linked.key.startsWith('TO-')) {
+        toKeys.push(linked.key);
+      }
+    }
+
+    if (toKeys.length > 0) {
+      console.log(`[Passport qTest] Found ${toKeys.length} linked TO-* key(s) for ${elmKey}: ${toKeys.join(', ')}`);
+    }
+    return toKeys;
+  } catch (error) {
+    console.error(`[Passport qTest] Error fetching linked TO keys for ${elmKey}: ${error.message}`);
+    return [];
   }
 };
 
@@ -295,8 +382,36 @@ export const processElmCard = async (elmKey, team) => {
   }
 
   if (!requirement) {
-    result.qtestSource = 'not_found';
-    return result;
+    // === TO-* Key Fallback (Passport only) ===
+    // When ELM key not found in qTest, check Jira for linked TO-* tickets
+    // and search qTest for those instead. This handles cases where test cases
+    // are linked to TO-* requirements rather than ELM requirements in qTest.
+    const linkedToKeys = await fetchLinkedToKeys(elmKey);
+
+    for (const toKey of linkedToKeys) {
+      // Try primary project first for TO-* key
+      requirement = await searchRequirement(toKey, PASSPORT_QTEST_CONFIG.projects.primary.id);
+      projectId = PASSPORT_QTEST_CONFIG.projects.primary.id;
+      projectName = PASSPORT_QTEST_CONFIG.projects.primary.name;
+
+      if (!requirement) {
+        // Try secondary project for TO-* key
+        requirement = await searchRequirement(toKey, PASSPORT_QTEST_CONFIG.projects.secondary.id);
+        projectId = PASSPORT_QTEST_CONFIG.projects.secondary.id;
+        projectName = PASSPORT_QTEST_CONFIG.projects.secondary.name;
+      }
+
+      if (requirement) {
+        console.log(`[Passport qTest] Found ${elmKey} via linked TO key ${toKey} in ${projectName}`);
+        result.linkedToKey = toKey; // Track which TO-* key resolved this ELM card
+        break;
+      }
+    }
+
+    if (!requirement) {
+      result.qtestSource = 'not_found';
+      return result;
+    }
   }
 
   result.qtestSource = 'requirement';
@@ -524,5 +639,6 @@ export default {
   searchRequirement,
   getLinkedTestCases,
   getTestCaseDetails,
+  fetchLinkedToKeys,
   PASSPORT_QTEST_CONFIG
 };

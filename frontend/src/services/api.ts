@@ -43,5 +43,33 @@ export const apiService = {
       body: JSON.stringify(metricsData)
     });
     return response.json();
+  },
+
+  // Azure Pipeline — get cached data
+  getAzurePipelineData: async (productId: string, project?: string) => {
+    let url = `${API_BASE_URL}/azure-pipeline/${productId}`;
+    if (project && project !== 'all') url += `?project=${project}`;
+    const response = await fetch(url);
+    return response.json();
+  },
+
+  // Azure Pipeline — trigger sync
+  syncAzurePipeline: async (productId: string) => {
+    const response = await fetch(`${API_BASE_URL}/azure-pipeline/sync/${productId}`, {
+      method: 'POST'
+    });
+    return response.json();
+  },
+
+  // Azure Pipeline — export CSV
+  exportAzurePipelineCsv: async (productId: string, project?: string, filters?: Record<string, string>) => {
+    let params: string[] = [];
+    if (project && project !== 'all') params.push(`project=${project}`);
+    if (filters) {
+      Object.entries(filters).forEach(([k, v]) => { if (v) params.push(`${k}=${v}`); });
+    }
+    const query = params.length ? `?${params.join('&')}` : '';
+    const response = await fetch(`${API_BASE_URL}/azure-pipeline/${productId}/export/csv${query}`);
+    return response;
   }
 };

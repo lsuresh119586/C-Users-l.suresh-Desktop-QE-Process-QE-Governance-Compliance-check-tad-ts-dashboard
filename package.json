@@ -1,0 +1,29 @@
+{
+  "name": "polaris-elm-metrics-dashboard",
+  "version": "1.0.0",
+  "description": "ELM Metrics Dashboard - Quality and Engineering Metrics",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev:frontend": "npm --prefix frontend run dev",
+    "test:e2e": "playwright test",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:report": "playwright show-report",
+    "test:e2e:debug": "playwright test --debug"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.40.0",
+    "typescript": "^5.3.3"
+  },
+  "keywords": [
+    "metrics",
+    "dashboard",
+    "quality",
+    "testing",
+    "elm",
+    "safe"
+  ],
+  "author": "ELM QE Team",
+  "license": "UNLICENSED"
+}

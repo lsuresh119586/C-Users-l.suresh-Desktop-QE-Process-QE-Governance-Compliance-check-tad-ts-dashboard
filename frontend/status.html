@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Status Monitor</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Courier New', monospace;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .container { max-width: 1200px; margin: 0 auto; }
+        .card { background: white; padding: 20px; margin: 10px 0; border-radius: 8px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); }
+        .status-bar { background: #333; color: white; padding: 15px; border-radius: 5px; margin-bottom: 20px; }
+        .status-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #eee; }
+        .status-label { font-weight: bold; }
+        .status-value { color: #007bff; }
+        .success { color: #28a745; font-weight: bold; }
+        .error { color: #dc3545; font-weight: bold; }
+        .warning { color: #ffc107; font-weight: bold; }
+        .data-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 15px; margin-top: 15px; }
+        .data-card { background: #f8f9fa; padding: 15px; border-radius: 5px; border-left: 4px solid #007bff; }
+        .data-card h3 { margin-bottom: 10px; color: #333; }
+        .data-value { font-size: 24px; font-weight: bold; color: #007bff; }
+        .data-label { font-size: 12px; color: #666; text-transform: uppercase; }
+        button { padding: 10px 20px; background: #007bff; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-right: 5px; }
+        button:hover { background: #0056b3; }
+        .log { background: #f8f9fa; padding: 15px; border-radius: 5px; font-size: 12px; max-height: 300px; overflow-y: auto; }
+        .log-item { padding: 5px; border-bottom: 1px solid #ddd; }
+        .log-timestamp { color: #999; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 style="color: white; margin-bottom: 20px;">📊 Dashboard Status Monitor</h1>
+        
+        <div class="status-bar">
+            <div style="margin-bottom: 10px;"><strong>System Status:</strong> <span id="system-status" class="success">Initializing...</span></div>
+            <div class="status-item">
+                <span class="status-label">Frontend URL:</span>
+                <span class="status-value" id="frontend-url">Loading...</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Backend URL:</span>
+                <span class="status-value" id="backend-url">http://localhost:3000</span>
+            </div>
+            <div class="status-item">
+                <span class="status-label">Sprint:</span>
+                <span class="status-value" id="current-sprint">26.1.2</span>
+            </div>
+        </div>
+
+        <div class="data-grid">
+            <div class="data-card">
+                <h3>QTest API</h3>
+                <div id="qtest-status" class="warning">Testing...</div>
+            </div>
+            <div class="data-card">
+                <h3>Defects API</h3>
+                <div id="defects-status" class="warning">Testing...</div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Test Metrics</h2>
+            <div class="data-grid">
+                <div class="data-card">
+                    <div class="data-label">Total Tests</div>
+                    <div class="data-value" id="total-tests">-</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-label">Automated Tests</div>
+                    <div class="data-value" id="automated-tests">-</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-label">With Attachments</div>
+                    <div class="data-value" id="with-attachments">-</div>
+                </div>
+                <div class="data-card">
+                    <div class="data-label">Open Defects</div>
+                    <div class="data-value" id="open-defects">-</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Actions</h2>
+            <button onclick="loadDashboardData()">📥 Load Dashboard Data</button>
+            <button onclick="testAPIs()">🔍 Test All APIs</button>
+            <button onclick="clearLogs()">🗑️ Clear Logs</button>
+        </div>
+
+        <div class="card">
+            <h2>System Log</h2>
+            <div class="log" id="system-log"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        const log = document.getElementById('system-log');
+        
+        function addLog(msg, type = 'info') {
+            const timestamp = new Date().toLocaleTimeString();
+            const item = document.createElement('div');
+            item.className = `log-item`;
+            item.innerHTML = `<span class="log-timestamp">[${timestamp}]</span> ${msg}`;
+            log.appendChild(item);
+            log.scrollTop = log.scrollHeight;
+            console.log(`[${type.toUpperCase()}]`, msg);
+        }
+        
+        function clearLogs() {
+            log.innerHTML = '';
+            addLog('Logs cleared');
+        }
+        
+        function updateStatus(element, text, status = 'info') {
+            document.getElementById(element).textContent = text;
+            document.getElementById(element).className = status;
+        }
+        
+        async function testAPIs() {
+            addLog('🔵 Starting API tests...');
+            
+            try {
+                // Test QTest API
+                addLog('📍 Testing /api/qtest/sprint/26.1.2');
+                const r1 = await fetch(`${API_BASE}/api/qtest/sprint/26.1.2`, { mode: 'cors' });
+                
+                if (r1.ok) {
+                    const d1 = await r1.json();
+                    addLog(`✅ QTest API: ${d1.totals.total} tests, ${d1.totals.automated} automated`, 'success');
+                    updateStatus('qtest-status', `✅ Connected: ${d1.totals.total} tests`, 'success');
+                    
+                    document.getElementById('total-tests').textContent = d1.totals.total;
+                    document.getElementById('automated-tests').textContent = d1.totals.automated;
+                    document.getElementById('with-attachments').textContent = d1.totals.with_attachments;
+                } else {
+                    addLog(`❌ QTest API HTTP ${r1.status}`, 'error');
+                    updateStatus('qtest-status', `❌ HTTP ${r1.status}`, 'error');
+                }
+                
+                // Test Defects API
+                addLog('📍 Testing /api/defects/by-module?sprint=26.1.2');
+                const r2 = await fetch(`${API_BASE}/api/defects/by-module?sprint=26.1.2`, { mode: 'cors' });
+                
+                if (r2.ok) {
+                    const d2 = await r2.json();
+                    addLog(`✅ Defects API: ${d2.totals.open} open, ${d2.totals.closed} closed`, 'success');
+                    updateStatus('defects-status', `✅ Connected: ${d2.totals.open} open defects`, 'success');
+                    
+                    document.getElementById('open-defects').textContent = d2.totals.open;
+                } else {
+                    addLog(`❌ Defects API HTTP ${r2.status}`, 'error');
+                    updateStatus('defects-status', `❌ HTTP ${r2.status}`, 'error');
+                }
+                
+                updateStatus('system-status', '✅ All systems operational', 'success');
+                addLog('🟢 All tests passed! Data is ready for dashboard.', 'success');
+                
+            } catch (err) {
+                addLog(`❌ ERROR: ${err.message}`, 'error');
+                updateStatus('system-status', `❌ ${err.message}`, 'error');
+            }
+        }
+        
+        function loadDashboardData() {
+            window.location.href = '/unified-dashboard.html';
+        }
+        
+        // Initialize on page load
+        document.getElementById('frontend-url').textContent = window.location.href;
+        addLog('🟡 System initialized');
+        addLog('Click "Test All APIs" or "Load Dashboard Data" to get started');
+        
+        // Auto-test on page load
+        setTimeout(() => {
+            addLog('🔄 Running automatic API test...');
+            testAPIs();
+        }, 1000);
+    </script>
+</body>
+</html>

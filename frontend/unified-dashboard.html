@@ -1,0 +1,1300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unified Dashboard - TAD-TS</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', sans-serif;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 30px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .header h1 {
+            font-size: 2em;
+            background: linear-gradient(135deg, #00b4d8, #7c4dff, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #8899aa;
+            font-size: 1.1em;
+        }
+
+        .controls {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .control-group {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .control-group label {
+            font-weight: 600;
+            color: #8899aa;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85em;
+        }
+
+        select, button {
+            padding: 10px 15px;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.08);
+            color: #e0e0e0;
+            transition: all 0.3s;
+        }
+
+        select option {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        select:hover {
+            border-color: #00b4d8;
+        }
+
+        button {
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+            color: white;
+            border: none;
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4);
+        }
+
+        button:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+        }
+
+        .tabs {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .tab-buttons {
+            display: flex;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom: 2px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 1em;
+            font-weight: 600;
+            color: #667;
+            transition: all 0.3s ease;
+        }
+
+        .tab-btn.active {
+            background: rgba(0, 180, 216, 0.1);
+            color: #00b4d8;
+            border-bottom: 3px solid #00b4d8;
+            box-shadow: 0 -2px 10px rgba(0, 180, 216, 0.1);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.03);
+            color: #8899aa;
+        }
+
+        .tab-content {
+            display: none;
+            padding: 30px;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeInUp 0.4s ease;
+        }
+
+        .error-message {
+            background: rgba(244, 67, 54, 0.1);
+            color: #ff6b6b;
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            border-left: 4px solid #ff5252;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: linear-gradient(135deg, #00b4d8 0%, #0077b6 50%, #7c4dff 100%);
+            background-size: 200% 200%;
+            animation: gradientShift 6s ease infinite;
+            color: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 8px 30px rgba(0, 180, 216, 0.25);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 40px rgba(0, 180, 216, 0.35);
+        }
+
+        .card:nth-child(2) { animation-delay: -1.5s; }
+        .card:nth-child(3) { animation-delay: -3s; }
+        .card:nth-child(4) { animation-delay: -4.5s; }
+
+        .card h3 {
+            font-size: 0.85em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .card-value {
+            font-size: 1.8em;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .card-label {
+            font-size: 0.8em;
+            opacity: 0.8;
+        }
+
+        .teams-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .team-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .team-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(0, 180, 216, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: #00b4d8;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .team-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-label {
+            color: #8899aa;
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: #e0e0e0;
+        }
+
+        .progress-bar {
+            background: rgba(255, 255, 255, 0.1);
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 10px;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00b4d8 0%, #7c4dff 100%);
+            transition: width 0.3s ease;
+            border-radius: 4px;
+        }
+
+        .modules-section {
+            margin-bottom: 30px;
+        }
+
+        .modules-section h3 {
+            margin-bottom: 20px;
+            color: #e0e0e0;
+        }
+
+        .module-item {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.3s;
+        }
+
+        .module-item:hover {
+            background: rgba(0, 180, 216, 0.06);
+            border-color: rgba(0, 180, 216, 0.2);
+        }
+
+        .module-name {
+            font-weight: 500;
+            color: #c0c0c0;
+        }
+
+        .module-count {
+            background: linear-gradient(135deg, #00b4d8, #7c4dff);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.9em;
+            box-shadow: 0 3px 10px rgba(0, 180, 216, 0.3);
+        }
+
+        .correlation-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .correlation-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 20px;
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .correlation-card:hover {
+            border-color: rgba(0, 180, 216, 0.3);
+            transform: translateY(-3px);
+        }
+
+        .correlation-card .team-name {
+            color: #e0e0e0;
+            border-bottom: 2px solid #00b4d8;
+            padding-bottom: 10px;
+        }
+
+        .correlation-metric {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding: 10px;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+        }
+
+        .metric-label {
+            color: #8899aa;
+            font-weight: 500;
+        }
+
+        .metric-value {
+            font-weight: 700;
+            color: #00b4d8;
+        }
+        }
+
+        .risk-score {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            margin-top: 15px;
+            text-align: center;
+        }
+
+        .risk-score-value {
+            font-size: 2em;
+            font-weight: 700;
+            margin-bottom: 5px;
+            background: linear-gradient(135deg, #ff6b6b, #ffab40, #00e676);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .risk-score-label {
+            color: #8899aa;
+            font-size: 0.9em;
+        }
+
+        .recommendation {
+            padding: 10px;
+            border-radius: 10px;
+            margin-top: 10px;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .recommendation.high {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .recommendation.medium {
+            background: rgba(255, 171, 64, 0.15);
+            color: #ffab40;
+            border: 1px solid rgba(255, 171, 64, 0.3);
+        }
+
+        .recommendation.low {
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .insights {
+            background: rgba(255, 255, 255, 0.04);
+            padding: 25px;
+            border-radius: 16px;
+            margin-top: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .insights h3 {
+            color: #e0e0e0;
+            margin-bottom: 15px;
+        }
+
+        .insights ul {
+            list-style: none;
+        }
+
+        .insights li {
+            padding: 12px;
+            margin-bottom: 10px;
+            background: rgba(0, 180, 216, 0.06);
+            border-left: 4px solid #00b4d8;
+            border-radius: 8px;
+            color: #c0c0c0;
+        }
+
+        .view-details-link {
+            color: #00b4d8;
+            cursor: pointer;
+            font-size: 0.85em;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 6px;
+        }
+
+        .view-details-link:hover {
+            text-decoration: underline;
+            color: #7c4dff;
+        }
+
+        .bug-detail-overlay {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            z-index: 1000;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 40px 20px;
+            overflow-y: auto;
+        }
+
+        .bug-detail-panel {
+            background: #1a1a2e;
+            border-radius: 16px;
+            max-width: 900px;
+            width: 100%;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+            max-height: 85vh;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .bug-detail-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 25px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            background: #1a1a2e;
+            border-radius: 16px 16px 0 0;
+            z-index: 1;
+        }
+
+        .bug-detail-header h2 {
+            color: #00b4d8;
+            font-size: 1.3em;
+        }
+
+        .bug-detail-close {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px 12px;
+            border-radius: 8px;
+            color: #8899aa;
+            transition: all 0.2s;
+        }
+
+        .bug-detail-close:hover {
+            background: rgba(255, 82, 82, 0.2);
+            color: #ff6b6b;
+        }
+
+        .bug-detail-body {
+            padding: 20px 25px;
+        }
+
+        .bug-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9em;
+        }
+
+        .bug-table th {
+            background: rgba(0, 180, 216, 0.1);
+            text-align: left;
+            padding: 12px 10px;
+            font-weight: 600;
+            color: #8899aa;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.85em;
+        }
+
+        .bug-table td {
+            padding: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            vertical-align: top;
+            color: #c0c0c0;
+        }
+
+        .bug-table tr:hover {
+            background: rgba(0, 180, 216, 0.05);
+        }
+
+        .bug-key-link {
+            color: #00b4d8;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .bug-key-link:hover {
+            text-decoration: underline;
+            color: #7c4dff;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 0.8em;
+            font-weight: 600;
+        }
+
+        .badge-open { background: rgba(255, 82, 82, 0.15); color: #ff6b6b; border: 1px solid rgba(255, 82, 82, 0.3); }
+        .badge-closed { background: rgba(0, 230, 118, 0.15); color: #00e676; border: 1px solid rgba(0, 230, 118, 0.3); }
+        .badge-inprogress { background: rgba(255, 171, 64, 0.15); color: #ffab40; border: 1px solid rgba(255, 171, 64, 0.3); }
+        .badge-reopened { background: rgba(234, 128, 252, 0.15); color: #ea80fc; border: 1px solid rgba(234, 128, 252, 0.3); }
+        .badge-critical { background: linear-gradient(135deg, #ff1744, #d50000); color: white; box-shadow: 0 2px 8px rgba(255, 23, 68, 0.4); }
+        .badge-high { background: linear-gradient(135deg, #ff6d00, #e65100); color: white; box-shadow: 0 2px 8px rgba(255, 109, 0, 0.4); }
+        .badge-medium { background: linear-gradient(135deg, #ffab40, #ff9100); color: white; box-shadow: 0 2px 8px rgba(255, 171, 64, 0.3); }
+        .badge-low { background: linear-gradient(135deg, #00e676, #00c853); color: white; box-shadow: 0 2px 8px rgba(0, 230, 118, 0.3); }
+
+        .bug-summary-text {
+            max-width: 300px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .team-defect-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        @media (max-width: 768px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .teams-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .correlation-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+                <a href="index.html" style="text-decoration: none; color: inherit;">
+                    <h1>📊 TAD-TS Unified Dashboard</h1>
+                    <p>Test Metrics + Defect Analysis</p>
+                </a>
+                <a href="index.html" style="color: #00b4d8; text-decoration: none; padding: 10px 20px; border: 2px solid #00b4d8; border-radius: 10px; font-weight: 600; transition: all 0.3s; background: rgba(0,180,216,0.1);">← Back to Dashboard</a>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="control-group">
+                <label for="sprint-select">Sprint:</label>
+                <select id="sprint-select" onchange="loadData()">
+                    <option value="26.1.1">Sprint 26.1.1</option>
+                    <option value="26.1.2">Sprint 26.1.2</option>
+                    <option value="26.1.3">Sprint 26.1.3</option>
+                    <option value="26.1.4" selected>Sprint 26.1.4</option>
+                    <option value="26.1.5">Sprint 26.1.5</option>
+                    <option value="26.1.6">Sprint 26.1.6</option>
+                </select>
+            </div>
+            <button id="refresh-btn" onclick="loadData()">🔄 Refresh</button>
+            <div id="status" style="flex: 1; text-align: right; color: #666;"></div>
+        </div>
+
+        <div id="error" class="error-message" style="display: none;"></div>
+
+        <div class="tabs">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab('overview')">📈 Overview</button>
+                <button class="tab-btn" onclick="switchTab('qtest')">✅ Test Metrics</button>
+                <button class="tab-btn" onclick="switchTab('defects')">🐛 Defects</button>
+                <button class="tab-btn" onclick="switchTab('correlation')">🔗 Correlation</button>
+            </div>
+
+            <div id="overview" class="tab-content active"></div>
+            <div id="qtest" class="tab-content"></div>
+            <div id="defects" class="tab-content"></div>
+            <div id="correlation" class="tab-content"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000';
+        let currentData = {
+            sprint: '26.1.4',
+            product: 't360',
+            qtest: null,
+            defects: null
+        };
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('error');
+            errorDiv.textContent = message;
+            errorDiv.style.display = 'block';
+        }
+
+        function hideError() {
+            document.getElementById('error').style.display = 'none';
+        }
+
+        function updateStatus(message) {
+            document.getElementById('status').textContent = message;
+        }
+
+        /**
+         * Normalize the tests-covered API response into a flat shape:
+         * { totals: { total, automated, with_attachments }, teams: { Name: { total, automated, with_attachments } } }
+         */
+        function normalizeQTestData(apiResponse) {
+            // /api/metrics/tests-covered/:sprint returns { status, sprint, data }
+            const raw = apiResponse?.data || apiResponse;
+
+            // Build totals from summary
+            const summary = raw.summary || {};
+            const totals = {
+                total: summary.total_test_cases || 0,
+                automated: summary.total_automated || 0,
+                with_attachments: summary.total_with_attachments || 0
+            };
+
+            // Build teams map — raw.teams is { TeamName: { total_test_cases, automated_test_cases, with_attachments, ... } }
+            const teams = {};
+            if (raw.teams && typeof raw.teams === 'object') {
+                for (const [teamName, teamData] of Object.entries(raw.teams)) {
+                    teams[teamName] = {
+                        total: teamData.total_test_cases || teamData.total || 0,
+                        automated: teamData.automated_test_cases || teamData.automated || 0,
+                        with_attachments: teamData.with_attachments || 0
+                    };
+                }
+            }
+
+            return { totals, teams };
+        }
+
+        // Team names by product
+        const T360_TEAMS = ['Vanguards', 'Chargers', 'Chubb', 'Matrix', 'Mavericks', 'Nexus'];
+        const PASSPORT_TEAMS = ['PP Genesis', 'PP Pioneers', 'PP Spartacles'];
+
+        function isValidTeam(name) {
+            const product = currentData.product || 't360';
+            const teams = product === 'passport' ? PASSPORT_TEAMS : T360_TEAMS;
+            return teams.some(t => name.toLowerCase().includes(t.toLowerCase()));
+        }
+        
+        // Legacy alias for compatibility
+        function isT360Team(name) {
+            return isValidTeam(name);
+        }
+
+        /**
+         * Normalize the defects API response into the shape the dashboard expects:
+         * { totals: { open, closed, total, critical, high, medium, low, backlog, inProgress, complete },
+         *   modules: [{ name, count }], teams: { TeamName: count } }
+         */
+        function normalizeDefectsData(apiResponse) {
+            const totals = apiResponse.totals || {};
+            const byStatus = apiResponse.byStatus || {};
+            const bySeverity = apiResponse.bySeverity || {};
+
+            // totals.open from the API already includes everything not closed/resolved
+            // byStatus gives the granular breakdown (open vs in-progress)
+            const totalOpen = totals.open ?? ((byStatus.open ?? 0) + (byStatus['in-progress'] ?? 0));
+            const totalClosed = totals.closed ?? (byStatus.closed ?? 0) + (byStatus.resolved ?? 0);
+
+            return {
+                totals: {
+                    open: totalOpen,
+                    closed: totalClosed,
+                    total: totals.total ?? (totalOpen + totalClosed),
+                    critical: totals.critical ?? bySeverity.critical ?? 0,
+                    high: totals.high ?? bySeverity.high ?? 0,
+                    medium: bySeverity.medium ?? 0,
+                    low: bySeverity.low ?? 0,
+                    backlog: byStatus.open ?? totalOpen,
+                    inProgress: byStatus['in-progress'] ?? 0,
+                    complete: totalClosed
+                },
+                modules: (apiResponse.byModule || [])
+                    .map(m => ({
+                        name: m.module || m.name || 'Unknown',
+                        count: m.defects || m.count || 0,
+                        open: m.open || 0,
+                        closed: m.closed || 0,
+                        severity: m.severity || 'medium',
+                        status: m.status || 'open'
+                    }))
+                    .filter(m => isT360Team(m.name)),
+                teams: Object.fromEntries(
+                    Object.entries(apiResponse.teams || {}).filter(([name]) => isT360Team(name))
+                ),
+                // Preserve per-team bug details for drill-down (T360 only)
+                teamBugs: Object.fromEntries(
+                    Object.entries(apiResponse.teams || {})
+                        .filter(([name]) => isT360Team(name))
+                        .map(([name, data]) => [
+                            name,
+                            (data.bugs || []).map(b => ({
+                                key: b.key,
+                                summary: b.summary,
+                                status: b.status,
+                                severity: b.severity || b.priority,
+                                created: b.created,
+                                updated: b.updated,
+                                isOpen: b.isOpen,
+                                reopened: b.reopened || false,
+                                reopenCount: b.reopenCount || 0
+                            }))
+                        ])
+                )
+            };
+        }
+
+        async function loadData() {
+            const sprint = document.getElementById('sprint-select').value;
+            currentData.sprint = sprint;
+            currentData.product = 'combined';
+
+            updateStatus('Loading T360 + Passport data...');
+            document.getElementById('refresh-btn').disabled = true;
+            hideError();
+
+            try {
+                // Fetch BOTH T360 and Passport data in parallel, merge them
+                const [t360Response, passportResponse] = await Promise.allSettled([
+                    fetch(`${API_BASE}/api/metrics/tests-covered/${sprint}`),
+                    fetch(`${API_BASE}/api/qtest/passport/sync-from-tadts/${sprint}`)
+                ]);
+
+                // Build combined teams object
+                let combinedTeams = {};
+                let loadedProducts = [];
+
+                // Process T360 data
+                if (t360Response.status === 'fulfilled' && t360Response.value.ok) {
+                    const t360Data = await t360Response.value.json();
+                    const t360Teams = t360Data?.data?.teams || {};
+                    for (const [teamName, teamData] of Object.entries(t360Teams)) {
+                        combinedTeams[teamName] = {
+                            total_test_cases: teamData.total_test_cases || 0,
+                            automated_test_cases: teamData.automated_test_cases || 0,
+                            with_attachments: teamData.with_attachments || 0,
+                            automation_coverage_percent: teamData.automation_coverage_percent || 0
+                        };
+                    }
+                    loadedProducts.push('T360');
+                }
+
+                // Process Passport data
+                if (passportResponse.status === 'fulfilled' && passportResponse.value.ok) {
+                    const passportData = await passportResponse.value.json();
+                    const passportTeams = passportData?.teams || {};
+                    for (const [teamName, teamData] of Object.entries(passportTeams)) {
+                        combinedTeams[teamName] = {
+                            total_test_cases: teamData.total || 0,
+                            automated_test_cases: teamData.automated || 0,
+                            with_attachments: teamData.with_attachments || 0,
+                            automation_coverage_percent: teamData.total > 0 ? ((teamData.automated / teamData.total) * 100) : 0
+                        };
+                    }
+                    loadedProducts.push('Passport');
+                }
+
+                if (Object.keys(combinedTeams).length === 0) {
+                    throw new Error(`No test data available for Sprint ${sprint} from T360 or Passport`);
+                }
+
+                // Create combined qTestRaw structure
+                const qTestRaw = {
+                    data: {
+                        teams: combinedTeams
+                    }
+                };
+                
+                currentData.qtest = normalizeQTestData(qTestRaw);
+
+                // Warn if team keys look like test case names (data quality issue)
+                const teamNames = Object.keys(currentData.qtest.teams);
+                const suspectTeams = teamNames.filter(n => n.length > 40);
+                if (suspectTeams.length > 0) {
+                    showError(`⚠️ Sprint ${sprint} has incomplete team data. Team names may be incorrect. Try Sprint 26.1.4 for best results.`);
+                }
+
+                // Fetch defect data (combined - no product filter)
+                const defectResponse = await fetch(`${API_BASE}/api/defects/by-module?sprint=${sprint}`);
+                if (!defectResponse.ok) throw new Error('Failed to fetch defect data');
+                const defectRaw = await defectResponse.json();
+                currentData.defects = normalizeDefectsData(defectRaw);
+
+                const teamCount = Object.keys(combinedTeams).length;
+                updateStatus(`✅ Data loaded — ${loadedProducts.join(' + ')} (${teamCount} teams) — Sprint ${sprint}`);
+                renderTabs();
+            } catch (err) {
+                showError(`Error: ${err.message}`);
+                updateStatus('❌ Failed to load data');
+                // Clear stale data so tabs show nothing instead of old sprint data
+                currentData.qtest = null;
+                currentData.defects = null;
+                renderTabs();
+            } finally {
+                document.getElementById('refresh-btn').disabled = false;
+            }
+        }
+
+        function renderTabs() {
+            renderOverview();
+            renderQTest();
+            renderDefects();
+            renderCorrelation();
+        }
+
+        function renderOverview() {
+            const qtest = currentData.qtest;
+            const defects = currentData.defects;
+            if (!qtest) { document.getElementById('overview').innerHTML = '<div class="loading">Select a sprint and click Refresh to load data.</div>'; return; }
+
+            const automationPct = qtest.totals.total > 0 ? (qtest.totals.automated / qtest.totals.total * 100).toFixed(1) : '0.0';
+            const attachmentPct = qtest.totals.total > 0 ? (qtest.totals.with_attachments / qtest.totals.total * 100).toFixed(1) : '0.0';
+
+            let html = `
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Total Tests</h3>
+                        <div class="card-value">${qtest.totals.total}</div>
+                        <div class="card-label">Sprint ${currentData.sprint}</div>
+                    </div>
+                    <div class="card">
+                        <h3>Automated</h3>
+                        <div class="card-value">${qtest.totals.automated}</div>
+                        <div class="card-label">${automationPct}% Coverage</div>
+                    </div>
+                    <div class="card">
+                        <h3>With Attachments</h3>
+                        <div class="card-value">${qtest.totals.with_attachments}</div>
+                        <div class="card-label">${attachmentPct}% Documented</div>
+                    </div>
+                    ${defects ? `
+                    <div class="card">
+                        <h3>Open Defects</h3>
+                        <div class="card-value">${defects.totals.open}</div>
+                        <div class="card-label">${defects.totals.critical} Critical</div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+
+            if (defects) {
+                html += `
+                    <div class="modules-section">
+                        <h3>Defect Status Distribution</h3>
+                        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;">
+                            <div class="module-item">
+                                <span class="stat-label">Open / Backlog</span>
+                                <span class="stat-value">${defects.totals.backlog}</span>
+                            </div>
+                            <div class="module-item">
+                                <span class="stat-label">In Progress</span>
+                                <span class="stat-value">${defects.totals.inProgress}</span>
+                            </div>
+                            <div class="module-item">
+                                <span class="stat-label">Closed / Complete</span>
+                                <span class="stat-value">${defects.totals.complete}</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('overview').innerHTML = html;
+        }
+
+        function renderQTest() {
+            const qtest = currentData.qtest;
+            if (!qtest) { document.getElementById('qtest').innerHTML = '<div class="loading">No test data available for this sprint.</div>'; return; }
+
+            const automationPct = qtest.totals.total > 0 ? (qtest.totals.automated / qtest.totals.total * 100).toFixed(1) : '0.0';
+            const attachmentPct = qtest.totals.total > 0 ? (qtest.totals.with_attachments / qtest.totals.total * 100).toFixed(1) : '0.0';
+
+            let html = `
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Total Test Cases</h3>
+                        <div class="card-value">${qtest.totals.total}</div>
+                    </div>
+                    <div class="card">
+                        <h3>Automated</h3>
+                        <div class="card-value">${qtest.totals.automated}</div>
+                        <div class="card-label">${automationPct}%</div>
+                    </div>
+                    <div class="card">
+                        <h3>With Attachments</h3>
+                        <div class="card-value">${qtest.totals.with_attachments}</div>
+                        <div class="card-label">${attachmentPct}%</div>
+                    </div>
+                </div>
+
+                <div class="modules-section">
+                    <h3>Teams Breakdown</h3>
+                    <div class="teams-grid">
+                        ${Object.entries(qtest.teams).map(([teamName, teamData]) => {
+                            const coverage = teamData.total > 0 ? (teamData.automated / teamData.total * 100).toFixed(1) : '0.0';
+                            return `
+                            <div class="team-card">
+                                <div class="team-name">${teamName}</div>
+                                <div class="team-stat">
+                                    <span class="stat-label">Total Tests</span>
+                                    <span class="stat-value">${teamData.total}</span>
+                                </div>
+                                <div class="team-stat">
+                                    <span class="stat-label">Automated</span>
+                                    <span class="stat-value">${teamData.automated}</span>
+                                </div>
+                                <div class="team-stat">
+                                    <span class="stat-label">With Attachments</span>
+                                    <span class="stat-value">${teamData.with_attachments}</span>
+                                </div>
+                                <div class="team-stat">
+                                    <span class="stat-label">Coverage</span>
+                                    <span class="stat-value">${coverage}%</span>
+                                </div>
+                                <div class="progress-bar">
+                                    <div class="progress-fill" style="width: ${coverage}%"></div>
+                                </div>
+                            </div>
+                        `}).join('')}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('qtest').innerHTML = html;
+        }
+
+        function renderDefects() {
+            const defects = currentData.defects;
+            if (!defects) { document.getElementById('defects').innerHTML = '<div class="loading">No defect data available for this sprint.</div>'; return; }
+
+            // Collect ALL bugs across teams for the "View All" link
+            const allBugs = [];
+            for (const [teamName, bugs] of Object.entries(defects.teamBugs || {})) {
+                for (const bug of bugs) {
+                    allBugs.push({ ...bug, team: teamName });
+                }
+            }
+
+            let html = `
+                <div class="cards-grid">
+                    <div class="card">
+                        <h3>Critical</h3>
+                        <div class="card-value">${defects.totals.critical}</div>
+                    </div>
+                    <div class="card">
+                        <h3>High</h3>
+                        <div class="card-value">${defects.totals.high}</div>
+                    </div>
+                    <div class="card">
+                        <h3>Medium</h3>
+                        <div class="card-value">${defects.totals.medium}</div>
+                    </div>
+                    <div class="card">
+                        <h3>Low</h3>
+                        <div class="card-value">${defects.totals.low}</div>
+                    </div>
+                </div>
+
+                <div class="modules-section">
+                    <h3>Defects by Team
+                        ${allBugs.length > 0 ? `<a class="view-details-link" style="margin-left: 15px; font-size: 0.7em;" onclick="showBugDetails('All Teams', null)">📋 View All ${allBugs.length} Bugs</a>` : ''}
+                    </h3>
+                    <div style="display: grid; gap: 10px;">
+                        ${defects.modules.length > 0 ? defects.modules.map(module => {
+                            const teamBugs = defects.teamBugs?.[module.name] || [];
+                            return `
+                            <div class="module-item" style="flex-direction: column; align-items: stretch;">
+                                <div class="team-defect-summary">
+                                    <span class="module-name">
+                                        ${module.name}
+                                        <small style="color:#999">(${module.open || 0} open, ${module.closed || 0} closed)</small>
+                                    </span>
+                                    <span style="display: flex; align-items: center; gap: 10px;">
+                                        <span class="module-count">${module.count}</span>
+                                        ${teamBugs.length > 0 ? `<a class="view-details-link" onclick="showBugDetails('${module.name}', '${module.name}')">View Details →</a>` : ''}
+                                    </span>
+                                </div>
+                            </div>
+                        `}).join('') : '<div class="module-item"><span class="stat-label">No defects found for this sprint</span></div>'}
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('defects').innerHTML = html;
+        }
+
+        const JIRA_BASE = 'https://jira.wolterskluwer.io/jira/browse';
+
+        function getStatusBadge(status) {
+            const s = (status || '').toLowerCase();
+            if (s === 'closed' || s === 'done' || s === 'resolved') return `<span class="badge badge-closed">${status}</span>`;
+            if (s === 'in progress' || s === 'in-progress') return `<span class="badge badge-inprogress">${status}</span>`;
+            return `<span class="badge badge-open">${status}</span>`;
+        }
+
+        function getSeverityBadge(severity) {
+            const s = (severity || '').toLowerCase();
+            if (s === 'sev 1' || s === 'sev-1' || s === 'sev1') return `<span class="badge badge-critical">${severity}</span>`;
+            if (s === 'sev 2' || s === 'sev-2' || s === 'sev2') return `<span class="badge badge-high">${severity}</span>`;
+            if (s === 'sev 3' || s === 'sev-3' || s === 'sev3') return `<span class="badge badge-medium">${severity}</span>`;
+            if (s === 'sev 4' || s === 'sev-4' || s === 'sev4') return `<span class="badge badge-low">${severity}</span>`;
+            return `<span class="badge badge-low">${severity || 'N/A'}</span>`;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '-';
+            return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        }
+
+        function showBugDetails(title, teamName) {
+            const defects = currentData.defects;
+            if (!defects) return;
+
+            let bugs = [];
+            if (teamName) {
+                // Single team
+                bugs = (defects.teamBugs?.[teamName] || []).map(b => ({ ...b, team: teamName }));
+            } else {
+                // All teams
+                for (const [tName, tBugs] of Object.entries(defects.teamBugs || {})) {
+                    for (const bug of tBugs) {
+                        bugs.push({ ...bug, team: tName });
+                    }
+                }
+            }
+
+            // Sort: open first, then by severity (Sev 1 > Sev 2 > Sev 3 > Sev 4)
+            const severityOrder = { 'sev 1': 0, 'sev-1': 0, 'sev1': 0, 'sev 2': 1, 'sev-2': 1, 'sev2': 1, 'sev 3': 2, 'sev-3': 2, 'sev3': 2, 'sev 4': 3, 'sev-4': 3, 'sev4': 3, 'n/a': 4, '': 4 };
+            bugs.sort((a, b) => {
+                if (a.isOpen !== b.isOpen) return a.isOpen ? -1 : 1;
+                return (severityOrder[(a.severity||'').toLowerCase()] ?? 4) - (severityOrder[(b.severity||'').toLowerCase()] ?? 4);
+            });
+
+            const openCount = bugs.filter(b => b.isOpen).length;
+            const closedCount = bugs.length - openCount;
+            const reopenedCount = bugs.filter(b => b.reopened).length;
+
+            let html = `
+                <div class="bug-detail-overlay" onclick="if(event.target===this) hideBugDetails()">
+                    <div class="bug-detail-panel">
+                        <div class="bug-detail-header">
+                            <h2>🐛 ${title} — Sprint ${currentData.sprint}</h2>
+                            <button class="bug-detail-close" onclick="hideBugDetails()">✕</button>
+                        </div>
+                        <div class="bug-detail-body">
+                            <div style="display: flex; gap: 15px; margin-bottom: 20px; flex-wrap: wrap;">
+                                <span class="badge badge-open" style="font-size: 0.9em; padding: 5px 12px;">${openCount} Open</span>
+                                <span class="badge badge-closed" style="font-size: 0.9em; padding: 5px 12px;">${closedCount} Closed</span>
+                                ${reopenedCount > 0 ? `<span class="badge badge-reopened" style="font-size: 0.9em; padding: 5px 12px;">🔄 ${reopenedCount} Reopened</span>` : ''}
+                                <span style="color: #666; font-size: 0.9em; padding: 5px 0;">${bugs.length} total</span>
+                            </div>
+            `;
+
+            if (bugs.length === 0) {
+                html += `<p style="color: #666; text-align: center; padding: 30px;">No bugs found for this team/sprint.</p>`;
+            } else {
+                html += `
+                            <table class="bug-table">
+                                <thead>
+                                    <tr>
+                                        <th>Key</th>
+                                        ${!teamName ? '<th>Team</th>' : ''}
+                                        <th>Summary</th>
+                                        <th>Status</th>
+                                        <th>Severity</th>
+                                        <th>Created</th>
+                                        <th>Updated</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                `;
+
+                for (const bug of bugs) {
+                    html += `
+                                    <tr>
+                                        <td><a class="bug-key-link" href="${JIRA_BASE}/${bug.key}" target="_blank" title="Open in Jira">${bug.key}</a>
+                                            ${bug.reopened ? `<br><span class="badge badge-reopened" style="font-size: 0.7em;">🔄 ×${bug.reopenCount}</span>` : ''}
+                                        </td>
+                                        ${!teamName ? `<td style="white-space:nowrap;">${bug.team}</td>` : ''}
+                                        <td class="bug-summary-text" title="${(bug.summary||'').replace(/"/g, '&quot;')}">${bug.summary || '-'}</td>
+                                        <td>${getStatusBadge(bug.status)}</td>
+                                        <td>${getSeverityBadge(bug.severity)}</td>
+                                        <td style="white-space:nowrap;">${formatDate(bug.created)}</td>
+                                        <td style="white-space:nowrap;">${formatDate(bug.updated)}</td>
+                                    </tr>
+                    `;
+                }
+
+                html += `
+                                </tbody>
+                            </table>
+                `;
+            }
+
+            html += `
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            // Insert overlay
+            const overlay = document.createElement('div');
+            overlay.id = 'bug-detail-overlay';
+            overlay.innerHTML = html;
+            document.body.appendChild(overlay);
+        }
+
+        function hideBugDetails() {
+            const overlay = document.getElementById('bug-detail-overlay');
+            if (overlay) overlay.remove();
+        }
+
+        // Close overlay on Escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') hideBugDetails();
+        });
+
+        function calculateRiskScore(defectCount, automationRate) {
+            const defectWeight = Math.min(defectCount * 15, 50);
+            const automationWeight = (100 - automationRate) * 0.3;
+            return Math.round(defectWeight + automationWeight);
+        }
+
+        function getRiskRecommendation(score) {
+            if (score >= 70) return { level: 'high', text: '🔴 High Risk - Increase testing' };
+            if (score >= 40) return { level: 'medium', text: '🟡 Medium Risk - Review coverage' };
+            return { level: 'low', text: '🟢 Low Risk - Maintain current pace' };
+        }
+
+        function renderCorrelation() {
+            const qtest = currentData.qtest;
+            const defects = currentData.defects;
+            if (!qtest || !defects) { document.getElementById('correlation').innerHTML = '<div class="loading">Need both test and defect data to show correlation.</div>'; return; }
+
+            let html = '<div class="correlation-grid">';
+
+            Object.entries(qtest.teams).forEach(([teamName, teamData]) => {
+                const teamDefectData = defects.teams?.[teamName];
+                const teamDefects = typeof teamDefectData === 'number' ? teamDefectData
+                    : (teamDefectData?.open ?? teamDefectData?.count ?? 0);
+                const matchingModule = defects.modules?.find(m => m.name === teamName);
+                const defectCount = teamDefects || matchingModule?.count || 0;
+                const automationRate = teamData.total > 0 ? parseFloat((teamData.automated / teamData.total * 100).toFixed(1)) : 0;
+                const riskScore = calculateRiskScore(defectCount, automationRate);
+                const rec = getRiskRecommendation(riskScore);
+
+                html += `
+                    <div class="correlation-card">
+                        <div class="team-name">${teamName}</div>
+                        <div class="correlation-metric">
+                            <span class="metric-label">Test Cases</span>
+                            <span class="metric-value">${teamData.total}</span>
+                        </div>
+                        <div class="correlation-metric">
+                            <span class="metric-label">Automated</span>
+                            <span class="metric-value">${automationRate}%</span>
+                        </div>
+                        <div class="correlation-metric">
+                            <span class="metric-label">With Attachments</span>
+                            <span class="metric-value">${teamData.with_attachments}</span>
+                        </div>
+                        <div class="correlation-metric">
+                            <span class="metric-label">Defects</span>
+                            <span class="metric-value">${defectCount}</span>
+                        </div>
+                        <div class="risk-score">
+                            <div class="risk-score-value">${riskScore}/100</div>
+                            <div class="risk-score-label">Risk Score</div>
+                        </div>
+                        <div class="recommendation ${rec.level}">${rec.text}</div>
+                    </div>
+                `;
+            });
+
+            html += '</div>';
+
+            html += `
+                <div class="insights">
+                    <h3>💡 Insights & Recommendations</h3>
+                    <ul>
+                        <li><strong>High Defect Teams:</strong> Teams with many defects should prioritize automation coverage increase</li>
+                        <li><strong>Low Automation Teams:</strong> Teams with low automation coverage tend to have higher defect rates</li>
+                        <li><strong>Risk Mitigation:</strong> Focus regression testing on high-risk modules</li>
+                        <li><strong>Resource Allocation:</strong> Allocate additional QA resources to high-risk areas</li>
+                    </ul>
+                </div>
+            `;
+
+            document.getElementById('correlation').innerHTML = html;
+        }
+
+        // Load data on page load
+        window.addEventListener('DOMContentLoaded', loadData);
+    </script>
+</body>
+</html>

@@ -1,127 +1,379 @@
-# TAD/TS Dashboard - Complete Package
+# Polaris — ELM Metrics Dashboard
 
-This folder contains all files required for the TAD/TS Compliance Dashboard.
+> **Unified Quality Metrics Dashboard for Enterprise Legal Management Products**
 
-## 📁 Folder Contents
+Polaris is a centralized, real-time quality metrics dashboard that consolidates Dev and QA metrics across all ELM product areas — **T360**, **DnA**, **Passport**, and **Collaboration Portal** — into a single interactive platform.
 
-### Python Scripts
-- **sprint-tad-ts-report.py** - Main report generator (checks PRs and descriptions for TAD/TS)
-- **generate-standalone-html.py** - Creates standalone HTML dashboard with embedded data
-- **analyze-issue.py** - Analysis tool for individual JIRA issues
+---
 
-### PowerShell Scripts
-- **regenerate-all-reports.ps1** - Automation script to regenerate all 12 months + standalone dashboard
+## Table of Contents
 
-### HTML Dashboards
-- **tad-ts-dashboard.html** - Interactive dashboard with sprint selector and status filter
-- **standalone-dashboard/tad-ts-dashboard-standalone.html** - Standalone version with embedded sprint data
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Quick Start](#quick-start)
+- [Frontend](#frontend)
+- [Backend API](#backend-api)
+- [Data Sources](#data-sources)
+- [Testing](#testing)
+- [Project Structure](#project-structure)
+- [Speckit Documentation](#speckit-documentation)
+- [Sprint Coverage](#sprint-coverage)
+- [Product & Team Mapping](#product--team-mapping)
 
-### Data Files
-- **tad-ts-report-sprint-26.1.1.js/.json** - Current sprint data
-- **tad-ts-report-2026-01.js/.json** - Data snapshots by time period
-- **tad-ts-report-data.js/.json** - Current sprint data
+---
 
-### Documentation
-- **ANALYSIS-Description-Field-TAD-TS.md** - Analysis of description field checking feature
-- **IMPLEMENTATION-Description-Check-Complete.md** - Implementation details
-- **REGENERATION-STATUS.md** - Status of last regeneration
+## Overview
 
-## 🚀 Quick Start
+### What It Does
 
-### Generate Report for a Sprint
-```powershell
-py sprint-tad-ts-report.py
+| Capability | Description |
+|------------|-------------|
+| **Hierarchical Navigation** | Product → Team → Sprint drill-down |
+| **TAD/TS Compliance** | Track Technical Architecture Document & Test Strategy completion |
+| **Tests Covered** | qTest-synced automation coverage with team breakdown |
+| **Bug Metrics** | Live Jira integration for open/closed/reopened defect tracking |
+| **Dual Product Support** | DnA + T360 Jira tokens for cross-product bug analysis |
+| **Product Filtering** | Tests Covered view filters teams by selected product |
+
+### Key Metrics Tracked
+
+- TAD Document Completion Rate
+- Test Strategy Completion Rate
+- Unit & Functional Test Coverage
+- Test Case Automation Rate (from qTest)
+- Bug Metrics: Open, Closed, Reopened (from Jira)
+- Sprint Velocity / Completion Rate
+- Deployment Readiness Score
+
+---
+
+## Architecture
+
+```
+┌─────────────────────────────────────────────────────────┐
+│                    Frontend (Port 5173)                  │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │  index.html   │  │  App.tsx     │  │  Components  │  │
+│  │  (Legacy JS)  │  │  (React SPA) │  │  (TSX/JSX)   │  │
+│  └──────┬───────┘  └──────┬───────┘  └──────────────┘  │
+│         │                  │                             │
+│         └────────┬─────────┘                             │
+│                  ▼                                       │
+│         Vite Dev Server / Static Server                  │
+└─────────────────────┬───────────────────────────────────┘
+                      │ HTTP (fetch)
+                      ▼
+┌─────────────────────────────────────────────────────────┐
+│              Backend API Gateway (Port 3000)             │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │  server.js    │  │ jiraBugSvc   │  │ qtest-integ  │  │
+│  │  (REST API)   │  │ (Jira Live)  │  │ (qTest API)  │  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  │
+│                                                         │
+│  ┌──────────────┐  ┌──────────────┐  ┌──────────────┐  │
+│  │  db.json      │  │ .env tokens  │  │ SQL Server   │  │
+│  │  (Local Data) │  │ (DnA + T360) │  │ (Persistence)│  │
+│  └──────────────┘  └──────────────┘  └──────────────┘  │
+└─────────────────────────────────────────────────────────┘
+                      │                    │
+                      ▼                    ▼
+              ┌──────────────┐    ┌──────────────┐
+              │  Jira REST   │    │  qTest API   │
+              │  (Live Bugs) │    │  (Test Cases) │
+              └──────────────┘    └──────────────┘
 ```
 
-### Regenerate All Reports
-```powershell
-.\regenerate-all-reports.ps1
+---
+
+## Quick Start
+
+### Prerequisites
+
+- **Node.js** ≥ 18.0.0
+- **npm** (npmjs.com whitelisted on corporate network)
+
+### 1. Install Dependencies
+
+```bash
+# Backend
+cd backend/api-gateway
+npm install
+
+# Frontend
+cd ../../frontend
+npm install
 ```
 
-### View Dashboard
-1. Open **tad-ts-dashboard.html** in browser
-2. Select sprint from dropdown
-3. Apply status filter (All/Closed/New/Closed & New)
+### 2. Configure Environment
 
-### Share Dashboard
-Share the entire **standalone-dashboard** folder - it contains a single HTML file with all data embedded.
+Create `backend/api-gateway/.env`:
 
-## 🔍 How It Works
+```env
+# Jira API Tokens (dual-product support)
+JIRA_API_TOKEN_DNA=<your-dna-jira-token>
+JIRA_API_TOKEN_T360=<your-t360-jira-token>
 
-### Two-Stage TAD/TS Detection
+# SQL Server (optional - for metric persistence)
+DB_SERVER=localhost
+DB_NAME=ELMDashboard
+DB_USER=sa
+DB_PASSWORD=<your-password>
+DB_AUTH_TYPE=default
+DB_ENCRYPT=false
+DB_TRUST_CERT=true
+```
 
-**Stage 1: PR Names (Primary)**
-- Checks all pull requests in JIRA Development tab
-- TAD Keywords: "TAD", "TECHNICAL ARCHITECTURE"
-- TS Keywords: "TS FOR", "TEST STRATEGY" (excludes "TS FILE")
+### 3. Start the Application
 
-**Stage 2: Description Field (Fallback)**
-- If Stage 1 fails, checks issue description
-- TAD Keywords: TECHNICAL ARCHITECTURE, TAD DOCUMENT, ADR, ARCHITECTURE DECISION, DESIGN DOCUMENT, TECHNICAL DESIGN
-- TS Keywords: TEST STRATEGY, TS FOR, TEST PLAN, TESTING STRATEGY, QA STRATEGY
-- Extracts URLs from description (first 5)
+```bash
+# Terminal 1 — Backend API
+cd backend/api-gateway
+node server.js
+# → API running on http://localhost:3000
 
-### Filters
-- **Issue Types**: Only Bug and Story (excludes Sub-task, Epic, Feature, Task)
-- **Project**: ELM
-- **Teams**: 13 teams tracked via customfield_13392
+# Terminal 2 — Frontend
+cd frontend
+npm run dev
+# → Dashboard running on http://localhost:5173
+```
 
-### Output
-- JSON/JS files with team-wise breakdown
-- Source tracking (PR vs Description)
-- URL lists for description-based detections
-- Auto-deletes CSV/MD files after generation
+### 4. Open Dashboard
 
-## 📊 Dashboard Features
+| View | URL |
+|------|-----|
+| **Main Dashboard** (Legacy) | http://localhost:5173/index.html |
+| **React SPA** | http://localhost:5173/index-react.html |
+| **API Health** | http://localhost:3000/api/health |
 
-### Main Dashboard (tad-ts-dashboard.html)
-- Sprint selector (Sprint 26.1.1, Sprint 25.x, etc.)
-- Status filter (All/Closed/New/Closed & New)
-- Summary metrics (6 cards)
-- Chart.js visualizations
-- Team-wise breakdown with collapsible cards
-- Shows source (PR/Description) for each detection
+---
 
-### Standalone Dashboard
-- Sprint data embedded
-- No external file dependencies (except Chart.js CDN)
-- Ready to share via email/network drive
+## Frontend
 
-## 🔧 Configuration
+### Tech Stack
 
-### JIRA Connection
-- URL: https://jira.wolterskluwer.io/jira
-- Authentication: Bearer token (in script)
-- Project: ELM
-- API: REST v2 + Bitbucket dev-status
+| Technology | Version | Purpose |
+|------------|---------|---------|
+| React | 18.2.0 | UI framework |
+| TypeScript | — | Type safety |
+| Vite | 5.0.8 | Dev server & bundler |
 
-### Rate Limiting
-- 0.3s delay between API calls
-- 3 retries with backoff
-- Handles connection resets gracefully
+### Views & Components
 
-## 📈 Expected Results
+| Component | File | Description |
+|-----------|------|-------------|
+| **Main Dashboard** | `index.html` | Vanilla JS dashboard with hierarchical navigation, metric tiles, inline Tests Covered view |
+| **Unified Dashboard** | `UnifiedDashboard.jsx` | Consolidated metrics view |
+| **DnA Bug Metrics** | `DnADashboard.tsx` | DnA + T360 live bug metrics from Jira |
+| **TAD/TS Compliance** | `TADTSComplianceDashboard.tsx` | Document compliance tracking |
+| **Tests Covered** | `TestsCovered.tsx` | qTest automation coverage by sprint/team |
+| **Bug Metrics** | `BugMetrics.tsx` | Bug analysis component |
+| **qTest Dashboard** | `QTestDashboard.jsx` | qTest integration dashboard |
 
-### Accuracy Improvement
-- 10-30% increase in TAD/TS detection vs PR-only checking
-- Most benefit for teams documenting in descriptions (Titans, PP Teams, Minerva)
+### Dashboard Features
 
-### Monthly Reports
-- All 12 months of 2025 generated
-- Each month: ~50-350 Bug/Story issues
-- Team-wise compliance percentages
-- Drill-down to individual issues
+- **Product Selector** — Switch between T360, DnA, Passport, Collaboration Portal
+- **Team Selector** — Filtered by selected product
+- **Sprint Selector** — Dynamic sprint list per team
+- **Metric Tiles** — TAD %, TS %, Open/Closed/Reopened Bugs, Deployment Readiness
+- **Tests Covered Inline View** — Opens within dashboard, filtered by product, sprint selector
+- **Wolters Kluwer Branding** — Official WK wheel logo in header
 
-## 🎯 Next Steps
+---
 
-1. **Monthly Updates**: Run `py sprint-tad-ts-report.py YYYY-MM-01 YYYY-MM-END` for new months
-2. **Share with Teams**: Distribute standalone dashboard folder
-3. **Track Progress**: Use dashboard to monitor team compliance over time
-4. **Adjust Keywords**: Update keywords in script based on team feedback
+## Backend API
 
-## 📞 Support
+### Endpoints
 
-For questions or issues:
-- Check documentation files in this folder
-- Review script comments for technical details
-- Refer to conversation summary for implementation history
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| `GET` | `/api/health` | Health check |
+| `GET` | `/api/products` | List all 4 products |
+| `GET` | `/api/teams?product=<id>` | Teams filtered by product |
+| `GET` | `/api/sprints?team=<id>` | Sprints for a team |
+| `GET` | `/api/metrics?product=&team=&sprint=` | Sprint-level metrics |
+| `POST` | `/api/metrics` | Save new metrics |
+| `GET` | `/api/metrics/tests-covered` | All test coverage data (all sprints) |
+| `GET` | `/api/metrics/tests-covered/:sprint` | Test coverage for specific sprint |
+| `GET` | `/api/bugs/dna?team=&sprint=` | DnA team bug metrics (live Jira) |
+| `GET` | `/api/bugs/dna/all?sprint=` | All DnA teams (parallel fetch) |
+| `GET` | `/api/bugs/t360?team=&sprint=` | T360 team bug metrics (live Jira) |
+| `GET` | `/api/bugs/t360/all?sprint=` | All T360 teams (parallel fetch) |
+| `GET` | `/api/defects/by-module?sprint=` | Defects grouped by module |
+| `GET` | `/api/metrics/persisted?product=&sprint=` | SQL Server persisted metrics |
+
+### Key Backend Services
+
+| Service | File | Description |
+|---------|------|-------------|
+| `JiraBugService` | `jiraBugService.js` | Live Jira bug fetching with dual tokens, reopened detection via changelog, caching, retries |
+| `MetricsPersistence` | `metricsPersistence.js` | SQL Server persistence for historical metrics |
+| `qTest Integration` | `qtest-integration.js` | qTest API client for test case sync |
+| `TAD/TS Service` | `tadTsService.js` | TAD/TS compliance data service |
+
+---
+
+## Data Sources
+
+| Source | Integration | Data |
+|--------|-------------|------|
+| **Jira** | REST API (`jira.wolterskluwer.io`) | Bug tickets, changelog, status transitions |
+| **qTest** | REST API (`wk.qtestnet.com`, Project 114345) | Test cases, automation status, attachments |
+| **db.json** | Local JSON file | Products, teams, sprints, tests_covered, baseline metrics |
+| **SQL Server** | `mssql` driver | Persisted/aggregated metrics for historical analysis |
+
+### Bug Status Classification (Universal)
+
+- **Closed**: Only bugs with status exactly `Closed`
+- **Open**: All other statuses (`To Verify`, `In Progress`, `To Do`, `Open`, `Reopened`, etc.)
+- **Reopened**: Detected via Jira changelog — status transitions from closed states (`Closed`/`Done`/`Resolved`/`Fixed`) to open states
+
+---
+
+## Testing
+
+### Unit Tests (Jest)
+
+```bash
+cd backend/api-gateway
+npm test
+```
+
+- Framework: Jest 29.7 (ESM mode)
+- Coverage: `jiraBugService.test.js` — 29 test cases, 72.94% coverage
+- Custom error classes: `jiraErrors.js` (7 error types)
+
+### E2E Tests (Playwright)
+
+```bash
+npx playwright test
+```
+
+- Browsers: Chromium, Firefox, WebKit
+- Test directory: `tests/e2e/`
+- Base URL: `http://localhost:5173`
+- Auto-starts backend + frontend servers
+- CI: 2 retries, 4 workers
+
+---
+
+## Project Structure
+
+```
+polaris-elm-dashboard-feature-t360/
+├── spec.md                          # Feature specification (speckit output)
+├── plan.md                          # Technical architecture plan (speckit output)
+├── tasks.md                         # Implementation tasks log (speckit output)
+├── playwright.config.ts             # E2E test configuration
+├── package.json                     # Root package.json
+│
+├── backend/
+│   └── api-gateway/
+│       ├── server.js                # Main API server (port 3000)
+│       ├── server-temp.js           # Secondary server (port 3001)
+│       ├── jiraBugService.js        # Jira bug service (dual tokens)
+│       ├── jiraBugService.test.js   # Jest unit tests
+│       ├── jiraErrors.js            # Custom error classes
+│       ├── jiraService.js           # Base Jira service
+│       ├── qtest-integration.js     # qTest API integration
+│       ├── qtest-service.js         # qTest service layer
+│       ├── tadTsService.js          # TAD/TS compliance service
+│       ├── metricsPersistence.js    # SQL Server persistence
+│       ├── db.json                  # Local data store
+│       ├── .env                     # Environment config (tokens)
+│       └── package.json
+│
+├── frontend/
+│   ├── index.html                   # Main dashboard (vanilla JS)
+│   ├── index-react.html             # React SPA entry
+│   ├── server.js                    # Static file server
+│   ├── vite.config.ts               # Vite configuration
+│   ├── package.json
+│   ├── public/
+│   │   └── wk-logo.svg             # Wolters Kluwer logo
+│   └── src/
+│       ├── App.tsx                  # React app with navigation
+│       ├── main.tsx                 # React entry point
+│       └── components/
+│           ├── UnifiedDashboard.jsx + .css
+│           ├── DnADashboard.tsx + .css
+│           ├── TADTSComplianceDashboard.tsx + .css
+│           ├── TestsCovered.tsx + .css
+│           ├── BugMetrics.tsx + .css
+│           └── QTestDashboard.jsx + .css
+│
+├── database/
+│   ├── 01-create-schema.sql         # DB schema
+│   ├── 02-insert-sprint-26-1-1-data.sql
+│   ├── 03-create-utilities.sql
+│   └── 04-backup-restore.sql
+│
+├── tests/
+│   └── e2e/                         # Playwright E2E tests
+│
+├── .specify/                        # Speckit templates & memory
+│   ├── templates/                   # Document templates
+│   └── memory/                      # Constitution & context
+│
+├── .claude/commands/                # Speckit CLI commands
+│   └── speckit.*.md                 # Workflow definitions
+│
+└── .github/
+    ├── agents/                      # Speckit agent definitions
+    │   └── speckit.*.agent.md
+    └── prompts/                     # Speckit prompt definitions
+        └── speckit.*.prompt.md
+```
+
+---
+
+## Speckit Documentation
+
+This project uses **GitHub Spec Kit** (Specification-Driven Development). The documentation framework has three layers:
+
+| Layer | Location | Purpose |
+|-------|----------|---------|
+| **Commands** | `.claude/commands/speckit.*.md` | Workflow definitions — tell the AI agent *how* to generate docs |
+| **Templates** | `.specify/templates/*.md` | Blank formats/structures for each document type |
+| **Output** | `spec.md`, `plan.md`, `tasks.md` | Living project documentation (generated & maintained) |
+
+### Documents
+
+| File | Content |
+|------|---------|
+| `spec.md` | Feature specification — business context, user stories, metric definitions, acceptance criteria |
+| `plan.md` | Technical architecture plan — tech stack, system components, API design, implementation phases |
+| `tasks.md` | Implementation task log — completed tasks with traceability back to spec/plan sections |
+
+---
+
+## Sprint Coverage
+
+| Sprint | qTest Module ID | Tests Covered | Bug Metrics |
+|--------|----------------|---------------|-------------|
+| 26.1.1 | 68209713 | ✅ T360 teams | ✅ DnA + T360 |
+| 26.1.2 | 68209714 | ✅ T360 teams | ✅ DnA + T360 |
+| 26.1.3 | 68209719 | ✅ T360 teams | ✅ DnA + T360 |
+| 26.1.4 | 68289134 | ✅ T360 teams | ✅ DnA + T360 |
+| 26.1.5 | 68341069 | — (empty) | ✅ DnA + T360 |
+| 26.1.6 | 68341070 | ✅ T360 teams | ✅ DnA + T360 |
+
+---
+
+## Product & Team Mapping
+
+| Product | Teams | Bug Source | Tests Covered |
+|---------|-------|-----------|---------------|
+| **T360** | Chargers, Chubb, Matrix, Mavericks, Nexus, Vanguards | Jira (T360 token) | ✅ qTest data synced |
+| **DnA** | Minerva, Guardians, Athena | Jira (DnA token) | — (pending sync) |
+| **Passport** | Team A, Team B, Team C | — (pending) | — (pending sync) |
+| **Collaboration Portal** | — | — (pending) | — (pending sync) |
+
+---
+
+## License
+
+Internal — Wolters Kluwer ELM Organization
+
+---
+
+*Last Updated: February 20, 2026*

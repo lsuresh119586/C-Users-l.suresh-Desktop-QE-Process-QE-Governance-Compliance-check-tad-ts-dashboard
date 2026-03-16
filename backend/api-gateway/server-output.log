@@ -1,0 +1,25 @@
+⏳ Server object created, about to listen on port 3000...
+✅ Listener configured - keeping process alive
+🚀 API Server running on http://localhost:3000
+📊 API endpoints available:
+   GET  /api/products
+   GET  /api/teams?product=<product-id>
+   GET  /api/sprints?team=<team-id>
+   GET  /api/metrics?product=<product-id>&team=<team-id>&sprint=<sprint-id>
+   POST /api/metrics
+   GET  /api/qtest/sprint/<sprint-name>
+   GET  /api/defects/by-module?sprint=<sprint-name>
+✅ Callback executed successfully - server should be listening
+[QTest] Fetching live data for sprint 26.1.2 (ID: 68209714)
+[QTest] Trying endpoint: https://wk.qtestnet.com/api/v3/projects/114345/sprints/68209714/test-cases?pageS...
+[fetchQTest] URL: https://wk.qtestnet.com/api/v3/projects/114345/sprints/68209714/test-cases?pageSize=500
+[fetchQTest] Token: d52ca8d3-d69b-40e8-a...
+[fetchQTest] Headers: {
+  "Authorization": "Bearer d52ca8d3-d69b-40e8-a3bd-dde6e77fe92d",
+  "Content-Type": "application/json",
+  "User-Agent": "QTest-Dashboard/1.0"
+}
+[fetchQTest] Response status: 405
+[fetchQTest] Parsed successfully. Keys: status, title, message, time
+[QTest] Response received: {"status":405,"title":"Method Not Allowed","message":"Request method 'GET' not supported","time":1770968610050}
+[QTest] Using mock data for sprint 26.1.2

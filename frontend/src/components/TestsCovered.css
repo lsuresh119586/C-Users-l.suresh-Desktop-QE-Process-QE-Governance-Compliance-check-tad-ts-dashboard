@@ -1,0 +1,277 @@
+.tests-covered-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.tests-covered-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 20px;
+}
+
+.tests-covered-header h1 {
+  margin: 0;
+  color: #333;
+  font-size: 28px;
+}
+
+.sprint-selector {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.sprint-selector label {
+  font-weight: 600;
+  color: #666;
+}
+
+.sprint-selector select {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  background-color: white;
+}
+
+.tests-covered-summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.summary-card {
+  background: white;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.summary-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.summary-card.highlight {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  border: none;
+}
+
+.summary-card.highlight .card-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: #999;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 10px;
+}
+
+.summary-card.highlight .card-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.card-value {
+  font-size: 32px;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.summary-card.highlight .card-value {
+  color: white;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 6px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 3px;
+  overflow: hidden;
+  margin-top: 10px;
+}
+
+.summary-card.highlight .progress-bar {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  border-radius: 3px;
+  transition: width 0.3s ease;
+}
+
+.summary-card.highlight .progress-fill {
+  background: white;
+}
+
+.tests-covered-content {
+  background: white;
+  border-radius: 8px;
+  padding: 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  margin-bottom: 30px;
+}
+
+.tests-covered-content h2 {
+  margin-top: 0;
+  color: #333;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.teams-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.teams-table thead {
+  background: #f5f5f5;
+}
+
+.teams-table th {
+  padding: 15px;
+  text-align: left;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 2px solid #ddd;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.teams-table td {
+  padding: 15px;
+  border-bottom: 1px solid #eee;
+  color: #333;
+}
+
+.teams-table tbody tr:hover {
+  background: #fafafa;
+}
+
+.team-name {
+  font-weight: 600;
+  color: #667eea;
+}
+
+.numeric {
+  text-align: center;
+  font-weight: 500;
+}
+
+.coverage-cell {
+  color: #4CAF50;
+  font-weight: 600;
+}
+
+.mini-progress {
+  width: 100%;
+  height: 4px;
+  background: #e0e0e0;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.mini-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #4CAF50, #8BC34A);
+  transition: width 0.3s ease;
+}
+
+.tests-covered-footer {
+  text-align: center;
+  color: #999;
+  font-size: 12px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.tests-covered-footer p {
+  margin: 5px 0;
+}
+
+.loading,
+.error,
+.no-data {
+  text-align: center;
+  padding: 40px;
+  font-size: 16px;
+  color: #666;
+}
+
+.error {
+  color: #d32f2f;
+  background: #ffebee;
+  border-radius: 4px;
+  border: 1px solid #ef5350;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .tests-covered-container {
+    padding: 15px;
+  }
+
+  .tests-covered-header {
+    flex-direction: column;
+    gap: 15px;
+    align-items: flex-start;
+  }
+
+  .tests-covered-header h1 {
+    font-size: 22px;
+  }
+
+  .tests-covered-summary {
+    grid-template-columns: 1fr 1fr;
+    gap: 15px;
+  }
+
+  .teams-table {
+    font-size: 14px;
+  }
+
+  .teams-table th,
+  .teams-table td {
+    padding: 10px;
+  }
+
+  .card-value {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 480px) {
+  .tests-covered-summary {
+    grid-template-columns: 1fr;
+  }
+
+  .tests-covered-content {
+    padding: 15px;
+  }
+
+  .teams-table {
+    font-size: 12px;
+  }
+
+  .teams-table th,
+  .teams-table td {
+    padding: 8px;
+  }
+}

@@ -1,0 +1,1408 @@
+{
+  "timestamp": 1773324752347,
+  "data": {
+    "sprint_name": "26.1.5",
+    "generated": "2026-03-12T14:11:36.441Z",
+    "source": "passport-qtest-live",
+    "elm_cards": [
+      {
+        "elmKey": "ELM-39119",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138762161,
+            "pid": "TC-44664",
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762161"
+          },
+          {
+            "id": 138762226,
+            "pid": "TC-44665",
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762226"
+          },
+          {
+            "id": 138762227,
+            "pid": "TC-44666",
+            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138762227"
+          }
+        ],
+        "metrics": {
+          "total": 3,
+          "automated": 3,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 57306268
+      },
+      {
+        "elmKey": "ELM-40282",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138880492,
+            "pid": "TC-45012",
+            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880492"
+          },
+          {
+            "id": 138908895,
+            "pid": "TC-45092",
+            "name": "Verify Export History and Report Download",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138908895"
+          },
+          {
+            "id": 138880684,
+            "pid": "TC-45013",
+            "name": "Verify Bookmarking and Launching the Report",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138880684"
+          },
+          {
+            "id": 138916885,
+            "pid": "TC-45115",
+            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916885"
+          }
+        ],
+        "metrics": {
+          "total": 4,
+          "automated": 4,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 59387077
+      },
+      {
+        "elmKey": "ELM-39559",
+        "team": "PP Spartacles",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138916898,
+            "pid": "TC-45117",
+            "name": "Verify UI in bulk Re-assign invoice with default fields",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916898"
+          },
+          {
+            "id": 138916916,
+            "pid": "TC-45118",
+            "name": "Verify non Invoice coordinator unable to access Bulk Re-assign Button",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916916"
+          },
+          {
+            "id": 138916918,
+            "pid": "TC-45119",
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for current step user",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138916918"
+          },
+          {
+            "id": 138936058,
+            "pid": "TC-45124",
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for Future step user",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138936058"
+          },
+          {
+            "id": 138936650,
+            "pid": "TC-45126",
+            "name": "Verify Validations in bulk Re-assign invoice ",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138936650"
+          },
+          {
+            "id": 139011957,
+            "pid": "TC-45231",
+            "name": "Verify Bulk Re-assign with Approve,reject,draft,pending state invoices",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139011957"
+          },
+          {
+            "id": 139062085,
+            "pid": "TC-45554",
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for Current and Future steps",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139062085"
+          },
+          {
+            "id": 139081536,
+            "pid": "TC-45578",
+            "name": "Verify Active Person in Bulk Reassign",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139081536"
+          },
+          {
+            "id": 139081616,
+            "pid": "TC-45579",
+            "name": "Verify Bulk Reassign with Person Not in Workflow and Same Person",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139081616"
+          },
+          {
+            "id": 139082083,
+            "pid": "TC-45580",
+            "name": "Verify Bulk Reassign invoice when current step user in multi step person workflow",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139082083"
+          },
+          {
+            "id": 139082218,
+            "pid": "TC-45581",
+            "name": "Verify Bulk Reassign with reset to previous step functionality",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139082218"
+          }
+        ],
+        "metrics": {
+          "total": 11,
+          "automated": 11,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 100
+        },
+        "qtestId": 57761877
+      },
+      {
+        "elmKey": "ELM-39643",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 136445936,
+            "pid": "TC-27829",
+            "name": "Verify eMail Download when Encryption Is Blocked/Enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136445936"
+          },
+          {
+            "id": 136461107,
+            "pid": "TC-27860",
+            "name": "Verify Document Download (Root Level) with and without Encryption Enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461107"
+          },
+          {
+            "id": 136461016,
+            "pid": "TC-27858",
+            "name": "Verify Downloading of Document from Nested Folders with/without Encryption enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461016"
+          },
+          {
+            "id": 136460946,
+            "pid": "TC-27857",
+            "name": "Verify Document Check In/Out - File remains unencrypted when policy blocks encryption",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136460946"
+          },
+          {
+            "id": 136461080,
+            "pid": "TC-27859",
+            "name": "Verify Quick file for Documents and eMails - with/without Encryption",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461080"
+          },
+          {
+            "id": 136798486,
+            "pid": "TC-39129",
+            "name": "Verify OC Client Auto-Upgrades to the fixed OC version 12995",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136798486"
+          }
+        ],
+        "metrics": {
+          "total": 6,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 6,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57935963
+      },
+      {
+        "elmKey": "ELM-39642",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 136971283,
+            "pid": "TC-39475",
+            "name": "Verify message status updates for disconnected state",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971283"
+          },
+          {
+            "id": 136971282,
+            "pid": "TC-39474",
+            "name": "Verify connection check in OC when PP is up and running",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971282"
+          },
+          {
+            "id": 136971284,
+            "pid": "TC-39476",
+            "name": "Verify retry connection button functionality when Passport is still down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971284"
+          },
+          {
+            "id": 136971285,
+            "pid": "TC-39477",
+            "name": "Verify retry connection button functionality when Passport is coming up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971285"
+          },
+          {
+            "id": 136971289,
+            "pid": "TC-39481",
+            "name": "Verify OC startup when passport is up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971289"
+          },
+          {
+            "id": 136971286,
+            "pid": "TC-39478",
+            "name": "Verify auto retry connection when Passport is coming up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971286"
+          },
+          {
+            "id": 136971287,
+            "pid": "TC-39479",
+            "name": "Verify Auto retry connection when Passport is still down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971287"
+          },
+          {
+            "id": 137022353,
+            "pid": "TC-39587",
+            "name": "Verify OC Favorites error when passport is down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137022353"
+          },
+          {
+            "id": 137092319,
+            "pid": "TC-39772",
+            "name": "Verify Globe connection icon",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137092319"
+          }
+        ],
+        "metrics": {
+          "total": 9,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 9,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57935952
+      },
+      {
+        "elmKey": "ELM-39299",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 126666316,
+            "pid": "TC-18240",
+            "name": "Verify Paging 1.00: Paging",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=126666316"
+          },
+          {
+            "id": 132730025,
+            "pid": "TC-21326",
+            "name": "Verify Search by Invoices in the global search input field",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132730025"
+          },
+          {
+            "id": 138867632,
+            "pid": "TC-44985",
+            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138867632"
+          },
+          {
+            "id": 138879686,
+            "pid": "TC-44993",
+            "name": "Verify Matter RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879686"
+          },
+          {
+            "id": 138879719,
+            "pid": "TC-44994",
+            "name": "Verify Person RecordCount Capped At MaxPageSize Sorted By FirstName Asc With Warning",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879719"
+          },
+          {
+            "id": 138879720,
+            "pid": "TC-44995",
+            "name": "Verify Document RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879720"
+          },
+          {
+            "id": 138879722,
+            "pid": "TC-44996",
+            "name": "Verify Matter RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879722"
+          },
+          {
+            "id": 138879723,
+            "pid": "TC-44997",
+            "name": "Verify Person RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879723"
+          },
+          {
+            "id": 138879724,
+            "pid": "TC-44998",
+            "name": "Verify Document RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879724"
+          },
+          {
+            "id": 138879725,
+            "pid": "TC-44999",
+            "name": "Verify Matter RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879725"
+          },
+          {
+            "id": 138879726,
+            "pid": "TC-45000",
+            "name": "Verify Person RecordCount Exceeds MaxPageSize Sorted By LastName Asc When AllowFetchAll True",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879726"
+          },
+          {
+            "id": 138879727,
+            "pid": "TC-45001",
+            "name": "Verify Document RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879727"
+          },
+          {
+            "id": 138879728,
+            "pid": "TC-45002",
+            "name": "Verify Matter RecordCount Within FallbackLimit When Invalid MaxPageSize Zero Configured",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879728"
+          },
+          {
+            "id": 132668434,
+            "pid": "TC-21255",
+            "name": "Verify default filters and filter list on Matter List",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132668434"
+          }
+        ],
+        "metrics": {
+          "total": 14,
+          "automated": 13,
+          "partiallyAutomated": 0,
+          "manual": 1,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 93
+        },
+        "qtestId": 57391180
+      },
+      {
+        "elmKey": "ELM-39301",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 138867632,
+            "pid": "TC-44985",
+            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138867632"
+          },
+          {
+            "id": 138879723,
+            "pid": "TC-44997",
+            "name": "Verify Person RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879723"
+          },
+          {
+            "id": 138879686,
+            "pid": "TC-44993",
+            "name": "Verify Matter RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879686"
+          },
+          {
+            "id": 138879724,
+            "pid": "TC-44998",
+            "name": "Verify Document RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879724"
+          },
+          {
+            "id": 138879728,
+            "pid": "TC-45002",
+            "name": "Verify Matter RecordCount Within FallbackLimit When Invalid MaxPageSize Zero Configured",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879728"
+          },
+          {
+            "id": 138879722,
+            "pid": "TC-44996",
+            "name": "Verify Matter RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879722"
+          },
+          {
+            "id": 138879725,
+            "pid": "TC-44999",
+            "name": "Verify Matter RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879725"
+          },
+          {
+            "id": 138879719,
+            "pid": "TC-44994",
+            "name": "Verify Person RecordCount Capped At MaxPageSize Sorted By FirstName Asc With Warning",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879719"
+          },
+          {
+            "id": 138879720,
+            "pid": "TC-44995",
+            "name": "Verify Document RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879720"
+          },
+          {
+            "id": 138879727,
+            "pid": "TC-45001",
+            "name": "Verify Document RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879727"
+          },
+          {
+            "id": 138879726,
+            "pid": "TC-45000",
+            "name": "Verify Person RecordCount Exceeds MaxPageSize Sorted By LastName Asc When AllowFetchAll True",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138879726"
+          },
+          {
+            "id": 132668434,
+            "pid": "TC-21255",
+            "name": "Verify default filters and filter list on Matter List",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132668434"
+          },
+          {
+            "id": 126666316,
+            "pid": "TC-18240",
+            "name": "Verify Paging 1.00: Paging",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=126666316"
+          },
+          {
+            "id": 132730025,
+            "pid": "TC-21326",
+            "name": "Verify Search by Invoices in the global search input field",
+            "automationStatus": "Automated",
+            "automationTool": "Tosca",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=132730025"
+          }
+        ],
+        "metrics": {
+          "total": 14,
+          "automated": 13,
+          "partiallyAutomated": 0,
+          "manual": 1,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 93
+        },
+        "qtestId": 57391207
+      },
+      {
+        "elmKey": "ELM-40950",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 139019523,
+            "pid": "TC-45423",
+            "name": "Verify PSR Notification Job Coordinator async email error validation",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139019523"
+          },
+          {
+            "id": 139019525,
+            "pid": "TC-45424",
+            "name": "Verify PSR Notification Job Coordinator async email error validation email without domain",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139019525"
+          },
+          {
+            "id": 139019527,
+            "pid": "TC-45425",
+            "name": "Verify PSR Notification Job Coordinator valid email delivery validation without post relay",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139019527"
+          },
+          {
+            "id": 138965484,
+            "pid": "TC-45177",
+            "name": "Verify Reset Password Notification for user with gmail address",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=138965484"
+          },
+          {
+            "id": 139018202,
+            "pid": "TC-45402",
+            "name": "Verify Forward invoice notification with valid email address without post relay",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139018202"
+          },
+          {
+            "id": 139018203,
+            "pid": "TC-45403",
+            "name": "Verify Forward invoice notification invalid email format in to field",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139018203"
+          },
+          {
+            "id": 139018204,
+            "pid": "TC-45404",
+            "name": "Verify Forward invoice notification email without domain in to field",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139018204"
+          },
+          {
+            "id": 139018224,
+            "pid": "TC-45405",
+            "name": "Verify Forward invoice notification multiple valid emails in to field",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139018224"
+          },
+          {
+            "id": 139018225,
+            "pid": "TC-45406",
+            "name": "Verify Forward invoice notification valid and invalid email comma separated in to field",
+            "automationStatus": "Automated",
+            "automationTool": "Playwright",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139018225"
+          },
+          {
+            "id": 139023414,
+            "pid": "TC-45437",
+            "name": "Verify Reset Password notification error validation for user with invalid email format",
+            "automationStatus": "Not Possible",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139023414"
+          },
+          {
+            "id": 139023415,
+            "pid": "TC-45438",
+            "name": "Verify Reset Password notification error validation for user with email missing domain test at symbol only",
+            "automationStatus": "Not Possible",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=139023415"
+          }
+        ],
+        "metrics": {
+          "total": 11,
+          "automated": 9,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 2,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 82
+        },
+        "linkedToKey": "TO-17134",
+        "qtestId": 59604688
+      },
+      {
+        "elmKey": "ELM-40220",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-41156",
+        "team": "PP Genesis",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "linkedToKey": "TO-16734",
+        "qtestId": 59420334
+      },
+      {
+        "elmKey": "ELM-40980",
+        "team": "PP Genesis",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "linkedToKey": "TO-16734",
+        "qtestId": 59420334
+      }
+    ],
+    "totals": {
+      "total_elm_cards": 11,
+      "elm_cards_in_qtest": 10,
+      "elm_cards_missing": 1,
+      "total_test_cases": 72,
+      "automated": 53,
+      "partially_automated": 0,
+      "manual": 17,
+      "not_possible": 2,
+      "automation_candidate": 0,
+      "not_evaluated": 0,
+      "coverage_percentage": 74
+    },
+    "teams": {
+      "PP Genesis": {
+        "total": 0,
+        "automated": 0,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": []
+      },
+      "PP Pioneers": {
+        "total": 54,
+        "automated": 35,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-27829",
+            "qtest_id": 136445936,
+            "name": "Verify eMail Download when Encryption Is Blocked/Enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27860",
+            "qtest_id": 136461107,
+            "name": "Verify Document Download (Root Level) with and without Encryption Enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27858",
+            "qtest_id": 136461016,
+            "name": "Verify Downloading of Document from Nested Folders with/without Encryption enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27857",
+            "qtest_id": 136460946,
+            "name": "Verify Document Check In/Out - File remains unencrypted when policy blocks encryption",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27859",
+            "qtest_id": 136461080,
+            "name": "Verify Quick file for Documents and eMails - with/without Encryption",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39129",
+            "qtest_id": 136798486,
+            "name": "Verify OC Client Auto-Upgrades to the fixed OC version 12995",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39475",
+            "qtest_id": 136971283,
+            "name": "Verify message status updates for disconnected state",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39474",
+            "qtest_id": 136971282,
+            "name": "Verify connection check in OC when PP is up and running",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39476",
+            "qtest_id": 136971284,
+            "name": "Verify retry connection button functionality when Passport is still down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39477",
+            "qtest_id": 136971285,
+            "name": "Verify retry connection button functionality when Passport is coming up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39481",
+            "qtest_id": 136971289,
+            "name": "Verify OC startup when passport is up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39478",
+            "qtest_id": 136971286,
+            "name": "Verify auto retry connection when Passport is coming up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39479",
+            "qtest_id": 136971287,
+            "name": "Verify Auto retry connection when Passport is still down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39587",
+            "qtest_id": 137022353,
+            "name": "Verify OC Favorites error when passport is down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39772",
+            "qtest_id": 137092319,
+            "name": "Verify Globe connection icon",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-18240",
+            "qtest_id": 126666316,
+            "name": "Verify Paging 1.00: Paging",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-21326",
+            "qtest_id": 132730025,
+            "name": "Verify Search by Invoices in the global search input field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44985",
+            "qtest_id": 138867632,
+            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-44993",
+            "qtest_id": 138879686,
+            "name": "Verify Matter RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44994",
+            "qtest_id": 138879719,
+            "name": "Verify Person RecordCount Capped At MaxPageSize Sorted By FirstName Asc With Warning",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44995",
+            "qtest_id": 138879720,
+            "name": "Verify Document RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44996",
+            "qtest_id": 138879722,
+            "name": "Verify Matter RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44997",
+            "qtest_id": 138879723,
+            "name": "Verify Person RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44998",
+            "qtest_id": 138879724,
+            "name": "Verify Document RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44999",
+            "qtest_id": 138879725,
+            "name": "Verify Matter RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45000",
+            "qtest_id": 138879726,
+            "name": "Verify Person RecordCount Exceeds MaxPageSize Sorted By LastName Asc When AllowFetchAll True",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45001",
+            "qtest_id": 138879727,
+            "name": "Verify Document RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45002",
+            "qtest_id": 138879728,
+            "name": "Verify Matter RecordCount Within FallbackLimit When Invalid MaxPageSize Zero Configured",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-21255",
+            "qtest_id": 132668434,
+            "name": "Verify default filters and filter list on Matter List",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44985",
+            "qtest_id": 138867632,
+            "name": "Verify REST API call limit when restRequestAllowFetchAll is deleted from the DB",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-44997",
+            "qtest_id": 138879723,
+            "name": "Verify Person RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44993",
+            "qtest_id": 138879686,
+            "name": "Verify Matter RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44998",
+            "qtest_id": 138879724,
+            "name": "Verify Document RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45002",
+            "qtest_id": 138879728,
+            "name": "Verify Matter RecordCount Within FallbackLimit When Invalid MaxPageSize Zero Configured",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44996",
+            "qtest_id": 138879722,
+            "name": "Verify Matter RecordCount Capped At DefaultPageSize And NoPagination Warning Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44999",
+            "qtest_id": 138879725,
+            "name": "Verify Matter RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44994",
+            "qtest_id": 138879719,
+            "name": "Verify Person RecordCount Capped At MaxPageSize Sorted By FirstName Asc With Warning",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44995",
+            "qtest_id": 138879720,
+            "name": "Verify Document RecordCount Capped At MaxPageSize And Warning Header Returned",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45001",
+            "qtest_id": 138879727,
+            "name": "Verify Document RecordCount Exceeds MaxPageSize When AllowFetchAll True Guardrail Bypassed",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45000",
+            "qtest_id": 138879726,
+            "name": "Verify Person RecordCount Exceeds MaxPageSize Sorted By LastName Asc When AllowFetchAll True",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-21255",
+            "qtest_id": 132668434,
+            "name": "Verify default filters and filter list on Matter List",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-18240",
+            "qtest_id": 126666316,
+            "name": "Verify Paging 1.00: Paging",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-21326",
+            "qtest_id": 132730025,
+            "name": "Verify Search by Invoices in the global search input field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45423",
+            "qtest_id": 139019523,
+            "name": "Verify PSR Notification Job Coordinator async email error validation",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45424",
+            "qtest_id": 139019525,
+            "name": "Verify PSR Notification Job Coordinator async email error validation email without domain",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45425",
+            "qtest_id": 139019527,
+            "name": "Verify PSR Notification Job Coordinator valid email delivery validation without post relay",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45177",
+            "qtest_id": 138965484,
+            "name": "Verify Reset Password Notification for user with gmail address",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45402",
+            "qtest_id": 139018202,
+            "name": "Verify Forward invoice notification with valid email address without post relay",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45403",
+            "qtest_id": 139018203,
+            "name": "Verify Forward invoice notification invalid email format in to field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45404",
+            "qtest_id": 139018204,
+            "name": "Verify Forward invoice notification email without domain in to field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45405",
+            "qtest_id": 139018224,
+            "name": "Verify Forward invoice notification multiple valid emails in to field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45406",
+            "qtest_id": 139018225,
+            "name": "Verify Forward invoice notification valid and invalid email comma separated in to field",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45437",
+            "qtest_id": 139023414,
+            "name": "Verify Reset Password notification error validation for user with invalid email format",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Possible"
+          },
+          {
+            "id": "TC-45438",
+            "qtest_id": 139023415,
+            "name": "Verify Reset Password notification error validation for user with email missing domain test at symbol only",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Not Possible"
+          }
+        ]
+      },
+      "PP Spartacles": {
+        "total": 18,
+        "automated": 18,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-44664",
+            "qtest_id": 138762161,
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Password management End point",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44665",
+            "qtest_id": 138762226,
+            "name": "Verify requests up to 400 within 30 seconds from a single IP for Authentication Endpoints",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-44666",
+            "qtest_id": 138762227,
+            "name": "Verify requests up to 400 within 30 seconds for System Upgrade Endpoints",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45012",
+            "qtest_id": 138880492,
+            "name": "Verify that the email report link redirects successfully to the EmbedFAST report page.",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45092",
+            "qtest_id": 138908895,
+            "name": "Verify Export History and Report Download",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45013",
+            "qtest_id": 138880684,
+            "name": "Verify Bookmarking and Launching the Report",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45115",
+            "qtest_id": 138916885,
+            "name": "Verify that disabling the Tenant Owner Role List Page removes access from Favorites and blocks navigation",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45117",
+            "qtest_id": 138916898,
+            "name": "Verify UI in bulk Re-assign invoice with default fields",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45118",
+            "qtest_id": 138916916,
+            "name": "Verify non Invoice coordinator unable to access Bulk Re-assign Button",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45119",
+            "qtest_id": 138916918,
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for current step user",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45124",
+            "qtest_id": 138936058,
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for Future step user",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45126",
+            "qtest_id": 138936650,
+            "name": "Verify Validations in bulk Re-assign invoice ",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45231",
+            "qtest_id": 139011957,
+            "name": "Verify Bulk Re-assign with Approve,reject,draft,pending state invoices",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45554",
+            "qtest_id": 139062085,
+            "name": "Verify invoice coordinator able to perform Bulk Re-assign for Current and Future steps",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45578",
+            "qtest_id": 139081536,
+            "name": "Verify Active Person in Bulk Reassign",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45579",
+            "qtest_id": 139081616,
+            "name": "Verify Bulk Reassign with Person Not in Workflow and Same Person",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45580",
+            "qtest_id": 139082083,
+            "name": "Verify Bulk Reassign invoice when current step user in multi step person workflow",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          },
+          {
+            "id": "TC-45581",
+            "qtest_id": 139082218,
+            "name": "Verify Bulk Reassign with reset to previous step functionality",
+            "automated": true,
+            "has_attachment": false,
+            "status": "Automated"
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,2893 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Polaris ELM Metrics Dashboard</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen',
+          'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+        background: #0f0f1a;
+        color: #e0e0e0;
+      }
+
+      @keyframes gradientShift {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+      }
+
+      @keyframes fadeInUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+
+      @keyframes shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+      }
+
+      .dashboard {
+        min-height: 100vh;
+        background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+        padding: 0;
+      }
+
+      .dashboard-header {
+        background: linear-gradient(135deg, #00b4d8 0%, #0077b6 25%, #7b2ff7 50%, #c724b1 75%, #e91e63 100%);
+        background-size: 200% 200%;
+        animation: gradientShift 8s ease infinite;
+        color: white;
+        padding: 40px 20px;
+        text-align: center;
+        box-shadow: 0 8px 32px rgba(0, 119, 182, 0.3);
+        position: relative;
+        overflow: hidden;
+      }
+
+      .dashboard-header::before {
+        content: '';
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 60%);
+        animation: gradientShift 12s ease infinite reverse;
+      }
+      .dashboard-header-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 24px;
+      }
+
+      .dashboard-header h1 {
+        margin: 0;
+        font-size: 2.5em;
+        font-weight: 700;
+      }
+
+      .dashboard-header p {
+        margin: 10px 0 0 0;
+        font-size: 1.1em;
+        opacity: 0.9;
+      }
+
+      .controls {
+        display: flex;
+        gap: 20px;
+        padding: 30px;
+        flex-wrap: wrap;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        margin: 20px;
+        border-radius: 16px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+      }
+
+      .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        min-width: 200px;
+      }
+
+      .control-group label {
+        font-weight: 600;
+        color: #b8c5d9;
+        font-size: 0.95em;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .control-group select {
+        padding: 10px 12px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.08);
+        color: #e0e0e0;
+        transition: all 0.3s ease;
+      }
+
+      .control-group select:hover {
+        border-color: #00b4d8;
+        background: rgba(0, 180, 216, 0.1);
+      }
+
+      .control-group select:focus {
+        outline: none;
+        border-color: #00b4d8;
+        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+      }
+
+      .control-group input[type="date"] {
+        padding: 10px 12px;
+        border: 2px solid rgba(255, 255, 255, 0.15);
+        border-radius: 10px;
+        font-size: 1em;
+        cursor: pointer;
+        background: rgba(255, 255, 255, 0.08);
+        color: #e0e0e0;
+        transition: all 0.3s ease;
+        color-scheme: dark;
+      }
+
+      .control-group input[type="date"]:hover {
+        border-color: #00b4d8;
+        background: rgba(0, 180, 216, 0.1);
+      }
+
+      .control-group input[type="date"]:focus {
+        outline: none;
+        border-color: #00b4d8;
+        box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+      }
+
+      .cpod-date-controls {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+
+      .cpod-date-controls .control-group {
+        min-width: 160px;
+      }
+
+      .cpod-load-btn {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 10px;
+        background: linear-gradient(135deg, #00b4d8, #0096c7);
+        color: white;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        height: fit-content;
+        align-self: flex-end;
+      }
+
+      .cpod-load-btn:hover {
+        background: linear-gradient(135deg, #0096c7, #0077b6);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(0, 180, 216, 0.3);
+      }
+
+      .control-group select option {
+        background: #1a1a2e;
+        color: #e0e0e0;
+      }
+
+      .error-message {
+        background: rgba(244, 67, 54, 0.1);
+        color: #ff6b6b;
+        padding: 15px 20px;
+        margin: 20px;
+        border-radius: 12px;
+        border-left: 4px solid #ff6b6b;
+        backdrop-filter: blur(10px);
+      }
+
+      .loading {
+        text-align: center;
+        padding: 40px 20px;
+        font-size: 1.2em;
+        color: #00b4d8;
+        animation: pulse 1.5s infinite;
+      }
+
+      .metrics-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 20px;
+        padding: 30px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+
+      .metric-card {
+        background: rgba(255, 255, 255, 0.06);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 28px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-left: 5px solid #00b4d8;
+        animation: fadeInUp 0.6s ease-out backwards;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .metric-card::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+        background-size: 200% 100%;
+        animation: shimmer 3s infinite;
+      }
+
+      .metric-card:nth-child(1) { animation-delay: 0.05s; }
+      .metric-card:nth-child(2) { animation-delay: 0.1s; }
+      .metric-card:nth-child(3) { animation-delay: 0.15s; }
+      .metric-card:nth-child(4) { animation-delay: 0.2s; }
+      .metric-card:nth-child(5) { animation-delay: 0.25s; }
+      .metric-card:nth-child(6) { animation-delay: 0.3s; }
+      .metric-card:nth-child(7) { animation-delay: 0.35s; }
+      .metric-card:nth-child(8) { animation-delay: 0.4s; }
+
+      .metric-card:hover {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        border-color: rgba(255, 255, 255, 0.2);
+      }
+
+      /* Color variants for metric cards */
+      .metric-card.card-blue {
+        border-left-color: #00b4d8;
+        background: linear-gradient(135deg, rgba(0, 180, 216, 0.15) 0%, rgba(0, 119, 182, 0.08) 100%);
+        box-shadow: 0 8px 32px rgba(0, 180, 216, 0.15);
+      }
+      .metric-card.card-blue:hover {
+        box-shadow: 0 20px 40px rgba(0, 180, 216, 0.25);
+      }
+
+      .metric-card.card-green {
+        border-left-color: #00e676;
+        background: linear-gradient(135deg, rgba(0, 230, 118, 0.15) 0%, rgba(0, 200, 83, 0.08) 100%);
+        box-shadow: 0 8px 32px rgba(0, 230, 118, 0.15);
+      }
+      .metric-card.card-green:hover {
+        box-shadow: 0 20px 40px rgba(0, 230, 118, 0.25);
+      }
+
+      .metric-card.card-purple {
+        border-left-color: #b388ff;
+        background: linear-gradient(135deg, rgba(179, 136, 255, 0.15) 0%, rgba(124, 77, 255, 0.08) 100%);
+        box-shadow: 0 8px 32px rgba(179, 136, 255, 0.15);
+      }
+      .metric-card.card-purple:hover {
+        box-shadow: 0 20px 40px rgba(179, 136, 255, 0.25);
+      }
+
+      .metric-card.card-red {
+        border-left-color: #ff5252;
+        background: linear-gradient(135deg, rgba(255, 82, 82, 0.15) 0%, rgba(244, 67, 54, 0.08) 100%);
+        box-shadow: 0 8px 32px rgba(255, 82, 82, 0.15);
+      }
+      .metric-card.card-red:hover {
+        box-shadow: 0 20px 40px rgba(255, 82, 82, 0.25);
+      }
+
+      .metric-card.card-orange {
+        border-left-color: #ffab40;
+        background: linear-gradient(135deg, rgba(255, 171, 64, 0.15) 0%, rgba(255, 145, 0, 0.08) 100%);
+        box-shadow: 0 8px 32px rgba(255, 171, 64, 0.15);
+      }
+      .metric-card.card-orange:hover {
+        box-shadow: 0 20px 40px rgba(255, 171, 64, 0.25);
+      }
+
+      .metric-quality-badge {
+        display: inline-block;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 0.75em;
+        font-weight: 600;
+        margin-top: 8px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+      }
+
+      .quality-excellent {
+        background: linear-gradient(135deg, #00e676, #00c853);
+        color: white;
+        box-shadow: 0 2px 8px rgba(0, 230, 118, 0.3);
+      }
+
+      .quality-fair {
+        background: linear-gradient(135deg, #ffab40, #ff9100);
+        color: white;
+        box-shadow: 0 2px 8px rgba(255, 171, 64, 0.3);
+      }
+
+      .quality-action-required {
+        background: linear-gradient(135deg, #ff5252, #d50000);
+        color: white;
+        box-shadow: 0 2px 8px rgba(255, 82, 82, 0.3);
+      }
+
+      .metric-label {
+        color: #8899aa;
+        font-size: 0.9em;
+        font-weight: 600;
+        margin-bottom: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+      }
+
+      .metric-value {
+        font-size: 2.8em;
+        font-weight: 800;
+        background: linear-gradient(135deg, #00b4d8, #7c4dff);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .card-blue .metric-value {
+        background: linear-gradient(135deg, #00b4d8, #48cae4);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-green .metric-value {
+        background: linear-gradient(135deg, #00e676, #69f0ae);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-purple .metric-value {
+        background: linear-gradient(135deg, #b388ff, #ea80fc);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-red .metric-value {
+        background: linear-gradient(135deg, #ff5252, #ff8a80);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .card-orange .metric-value {
+        background: linear-gradient(135deg, #ffab40, #ffd740);
+        -webkit-background-clip: text; background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      .no-data {
+        text-align: center;
+        padding: 40px 20px;
+        color: #667;
+        font-size: 1.1em;
+      }
+
+      .placeholder {
+        text-align: center;
+        padding: 60px 20px;
+        color: #667;
+        font-size: 1.1em;
+      }
+
+      /* ── Tests Covered inline view (matches React TestsCovered component) ── */
+      .back-btn {
+        background: linear-gradient(135deg, #00b4d8, #0077b6);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 10px;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 180, 216, 0.3);
+        position: relative;
+        z-index: 2;
+      }
+      .back-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0, 180, 216, 0.4); }
+
+      .tests-covered-container {
+        padding: 20px;
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .tests-covered-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 30px;
+        border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+        padding-bottom: 20px;
+      }
+      .tests-covered-header h1 {
+        margin: 0; color: #e0e0e0; font-size: 28px;
+      }
+
+      .sprint-selector {
+        display: flex; gap: 10px; align-items: center;
+      }
+      .sprint-selector label {
+        font-weight: 600; color: #8899aa;
+      }
+      .sprint-selector select {
+        padding: 8px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+        font-size: 14px; cursor: pointer; background: rgba(255,255,255,0.08); color: #e0e0e0;
+      }
+      .sprint-selector select option { background: #1a1a2e; color: #e0e0e0; }
+
+      .tests-covered-summary {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px; margin-bottom: 40px;
+      }
+
+      .summary-card {
+        background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+        padding: 20px; text-align: center;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        transition: transform 0.3s, box-shadow 0.3s;
+        backdrop-filter: blur(10px);
+      }
+      .summary-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+      }
+      .summary-card.highlight {
+        background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+        color: white; border: none;
+        box-shadow: 0 8px 30px rgba(0, 180, 216, 0.3);
+      }
+      .summary-card .card-label {
+        font-size: 12px; font-weight: 600; color: #8899aa;
+        text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+      }
+      .summary-card.highlight .card-label { color: rgba(255,255,255,0.9); }
+      .summary-card .card-value {
+        font-size: 32px; font-weight: bold; color: #e0e0e0; margin-bottom: 10px;
+      }
+      .summary-card.highlight .card-value { color: white; }
+
+      .tc-progress-bar {
+        width: 100%; height: 6px;
+        background: rgba(0,0,0,0.1); border-radius: 3px;
+        overflow: hidden; margin-top: 10px;
+      }
+      .summary-card.highlight .tc-progress-bar { background: rgba(255,255,255,0.2); }
+      .tc-progress-fill {
+        height: 100%; background: linear-gradient(90deg, #00e676, #00b4d8, #7c4dff);
+        border-radius: 3px; transition: width 0.3s ease;
+      }
+      .summary-card.highlight .tc-progress-fill { background: white; }
+
+      .tests-covered-content {
+        background: rgba(255,255,255,0.04); border-radius: 16px; padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2); margin-bottom: 30px;
+        border: 1px solid rgba(255,255,255,0.08);
+        backdrop-filter: blur(10px);
+      }
+      .tests-covered-content h2 {
+        margin-top: 0; color: #e0e0e0; margin-bottom: 20px; font-size: 20px;
+      }
+
+      .tc-teams-table { width: 100%; border-collapse: collapse; }
+      .tc-teams-table thead { background: rgba(0, 180, 216, 0.1); }
+      .tc-teams-table th {
+        padding: 15px; text-align: left; font-weight: 600; color: #8899aa;
+        border-bottom: 2px solid rgba(255,255,255,0.1); font-size: 13px;
+        text-transform: uppercase; letter-spacing: 0.5px;
+      }
+      .tc-teams-table td {
+        padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #c0c0c0;
+      }
+      .tc-teams-table tbody tr:hover { background: rgba(0, 180, 216, 0.05); }
+      .tc-teams-table .tc-team-name { font-weight: 600; color: #00b4d8; }
+      .tc-teams-table .tc-numeric { text-align: center; font-weight: 500; }
+      .tc-teams-table .tc-coverage-cell { color: #00e676; font-weight: 600; text-align: center; }
+
+      .tc-mini-progress {
+        width: 100%; height: 4px; background: #e0e0e0;
+        border-radius: 2px; overflow: hidden;
+      }
+      .tc-mini-progress-fill {
+        height: 100%; background: linear-gradient(90deg, #00e676, #00b4d8);
+        transition: width 0.3s ease;
+      }
+
+      .tests-covered-footer {
+        text-align: center; color: #556; font-size: 12px;
+        padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.08);
+      }
+      .tests-covered-footer p { margin: 5px 0; }
+
+      .clickable { cursor: pointer; }
+      .card-hint {
+        font-size: 0.75em; color: rgba(255,255,255,0.4); margin-top: 8px;
+      }
+
+      /* ── Defect Detail View ── */
+      .defect-detail-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .defect-detail-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 24px; padding-bottom: 16px;
+        border-bottom: 2px solid rgba(255,255,255,0.1);
+      }
+      .defect-detail-header h1 {
+        font-size: 24px; color: #e0e0e0; margin: 0;
+      }
+      .defect-summary-cards {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 16px; margin-bottom: 24px;
+      }
+      .defect-summary-card {
+        background: rgba(255,255,255,0.06); border-radius: 12px;
+        padding: 16px; text-align: center;
+        border: 1px solid rgba(255,255,255,0.08);
+      }
+      .defect-summary-card .ds-label { font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 1px; }
+      .defect-summary-card .ds-value { font-size: 28px; font-weight: 700; color: #fff; margin-top: 4px; }
+      .defect-summary-card.ds-open .ds-value { color: #b388ff; }
+      .defect-summary-card.ds-closed .ds-value { color: #69f0ae; }
+      .defect-summary-card.ds-reopened .ds-value { color: #ffab40; }
+      .defect-summary-card.ds-critical .ds-value { color: #ff5252; }
+      .defect-summary-card.ds-high .ds-value { color: #ff9100; }
+      .defect-bugs-table {
+        width: 100%; border-collapse: collapse;
+        background: rgba(255,255,255,0.04); border-radius: 12px; overflow: hidden;
+      }
+      .defect-bugs-table thead { background: rgba(255,255,255,0.08); }
+      .defect-bugs-table th {
+        padding: 12px 16px; text-align: left; font-size: 12px;
+        color: #aaa; text-transform: uppercase; letter-spacing: 1px;
+        border-bottom: 1px solid rgba(255,255,255,0.1);
+      }
+      .defect-bugs-table td {
+        padding: 10px 16px; color: #ddd; font-size: 13px;
+        border-bottom: 1px solid rgba(255,255,255,0.05);
+      }
+      .defect-bugs-table tr:hover { background: rgba(255,255,255,0.06); }
+      .defect-bugs-table .bug-key {
+        font-weight: 600; color: #64b5f6;
+      }
+      .defect-bugs-table .bug-key a {
+        color: #64b5f6; text-decoration: none;
+      }
+      .defect-bugs-table .bug-key a:hover { text-decoration: underline; }
+      .defect-priority-badge {
+        display: inline-block; padding: 2px 8px; border-radius: 4px;
+        font-size: 11px; font-weight: 600; text-transform: uppercase;
+      }
+      .priority-critical { background: rgba(255,82,82,0.2); color: #ff5252; }
+      .priority-high { background: rgba(255,145,0,0.2); color: #ff9100; }
+      .priority-medium { background: rgba(255,235,59,0.2); color: #ffeb3b; }
+      .priority-low { background: rgba(105,240,174,0.2); color: #69f0ae; }
+      .defect-status-badge {
+        display: inline-block; padding: 2px 8px; border-radius: 4px;
+        font-size: 11px; font-weight: 600;
+      }
+      .status-open { background: rgba(179,136,255,0.2); color: #b388ff; }
+      .status-closed { background: rgba(105,240,174,0.2); color: #69f0ae; }
+      .status-in-progress { background: rgba(100,181,246,0.2); color: #64b5f6; }
+      .status-reopened { background: rgba(255,171,64,0.2); color: #ffab40; }
+      .defect-team-section {
+        margin-bottom: 24px;
+      }
+      .defect-team-section h3 {
+        font-size: 16px; color: #b0bec5; margin: 0 0 12px 0;
+        padding: 8px 16px; background: rgba(255,255,255,0.06);
+        border-radius: 8px; border-left: 3px solid #64b5f6;
+      }
+      .defect-no-data {
+        text-align: center; padding: 40px; color: #777; font-size: 14px;
+      }
+
+      /* ── DoR Compliance / TAD-TS view ── */
+      .dor-compliance-container {
+        padding: 20px;
+        max-width: 1400px;
+        margin: 0 auto;
+      }
+      .dor-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 30px; border-bottom: 2px solid rgba(255,255,255,0.1); padding-bottom: 20px;
+      }
+      .dor-header h1 { margin: 0; color: #e0e0e0; font-size: 28px; }
+      .dor-sprint-selector {
+        display: flex; gap: 10px; align-items: center;
+      }
+      .dor-sprint-selector label { font-weight: 600; color: #8899aa; }
+      .dor-sprint-selector select {
+        padding: 8px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+        font-size: 14px; cursor: pointer; background: rgba(255,255,255,0.08); color: #e0e0e0;
+      }
+      .dor-sprint-selector select option { background: #1a1a2e; color: #e0e0e0; }
+      .dor-sprint-selector button {
+        padding: 8px 18px; border: none; border-radius: 8px; cursor: pointer;
+        font-weight: 600; font-size: 14px; transition: all 0.3s ease;
+        background: linear-gradient(135deg, #00b4d8, #0077b6); color: white;
+        box-shadow: 0 4px 15px rgba(0,180,216,0.3);
+      }
+      .dor-sprint-selector button:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,180,216,0.4); }
+      .dor-sprint-selector button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+      .dor-summary-grid {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 20px; margin-bottom: 30px;
+      }
+      .dor-summary-card {
+        background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px;
+        padding: 20px; text-align: center; box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+        transition: transform 0.3s, box-shadow 0.3s; backdrop-filter: blur(10px);
+      }
+      .dor-summary-card:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+      .dor-summary-card .dor-card-label {
+        font-size: 12px; font-weight: 600; color: #8899aa; text-transform: uppercase;
+        letter-spacing: 0.5px; margin-bottom: 10px;
+      }
+      .dor-summary-card .dor-card-value {
+        font-size: 32px; font-weight: bold; color: #e0e0e0; margin-bottom: 5px;
+      }
+      .dor-summary-card.dor-highlight {
+        background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+        color: white; border: none; box-shadow: 0 8px 30px rgba(0,180,216,0.3);
+      }
+      .dor-summary-card.dor-highlight .dor-card-label { color: rgba(255,255,255,0.9); }
+      .dor-summary-card.dor-highlight .dor-card-value { color: white; }
+      .dor-summary-card.dor-tad { border-left: 4px solid #00b4d8; }
+      .dor-summary-card.dor-ts { border-left: 4px solid #7c4dff; }
+      .dor-summary-card.dor-both { border-left: 4px solid #00e676; }
+      .dor-summary-card.dor-na { border-left: 4px solid #ffab40; }
+
+      .dor-compliance-pct {
+        font-size: 14px; font-weight: 600; margin-top: 5px;
+      }
+      .dor-pct-good { color: #00e676; }
+      .dor-pct-warn { color: #ffab40; }
+      .dor-pct-bad { color: #ff5252; }
+
+      .dor-team-section {
+        background: rgba(255,255,255,0.04); border-radius: 16px; padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2); margin-bottom: 30px;
+        border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+      }
+      .dor-team-section h2 { margin-top: 0; color: #e0e0e0; margin-bottom: 20px; font-size: 20px; }
+
+      .dor-team-table { width: 100%; border-collapse: collapse; }
+      .dor-team-table thead { background: rgba(0, 180, 216, 0.1); }
+      .dor-team-table th {
+        padding: 15px; text-align: left; font-weight: 600; color: #8899aa;
+        border-bottom: 2px solid rgba(255,255,255,0.1); font-size: 13px;
+        text-transform: uppercase; letter-spacing: 0.5px;
+      }
+      .dor-team-table td {
+        padding: 15px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #c0c0c0;
+      }
+      .dor-team-table tbody tr:hover { background: rgba(0, 180, 216, 0.05); }
+      .dor-team-table .dor-team-name { font-weight: 600; color: #00b4d8; }
+      .dor-team-table .dor-numeric { text-align: center; font-weight: 500; }
+
+      .dor-issues-section {
+        background: rgba(255,255,255,0.04); border-radius: 16px; padding: 30px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.2); margin-bottom: 30px;
+        border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px);
+      }
+      .dor-issues-section h2 { margin-top: 0; color: #e0e0e0; margin-bottom: 20px; font-size: 20px; }
+
+      .dor-issue-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .dor-issue-table thead { background: rgba(0, 180, 216, 0.1); }
+      .dor-issue-table th {
+        padding: 12px 10px; text-align: left; font-weight: 600; color: #8899aa;
+        border-bottom: 2px solid rgba(255,255,255,0.1); font-size: 12px;
+        text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+      }
+      .dor-issue-table td {
+        padding: 12px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #c0c0c0;
+        vertical-align: top;
+      }
+      .dor-issue-table tbody tr:hover { background: rgba(0, 180, 216, 0.05); }
+      .dor-issue-table .dor-key-link {
+        color: #00b4d8; text-decoration: none; font-weight: 600;
+      }
+      .dor-issue-table .dor-key-link:hover { text-decoration: underline; color: #48cae4; }
+
+      .dor-badge {
+        display: inline-block; padding: 3px 8px; border-radius: 10px;
+        font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+      }
+      .dor-badge-yes { background: rgba(0,230,118,0.2); color: #00e676; }
+      .dor-badge-no { background: rgba(255,82,82,0.2); color: #ff5252; }
+      .dor-badge-na { background: rgba(255,171,64,0.2); color: #ffab40; }
+      .dor-badge-story { background: rgba(0,180,216,0.2); color: #00b4d8; }
+      .dor-badge-bug { background: rgba(179,136,255,0.2); color: #b388ff; }
+
+      .dor-filter-bar {
+        display: flex; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; align-items: center;
+      }
+      .dor-filter-bar label { font-weight: 600; color: #8899aa; font-size: 13px; }
+      .dor-filter-bar select {
+        padding: 6px 10px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+        font-size: 13px; cursor: pointer; background: rgba(255,255,255,0.08); color: #e0e0e0;
+      }
+      .dor-filter-bar select option { background: #1a1a2e; color: #e0e0e0; }
+
+      .dor-loading {
+        text-align: center; padding: 60px 20px; color: #00b4d8; font-size: 1.2em;
+      }
+      .dor-loading .dor-spinner {
+        display: inline-block; width: 40px; height: 40px;
+        border: 4px solid rgba(0,180,216,0.2); border-top-color: #00b4d8;
+        border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 15px;
+      }
+      @keyframes spin { to { transform: rotate(360deg); } }
+
+      /* ── Azure Pipeline Drill-Down View ── */
+      .az-container {
+        padding: 20px; max-width: 1400px; margin: 0 auto;
+      }
+      .az-header {
+        display: flex; justify-content: space-between; align-items: center;
+        margin-bottom: 24px; padding-bottom: 16px;
+        border-bottom: 2px solid rgba(255,255,255,0.1);
+        flex-wrap: wrap; gap: 12px;
+      }
+      .az-header h1 { font-size: 24px; color: #e0e0e0; margin: 0; }
+      .az-header-actions { display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+      .az-sync-btn, .az-csv-btn {
+        padding: 8px 18px; border: none; border-radius: 8px; cursor: pointer;
+        font-weight: 600; font-size: 13px; transition: all 0.3s ease;
+      }
+      .az-sync-btn {
+        background: linear-gradient(135deg, #b388ff, #7c4dff); color: white;
+        box-shadow: 0 4px 15px rgba(179,136,255,0.3);
+      }
+      .az-sync-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(179,136,255,0.4); }
+      .az-sync-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+      .az-csv-btn {
+        background: rgba(255,255,255,0.08); color: #b8c5d9;
+        border: 1px solid rgba(255,255,255,0.15);
+      }
+      .az-csv-btn:hover:not(:disabled) { background: rgba(255,255,255,0.12); color: #e0e0e0; }
+      .az-csv-btn:disabled { opacity: 0.4; cursor: not-allowed; }
+      .az-last-synced { font-size: 12px; color: #8899aa; }
+      .az-project-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
+      .az-date-filters {
+        display: flex; gap: 10px; align-items: center; margin-bottom: 20px; flex-wrap: wrap;
+      }
+      .az-date-filters label {
+        font-weight: 600; color: #8899aa; font-size: 13px;
+      }
+      .az-date-filters input[type="date"] {
+        padding: 8px 12px; border: 1px solid rgba(255,255,255,0.15); border-radius: 8px;
+        font-size: 13px; background: rgba(255,255,255,0.08); color: #e0e0e0;
+        color-scheme: dark; cursor: pointer; transition: all 0.3s;
+      }
+      .az-date-filters input[type="date"]:hover {
+        border-color: #b388ff; background: rgba(179,136,255,0.1);
+      }
+      .az-date-filters input[type="date"]:focus {
+        outline: none; border-color: #b388ff;
+        box-shadow: 0 0 0 3px rgba(179,136,255,0.2);
+      }
+      .az-project-btn {
+        padding: 8px 16px; border: 1px solid rgba(255,255,255,0.15); border-radius: 20px;
+        background: rgba(255,255,255,0.06); color: #b8c5d9; font-size: 13px;
+        font-weight: 500; cursor: pointer; transition: all 0.3s;
+      }
+      .az-project-btn:hover { background: rgba(179,136,255,0.15); border-color: rgba(179,136,255,0.3); }
+      .az-project-btn.active {
+        background: linear-gradient(135deg, rgba(179,136,255,0.25), rgba(124,77,255,0.15));
+        border-color: #b388ff; color: #e0e0e0; font-weight: 600;
+      }
+      .az-summary-cards {
+        display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 14px; margin-bottom: 24px;
+      }
+      .az-summary-card {
+        background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.08);
+        border-radius: 12px; padding: 16px; text-align: center;
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .az-summary-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.2); }
+      .az-card-label {
+        font-size: 11px; font-weight: 600; color: #8899aa;
+        text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 8px;
+      }
+      .az-card-value { font-size: 26px; font-weight: 700; color: #e0e0e0; }
+      .az-card-success { border-left: 3px solid #00e676; }
+      .az-card-success .az-card-value { color: #00e676; }
+      .az-card-fail { border-left: 3px solid #ff5252; }
+      .az-card-fail .az-card-value { color: #ff5252; }
+      .az-card-partial { border-left: 3px solid #ffab40; }
+      .az-card-partial .az-card-value { color: #ffab40; }
+      .az-card-cancel { border-left: 3px solid #78909c; }
+      .az-card-cancel .az-card-value { color: #78909c; }
+      .az-card-highlight {
+        background: linear-gradient(135deg, #b388ff 0%, #7c4dff 100%);
+        border: none; box-shadow: 0 8px 30px rgba(179,136,255,0.3);
+      }
+      .az-card-highlight .az-card-label { color: rgba(255,255,255,0.9); }
+      .az-card-highlight .az-card-value { color: white; }
+      .az-sub-tabs {
+        display: flex; gap: 4px; margin-bottom: 20px;
+        border-bottom: 2px solid rgba(255,255,255,0.08); padding-bottom: 0;
+      }
+      .az-sub-tab {
+        padding: 10px 20px; border: none; background: transparent;
+        color: #8899aa; font-size: 14px; font-weight: 500; cursor: pointer;
+        transition: all 0.3s; border-bottom: 2px solid transparent; margin-bottom: -2px;
+      }
+      .az-sub-tab:hover { color: #e0e0e0; }
+      .az-sub-tab.active { color: #b388ff; border-bottom-color: #b388ff; font-weight: 600; }
+      .az-tab-content {
+        background: rgba(255,255,255,0.04); border-radius: 16px; padding: 24px;
+        border: 1px solid rgba(255,255,255,0.08); backdrop-filter: blur(10px); min-height: 200px;
+      }
+      .az-table { width: 100%; border-collapse: collapse; font-size: 13px; }
+      .az-table thead { background: rgba(179,136,255,0.1); }
+      .az-table th {
+        padding: 12px 10px; text-align: left; font-weight: 600; color: #8899aa;
+        border-bottom: 2px solid rgba(255,255,255,0.1); font-size: 12px;
+        text-transform: uppercase; letter-spacing: 0.5px; white-space: nowrap;
+      }
+      .az-table td {
+        padding: 10px 10px; border-bottom: 1px solid rgba(255,255,255,0.05); color: #c0c0c0;
+      }
+      .az-table tbody tr:hover { background: rgba(179,136,255,0.05); }
+      .az-pipeline-name {
+        font-weight: 600; color: #b388ff; max-width: 280px;
+        overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+      }
+      .az-result-badge {
+        display: inline-block; padding: 3px 10px; border-radius: 10px;
+        font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px;
+      }
+      .az-badge-success { background: rgba(0,230,118,0.2); color: #00e676; }
+      .az-badge-fail { background: rgba(255,82,82,0.2); color: #ff5252; }
+      .az-badge-partial { background: rgba(255,171,64,0.2); color: #ffab40; }
+      .az-badge-cancel { background: rgba(158,158,158,0.2); color: #9e9e9e; }
+      .az-overview-stat {
+        background: rgba(255,255,255,0.06); border-radius: 10px; padding: 14px;
+        text-align: center; border: 1px solid rgba(255,255,255,0.06);
+      }
+      .az-overview-label {
+        font-size: 11px; color: #8899aa; text-transform: uppercase;
+        letter-spacing: 0.5px; margin-bottom: 6px;
+      }
+      .az-overview-value { font-size: 22px; font-weight: 700; color: #e0e0e0; }
+
+      @media (max-width: 768px) {
+        .tests-covered-container { padding: 15px; }
+        .tests-covered-header { flex-direction: column; gap: 15px; align-items: flex-start; }
+        .tests-covered-header h1 { font-size: 22px; }
+        .tests-covered-summary { grid-template-columns: 1fr 1fr; gap: 15px; }
+        .summary-card .card-value { font-size: 24px; }
+      }
+    </style>
+  </head>
+  <body>
+    <nav style="background: linear-gradient(135deg, #0d1b2a 0%, #1b2838 100%); color: white; padding: 12px 20px; text-align: center; border-bottom: 2px solid rgba(0,180,216,0.3);">
+      <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: flex-end; align-items: center;">
+        <div style="display: flex; gap: 12px;">
+          <a href="index.html" style="color: white; text-decoration: none; padding: 10px 18px; border-radius: 10px; background: linear-gradient(135deg, #00b4d8, #0077b6); font-weight: 600; box-shadow: 0 4px 15px rgba(0,180,216,0.3); transition: all 0.3s;">📊 Dashboard</a>
+          <a href="unified-dashboard.html" style="color: #b8c5d9; text-decoration: none; padding: 10px 18px; border-radius: 10px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); font-weight: 500; transition: all 0.3s;">📈 Unified Metrics</a>
+        </div>
+      </div>
+    </nav>
+    <div id="app"></div>
+    <script>
+      const API_BASE_URL = 'http://localhost:3000/api';
+
+      let state = {
+        products: [],
+        teams: [],
+        sprints: [],
+        metrics: null,
+        selectedProduct: '',
+        selectedTeam: '',
+        selectedSprint: '',
+        cpodStartDate: '',
+        cpodEndDate: '',
+        loading: false,
+        error: null,
+        currentView: 'dashboard',
+        azurePipelineData: null,
+        azurePipelineSyncing: false,
+        azurePipelineProject: 'all',
+        azurePipelineSubTab: 'overview',
+        azurePipelineLastSynced: null,
+        azurePipelineError: null,
+        azurePipelineDateFrom: new Date(Date.now() - 30*24*60*60*1000).toISOString().slice(0,10),
+        azurePipelineDateTo: new Date().toISOString().slice(0,10),
+        // Sprint-aware pipeline tile
+        sprintDatesCache: {},               // { 'pp-spartacles/26.1.3': { startDate, endDate } }
+        teamFolderPatterns: {               // team → regex source (loaded from API, with defaults)
+          'pp-spartacles': 'spartacles',
+          'pp-genesis': 'genesis',
+          'pp-pioneers': 'pioneers'
+        }
+      };
+
+      const apiService = {
+        getProducts: async () => {
+          try {
+            const response = await fetch(`${API_BASE_URL}/products`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getProducts failed:', err);
+            throw err;
+          }
+        },
+        getTeams: async (product) => {
+          try {
+            const params = product ? `?product=${product}` : '';
+            const response = await fetch(`${API_BASE_URL}/teams${params}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getTeams failed:', err);
+            throw err;
+          }
+        },
+        getSprints: async (team, product) => {
+          try {
+            let params = [];
+            if (team) params.push(`team=${team}`);
+            if (product) params.push(`product=${product}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/sprints${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const sprints = await response.json();
+            // Sort sprints ascending (oldest first); IP sprints come last
+            sprints.sort((a, b) => {
+              const aId = a.id || a.name || '';
+              const bId = b.id || b.name || '';
+              if (aId.includes('IP') && !bId.includes('IP')) return 1;
+              if (!aId.includes('IP') && bId.includes('IP')) return -1;
+              const partsA = aId.split('.').map(Number);
+              const partsB = bId.split('.').map(Number);
+              for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+                if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
+              }
+              return 0;
+            });
+            return sprints;
+          } catch (err) {
+            console.error('❌ getSprints failed:', err);
+            throw err;
+          }
+        },
+        getMetrics: async (product, team, sprint, startDate, endDate) => {
+          try {
+            let params = [];
+            if (product) params.push(`product=${product}`);
+            if (team) params.push(`team=${team}`);
+            if (sprint) params.push(`sprint=${sprint}`);
+            if (startDate) params.push(`startDate=${startDate}`);
+            if (endDate) params.push(`endDate=${endDate}`);
+            const query = params.length ? `?${params.join('&')}` : '';
+            const response = await fetch(`${API_BASE_URL}/metrics${query}`);
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            return response.json();
+          } catch (err) {
+            console.error('❌ getMetrics failed:', err);
+            throw err;
+          }
+        }
+      };
+
+      // Helper: check if the selected team is CPOD (uses date-range instead of sprint)
+      function isCpodTeam() {
+        return state.selectedProduct === 'passport' && state.selectedTeam === 'cpod';
+      }
+
+      // Load metrics using CPOD date-range or regular sprint mode
+      async function loadMetricsAuto() {
+        if (isCpodTeam()) {
+          const startDate = state.cpodStartDate;
+          const endDate = state.cpodEndDate;
+          if (!startDate || !endDate) return;
+          const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, null, startDate, endDate);
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+          } else {
+            state.metrics = null;
+          }
+        } else {
+          const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+          } else {
+            state.metrics = null;
+          }
+        }
+      }
+
+      async function loadProducts() {
+        try {
+          state.loading = true;
+          console.log('🔵 STEP 1: Fetching products...');
+          state.products = await apiService.getProducts();
+          console.log('✅ Products loaded:', state.products);
+          state.error = null;
+        } catch (err) {
+          console.error('❌ Error loading products:', err);
+          state.error = 'Failed to load products: ' + err.message;
+          state.loading = false;
+          render();
+          return;
+        }
+        
+        // Auto-select first product and load its teams
+        if (state.products.length > 0) {
+          state.selectedProduct = state.products[0].id;
+          console.log('🟠 STEP 2: Auto-selected product:', state.selectedProduct);
+          
+          try {
+            console.log('🔵 STEP 3: Fetching teams for product:', state.selectedProduct);
+            state.teams = await apiService.getTeams(state.selectedProduct);
+            console.log('✅ Teams loaded:', state.teams);
+            
+            // Auto-select first team and load its sprints
+            if (state.teams.length > 0) {
+              state.selectedTeam = state.teams[0].id;
+              console.log('🟠 STEP 4: Auto-selected team:', state.selectedTeam);
+              
+              try {
+                console.log('🔵 STEP 5: Fetching sprints for team:', state.selectedTeam);
+                state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+                console.log('✅ Sprints loaded:', state.sprints);
+                
+                // Auto-select first sprint and load metrics
+                if (state.sprints.length > 0) {
+                  state.selectedSprint = state.sprints[0].id;
+                  console.log('🟠 STEP 6: Auto-selected sprint:', state.selectedSprint);
+                  fetchSprintDatesForTile(); // async, updates tile when dates arrive
+                  
+                  try {
+                    console.log('🔵 STEP 7: Fetching metrics...');
+                    const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                    console.log('✅ Metrics response:', metricsArray);
+                    
+                    if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                      state.metrics = metricsArray[0];
+                      console.log('🟢 STEP 8: SUCCESS! Metrics set:', state.metrics);
+                    } else {
+                      console.warn('⚠️ Metrics array is empty');
+                      state.metrics = null;
+                    }
+                  } catch (err) {
+                    console.error('❌ Error loading metrics:', err);
+                    state.error = 'Failed to load metrics: ' + err.message;
+                  }
+                }
+              } catch (err) {
+                console.error('❌ Error loading sprints:', err);
+                state.error = 'Failed to load sprints: ' + err.message;
+              }
+            }
+          } catch (err) {
+            console.error('❌ Error loading teams:', err);
+            state.error = 'Failed to load teams: ' + err.message;
+          }
+        }
+        
+        state.loading = false;
+        render();
+        // Load Azure Pipeline data in background (for 8th tile)
+        loadAzurePipelineData();
+      }
+
+      async function handleProductChange(e) {
+        state.selectedProduct = e.target.value;
+        if (!state.selectedProduct) {
+          state.teams = [];
+          state.sprints = [];
+          state.selectedTeam = '';
+          state.selectedSprint = '';
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+          console.log('📦 Loading teams for product:', state.selectedProduct);
+          state.teams = await apiService.getTeams(state.selectedProduct);
+          console.log('✅ Teams loaded:', state.teams);
+          state.selectedTeam = '';
+          state.selectedSprint = '';
+          state.sprints = [];
+          state.metrics = null;
+          state.error = null;
+          
+          // Auto-select first team and cascade
+          if (state.teams.length > 0) {
+            state.selectedTeam = state.teams[0].id;
+            console.log('👉 Auto-selecting first team:', state.selectedTeam);
+            
+            // Check if the auto-selected team is CPOD (date-range mode)
+            if (isCpodTeam()) {
+              console.log('📅 CPOD team auto-selected — switching to date-range mode');
+              const today = new Date().toISOString().slice(0, 10);
+              state.cpodStartDate = today;
+              state.cpodEndDate = today;
+              state.sprints = [];
+              state.selectedSprint = '';
+              try {
+                await loadMetricsAuto();
+              } catch (err) {
+                console.error('❌ Error loading CPOD metrics:', err);
+                state.error = 'Failed to load CPOD metrics: ' + err.message;
+              }
+            } else {
+              state.cpodStartDate = '';
+              state.cpodEndDate = '';
+              // Now load sprints for this team
+              try {
+                console.log('📦 Loading sprints for team:', state.selectedTeam);
+                state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+                console.log('✅ Sprints loaded:', state.sprints);
+              
+                // Auto-select first sprint and load metrics
+                if (state.sprints.length > 0) {
+                  state.selectedSprint = state.sprints[0].id;
+                  console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+                  fetchSprintDatesForTile(); // async, updates tile when dates arrive
+                
+                  // Load metrics for this sprint
+                  try {
+                    console.log('📦 Loading metrics...');
+                    const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                    console.log('✅ Metrics response:', metricsArray);
+                  
+                    if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                      state.metrics = metricsArray[0];
+                      console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                    }
+                  } catch (err) {
+                    console.error('❌ Error loading metrics:', err);
+                    state.error = 'Failed to load metrics: ' + err.message;
+                  }
+                }
+              } catch (err) {
+                console.error('❌ Error loading sprints:', err);
+                state.error = 'Failed to load sprints: ' + err.message;
+              }
+            }
+          }
+        } catch (err) {
+          console.error('❌ Error loading teams:', err);
+          state.error = 'Failed to load teams: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      async function handleTeamChange(e) {
+        state.selectedTeam = e.target.value;
+        if (!state.selectedTeam) {
+          state.sprints = [];
+          state.selectedSprint = '';
+          state.cpodStartDate = '';
+          state.cpodEndDate = '';
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+
+          // CPOD team uses date-range mode instead of sprints
+          if (isCpodTeam()) {
+            console.log('📅 CPOD team selected — switching to date-range mode');
+            state.sprints = [];
+            state.selectedSprint = '';
+            // Default to today's date for both start and end
+            const today = new Date().toISOString().slice(0, 10);
+            state.cpodStartDate = today;
+            state.cpodEndDate = today;
+            state.metrics = null;
+            state.error = null;
+            render();
+
+            // Auto-load metrics for today
+            try {
+              console.log('📦 Loading CPOD metrics for date range:', state.cpodStartDate, '-', state.cpodEndDate);
+              await loadMetricsAuto();
+              console.log('✅ CPOD Metrics loaded:', state.metrics);
+            } catch (err) {
+              console.error('❌ Error loading CPOD metrics:', err);
+              state.error = 'Failed to load CPOD metrics: ' + err.message;
+            }
+          } else {
+            state.cpodStartDate = '';
+            state.cpodEndDate = '';
+            console.log('📦 Loading sprints for team:', state.selectedTeam);
+            state.sprints = await apiService.getSprints(state.selectedTeam, state.selectedProduct);
+            console.log('✅ Sprints loaded:', state.sprints);
+            state.selectedSprint = '';
+            state.metrics = null;
+            state.error = null;
+          
+            // Auto-select first sprint and load metrics
+            if (state.sprints.length > 0) {
+              state.selectedSprint = state.sprints[0].id;
+              console.log('👉 Auto-selecting first sprint:', state.selectedSprint);
+              fetchSprintDatesForTile(); // async, updates tile when dates arrive
+              render();
+            
+              // Load metrics for this sprint
+              try {
+                console.log('📦 Loading metrics...');
+                const metricsArray = await apiService.getMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+                console.log('✅ Metrics response:', metricsArray);
+              
+                if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+                  state.metrics = metricsArray[0];
+                  console.log('🟢 SUCCESS! Metrics loaded:', state.metrics);
+                }
+              } catch (err) {
+                console.error('❌ Error loading metrics:', err);
+                state.error = 'Failed to load metrics: ' + err.message;
+              }
+            }
+          }
+        } catch (err) {
+          console.error('❌ Error loading sprints:', err);
+          state.error = 'Failed to load sprints: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      async function handleSprintChange(e) {
+        state.selectedSprint = e.target.value;
+        await loadMetrics(state.selectedProduct, state.selectedTeam, state.selectedSprint);
+        fetchSprintDatesForTile(); // async, updates tile when dates arrive
+      }
+
+      async function handleCpodDateChange() {
+        if (!state.cpodStartDate || !state.cpodEndDate) return;
+        if (state.cpodStartDate > state.cpodEndDate) {
+          state.error = 'Start date must be before or equal to end date';
+          state.metrics = null;
+          render();
+          return;
+        }
+        try {
+          state.loading = true;
+          state.error = null;
+          render();
+          console.log('📅 Loading CPOD metrics for:', state.cpodStartDate, 'to', state.cpodEndDate);
+          await loadMetricsAuto();
+        } catch (err) {
+          console.error('❌ Error loading CPOD metrics:', err);
+          state.error = 'Failed to load CPOD metrics: ' + err.message;
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      async function loadMetrics(product, team, sprint) {
+        if (!product) {
+          state.metrics = null;
+          render();
+          return;
+        }
+
+        try {
+          state.loading = true;
+          const metricsArray = await apiService.getMetrics(product, team, sprint);
+          console.log('Metrics response:', metricsArray);
+          
+          // API returns an array, but we want a single metric object
+          if (Array.isArray(metricsArray) && metricsArray.length > 0) {
+            state.metrics = metricsArray[0];
+            console.log('Selected first metric:', state.metrics);
+          } else {
+            state.metrics = null;
+            console.log('No metrics found for:', { product, team, sprint });
+          }
+          
+          state.error = null;
+        } catch (err) {
+          state.error = 'Failed to load metrics: ' + err.message;
+          console.error('Error loading metrics:', err);
+        } finally {
+          state.loading = false;
+        }
+        render();
+      }
+
+      function render() {
+        const app = document.getElementById('app');
+
+        // Show DoR Compliance (TAD/TS) view if selected
+        if (state.currentView === 'dorCompliance') {
+          let html = `
+            <div class="dashboard">
+              <header class="dashboard-header" style="padding: 15px 20px; text-align: left;">
+                <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+              </header>
+              <div id="dorComplianceContainer"></div>
+            </div>
+          `;
+          app.innerHTML = html;
+
+          document.getElementById('backBtn').addEventListener('click', () => {
+            state.currentView = 'dashboard';
+            render();
+          });
+
+          loadDorComplianceView();
+          return;
+        }
+
+        // Show Tests Covered view if selected
+        if (state.currentView === 'testsCovered') {
+          let html = `
+            <div class="dashboard">
+              <header class="dashboard-header" style="padding: 15px 20px; text-align: left;">
+                <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+              </header>
+              <div id="testsCoveredContainer"></div>
+            </div>
+          `;
+          app.innerHTML = html;
+
+          document.getElementById('backBtn').addEventListener('click', () => {
+            state.currentView = 'dashboard';
+            render();
+          });
+
+          loadTestsCoveredView();
+          return;
+        }
+
+        // Show Defect Detail views
+        if (state.currentView === 'openDefects' || state.currentView === 'closedDefects' || state.currentView === 'reopenedDefects') {
+          const defectType = state.currentView;
+          const titleMap = { openDefects: '🚨 Open Defects', closedDefects: '✓ Closed Defects', reopenedDefects: '↩️ Reopened Defects' };
+          let html = `
+            <div class="dashboard">
+              <header class="dashboard-header" style="padding: 15px 20px; text-align: left;">
+                <button class="back-btn" id="backBtn">← Back to Dashboard</button>
+              </header>
+              <div id="defectDetailContainer"></div>
+            </div>
+          `;
+          app.innerHTML = html;
+
+          document.getElementById('backBtn').addEventListener('click', () => {
+            state.currentView = 'dashboard';
+            render();
+          });
+
+          loadDefectDetailView(defectType);
+          return;
+        }
+
+        // Show Azure Pipelines drill-down view
+        if (state.currentView === 'azurePipelines') {
+          const azData = state.azurePipelineData;
+          const azProject = state.azurePipelineProject || 'all';
+          const azSubTab = state.azurePipelineSubTab || 'overview';
+          const azSyncing = state.azurePipelineSyncing;
+          const azDateFrom = state.azurePipelineDateFrom || '';
+          const azDateTo = state.azurePipelineDateTo || '';
+          const azAgg = aggregateAzureMetrics(azData, azProject, azDateFrom, azDateTo);
+          const azLastSynced = state.azurePipelineLastSynced;
+
+          const azProjectOptions = [
+            { key: 'all', label: 'All Projects' },
+            { key: 'passport', label: 'Passport' },
+            { key: 'citi', label: 'CITI' },
+            { key: 'collaborationPortal', label: 'Collaboration Portal' }
+          ];
+
+          function azResultBadge(result) {
+            const cls = { succeeded: 'az-badge-success', failed: 'az-badge-fail', partiallySucceeded: 'az-badge-partial', canceled: 'az-badge-cancel' };
+            const lbl = { succeeded: 'Succeeded', failed: 'Failed', partiallySucceeded: 'Partial', canceled: 'Canceled' };
+            return '<span class="az-result-badge ' + (cls[result] || 'az-badge-cancel') + '">' + (lbl[result] || result || 'Unknown') + '</span>';
+          }
+
+          let azTabContent = '';
+          if (!azData) {
+            azTabContent = '<div style="text-align:center; padding:60px 20px; color:#8899aa;">' +
+              '<div style="font-size:48px; margin-bottom:16px;">\ud83d\udd27</div>' +
+              '<h3 style="color:#e0e0e0; margin-bottom:12px;">No Pipeline Data Available</h3>' +
+              '<p>Click <strong>Sync Now</strong> above to fetch pipeline data from Azure DevOps.</p></div>';
+          } else if (azSubTab === 'overview') {
+            const sr = azAgg.success_rate;
+            const barColor = sr >= 80 ? '#00e676' : sr >= 50 ? '#ffab40' : '#ff5252';
+            const totalPipelines = Object.values(azData).reduce(function(s, p) { return s + (p && p.pipeline_count ? p.pipeline_count : 0); }, 0);
+            azTabContent = '<div style="margin-bottom:24px;">' +
+              '<h3 style="color:#e0e0e0; margin-bottom:16px;">Pipeline Success Rate</h3>' +
+              '<div style="background:rgba(255,255,255,0.08); border-radius:12px; height:40px; overflow:hidden; position:relative;">' +
+              '<div style="height:100%; width:' + sr + '%; background:linear-gradient(90deg, ' + barColor + ', ' + barColor + 'aa); border-radius:12px; transition:width 0.5s;"></div>' +
+              '<div style="position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); font-weight:700; font-size:16px; color:#fff;">' + sr + '%</div></div></div>' +
+              '<div style="display:grid; grid-template-columns:repeat(auto-fit,minmax(150px,1fr)); gap:12px;">' +
+              '<div class="az-overview-stat"><div class="az-overview-label">Total Pipelines</div><div class="az-overview-value">' + totalPipelines + '</div></div>' +
+              '<div class="az-overview-stat"><div class="az-overview-label">Total Runs</div><div class="az-overview-value">' + azAgg.total_runs + '</div></div>' +
+              '<div class="az-overview-stat"><div class="az-overview-label">Avg Duration</div><div class="az-overview-value">' + azAgg.avg_duration_minutes + ' min</div></div>' +
+              '<div class="az-overview-stat"><div class="az-overview-label">Failure Rate</div><div class="az-overview-value" style="color:#ff5252;">' + (azAgg.total_runs > 0 ? (100 - azAgg.success_rate).toFixed(1) : 0) + '%</div></div></div>';
+          } else if (azSubTab === 'history') {
+            const runs = azAgg.recent_runs.slice(0, 100);
+            if (runs.length === 0) {
+              azTabContent = '<div class="no-data">No runs available</div>';
+            } else {
+              azTabContent = '<table class="az-table"><thead><tr>' +
+                '<th>Pipeline</th><th>Build #</th><th>Result</th><th>Duration</th><th>Started</th><th>Branch</th></tr></thead><tbody>';
+              for (const r of runs) {
+                azTabContent += '<tr><td class="az-pipeline-name">' + (r.pipelineName || '-') + '</td>' +
+                  '<td><a href="' + (r.url || '#') + '" target="_blank" style="color:#64b5f6; text-decoration:none;">' + (r.buildNumber || '-') + '</a></td>' +
+                  '<td>' + azResultBadge(r.result) + '</td>' +
+                  '<td>' + (r.duration ? r.duration + ' min' : '-') + '</td>' +
+                  '<td>' + (r.startTime ? new Date(r.startTime).toLocaleString() : '-') + '</td>' +
+                  '<td style="color:#8899aa; font-size:12px;">' + (r.sourceBranch || '-') + '</td></tr>';
+              }
+              azTabContent += '</tbody></table>';
+            }
+          } else if (azSubTab === 'category') {
+            const catRuns = azAgg.recent_runs;
+            const categories = {};
+            catRuns.forEach(function(r) {
+              const cat = r.category || 'Other';
+              if (!categories[cat]) categories[cat] = { runs: [], succeeded: 0, failed: 0, total: 0 };
+              categories[cat].runs.push(r);
+              categories[cat].total++;
+              if (r.result === 'succeeded') categories[cat].succeeded++;
+              if (r.result === 'failed') categories[cat].failed++;
+            });
+            if (Object.keys(categories).length === 0) {
+              azTabContent = '<div class="no-data">No runs available</div>';
+            } else {
+              const sortedCats = Object.entries(categories).sort(function(a, b) { return b[1].total - a[1].total; });
+              for (const [cat, info] of sortedCats) {
+                const catSr = (info.succeeded + info.failed) > 0 ? Math.round((info.succeeded / (info.succeeded + info.failed)) * 1000) / 10 : 0;
+                azTabContent += '<div style="margin-bottom:20px;"><h3 style="color:#e0e0e0; font-size:15px; margin-bottom:8px; padding:8px 12px; background:rgba(179,136,255,0.1); border-radius:8px; border-left:3px solid #b388ff;">' +
+                  cat + ' <span style="color:#8899aa; font-size:12px; margin-left:8px;">' + info.total + ' runs | ' + catSr + '% success</span></h3>' +
+                  '<table class="az-table"><thead><tr><th>Pipeline</th><th>Build #</th><th>Result</th><th>Duration</th><th>Started</th></tr></thead><tbody>';
+                for (const r of info.runs.slice(0, 20)) {
+                  azTabContent += '<tr><td class="az-pipeline-name">' + (r.pipelineName || '-') + '</td>' +
+                    '<td><a href="' + (r.url || '#') + '" target="_blank" style="color:#64b5f6; text-decoration:none;">' + (r.buildNumber || '-') + '</a></td>' +
+                    '<td>' + azResultBadge(r.result) + '</td>' +
+                    '<td>' + (r.duration ? r.duration + ' min' : '-') + '</td>' +
+                    '<td>' + (r.startTime ? new Date(r.startTime).toLocaleString() : '-') + '</td></tr>';
+                }
+                azTabContent += '</tbody></table></div>';
+              }
+            }
+          }
+
+          let azHtml = '<div class="dashboard">' +
+            '<header class="dashboard-header" style="padding:15px 20px; text-align:left;">' +
+            '<button class="back-btn" id="azBackBtn">\u2190 Back to Dashboard</button></header>' +
+            '<div class="az-container"><div class="az-header"><h1>\ud83d\udd27 Azure Pipeline Dashboard</h1>' +
+            '<div class="az-header-actions">' +
+            '<button class="az-sync-btn" id="azSyncBtn"' + (azSyncing ? ' disabled' : '') + '>' + (azSyncing ? '\u27f3 Syncing...' : '\ud83d\udd04 Sync Now') + '</button>' +
+            '<button class="az-csv-btn" id="azCsvBtn"' + (!azData ? ' disabled' : '') + '>\ud83d\udce5 Export CSV</button>' +
+            (azLastSynced ? '<span class="az-last-synced">Last synced: ' + new Date(azLastSynced).toLocaleString() + '</span>' : '') +
+            '</div></div>' +
+            '<div class="az-project-filters">' +
+            azProjectOptions.map(function(p) {
+              return '<button class="az-project-btn' + (azProject === p.key ? ' active' : '') + '" data-project="' + p.key + '">' + p.label + '</button>';
+            }).join('') +
+            '</div>' +
+            '<div class="az-date-filters">' +
+            '<label>From:</label><input type="date" id="azDateFrom" value="' + azDateFrom + '" />' +
+            '<label>To:</label><input type="date" id="azDateTo" value="' + azDateTo + '" />' +
+            '</div>' +
+            (azData ? '<div class="az-summary-cards">' +
+              '<div class="az-summary-card"><div class="az-card-label">Total Runs</div><div class="az-card-value">' + azAgg.total_runs + '</div></div>' +
+              '<div class="az-summary-card az-card-success"><div class="az-card-label">Succeeded</div><div class="az-card-value">' + azAgg.succeeded + '</div></div>' +
+              '<div class="az-summary-card az-card-fail"><div class="az-card-label">Failed</div><div class="az-card-value">' + azAgg.failed + '</div></div>' +
+              '<div class="az-summary-card az-card-partial"><div class="az-card-label">Partial</div><div class="az-card-value">' + azAgg.partially_succeeded + '</div></div>' +
+              '<div class="az-summary-card az-card-cancel"><div class="az-card-label">Canceled</div><div class="az-card-value">' + azAgg.canceled + '</div></div>' +
+              '<div class="az-summary-card az-card-highlight"><div class="az-card-label">Success Rate</div><div class="az-card-value">' + azAgg.success_rate + '%</div></div>' +
+              '<div class="az-summary-card"><div class="az-card-label">Avg Duration</div><div class="az-card-value">' + azAgg.avg_duration_minutes + 'm</div></div>' +
+              '</div>' : '') +
+            '<div class="az-sub-tabs">' +
+            '<button class="az-sub-tab' + (azSubTab === 'overview' ? ' active' : '') + '" data-subtab="overview">Overview</button>' +
+            '<button class="az-sub-tab' + (azSubTab === 'history' ? ' active' : '') + '" data-subtab="history">Run History</button>' +
+            '<button class="az-sub-tab' + (azSubTab === 'category' ? ' active' : '') + '" data-subtab="category">By Category</button></div>' +
+            '<div class="az-tab-content">' + azTabContent + '</div>' +
+            '</div></div>';
+
+          app.innerHTML = azHtml;
+
+          document.getElementById('azBackBtn').addEventListener('click', function() {
+            state.currentView = 'dashboard';
+            render();
+          });
+          document.getElementById('azSyncBtn').addEventListener('click', syncAzurePipeline);
+          document.getElementById('azCsvBtn').addEventListener('click', exportAzurePipelineCsv);
+          document.querySelectorAll('.az-project-btn').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              state.azurePipelineProject = btn.dataset.project;
+              render();
+            });
+          });
+          document.querySelectorAll('.az-sub-tab').forEach(function(btn) {
+            btn.addEventListener('click', function() {
+              state.azurePipelineSubTab = btn.dataset.subtab;
+              render();
+            });
+          });
+          var azDateFromInput = document.getElementById('azDateFrom');
+          var azDateToInput = document.getElementById('azDateTo');
+          if (azDateFromInput) {
+            azDateFromInput.addEventListener('change', function() {
+              state.azurePipelineDateFrom = azDateFromInput.value;
+              render();
+            });
+          }
+          if (azDateToInput) {
+            azDateToInput.addEventListener('change', function() {
+              state.azurePipelineDateTo = azDateToInput.value;
+              render();
+            });
+          }
+          return;
+        }
+
+        // Show main dashboard view
+        let html = `
+          <div class="dashboard">
+            <header class="dashboard-header">
+              <div class="dashboard-header-inner">
+                <img src="/public/wk-logo.svg" alt="Wolters Kluwer" style="height: 224px; width: auto; display: block;" />
+                <h1>📊 Polaris ELM Metrics Dashboard</h1>
+              </div>
+              <p>Hierarchical Metrics View: Product → Team → Sprint</p>
+            </header>
+
+            ${state.error ? `<div class="error-message">${state.error}</div>` : ''}
+
+            <div class="controls">
+              <div class="control-group">
+                <label for="product">Product</label>
+                <select id="product">
+                  <option value="">-- Select Product --</option>
+                  ${state.products.map(p => `
+                    <option value="${p.id}" ${p.id === state.selectedProduct ? 'selected' : ''}>
+                      ${p.name}
+                    </option>
+                  `).join('')}
+                </select>
+              </div>
+
+              ${state.teams.length > 0 ? `
+                <div class="control-group">
+                  <label for="team">Team</label>
+                  <select id="team">
+                    <option value="">-- All Teams --</option>
+                    ${state.teams.map(t => `
+                      <option value="${t.id}" ${t.id === state.selectedTeam ? 'selected' : ''}>
+                        ${t.name}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+
+              ${isCpodTeam() ? `
+                <div class="cpod-date-controls">
+                  <div class="control-group">
+                    <label for="cpodStartDate">Start Date</label>
+                    <input type="date" id="cpodStartDate" value="${state.cpodStartDate}" />
+                  </div>
+                  <div class="control-group">
+                    <label for="cpodEndDate">End Date</label>
+                    <input type="date" id="cpodEndDate" value="${state.cpodEndDate}" />
+                  </div>
+                  <button class="cpod-load-btn" id="cpodLoadBtn">Load Metrics</button>
+                </div>
+              ` : state.sprints.length > 0 ? `
+                <div class="control-group">
+                  <label for="sprint">Sprint</label>
+                  <select id="sprint">
+                    <option value="">-- All Sprints --</option>
+                    ${state.sprints.map(s => `
+                      <option value="${s.id}" ${s.id === state.selectedSprint ? 'selected' : ''}>
+                        ${s.name}
+                      </option>
+                    `).join('')}
+                  </select>
+                </div>
+              ` : ''}
+            </div>
+
+            ${state.loading ? '<div class="loading">Loading...</div>' : ''}
+
+            ${state.metrics ? `
+              <div class="metrics-grid">
+                <div class="metric-card card-blue clickable" id="dorReadinessCard">
+                  <div class="metric-label">📋 DoR Readiness %</div>
+                  <div class="metric-value">${state.metrics.requirementsCovered}%</div>
+                  <div class="card-hint">Click to view TAD/TS Compliance →</div>
+                </div>
+                <div class="metric-card card-green clickable" id="testsCoveredCard">
+                  <div class="metric-label">✅ Automation Coverage %</div>
+                  <div class="metric-value">${state.metrics.testsCovered}%</div>
+                  <div class="card-hint">Click to view details →</div>
+                </div>
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-purple" id="cpodOpenCardsCard">
+                    <div class="metric-label">📂 Open Cards Count</div>
+                    <div class="metric-value">${(state.metrics.cpodDataUnavailable || (state.metrics.safeProductFilterApplied === false && state.metrics.cpodFilterMode === 'open_fallback_without_safe_product')) ? 'Data unavailable' : (state.metrics.openCardsCount ?? 0)}</div>
+                    <div class="card-hint">${state.metrics.cpodDataUnavailable
+                      ? 'Data source unavailable (fallback applied)'
+                      : (state.metrics.safeProductFilterApplied === false && state.metrics.cpodFilterMode === 'open_fallback_without_safe_product')
+                        ? 'Strict Safe Product filter unavailable for current service account'
+                      : state.metrics.openCardsFallbackApplied
+                        ? 'Open-cards query fallback applied'
+                        : ((state.metrics.openCardsCount ?? 0) === 0
+                          ? 'No matching open cards in selected date range'
+                          : 'Open workflow cards (selected date range)')}</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-purple clickable" id="openDefectsCard">
+                    <div class="metric-label">🚨 Open Defects</div>
+                    <div class="metric-value">${state.metrics.defectsOpen}</div>
+                    <div class="card-hint">Click to view details →</div>
+                  </div>
+                `}
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-red" id="cpodClosedCardsCard">
+                    <div class="metric-label">🧾 Closed Cards Count</div>
+                    <div class="metric-value">${state.metrics.cpodDataUnavailable ? 'Data unavailable' : (state.metrics.closedCardsCount ?? 0)}</div>
+                    <div class="card-hint">To Verify → Resolved (selected date range)</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-red clickable" id="closedDefectsCard">
+                    <div class="metric-label">✓ Closed Defects</div>
+                    <div class="metric-value">${state.metrics.defectsClosed}</div>
+                    <div class="card-hint">Click to view details →</div>
+                  </div>
+                `}
+                ${isCpodTeam() ? `
+                  <div class="metric-card card-orange" id="cpodReopenedCardsCard">
+                    <div class="metric-label">↩️ ReOpened Cards Count</div>
+                    <div class="metric-value">${(state.metrics.cpodDataUnavailable || state.metrics.reOpenedCardsFallbackApplied) ? 'Data unavailable' : (state.metrics.reOpenedCardsCount ?? 0)}</div>
+                    <div class="card-hint">${(state.metrics.cpodDataUnavailable || state.metrics.reOpenedCardsFallbackApplied)
+                      ? 'Data source unavailable (fallback applied)'
+                      : ((state.metrics.reOpenedCardsCount ?? 0) === 0
+                        ? 'No matching Closed → New transitions in selected date range'
+                        : 'Closed → New transitions (selected date range)')}</div>
+                  </div>
+                ` : `
+                  <div class="metric-card card-orange clickable" id="reopenedDefectsCard">
+                    <div class="metric-label">↩️ Reopened Defects</div>
+                    <div class="metric-value">${state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null ? Math.round(state.metrics.reopenedRate) + '%' : '0%'}</div>
+                    <div class="card-hint">Click to view details →</div>
+                    <div class="metric-quality-badge ${
+                      state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                        ? (state.metrics.reopenedRate < 10 ? 'quality-excellent' : state.metrics.reopenedRate <= 25 ? 'quality-fair' : 'quality-action-required')
+                        : 'quality-excellent'
+                    }">${
+                      state.metrics.reopenedRate !== undefined && state.metrics.reopenedRate !== null
+                        ? (state.metrics.reopenedRate < 10 ? 'Excellent' : state.metrics.reopenedRate <= 25 ? 'Fair' : 'Action Required')
+                        : 'Excellent'
+                    }</div>
+                  </div>
+                `}
+                <div class="metric-card card-blue">
+                  <div class="metric-label">🚀 DoD Completion/Release Readiness %</div>
+                  <div class="metric-value">${state.metrics.deploymentReadiness}%</div>
+                </div>
+                <div class="metric-card card-green">
+                  <div class="metric-label">⭐ Automation Code Quality</div>
+                  <div class="metric-value">${state.metrics.codeQuality}%</div>
+                </div>
+                ${state.selectedProduct === 'passport' && !isCpodTeam() ? `
+                <div class="metric-card card-purple clickable" id="azurePipelineCard">
+                  <div class="metric-label">🔧 Azure Pipelines</div>
+                  <div class="metric-value">${(function() {
+                    var m = getAzureTileMetrics();
+                    return m.success_rate + '%';
+                  })()}</div>
+                  <div class="card-hint">${state.selectedTeam && state.selectedSprint && state.sprintDatesCache[state.selectedTeam + '/' + state.selectedSprint] ? ('Sprint ' + state.selectedSprint.replace(/^[a-z-]+-/, '')) : 'Last 30 days'} · Click →</div>
+                </div>
+                ` : ''}
+              </div>
+            ` : !state.loading && state.selectedProduct ? `
+              <div class="no-data">No metrics available for selected combination</div>
+            ` : !state.selectedProduct ? `
+              <div class="placeholder">Select a product to view metrics</div>
+            ` : ''}
+          </div>
+        `;
+
+        app.innerHTML = html;
+
+        // Attach event listeners (remove old ones first)
+        const productSelect = document.getElementById('product');
+        if (productSelect) {
+          productSelect.removeEventListener('change', handleProductChange);
+          productSelect.addEventListener('change', handleProductChange);
+          console.log('📌 Product dropdown listener attached');
+        }
+        
+        const teamSelect = document.getElementById('team');
+        if (teamSelect && state.teams.length > 0) {
+          teamSelect.removeEventListener('change', handleTeamChange);
+          teamSelect.addEventListener('change', handleTeamChange);
+          console.log('📌 Team dropdown listener attached');
+        }
+        
+        const sprintSelect = document.getElementById('sprint');
+        if (sprintSelect && state.sprints.length > 0) {
+          sprintSelect.removeEventListener('change', handleSprintChange);
+          sprintSelect.addEventListener('change', handleSprintChange);
+          console.log('📌 Sprint dropdown listener attached');
+        }
+
+        // CPOD date picker listeners
+        const cpodStartInput = document.getElementById('cpodStartDate');
+        const cpodEndInput = document.getElementById('cpodEndDate');
+        const cpodLoadBtn = document.getElementById('cpodLoadBtn');
+        if (cpodStartInput) {
+          cpodStartInput.addEventListener('change', (e) => {
+            state.cpodStartDate = e.target.value;
+            console.log('📅 CPOD start date changed:', state.cpodStartDate);
+            handleCpodDateChange();
+          });
+        }
+        if (cpodEndInput) {
+          cpodEndInput.addEventListener('change', (e) => {
+            state.cpodEndDate = e.target.value;
+            console.log('📅 CPOD end date changed:', state.cpodEndDate);
+            handleCpodDateChange();
+          });
+        }
+        if (cpodLoadBtn) {
+          cpodLoadBtn.addEventListener('click', handleCpodDateChange);
+          console.log('📌 CPOD Load Metrics button listener attached');
+        }
+
+        // Tests Covered card click handler
+        document.getElementById('testsCoveredCard')?.addEventListener('click', () => {
+          state.currentView = 'testsCovered';
+          render();
+        });
+
+        // DoR Readiness card click handler
+        document.getElementById('dorReadinessCard')?.addEventListener('click', () => {
+          state.currentView = 'dorCompliance';
+          render();
+        });
+
+        // Open Defects card click handler
+        if (!isCpodTeam()) {
+          document.getElementById('openDefectsCard')?.addEventListener('click', () => {
+            state.currentView = 'openDefects';
+            render();
+          });
+        }
+
+        // Closed Defects card click handler
+        if (!isCpodTeam()) {
+          document.getElementById('closedDefectsCard')?.addEventListener('click', () => {
+            state.currentView = 'closedDefects';
+            render();
+          });
+        }
+
+        // Reopened Defects card click handler
+        document.getElementById('reopenedDefectsCard')?.addEventListener('click', () => {
+          state.currentView = 'reopenedDefects';
+          render();
+        });
+
+        // Azure Pipelines card click handler
+        document.getElementById('azurePipelineCard')?.addEventListener('click', () => {
+          state.currentView = 'azurePipelines';
+          render();
+        });
+      }
+
+      // ── Azure Pipeline Functions ──
+
+      async function loadAzurePipelineData() {
+        try {
+          const response = await fetch(API_BASE_URL + '/azure-pipeline/passport');
+          const result = await response.json();
+          if (result.success && result.data) {
+            state.azurePipelineData = result.data;
+            const firstProject = Object.values(result.data)[0];
+            state.azurePipelineLastSynced = firstProject ? firstProject.syncedAt : null;
+          }
+        } catch (err) {
+          console.error('❌ Error loading Azure Pipeline data:', err);
+        }
+        render();
+      }
+
+      async function syncAzurePipeline() {
+        state.azurePipelineSyncing = true;
+        state.azurePipelineError = null;
+        render();
+        try {
+          const response = await fetch(API_BASE_URL + '/azure-pipeline/sync/passport', { method: 'POST' });
+          const result = await response.json();
+          if (result.success) {
+            // Fetch the full cached data (includes syncedAt, labels, etc.)
+            const getResponse = await fetch(API_BASE_URL + '/azure-pipeline/passport');
+            const getResult = await getResponse.json();
+            if (getResult.success && getResult.data) {
+              state.azurePipelineData = getResult.data;
+              const firstProject = Object.values(getResult.data)[0];
+              state.azurePipelineLastSynced = firstProject ? firstProject.syncedAt : new Date().toISOString();
+            }
+          } else {
+            state.azurePipelineError = result.error || 'Sync failed';
+          }
+        } catch (err) {
+          console.error('❌ Error syncing Azure Pipeline:', err);
+          state.azurePipelineError = err.message;
+        } finally {
+          state.azurePipelineSyncing = false;
+        }
+        render();
+      }
+
+      function aggregateAzureMetrics(data, projectFilter, dateFrom, dateTo, teamId) {
+        if (!data) return { total_runs: 0, succeeded: 0, failed: 0, partially_succeeded: 0, canceled: 0, success_rate: 0, avg_duration_minutes: 0, recent_runs: [] };
+        var projectKeys = projectFilter === 'all' ? Object.keys(data) : [projectFilter];
+        var allRuns = [];
+        for (var i = 0; i < projectKeys.length; i++) {
+          var proj = data[projectKeys[i]];
+          if (!proj || !proj.recent_runs) continue;
+          allRuns = allRuns.concat(proj.recent_runs);
+        }
+        // Filter by team folder path if teamId specified AND runs have folderPath data
+        if (teamId && state.teamFolderPatterns[teamId]) {
+          var hasAnyFolderPath = allRuns.some(function(r) { return r.folderPath; });
+          if (hasAnyFolderPath) {
+            var pattern = new RegExp(state.teamFolderPatterns[teamId], 'i');
+            allRuns = allRuns.filter(function(r) { return r.folderPath && pattern.test(r.folderPath); });
+          }
+          // If no runs have folderPath (pre-sync data), skip team filter — show all runs for the date range
+        }
+        // Apply date range filter
+        if (dateFrom) {
+          var fromDate = new Date(dateFrom);
+          allRuns = allRuns.filter(function(r) { return r.startTime && new Date(r.startTime) >= fromDate; });
+        }
+        if (dateTo) {
+          var toDate = new Date(dateTo);
+          toDate.setHours(23, 59, 59, 999);
+          allRuns = allRuns.filter(function(r) { return r.startTime && new Date(r.startTime) <= toDate; });
+        }
+        // Compute metrics from filtered runs
+        var totalRuns = allRuns.length;
+        var succeeded = 0, failed = 0, partial = 0, canceled = 0;
+        var durations = [];
+        allRuns.forEach(function(r) {
+          if (r.result === 'succeeded') succeeded++;
+          if (r.result === 'failed') failed++;
+          if (r.result === 'partiallySucceeded') partial++;
+          if (r.result === 'canceled') canceled++;
+          if (r.duration > 0) durations.push(r.duration);
+        });
+        var denom = succeeded + failed;
+        var successRate = denom > 0 ? Math.round((succeeded / denom) * 1000) / 10 : 0;
+        var avgDuration = durations.length > 0 ? Math.round((durations.reduce(function(a, b) { return a + b; }, 0) / durations.length) * 10) / 10 : 0;
+        allRuns.sort(function(a, b) { return new Date(b.startTime || 0) - new Date(a.startTime || 0); });
+        return { total_runs: totalRuns, succeeded: succeeded, failed: failed, partially_succeeded: partial, canceled: canceled, success_rate: successRate, avg_duration_minutes: avgDuration, recent_runs: allRuns };
+      }
+
+      /**
+       * Get the Azure Pipeline tile % based on selected team + sprint.
+       * Uses JIRA sprint dates to filter runs by timestamp + team folder path.
+       * Falls back to 30-day window if no sprint selected or dates unavailable.
+       */
+      function getAzureTileMetrics() {
+        if (!state.azurePipelineData) return { success_rate: 0, total_runs: 0 };
+        var team = state.selectedTeam;
+        var sprint = state.selectedSprint;
+        // If team + sprint selected and we have cached sprint dates, use them
+        if (team && sprint && state.sprintDatesCache[team + '/' + sprint]) {
+          var dates = state.sprintDatesCache[team + '/' + sprint];
+          var from = dates.startDate ? dates.startDate.slice(0, 10) : null;
+          var to = dates.endDate ? dates.endDate.slice(0, 10) : null;
+          return aggregateAzureMetrics(state.azurePipelineData, 'all', from, to, team);
+        }
+        // Fallback: 30-day window, no team filter
+        return aggregateAzureMetrics(state.azurePipelineData, 'all', state.azurePipelineDateFrom, state.azurePipelineDateTo);
+      }
+
+      /**
+       * Fetch and cache sprint dates from JIRA for the selected team+sprint.
+       * Called when team or sprint selection changes.
+       */
+      async function fetchSprintDatesForTile() {
+        var team = state.selectedTeam;
+        var sprint = state.selectedSprint;
+        if (!team || !sprint) return;
+        // Only for Passport non-CPOD teams
+        if (!state.teamFolderPatterns[team]) return;
+        var cacheKey = team + '/' + sprint;
+        if (state.sprintDatesCache[cacheKey]) { render(); return; }
+        try {
+          var response = await fetch(API_BASE_URL + '/sprint-dates/' + encodeURIComponent(team) + '/' + encodeURIComponent(sprint));
+          var result = await response.json();
+          if (result.success && result.data) {
+            state.sprintDatesCache[cacheKey] = result.data;
+            console.log('📅 Sprint dates loaded:', cacheKey, result.data.startDate, '→', result.data.endDate);
+          }
+        } catch (err) {
+          console.warn('⚠️ Failed to fetch sprint dates for', cacheKey, err.message);
+        }
+        render();
+      }
+
+      async function exportAzurePipelineCsv() {
+        try {
+          var params = [];
+          if (state.azurePipelineProject !== 'all') params.push('project=' + state.azurePipelineProject);
+          if (state.azurePipelineDateFrom) params.push('dateFrom=' + state.azurePipelineDateFrom);
+          if (state.azurePipelineDateTo) params.push('dateTo=' + state.azurePipelineDateTo);
+          var queryStr = params.length > 0 ? '?' + params.join('&') : '';
+          var response = await fetch(API_BASE_URL + '/azure-pipeline/passport/export/csv' + queryStr);
+          var csv = await response.text();
+          var blob = new Blob([csv], { type: 'text/csv' });
+          var url = URL.createObjectURL(blob);
+          var a = document.createElement('a');
+          a.href = url;
+          a.download = 'azure-pipeline-export-' + new Date().toISOString().slice(0, 10) + '.csv';
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+        } catch (err) {
+          console.error('❌ Error exporting CSV:', err);
+          alert('Failed to export CSV: ' + err.message);
+        }
+      }
+
+      // ── Defect Detail View ──
+      async function loadDefectDetailView(defectType) {
+        const container = document.getElementById('defectDetailContainer');
+        if (!container) return;
+
+        const titleMap = { openDefects: '🚨 Open Defects', closedDefects: '✓ Closed Defects', reopenedDefects: '↩️ Reopened Defects' };
+        const title = titleMap[defectType] || 'Defects';
+        const product = state.selectedProduct || 't360';
+        const team = state.selectedTeam || '';
+
+        container.innerHTML = `<div class="defect-detail-container"><div class="loading">Loading defect details...</div></div>`;
+
+        try {
+          // Extract sprint number (e.g., "vanguards-26.1.2" → "26.1.2")
+          const sprintName = getSprintNumberFromState() || '26.1.5';
+
+          const response = await fetch(`http://localhost:3000/api/defects/by-module?sprint=${encodeURIComponent(sprintName)}&product=${encodeURIComponent(product)}&team=${encodeURIComponent(team)}`);
+          const data = await response.json();
+
+          if (data.error) throw new Error(data.error);
+
+          renderDefectDetail(container, data, defectType, title, product, team, sprintName);
+        } catch (error) {
+          console.error('Error loading defect details:', error);
+          container.innerHTML = `<div class="defect-detail-container"><div class="error-message">Error loading defect data: ${error.message}</div></div>`;
+        }
+      }
+
+      function getPriorityClass(priority) {
+        const p = (priority || '').toLowerCase();
+        if (p === 'critical' || p === 'highest' || p === 'blocker') return 'priority-critical';
+        if (p === 'high') return 'priority-high';
+        if (p === 'medium' || p === 'normal') return 'priority-medium';
+        return 'priority-low';
+      }
+
+      function getPriorityLabel(priority) {
+        const p = (priority || '').toLowerCase();
+        if (p === 'critical') return 'Critical';
+        if (p === 'highest') return 'Highest';
+        if (p === 'blocker') return 'Blocker';
+        if (p === 'high') return 'High';
+        if (p === 'medium') return 'Medium';
+        if (p === 'normal') return 'Normal';
+        if (p === 'low' || p === 'lowest') return 'Low';
+        if (p === 'undefined' || p === 'none' || !p) return 'Unset';
+        return priority;
+      }
+
+      function getStatusClass(status) {
+        const s = (status || '').toLowerCase();
+        if (s === 'closed' || s === 'done' || s === 'resolved') return 'status-closed';
+        if (s === 'in progress' || s === 'in-progress') return 'status-in-progress';
+        if (s === 'to verify' || s === 'in review' || s === 'ready for test') return 'status-in-progress';
+        if (s.includes('reopen')) return 'status-reopened';
+        return 'status-open';
+      }
+
+      function getStatusLabel(status) {
+        const s = (status || '').toLowerCase();
+        if (s === 'closed' || s === 'done') return 'Closed';
+        if (s === 'resolved') return 'Resolved';
+        if (s === 'in progress' || s === 'in-progress') return 'In Progress';
+        if (s === 'to verify') return 'To Verify';
+        if (s === 'in review') return 'In Review';
+        if (s === 'ready for test') return 'Ready for Test';
+        if (s.includes('reopen')) return 'Reopened';
+        return status || 'Open';
+      }
+
+      function renderDefectDetail(container, data, defectType, title, product, teamFilter, sprintName) {
+        const teams = data.teams || {};
+        const productLabel = product === 't360' ? 'T360' : product === 'dna' ? 'DnA' : product === 'passport' ? 'Passport' : (product || '').replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        const jiraBaseUrl = 'https://jira.wolterskluwer.io/jira/browse/';
+
+        // Filter teams by selected product
+        const allowedTeams = productTeamMap[product] || [];
+        const filteredTeams = {};
+        for (const [teamName, teamData] of Object.entries(teams)) {
+          // Match team names case-insensitively (API may capitalize differently)
+          const matches = allowedTeams.length === 0 || allowedTeams.some(t => 
+            teamName.toLowerCase().includes(t.toLowerCase()) || t.toLowerCase().includes(teamName.toLowerCase())
+          );
+          if (matches) filteredTeams[teamName] = teamData;
+        }
+
+        // Further filter by selected team if specified
+        if (teamFilter) {
+          const teamKeys = Object.keys(filteredTeams);
+          for (const teamName of teamKeys) {
+            if (!teamName.toLowerCase().includes(teamFilter.toLowerCase()) && !teamFilter.toLowerCase().includes(teamName.toLowerCase())) {
+              delete filteredTeams[teamName];
+            }
+          }
+        }
+
+        // Collect bugs from filtered teams, filtering by defect type
+        let allBugs = [];
+        let totalOpen = 0, totalClosed = 0, totalReopened = 0;
+        let criticalCount = 0, highCount = 0;
+
+        for (const [teamName, teamData] of Object.entries(filteredTeams)) {
+          const bugs = teamData.bugs || [];
+          for (const bug of bugs) {
+            const isOpen = bug.isOpen !== undefined ? bug.isOpen : !['closed', 'done', 'resolved'].includes((bug.status || '').toLowerCase());
+            const isClosed = !isOpen;
+            const isReopened = bug.reopened || (bug.reopenCount && bug.reopenCount > 0);
+
+            if (isOpen) totalOpen++;
+            if (isClosed) totalClosed++;
+            if (isReopened) totalReopened++;
+
+            const p = (bug.priority || '').toLowerCase();
+            if (p === 'critical' || p === 'highest' || p === 'blocker') criticalCount++;
+            if (p === 'high') highCount++;
+
+            // Filter by defect type
+            let include = false;
+            if (defectType === 'openDefects' && isOpen) include = true;
+            if (defectType === 'closedDefects' && isClosed) include = true;
+            if (defectType === 'reopenedDefects' && isReopened) include = true;
+
+            if (include) {
+              allBugs.push({ ...bug, teamName });
+            }
+          }
+        }
+
+        // Build summary counts based on view type
+        let viewCount = allBugs.length;
+        let summaryCards = '';
+
+        if (defectType === 'openDefects') {
+          summaryCards = `
+            <div class="defect-summary-card ds-open"><div class="ds-label">Open Bugs</div><div class="ds-value">${viewCount}</div></div>
+            <div class="defect-summary-card ds-critical"><div class="ds-label">Critical/Highest</div><div class="ds-value">${allBugs.filter(b => ['critical','highest','blocker'].includes((b.priority||'').toLowerCase())).length}</div></div>
+            <div class="defect-summary-card ds-high"><div class="ds-label">High</div><div class="ds-value">${allBugs.filter(b => (b.priority||'').toLowerCase() === 'high').length}</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Teams Affected</div><div class="ds-value">${new Set(allBugs.map(b => b.teamName)).size}</div></div>
+          `;
+        } else if (defectType === 'closedDefects') {
+          summaryCards = `
+            <div class="defect-summary-card ds-closed"><div class="ds-label">Closed Bugs</div><div class="ds-value">${viewCount}</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Total Open</div><div class="ds-value">${totalOpen}</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Close Rate</div><div class="ds-value">${(totalOpen + totalClosed) > 0 ? ((totalClosed / (totalOpen + totalClosed)) * 100).toFixed(1) : 0}%</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Teams</div><div class="ds-value">${new Set(allBugs.map(b => b.teamName)).size}</div></div>
+          `;
+        } else {
+          summaryCards = `
+            <div class="defect-summary-card ds-reopened"><div class="ds-label">Reopened Bugs</div><div class="ds-value">${viewCount}</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Total Bugs</div><div class="ds-value">${totalOpen + totalClosed}</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Reopen Rate</div><div class="ds-value">${(totalOpen + totalClosed) > 0 ? ((totalReopened / (totalOpen + totalClosed)) * 100).toFixed(1) : 0}%</div></div>
+            <div class="defect-summary-card"><div class="ds-label">Teams</div><div class="ds-value">${new Set(allBugs.map(b => b.teamName)).size}</div></div>
+          `;
+        }
+
+        // Group bugs by team
+        const bugsByTeam = {};
+        for (const bug of allBugs) {
+          if (!bugsByTeam[bug.teamName]) bugsByTeam[bug.teamName] = [];
+          bugsByTeam[bug.teamName].push(bug);
+        }
+
+        let teamsHtml = '';
+        if (Object.keys(filteredTeams).length === 0 && product === 'collaboration-portal') {
+          teamsHtml = `<div class="defect-no-data">Defect tracking for ${productLabel} is not yet integrated with Jira. Please check Jira directly for ${productLabel} defect data.</div>`;
+        } else if (Object.keys(bugsByTeam).length === 0) {
+          teamsHtml = `<div class="defect-no-data">No ${title.replace(/[^\w\s]/g, '').trim().toLowerCase()} found for ${productLabel} in Sprint ${sprintName}</div>`;
+        } else {
+          for (const [teamName, bugs] of Object.entries(bugsByTeam)) {
+            teamsHtml += `
+              <div class="defect-team-section">
+                <h3>👥 ${teamName} (${bugs.length} ${bugs.length === 1 ? 'bug' : 'bugs'})</h3>
+                <table class="defect-bugs-table">
+                  <thead>
+                    <tr>
+                      <th>Key</th>
+                      <th>Summary</th>
+                      <th>Status</th>
+                      <th>Priority</th>
+                      ${defectType === 'reopenedDefects' ? '<th>Reopen Count</th>' : ''}
+                      <th>Created</th>
+                      <th>Updated</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${bugs.map(bug => `
+                      <tr>
+                        <td class="bug-key"><a href="${jiraBaseUrl}${bug.key}" target="_blank" rel="noopener">${bug.key}</a></td>
+                        <td>${bug.summary || 'N/A'}</td>
+                        <td><span class="defect-status-badge ${getStatusClass(bug.status)}">${getStatusLabel(bug.status)}</span></td>
+                        <td><span class="defect-priority-badge ${getPriorityClass(bug.priority)}">${getPriorityLabel(bug.priority)}</span></td>
+                        ${defectType === 'reopenedDefects' ? `<td style="text-align:center; font-weight:600; color:#ffab40;">${bug.reopenCount || 1}</td>` : ''}
+                        <td>${bug.created ? new Date(bug.created).toLocaleDateString() : 'N/A'}</td>
+                        <td>${bug.updated ? new Date(bug.updated).toLocaleDateString() : 'N/A'}</td>
+                      </tr>
+                    `).join('')}
+                  </tbody>
+                </table>
+              </div>
+            `;
+          }
+        }
+
+        container.innerHTML = `
+          <div class="defect-detail-container">
+            <div class="defect-detail-header">
+              <h1>${title} — ${productLabel} — Sprint ${sprintName}</h1>
+              <span style="color:#888; font-size:13px;">Source: ${data.source || 'Jira'}</span>
+            </div>
+            <div class="defect-summary-cards">${summaryCards}</div>
+            ${teamsHtml}
+          </div>
+        `;
+      }
+
+      // Helper: extract sprint number from state.selectedSprint (e.g., "vanguards-26.1.2" → "26.1.2")
+      function getSprintNumberFromState() {
+        const sprintId = state.selectedSprint || '';
+        const match = sprintId.match(/(\d+\.\d+\.\d+|\d+\.\d+\.IP)$/i);
+        return match ? match[1] : '';
+      }
+
+      // Product-to-team mapping (team names as they appear in tests_covered data)
+      const productTeamMap = {
+        't360': ['Chargers', 'Chubb', 'Matrix', 'Mavericks', 'Nexus', 'Vanguards'],
+        'dna': ['Minerva', 'Guardians', 'Athena'],
+        'passport': ['PP Genesis', 'PP Pioneers', 'PP Spartacles', 'CPOD'],
+        'collaboration-portal': []
+      };
+
+      async function loadTestsCoveredView() {
+        const container = document.getElementById('testsCoveredContainer');
+        if (!container) return;
+
+        const selectedProduct = state.selectedProduct;
+
+        try {
+          // For Passport, use live qTest API instead of db.json
+          if (selectedProduct === 'passport') {
+            await loadPassportTestsCovered(container);
+            return;
+          }
+
+          const response = await fetch('http://localhost:3000/api/metrics/tests-covered');
+          const result = await response.json();
+          // API returns { status, data: { "26.1.1": {...}, ... }, available_sprints: [...] }
+          const allData = result.data || {};
+          const sprints = (result.available_sprints || Object.keys(allData));
+          // Sort sprints ascending (oldest first); IP sprints come last
+          sprints.sort((a, b) => {
+            if (a.includes('IP') && !b.includes('IP')) return 1;
+            if (!a.includes('IP') && b.includes('IP')) return -1;
+            const partsA = a.split('.').map(Number);
+            const partsB = b.split('.').map(Number);
+            for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+              if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
+            }
+            return 0;
+          });
+
+          if (sprints.length === 0) {
+            container.innerHTML = '<div class="no-data">No sprint data available</div>';
+            return;
+          }
+
+          // Auto-select the sprint matching the dashboard's current selection
+          const dashboardSprintNum = getSprintNumberFromState();
+          const selectedSprint = (dashboardSprintNum && sprints.includes(dashboardSprintNum)) ? dashboardSprintNum : sprints[0];
+          renderTestsCoveredDashboard(allData, sprints, selectedSprint, selectedProduct);
+
+          const selector = document.getElementById('testsCoveredSprintSelector');
+          if (selector) {
+            selector.addEventListener('change', (e) => {
+              renderTestsCoveredDashboard(allData, sprints, e.target.value, selectedProduct);
+            });
+          }
+        } catch (error) {
+          console.error('Error loading tests covered:', error);
+          container.innerHTML = `<div class="error-message">Error loading data: ${error.message}</div>`;
+        }
+      }
+
+      // Load Passport Tests Covered from live qTest API
+      async function loadPassportTestsCovered(container) {
+        const sprints = ['26.1.1', '26.1.2', '26.1.3', '26.1.4', '26.1.5'];
+        const dashboardSprintNum = getSprintNumberFromState();
+        let selectedSprint = (dashboardSprintNum && sprints.includes(dashboardSprintNum)) ? dashboardSprintNum : sprints[sprints.length - 1];
+
+        // Initial render with loading state
+        container.innerHTML = '<div class="loading" style="text-align:center; padding:40px;">Loading Passport qTest data...</div>';
+
+        async function fetchAndRender(sprint) {
+          try {
+            // Fetch live qTest data for Passport
+            const qtestResp = await fetch(`http://localhost:3000/api/qtest/passport/sync-from-tadts/${sprint}`);
+            const qtestData = await qtestResp.json();
+
+            // Transform qTest data to match expected format
+            const transformedData = {};
+            transformedData[sprint] = {
+              sprint: sprint,
+              generated: qtestData.generated,
+              source: qtestData.source,
+              teams: {}
+            };
+
+            // Convert qTest team format to expected format
+            const teams = qtestData.teams || {};
+            for (const [teamName, teamData] of Object.entries(teams)) {
+              transformedData[sprint].teams[teamName] = {
+                total_test_cases: teamData.total || 0,
+                automated_test_cases: teamData.automated || 0,
+                automation_coverage_percent: teamData.total > 0 ? ((teamData.automated / teamData.total) * 100) : 0,
+                with_attachments: teamData.with_attachments || 0,
+                without_attachments: teamData.without_attachments || 0
+              };
+            }
+
+            renderTestsCoveredDashboard(transformedData, sprints, sprint, 'passport');
+          } catch (error) {
+            console.error('Error fetching Passport qTest data:', error);
+            container.innerHTML = `<div class="error-message">Error loading Passport qTest data: ${error.message}</div>`;
+          }
+        }
+
+        await fetchAndRender(selectedSprint);
+
+        // Add sprint selector listener
+        setTimeout(() => {
+          const selector = document.getElementById('testsCoveredSprintSelector');
+          if (selector) {
+            selector.addEventListener('change', (e) => {
+              container.innerHTML = '<div class="loading" style="text-align:center; padding:40px;">Loading Passport qTest data...</div>';
+              fetchAndRender(e.target.value);
+            });
+          }
+        }, 100);
+      }
+
+      function renderTestsCoveredDashboard(allData, sprints, selectedSprint, selectedProduct) {
+        const container = document.getElementById('testsCoveredContainer');
+        const data = allData[selectedSprint] || {};
+
+        // Convert teams object to array
+        const teamsObj = data.teams || {};
+        let teams = Object.entries(teamsObj).map(([name, stats]) => ({
+          name,
+          total: stats.total_test_cases || 0,
+          automated: stats.automated_test_cases || 0,
+          coverage: stats.automation_coverage_percent || 0,
+          withAttachments: stats.with_attachments || 0
+        }));
+
+        // Filter teams by selected product
+        if (selectedProduct) {
+          const allowedTeams = (productTeamMap[selectedProduct] || []).map(t => t.toLowerCase());
+          if (allowedTeams.length > 0) {
+            teams = teams.filter(t => allowedTeams.includes(t.name.toLowerCase()));
+          }
+          // If product has no mapped teams or no matches, teams will be empty
+        }
+
+        // Recalculate summary from filtered teams
+        const totalTests = teams.reduce((sum, t) => sum + t.total, 0);
+        const automatedTests = teams.reduce((sum, t) => sum + t.automated, 0);
+        const withAttachments = teams.reduce((sum, t) => sum + t.withAttachments, 0);
+        const teamsCount = teams.length;
+        const coverage = totalTests > 0 ? ((automatedTests / totalTests) * 100).toFixed(1) : 0;
+
+        // Format product name for display
+        const productLabel = selectedProduct 
+          ? selectedProduct.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+          : 'All Products';
+
+        let html = `
+          <div class="tests-covered-container">
+            <div class="tests-covered-header">
+              <h1>🧪 Tests Covered — ${productLabel}</h1>
+              <div class="sprint-selector">
+                <label>Sprint: </label>
+                <select id="testsCoveredSprintSelector">
+                  ${sprints.map(s => `<option value="${s}" ${s === selectedSprint ? 'selected' : ''}>${s}</option>`).join('')}
+                </select>
+              </div>
+            </div>
+
+            ${teams.length === 0 ? `
+              <div class="no-data" style="text-align:center; padding:40px; color:#999; font-size:1.1em;">
+                No test coverage data available for <strong>${productLabel}</strong> in this sprint.
+              </div>
+            ` : `
+            <div class="tests-covered-summary">
+              <div class="summary-card">
+                <div class="card-label">Total Test Cases</div>
+                <div class="card-value">${totalTests}</div>
+              </div>
+              <div class="summary-card">
+                <div class="card-label">Automated</div>
+                <div class="card-value">${automatedTests}</div>
+              </div>
+              <div class="summary-card highlight">
+                <div class="card-label">Automation Coverage</div>
+                <div class="card-value">${coverage}%</div>
+                <div class="tc-progress-bar">
+                  <div class="tc-progress-fill" style="width: ${coverage}%"></div>
+                </div>
+              </div>
+              <div class="summary-card">
+                <div class="card-label">With Scripts</div>
+                <div class="card-value">${withAttachments}</div>
+              </div>
+              <div class="summary-card">
+                <div class="card-label">Teams</div>
+                <div class="card-value">${teamsCount}</div>
+              </div>
+            </div>
+
+            <div class="tests-covered-content">
+              <h2>👥 Team Breakdown</h2>
+              ${teams.length > 0 ? `
+                <table class="tc-teams-table">
+                  <thead>
+                    <tr>
+                      <th>Team</th>
+                      <th class="tc-numeric">Total Tests</th>
+                      <th class="tc-numeric">Automated</th>
+                      <th class="tc-numeric">Coverage %</th>
+                      <th>Progress</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    ${teams.map(team => {
+                      const pct = team.coverage.toFixed ? team.coverage.toFixed(1) : team.coverage;
+                      return `
+                        <tr>
+                          <td class="tc-team-name">${team.name}</td>
+                          <td class="tc-numeric">${team.total}</td>
+                          <td class="tc-numeric">${team.automated}</td>
+                          <td class="tc-coverage-cell">${pct}%</td>
+                          <td>
+                            <div class="tc-mini-progress">
+                              <div class="tc-mini-progress-fill" style="width: ${team.coverage}%"></div>
+                            </div>
+                          </td>
+                        </tr>
+                      `;
+                    }).join('')}
+                  </tbody>
+                </table>
+              ` : '<div class="no-data">No team data available</div>'}
+            </div>
+
+            <div class="tests-covered-footer">
+              <p>Generated: ${data.generated || 'N/A'}</p>
+              <p>Sprint: ${data.sprint || selectedSprint}</p>
+            </div>
+            `}
+          </div>
+        `;
+
+        container.innerHTML = html;
+
+        const selector = document.getElementById('testsCoveredSprintSelector');
+        if (selector) {
+          selector.addEventListener('change', (e) => {
+            renderTestsCoveredDashboard(allData, sprints, e.target.value, selectedProduct);
+          });
+        }
+      }
+
+      // ── DoR Compliance (TAD/TS) View ──
+      // Track the currently selected product for DoR compliance
+      let dorSelectedProduct = 't360';
+
+      async function loadDorComplianceView() {
+        const container = document.getElementById('dorComplianceContainer');
+        if (!container) return;
+
+        // Sync with the product selected on the main dashboard
+        if (state.selectedProduct === 'passport' || state.selectedProduct === 't360') {
+          dorSelectedProduct = state.selectedProduct;
+        }
+
+        container.innerHTML = `
+          <div class="dor-compliance-container">
+            <div class="dor-loading">
+              <div class="dor-spinner"></div>
+              <p>Loading available sprints...</p>
+            </div>
+          </div>
+        `;
+
+        await loadDorSprintsForProduct(container, dorSelectedProduct);
+      }
+
+      async function loadDorSprintsForProduct(container, product) {
+        try {
+          const sprintsUrl = product === 'passport'
+            ? 'http://localhost:3000/api/tad-ts/passport/sprints'
+            : 'http://localhost:3000/api/tad-ts/sprints';
+
+          const resp = await fetch(sprintsUrl);
+          const result = await resp.json();
+          if (result.error) throw new Error(result.error);
+
+          const sprintsRaw = result.sprints || [];
+          if (sprintsRaw.length === 0) {
+            container.innerHTML = '<div class="dor-compliance-container"><div class="no-data">No sprints available</div></div>';
+            return;
+          }
+
+          // Normalize: sprints may be objects {id, name} or strings
+          const sprints = sprintsRaw.map(s => typeof s === 'string' ? { id: s, name: s } : s);
+
+          // Sort sprints ascending by id (IP sorts last)
+          sprints.sort((a, b) => {
+            if (a.id.includes('IP') && !b.id.includes('IP')) return 1;
+            if (!a.id.includes('IP') && b.id.includes('IP')) return -1;
+            const partsA = a.id.split('.').map(Number);
+            const partsB = b.id.split('.').map(Number);
+            for (let i = 0; i < Math.max(partsA.length, partsB.length); i++) {
+              if ((partsA[i] || 0) !== (partsB[i] || 0)) return (partsA[i] || 0) - (partsB[i] || 0);
+            }
+            return 0;
+          });
+
+          renderDorSprintPicker(container, sprints, product);
+        } catch (error) {
+          console.error('Error loading DoR compliance sprints:', error);
+          container.innerHTML = `<div class="dor-compliance-container"><div class="error-message">Error loading sprints: ${error.message}</div></div>`;
+        }
+      }
+
+      function renderDorSprintPicker(container, sprints, product) {
+        const productLabel = product === 'passport' ? 'Passport' : 'T360';
+        const teamLabel = product === 'passport' ? 'Passport' : 'T360';
+
+        container.innerHTML = `
+          <div class="dor-compliance-container">
+            <div class="dor-header">
+              <h1>📋 TAD/TS Compliance Report</h1>
+              <div class="dor-sprint-selector">
+                <label>Product:</label>
+                <select id="dorProductSelect" style="margin-right: 16px;">
+                  <option value="t360" ${product === 't360' ? 'selected' : ''}>T360</option>
+                  <option value="passport" ${product === 'passport' ? 'selected' : ''}>Passport</option>
+                </select>
+                <label>Sprint:</label>
+                <select id="dorSprintSelect">
+                  <option value="">-- Select Sprint --</option>
+                  ${sprints.map(s => `<option value="${s.id}" ${s.id === getSprintNumberFromState() ? 'selected' : ''}>${s.name}</option>`).join('')}
+                </select>
+                <button id="dorLoadBtn" ${getSprintNumberFromState() && sprints.some(s => s.id === getSprintNumberFromState()) ? '' : 'disabled'}>Analyze Sprint</button>
+              </div>
+            </div>
+            <div id="dorResultsContainer">
+              <div class="no-data" style="padding: 60px;">Select a sprint and click <strong>Analyze Sprint</strong> to generate the TAD/TS compliance report.<br/><br/>
+              This will query JIRA live for all <strong>${productLabel}</strong> team stories and bugs, checking:<br/>
+              • <strong>TAD</strong> — Pull requests linked or technical design document in description<br/>
+              • <strong>TS</strong> — Test strategy document linked in description<br/>
+              • <strong>N/A</strong> — Comment indicating not applicable, or bug linked to parent story</div>
+            </div>
+          </div>
+        `;
+
+        // Product selector change handler
+        const productSelect = document.getElementById('dorProductSelect');
+        productSelect.addEventListener('change', async () => {
+          dorSelectedProduct = productSelect.value;
+          container.innerHTML = `
+            <div class="dor-compliance-container">
+              <div class="dor-loading">
+                <div class="dor-spinner"></div>
+                <p>Loading sprints for ${dorSelectedProduct === 'passport' ? 'Passport' : 'T360'}...</p>
+              </div>
+            </div>
+          `;
+          await loadDorSprintsForProduct(container, dorSelectedProduct);
+        });
+
+        const select = document.getElementById('dorSprintSelect');
+        const btn = document.getElementById('dorLoadBtn');
+
+        select.addEventListener('change', () => {
+          btn.disabled = !select.value;
+        });
+
+        btn.addEventListener('click', async () => {
+          const sprint = select.value;
+          if (!sprint) return;
+
+          const currentProduct = dorSelectedProduct;
+          const currentProductLabel = currentProduct === 'passport' ? 'Passport' : 'T360';
+
+          btn.disabled = true;
+          btn.textContent = 'Analyzing...';
+          const resultsContainer = document.getElementById('dorResultsContainer');
+          resultsContainer.innerHTML = `
+            <div class="dor-loading">
+              <div class="dor-spinner"></div>
+              <p>Analyzing sprint ${sprint} across all ${currentProductLabel} teams...<br/>This may take a minute.</p>
+            </div>
+          `;
+
+          try {
+            const apiUrl = currentProduct === 'passport'
+              ? `http://localhost:3000/api/tad-ts/passport/sprint/${sprint}`
+              : `http://localhost:3000/api/tad-ts/sprint/${sprint}`;
+
+            const resp = await fetch(apiUrl);
+            const result = await resp.json();
+            if (result.error) throw new Error(result.error);
+
+            // Check if the sprint has any data
+            const totalIssues = result.data?.summary?.total || 0;
+            if (totalIssues === 0) {
+              resultsContainer.innerHTML = `
+                <div class="no-data" style="padding: 60px; text-align: center;">
+                  <h2 style="color: #ff9800; margin-bottom: 16px;">⚠️ No Issues Found</h2>
+                  <p>Sprint <strong>${sprint}</strong> returned 0 Bug/Story issues from ${currentProductLabel} teams.</p>
+                  <p style="margin-top: 12px; color: #8899aa;">This sprint may not exist in JIRA or may have no issues assigned to ${currentProductLabel} teams.<br/>Try selecting a different sprint.</p>
+                </div>
+              `;
+              return;
+            }
+
+            renderDorComplianceResults(resultsContainer, result.data, sprint);
+          } catch (error) {
+            console.error('Error loading DoR compliance:', error);
+            resultsContainer.innerHTML = `<div class="error-message">Error analyzing sprint: ${error.message}</div>`;
+          } finally {
+            btn.disabled = false;
+            btn.textContent = 'Analyze Sprint';
+          }
+        });
+
+        // Auto-trigger analysis if a sprint was pre-selected from dashboard
+        if (select.value) {
+          btn.click();
+        }
+      }
+
+      function renderDorComplianceResults(container, data, sprintNumber) {
+        const summary = data.summary || {};
+        const teamsRaw = data.teams || {};
+
+        // Flatten issues from all teams
+        const issues = [];
+        for (const [teamName, teamData] of Object.entries(teamsRaw)) {
+          const teamIssues = teamData.issues || [];
+          for (const issue of teamIssues) {
+            issues.push({
+              key: issue.key,
+              type: issue.type,
+              team: teamName,
+              summary: issue.summary,
+              status: issue.status,
+              assignee: issue.assignee,
+              tadStatus: issue.tadNA ? 'N/A' : (issue.tadFound ? 'Yes' : 'No'),
+              tsStatus: issue.tsNA ? 'N/A' : (issue.tsFound ? 'Yes' : 'No'),
+              hasPR: issue.totalPrs > 0,
+              hasDescriptionLink: (issue.tadSource || '').toLowerCase() === 'description' || (issue.tsSource || '').toLowerCase() === 'description',
+              isNA: issue.tadNA || issue.tsNA,
+              linkedToStory: issue.type === 'Bug' && (issue.tadNA || issue.tsNA),
+              tadSource: issue.tadSource,
+              tsSource: issue.tsSource
+            });
+          }
+        }
+
+        const totalIssues = summary.total || 0;
+        const tadCompliant = summary.tadComplete || 0;
+        const tsCompliant = summary.tsComplete || 0;
+        const bothCompliant = summary.bothComplete || 0;
+        const tadNA = summary.tadNA || 0;
+        const tsNA = summary.tsNA || 0;
+        // Count unique N/A issues (issues where either TAD or TS is N/A)
+        const naUniqueCount = issues.filter(i => i.tadStatus === 'N/A' || i.tsStatus === 'N/A').length;
+        const tadApplicable = summary.tadApplicable || (totalIssues - tadNA);
+        const tsApplicable = summary.tsApplicable || (totalIssues - tsNA);
+        const missingTad = summary.missingTad || 0;
+        const missingTs = summary.missingTs || 0;
+        const tadPct = summary.tadPct || 0;
+        const tsPct = summary.tsPct || 0;
+        const bothPct = summary.bothPct || 0;
+
+        function pctClass(pct) {
+          const v = parseFloat(pct);
+          if (v >= 80) return 'dor-pct-good';
+          if (v >= 50) return 'dor-pct-warn';
+          return 'dor-pct-bad';
+        }
+
+        // Build teams array from raw data
+        const teams = Object.entries(teamsRaw).map(([name, stats]) => ({
+          name,
+          total: stats.total || 0,
+          tad: stats.tadComplete || 0,
+          ts: stats.tsComplete || 0,
+          both: stats.bothComplete || 0,
+          tadNA: stats.tadNA || 0,
+          tsNA: stats.tsNA || 0,
+          missingTad: stats.missingTad || 0,
+          missingTs: stats.missingTs || 0,
+          tadPct: (stats.tadPct || 0).toFixed(1),
+          tsPct: (stats.tsPct || 0).toFixed(1),
+        }));
+
+        let html = `
+          <!-- Summary Cards -->
+          <div class="dor-summary-grid">
+            <div class="dor-summary-card dor-highlight">
+              <div class="dor-card-label">Total Issues</div>
+              <div class="dor-card-value">${totalIssues}</div>
+              <div style="font-size:12px; color:rgba(255,255,255,0.7); margin-top:4px;">Bug + Story</div>
+            </div>
+            <div class="dor-summary-card dor-tad">
+              <div class="dor-card-label">TAD Compliant</div>
+              <div class="dor-card-value">${tadCompliant}</div>
+              <div class="dor-compliance-pct ${pctClass(tadPct)}">${tadPct}% <span style="font-size:11px; opacity:0.7;">of ${tadApplicable} applicable</span></div>
+            </div>
+            <div class="dor-summary-card dor-ts">
+              <div class="dor-card-label">TS Compliant</div>
+              <div class="dor-card-value">${tsCompliant}</div>
+              <div class="dor-compliance-pct ${pctClass(tsPct)}">${tsPct}% <span style="font-size:11px; opacity:0.7;">of ${tsApplicable} applicable</span></div>
+            </div>
+            <div class="dor-summary-card dor-both">
+              <div class="dor-card-label">Both TAD &amp; TS</div>
+              <div class="dor-card-value">${bothCompliant}</div>
+              <div class="dor-compliance-pct ${pctClass(bothPct)}">${bothPct}%</div>
+            </div>
+            <div class="dor-summary-card dor-na">
+              <div class="dor-card-label">N/A (Exempt)</div>
+              <div class="dor-card-value">${naUniqueCount}</div>
+              <div style="font-size:11px; color:#8899aa; margin-top:4px;">TAD N/A: ${tadNA} | TS N/A: ${tsNA}</div>
+            </div>
+            <div class="dor-summary-card" style="border-left: 4px solid #ff5252;">
+              <div class="dor-card-label">Truly Missing</div>
+              <div class="dor-card-value" style="font-size:24px; color:#ff5252;">
+                TAD: ${missingTad} | TS: ${missingTs}
+              </div>
+              <div style="font-size:11px; color:#8899aa; margin-top:4px;">Excluding N/A items</div>
+            </div>
+          </div>
+
+          <!-- Team Breakdown -->
+          ${teams.length > 0 ? `
+          <div class="dor-team-section">
+            <h2>👥 Team Breakdown</h2>
+            <table class="dor-team-table">
+              <thead>
+                <tr>
+                  <th>Team</th>
+                  <th class="dor-numeric">Issues</th>
+                  <th class="dor-numeric">TAD ✓</th>
+                  <th class="dor-numeric">TS ✓</th>
+                  <th class="dor-numeric">Both ✓</th>
+                  <th class="dor-numeric">TAD N/A</th>
+                  <th class="dor-numeric">TS N/A</th>
+                  <th class="dor-numeric">Missing TAD</th>
+                  <th class="dor-numeric">Missing TS</th>
+                  <th class="dor-numeric">TAD %</th>
+                  <th class="dor-numeric">TS %</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${teams.map(t => `
+                  <tr>
+                    <td class="dor-team-name">${t.name}</td>
+                    <td class="dor-numeric">${t.total}</td>
+                    <td class="dor-numeric">${t.tad}</td>
+                    <td class="dor-numeric">${t.ts}</td>
+                    <td class="dor-numeric">${t.both}</td>
+                    <td class="dor-numeric">${t.tadNA}</td>
+                    <td class="dor-numeric">${t.tsNA}</td>
+                    <td class="dor-numeric" style="color:${t.missingTad > 0 ? '#ff5252' : '#00e676'}">${t.missingTad}</td>
+                    <td class="dor-numeric" style="color:${t.missingTs > 0 ? '#ff5252' : '#00e676'}">${t.missingTs}</td>
+                    <td class="dor-numeric"><span class="${pctClass(t.tadPct)}">${t.tadPct}%</span></td>
+                    <td class="dor-numeric"><span class="${pctClass(t.tsPct)}">${t.tsPct}%</span></td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+          </div>
+          ` : ''}
+
+          <!-- Issue Details -->
+          <div class="dor-issues-section">
+            <h2>📝 Issue Details (${issues.length})</h2>
+            <div class="dor-filter-bar">
+              <label>Filter:</label>
+              <select id="dorTeamFilter">
+                <option value="">All Teams</option>
+                ${teams.map(t => `<option value="${t.name}">${t.name}</option>`).join('')}
+              </select>
+              <select id="dorTypeFilter">
+                <option value="">All Types</option>
+                <option value="Story">Stories</option>
+                <option value="Bug">Bugs</option>
+              </select>
+              <select id="dorComplianceFilter">
+                <option value="">All Status</option>
+                <option value="compliant">TAD+TS Compliant</option>
+                <option value="non-compliant">Non-Compliant</option>
+                <option value="na">N/A</option>
+              </select>
+            </div>
+            <div id="dorIssueTableContainer">
+              ${renderDorIssueTable(issues)}
+            </div>
+          </div>
+
+          <div class="tests-covered-footer">
+            <p>Sprint: ${sprintNumber} | Generated: ${new Date().toLocaleString()}</p>
+            <p>Data fetched live from JIRA | Teams: ${teams.map(t => t.name).join(', ')}</p>
+          </div>
+        `;
+
+        container.innerHTML = html;
+
+        // Attach filter handlers
+        const teamFilter = document.getElementById('dorTeamFilter');
+        const typeFilter = document.getElementById('dorTypeFilter');
+        const complianceFilter = document.getElementById('dorComplianceFilter');
+
+        function applyFilters() {
+          const team = teamFilter.value;
+          const type = typeFilter.value;
+          const compliance = complianceFilter.value;
+
+          let filtered = issues;
+          if (team) filtered = filtered.filter(i => i.team === team);
+          if (type) filtered = filtered.filter(i => i.type === type);
+          if (compliance === 'compliant') filtered = filtered.filter(i => i.tadStatus === 'Yes' && i.tsStatus === 'Yes');
+          if (compliance === 'non-compliant') filtered = filtered.filter(i => (i.tadStatus === 'No' || i.tsStatus === 'No') && i.tadStatus !== 'N/A' && i.tsStatus !== 'N/A');
+          if (compliance === 'na') filtered = filtered.filter(i => i.tadStatus === 'N/A' || i.tsStatus === 'N/A');
+
+          document.getElementById('dorIssueTableContainer').innerHTML = renderDorIssueTable(filtered);
+        }
+
+        teamFilter?.addEventListener('change', applyFilters);
+        typeFilter?.addEventListener('change', applyFilters);
+        complianceFilter?.addEventListener('change', applyFilters);
+      }
+
+      function renderDorIssueTable(issues) {
+        if (issues.length === 0) return '<div class="no-data">No issues match the selected filters</div>';
+
+        const jiraBase = 'https://jira.wolterskluwer.io/jira/browse/';
+
+        return `
+          <table class="dor-issue-table">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Type</th>
+                <th>Team</th>
+                <th>Summary</th>
+                <th>Status</th>
+                <th>TAD</th>
+                <th>TS</th>
+                <th>Details</th>
+              </tr>
+            </thead>
+            <tbody>
+              ${issues.map(issue => {
+                const tadBadge = issue.tadStatus === 'Yes' ? 'dor-badge-yes' : issue.tadStatus === 'N/A' ? 'dor-badge-na' : 'dor-badge-no';
+                const tsBadge = issue.tsStatus === 'Yes' ? 'dor-badge-yes' : issue.tsStatus === 'N/A' ? 'dor-badge-na' : 'dor-badge-no';
+                const typeBadge = issue.type === 'Story' ? 'dor-badge-story' : 'dor-badge-bug';
+                const summary = (issue.summary || '').length > 60 ? issue.summary.substring(0, 60) + '...' : (issue.summary || '');
+                const details = [];
+                if (issue.hasPR) details.push('PR');
+                if (issue.hasDescriptionLink) details.push('Doc Link');
+                if (issue.isNA) details.push('N/A');
+                if (issue.linkedToStory) details.push('→ Story');
+
+                return `
+                  <tr>
+                    <td><a href="${jiraBase}${issue.key}" target="_blank" class="dor-key-link">${issue.key}</a></td>
+                    <td><span class="dor-badge ${typeBadge}">${issue.type}</span></td>
+                    <td style="font-size:12px; color:#8899aa;">${issue.team || '-'}</td>
+                    <td style="max-width:250px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" title="${(issue.summary || '').replace(/"/g, '&quot;')}">${summary}</td>
+                    <td style="font-size:12px;">${issue.status || '-'}</td>
+                    <td><span class="dor-badge ${tadBadge}">${issue.tadStatus || '-'}</span></td>
+                    <td><span class="dor-badge ${tsBadge}">${issue.tsStatus || '-'}</span></td>
+                    <td style="font-size:11px; color:#8899aa;">${details.join(', ') || '-'}</td>
+                  </tr>
+                `;
+              }).join('')}
+            </tbody>
+          </table>
+        `;
+      }
+
+      // Initialize
+      console.log('🔵 Script loaded, setting up listeners');
+      window.addEventListener('DOMContentLoaded', () => {
+        console.log('🔵 DOMContentLoaded fired');
+        loadProducts();
+      });
+      
+      // Also try immediate load
+      if (document.readyState !== 'loading') {
+        console.log('🔵 Document already loaded, calling loadProducts immediately');
+        loadProducts();
+      }
+    </script>
+  </body>
+</html>

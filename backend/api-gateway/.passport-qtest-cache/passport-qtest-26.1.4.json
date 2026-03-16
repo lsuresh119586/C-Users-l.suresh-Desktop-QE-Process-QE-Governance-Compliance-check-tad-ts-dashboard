@@ -1,0 +1,496 @@
+{
+  "timestamp": 1773378843354,
+  "data": {
+    "sprint_name": "26.1.4",
+    "generated": "2026-03-12T18:21:10.654Z",
+    "source": "passport-qtest-live",
+    "elm_cards": [
+      {
+        "elmKey": "ELM-39643",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 136445936,
+            "pid": "TC-27829",
+            "name": "Verify eMail Download when Encryption Is Blocked/Enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136445936"
+          },
+          {
+            "id": 136461107,
+            "pid": "TC-27860",
+            "name": "Verify Document Download (Root Level) with and without Encryption Enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461107"
+          },
+          {
+            "id": 136461016,
+            "pid": "TC-27858",
+            "name": "Verify Downloading of Document from Nested Folders with/without Encryption enabled",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461016"
+          },
+          {
+            "id": 136460946,
+            "pid": "TC-27857",
+            "name": "Verify Document Check In/Out - File remains unencrypted when policy blocks encryption",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136460946"
+          },
+          {
+            "id": 136461080,
+            "pid": "TC-27859",
+            "name": "Verify Quick file for Documents and eMails - with/without Encryption",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136461080"
+          },
+          {
+            "id": 136798486,
+            "pid": "TC-39129",
+            "name": "Verify OC Client Auto-Upgrades to the fixed OC version 12995",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136798486"
+          }
+        ],
+        "metrics": {
+          "total": 6,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 6,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57935963
+      },
+      {
+        "elmKey": "ELM-39642",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [
+          {
+            "id": 136971283,
+            "pid": "TC-39475",
+            "name": "Verify message status updates for disconnected state",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971283"
+          },
+          {
+            "id": 136971282,
+            "pid": "TC-39474",
+            "name": "Verify connection check in OC when PP is up and running",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971282"
+          },
+          {
+            "id": 136971284,
+            "pid": "TC-39476",
+            "name": "Verify retry connection button functionality when Passport is still down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971284"
+          },
+          {
+            "id": 136971285,
+            "pid": "TC-39477",
+            "name": "Verify retry connection button functionality when Passport is coming up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971285"
+          },
+          {
+            "id": 136971289,
+            "pid": "TC-39481",
+            "name": "Verify OC startup when passport is up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971289"
+          },
+          {
+            "id": 136971286,
+            "pid": "TC-39478",
+            "name": "Verify auto retry connection when Passport is coming up",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971286"
+          },
+          {
+            "id": 136971287,
+            "pid": "TC-39479",
+            "name": "Verify Auto retry connection when Passport is still down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=136971287"
+          },
+          {
+            "id": 137022353,
+            "pid": "TC-39587",
+            "name": "Verify OC Favorites error when passport is down",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137022353"
+          },
+          {
+            "id": 137092319,
+            "pid": "TC-39772",
+            "name": "Verify Globe connection icon",
+            "automationStatus": "Manual",
+            "automationTool": "Unknown",
+            "qtestUrl": "https://wk.qtestnet.com/p/119791/portal/project#tab=testdesign&object=1&id=137092319"
+          }
+        ],
+        "metrics": {
+          "total": 9,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 9,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57935952
+      },
+      {
+        "elmKey": "ELM-39300",
+        "team": "PP Pioneers",
+        "qtestSource": "requirement",
+        "qtestProject": "Passport",
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        },
+        "qtestId": 57391197
+      },
+      {
+        "elmKey": "ELM-31156",
+        "team": "PP Pioneers",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40671",
+        "team": "PP Pioneers",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-39119",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40282",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40603",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-38628",
+        "team": "PP Spartacles",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40220",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40980",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      },
+      {
+        "elmKey": "ELM-40483",
+        "team": "PP Genesis",
+        "qtestSource": "not_found",
+        "qtestProject": null,
+        "testCases": [],
+        "metrics": {
+          "total": 0,
+          "automated": 0,
+          "partiallyAutomated": 0,
+          "manual": 0,
+          "notPossible": 0,
+          "automationCandidate": 0,
+          "notEvaluated": 0,
+          "coveragePercentage": 0
+        }
+      }
+    ],
+    "totals": {
+      "total_elm_cards": 12,
+      "elm_cards_in_qtest": 3,
+      "elm_cards_missing": 9,
+      "total_test_cases": 15,
+      "automated": 0,
+      "partially_automated": 0,
+      "manual": 15,
+      "not_possible": 0,
+      "automation_candidate": 0,
+      "not_evaluated": 0,
+      "coverage_percentage": 0
+    },
+    "teams": {
+      "PP Genesis": {
+        "total": 0,
+        "automated": 0,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": []
+      },
+      "PP Pioneers": {
+        "total": 15,
+        "automated": 0,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": [
+          {
+            "id": "TC-27829",
+            "qtest_id": 136445936,
+            "name": "Verify eMail Download when Encryption Is Blocked/Enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27860",
+            "qtest_id": 136461107,
+            "name": "Verify Document Download (Root Level) with and without Encryption Enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27858",
+            "qtest_id": 136461016,
+            "name": "Verify Downloading of Document from Nested Folders with/without Encryption enabled",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27857",
+            "qtest_id": 136460946,
+            "name": "Verify Document Check In/Out - File remains unencrypted when policy blocks encryption",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-27859",
+            "qtest_id": 136461080,
+            "name": "Verify Quick file for Documents and eMails - with/without Encryption",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39129",
+            "qtest_id": 136798486,
+            "name": "Verify OC Client Auto-Upgrades to the fixed OC version 12995",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39475",
+            "qtest_id": 136971283,
+            "name": "Verify message status updates for disconnected state",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39474",
+            "qtest_id": 136971282,
+            "name": "Verify connection check in OC when PP is up and running",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39476",
+            "qtest_id": 136971284,
+            "name": "Verify retry connection button functionality when Passport is still down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39477",
+            "qtest_id": 136971285,
+            "name": "Verify retry connection button functionality when Passport is coming up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39481",
+            "qtest_id": 136971289,
+            "name": "Verify OC startup when passport is up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39478",
+            "qtest_id": 136971286,
+            "name": "Verify auto retry connection when Passport is coming up",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39479",
+            "qtest_id": 136971287,
+            "name": "Verify Auto retry connection when Passport is still down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39587",
+            "qtest_id": 137022353,
+            "name": "Verify OC Favorites error when passport is down",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          },
+          {
+            "id": "TC-39772",
+            "qtest_id": 137092319,
+            "name": "Verify Globe connection icon",
+            "automated": false,
+            "has_attachment": false,
+            "status": "Manual"
+          }
+        ]
+      },
+      "PP Spartacles": {
+        "total": 0,
+        "automated": 0,
+        "with_attachments": 0,
+        "without_attachments": 0,
+        "test_cases": []
+      }
+    }
+  }
+}

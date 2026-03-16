@@ -1,0 +1,918 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TAD/TS Compliance Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            height: 100%;
+            width: 100%;
+        }
+
+        body {
+            background: #0f0f1a;
+        }
+
+        .tadts-dashboard {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a1a2e 30%, #16213e 60%, #0f3460 100%);
+            padding: 2rem;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+
+        .dashboard-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 2rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        .dashboard-header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #00b4d8, #7c4dff, #e91e63);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header-subtitle {
+            font-size: 1rem;
+            opacity: 0.7;
+            margin: 0;
+            font-weight: 300;
+            color: #8899aa;
+        }
+
+        .sprint-selector-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .sprint-selector-section label {
+            font-weight: 600;
+            color: #8899aa;
+            font-size: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .sprint-selector {
+            flex: 1;
+            max-width: 300px;
+            padding: 0.75rem 1rem;
+            border: 2px solid rgba(255, 255, 255, 0.12);
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.06);
+            color: #e0e0e0;
+        }
+
+        .sprint-selector option {
+            background: #1a1a2e;
+            color: #e0e0e0;
+        }
+
+        .sprint-selector:hover {
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.15);
+        }
+
+        .sprint-selector:focus {
+            outline: none;
+            border-color: #00b4d8;
+            box-shadow: 0 0 0 3px rgba(0, 180, 216, 0.2);
+        }
+
+        .loading-state, .error-state {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 16px;
+            padding: 3rem;
+            text-align: center;
+            font-size: 1.1rem;
+            color: #00b4d8;
+            font-weight: 500;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .error-state {
+            color: #ff6b6b;
+            background: rgba(255, 82, 82, 0.08);
+            border-left: 4px solid #ff5252;
+            animation: none;
+        }
+
+        .tab-navigation {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .tab-button {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: rgba(255, 255, 255, 0.05);
+            color: #667;
+            font-size: 1rem;
+            font-weight: 500;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tab-button:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #8899aa;
+        }
+
+        .tab-button.active {
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 180, 216, 0.4);
+        }
+
+        .tab-content {
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .compliance-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .compliance-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .compliance-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-color: rgba(0, 180, 216, 0.2);
+        }
+
+        .card-header {
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+            color: white;
+            padding: 1.5rem;
+            border-bottom: none;
+        }
+
+        .card-header h3 {
+            margin: 0;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .card-body {
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.1);
+        }
+
+        .compliance-stat {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #00b4d8, #7c4dff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: #8899aa;
+            margin-top: 0.5rem;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin-bottom: 1.5rem;
+        }
+
+        .progress-bar {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.6s ease, background-color 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 180, 216, 0.3);
+        }
+
+        .stat-breakdown {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .breakdown-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .breakdown-item.compliant {
+            background: rgba(0, 230, 118, 0.1);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.2);
+        }
+
+        .breakdown-item.missing {
+            background: rgba(255, 82, 82, 0.1);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 82, 82, 0.2);
+        }
+
+        .breakdown-item.na {
+            background: rgba(255, 255, 255, 0.04);
+            color: #667;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .breakdown-item .badge {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .summary-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .stat-box:hover {
+            transform: translateY(-3px);
+            border-color: rgba(0, 180, 216, 0.2);
+        }
+
+        .stat-icon {
+            font-size: 2.5rem;
+        }
+
+        .stat-info {
+            flex: 1;
+        }
+
+        .stat-number {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: #00b4d8;
+        }
+
+        .stat-text {
+            font-size: 0.9rem;
+            color: #8899aa;
+            margin-top: 0.25rem;
+        }
+
+        .team-matrix-container {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            overflow: auto;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .team-matrix-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.95rem;
+        }
+
+        .team-matrix-table thead {
+            background: linear-gradient(135deg, #00b4d8 0%, #7c4dff 100%);
+            color: white;
+            font-weight: 600;
+            position: sticky;
+            top: 0;
+        }
+
+        .team-matrix-table th {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: none;
+        }
+
+        .team-matrix-table tbody tr {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: background-color 0.2s ease;
+        }
+
+        .team-matrix-table tbody tr:hover {
+            background: rgba(0, 180, 216, 0.06);
+        }
+
+        .team-matrix-table td {
+            padding: 1rem;
+            color: #c0c0c0;
+        }
+
+        .team-name {
+            font-weight: 600;
+            color: #00b4d8;
+        }
+
+        .team-stat {
+            text-align: center;
+            font-weight: 500;
+        }
+
+        .team-percentage {
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .team-total {
+            text-align: center;
+            font-weight: 600;
+            color: #00b4d8;
+        }
+
+        .issues-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .issue-card {
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            padding: 1.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border-left: 4px solid #00b4d8;
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-left: 4px solid #00b4d8;
+        }
+
+        .issue-card:hover {
+            transform: translateX(4px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+            border-left-color: #7c4dff;
+        }
+
+        .issue-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            gap: 1rem;
+        }
+
+        .issue-key {
+            font-family: 'Courier New', monospace;
+            font-weight: 700;
+            color: #00b4d8;
+            font-size: 1rem;
+        }
+
+        .issue-type {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            background: rgba(0, 180, 216, 0.15);
+            color: #00b4d8;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+        }
+
+        .issue-status {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            background: rgba(0, 180, 216, 0.15);
+            color: #00b4d8;
+            border: 1px solid rgba(0, 180, 216, 0.3);
+        }
+
+        .issue-summary {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: #c0c0c0;
+            margin-bottom: 1rem;
+            line-height: 1.4;
+        }
+
+        .issue-compliance {
+            display: flex;
+            gap: 2rem;
+            margin: 1rem 0;
+            padding: 1rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .compliance-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex: 1;
+        }
+
+        .compliance-label {
+            font-weight: 600;
+            color: #8899aa;
+            min-width: 50px;
+        }
+
+        .status-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            white-space: nowrap;
+            background: rgba(0, 230, 118, 0.15);
+            color: #00e676;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+        .status-badge.missing {
+            background: rgba(255, 82, 82, 0.15);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 82, 82, 0.3);
+        }
+
+        .status-badge.na {
+            background: rgba(255, 255, 255, 0.04);
+            color: #667;
+            border: 1px dashed rgba(255, 255, 255, 0.15);
+        }
+
+        .no-issues {
+            text-align: center;
+            padding: 3rem;
+            color: #8899aa;
+            font-size: 1.05rem;
+            background: rgba(255, 255, 255, 0.04);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        @keyframes slideDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+        }
+
+        @media (max-width: 768px) {
+            .tadts-dashboard { padding: 1rem; }
+            .dashboard-header h1 { font-size: 1.75rem; }
+            .sprint-selector-section { flex-direction: column; align-items: flex-start; }
+            .sprint-selector { width: 100%; max-width: none; }
+            .compliance-cards-grid { grid-template-columns: 1fr; }
+            .tab-navigation { flex-direction: column; gap: 0.5rem; }
+            .stat-breakdown { grid-template-columns: 1fr; }
+            .summary-stats { grid-template-columns: 1fr; }
+            .issue-compliance { flex-direction: column; gap: 1rem; }
+        }
+
+        .tab-content.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="tadts-dashboard" id="app">
+        <div class="dashboard-header">
+            <h1>TAD/TS Compliance Analysis</h1>
+            <p class="header-subtitle">Technical Architecture Document & Test Strategy Compliance</p>
+        </div>
+
+        <div class="sprint-selector-section">
+            <label for="sprint-select">Select Sprint:</label>
+            <select id="sprint-select" class="sprint-selector">
+                <option>Loading sprints...</option>
+            </select>
+        </div>
+
+        <div id="loading-state" class="loading-state" style="display:none;">Loading compliance data...</div>
+        <div id="error-state" class="error-state" style="display:none;"></div>
+
+        <div id="dashboard-content" style="display:none;">
+            <div class="tab-navigation">
+                <button class="tab-button active" data-tab="overview">Overview</button>
+                <button class="tab-button" data-tab="teams">Team Matrix</button>
+                <button class="tab-button" data-tab="issues">Issue Details</button>
+            </div>
+
+            <div class="tab-content" id="overview-tab">
+                <div style="background: rgba(255,255,255,0.05); border-radius: 16px; padding: 1.5rem; margin-bottom: 2rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); border: 1px solid rgba(255,255,255,0.08); color: #c0c0c0;">
+                    <p><strong id="sprint-info-sprint" style="color: #8899aa;">Sprint:</strong> <span id="sprint-info-value">-</span></p>
+                    <p style="margin-top: 0.5rem;"><strong style="color: #8899aa;">Total Issues:</strong> <span id="sprint-info-total">-</span></p>
+                </div>
+
+                <div class="compliance-cards-grid">
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>TAD (Technical Architecture Document)</h3></div>
+                        <div class="card-body">
+                            <div class="compliance-stat">
+                                <div class="stat-value" id="tad-percentage">0%</div>
+                                <div class="stat-label">Compliance Rate</div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="tad-progress" style="width: 0%; background: linear-gradient(90deg, #00b4d8, #7c4dff);"></div>
+                            </div>
+                            <div class="stat-breakdown">
+                                <div class="breakdown-item compliant"><span class="badge">✓</span><span><span id="tad-compliant">0</span> Compliant</span></div>
+                                <div class="breakdown-item missing"><span class="badge">✗</span><span><span id="tad-missing">0</span> Missing</span></div>
+                                <div class="breakdown-item na"><span class="badge">N/A</span><span><span id="tad-na">0</span> Not Applicable</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="compliance-card">
+                        <div class="card-header"><h3>TS (Test Strategy)</h3></div>
+                        <div class="card-body">
+                            <div class="compliance-stat">
+                                <div class="stat-value" id="ts-percentage">0%</div>
+                                <div class="stat-label">Compliance Rate</div>
+                            </div>
+                            <div class="progress-bar-container">
+                                <div class="progress-bar" id="ts-progress" style="width: 0%; background: linear-gradient(90deg, #7c4dff, #e91e63);"></div>
+                            </div>
+                            <div class="stat-breakdown">
+                                <div class="breakdown-item compliant"><span class="badge">✓</span><span><span id="ts-compliant">0</span> Compliant</span></div>
+                                <div class="breakdown-item missing"><span class="badge">✗</span><span><span id="ts-missing">0</span> Missing</span></div>
+                                <div class="breakdown-item na"><span class="badge">N/A</span><span><span id="ts-na">0</span> Not Applicable</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="summary-stats">
+                    <div class="stat-box"><div class="stat-icon">📊</div><div class="stat-info"><div class="stat-number" id="stats-total">0</div><div class="stat-text">Total Issues</div></div></div>
+                    <div class="stat-box"><div class="stat-icon">👥</div><div class="stat-info"><div class="stat-number" id="stats-teams">0</div><div class="stat-text">Teams</div></div></div>
+                    <div class="stat-box"><div class="stat-icon">✅</div><div class="stat-info"><div class="stat-number" id="stats-avg">0%</div><div class="stat-text">Avg Compliance</div></div></div>
+                </div>
+            </div>
+
+            <div class="tab-content hidden" id="teams-tab">
+                <div class="team-matrix-container">
+                    <table class="team-matrix-table">
+                        <thead>
+                            <tr>
+                                <th>Team</th><th colspan="2">TAD</th><th colspan="2">TS</th><th colspan="2">N/A</th><th>Total</th>
+                            </tr>
+                            <tr style="background: rgba(0,0,0,0.1);">
+                                <th></th><th>Count</th><th>%</th><th>Count</th><th>%</th><th>Count</th><th>%</th><th></th>
+                            </tr>
+                        </thead>
+                        <tbody id="team-matrix-body">
+                            <tr><td colspan="8" style="text-align:center; padding: 2rem; color: #999;">No team data available</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="tab-content hidden" id="issues-tab">
+                <div style="background: rgba(255,255,255,0.05); border-radius: 12px; padding: 1.5rem; margin-bottom: 2rem; display: flex; gap: 1.5rem; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); border: 1px solid rgba(255,255,255,0.08); flex-wrap: wrap;">
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <label for="type-filter" style="font-weight: 600; color: #8899aa;">Type:</label>
+                        <select id="type-filter" style="padding: 0.5rem 0.75rem; border: 2px solid rgba(255,255,255,0.12); border-radius: 6px; cursor: pointer; background: rgba(255,255,255,0.06); color: #e0e0e0;">
+                            <option value="">All Types</option>
+                        </select>
+                    </div>
+                    <div style="display: flex; gap: 0.75rem; align-items: center;">
+                        <label for="status-filter" style="font-weight: 600; color: #8899aa;">Status:</label>
+                        <select id="status-filter" style="padding: 0.5rem 0.75rem; border: 2px solid rgba(255,255,255,0.12); border-radius: 6px; cursor: pointer; background: rgba(255,255,255,0.06); color: #e0e0e0;">
+                            <option value="">All Statuses</option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="issues-list" id="issues-list">
+                    <div class="no-issues">No issues loaded</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE = 'http://localhost:3000/api';
+        let currentData = null;
+        let allIssues = [];
+
+        async function initDashboard() {
+            try {
+                console.log('🔵 Fetching from:', `${API_BASE}/tad-ts/sprints`);
+                const response = await fetch(`${API_BASE}/tad-ts/sprints`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                console.log('🟢 Sprints loaded:', data);
+                
+                const select = document.getElementById('sprint-select');
+                select.innerHTML = '';
+                
+                if (data.sprints && data.sprints.length > 0) {
+                    data.sprints.forEach(sprint => {
+                        const option = document.createElement('option');
+                        option.value = sprint;
+                        option.textContent = sprint;
+                        select.appendChild(option);
+                    });
+                    
+                    select.addEventListener('change', loadSprintData);
+                    loadSprintData();
+                } else {
+                    throw new Error('No sprints returned from API');
+                }
+            } catch (err) {
+                console.error('❌ Error:', err);
+                document.getElementById('error-state').style.display = 'block';
+                document.getElementById('error-state').innerHTML = `
+                    <strong>Error loading sprints:</strong><br>
+                    ${err.message}<br><br>
+                    <small>Make sure backend is running on http://localhost:3000</small>
+                `;
+            }
+        }
+
+        async function loadSprintData() {
+            const sprint = document.getElementById('sprint-select').value;
+            if (!sprint) return;
+
+            document.getElementById('loading-state').style.display = 'block';
+            document.getElementById('dashboard-content').style.display = 'none';
+            document.getElementById('error-state').style.display = 'none';
+
+            try {
+                console.log('🔵 Loading sprint data for:', sprint);
+                const url = `${API_BASE}/tad-ts/sprint/${sprint}`;
+                console.log('📍 Fetching from:', url);
+                
+                const response = await fetch(url);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                currentData = await response.json();
+                console.log('🟢 Sprint data loaded:', currentData);
+                
+                allIssues = currentData.issues || [];
+                
+                updateDashboard();
+                
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('dashboard-content').style.display = 'block';
+            } catch (err) {
+                console.error('❌ Error:', err);
+                document.getElementById('loading-state').style.display = 'none';
+                document.getElementById('error-state').style.display = 'block';
+                document.getElementById('error-state').innerHTML = `
+                    <strong>Error loading compliance data:</strong><br>
+                    ${err.message}<br><br>
+                    <small>Check browser console for details</small>
+                `;
+            }
+        }
+
+        function updateDashboard() {
+            if (!currentData) return;
+
+            const stats = currentData.complianceStats;
+
+            // Update overview tab
+            document.getElementById('sprint-info-value').textContent = currentData.sprint;
+            document.getElementById('sprint-info-total').textContent = currentData.totalIssues;
+
+            // Update TAD card
+            document.getElementById('tad-percentage').textContent = stats.tad.percentage + '%';
+            document.getElementById('tad-compliant').textContent = stats.tad.compliant;
+            document.getElementById('tad-missing').textContent = stats.tad.missing;
+            document.getElementById('tad-na').textContent = stats.tad.na;
+            document.getElementById('tad-progress').style.width = stats.tad.percentage + '%';
+            document.getElementById('tad-progress').style.background = getComplianceColor(stats.tad.percentage);
+
+            // Update TS card
+            document.getElementById('ts-percentage').textContent = stats.ts.percentage + '%';
+            document.getElementById('ts-compliant').textContent = stats.ts.compliant;
+            document.getElementById('ts-missing').textContent = stats.ts.missing;
+            document.getElementById('ts-na').textContent = stats.ts.na;
+            document.getElementById('ts-progress').style.width = stats.ts.percentage + '%';
+            document.getElementById('ts-progress').style.background = getComplianceColor(stats.ts.percentage);
+
+            // Update summary stats
+            document.getElementById('stats-total').textContent = currentData.totalIssues;
+            document.getElementById('stats-teams').textContent = (currentData.teamMatrix || []).length;
+            const avgCompliance = Math.round((stats.tad.percentage + stats.ts.percentage) / 2);
+            document.getElementById('stats-avg').textContent = avgCompliance + '%';
+
+            // Update team matrix
+            updateTeamMatrix();
+
+            // Update issues tab
+            updateIssuesList();
+
+            // Setup tab buttons
+            document.querySelectorAll('.tab-button').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    document.querySelectorAll('.tab-button').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+                    e.target.classList.add('active');
+                    document.getElementById(e.target.dataset.tab + '-tab').classList.remove('hidden');
+                });
+            });
+        }
+
+        function updateTeamMatrix() {
+            const tbody = document.getElementById('team-matrix-body');
+            tbody.innerHTML = '';
+
+            (currentData.teamMatrix || []).forEach(team => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td class="team-name">${team.team}</td>
+                    <td class="team-stat">${team.tad.count}</td>
+                    <td class="team-percentage"><span style="color: ${getComplianceColor(team.tad.percentage)}">${team.tad.percentage}%</span></td>
+                    <td class="team-stat">${team.ts.count}</td>
+                    <td class="team-percentage"><span style="color: ${getComplianceColor(team.ts.percentage)}">${team.ts.percentage}%</span></td>
+                    <td class="team-stat">${team.na.count}</td>
+                    <td class="team-percentage">${team.na.percentage}%</td>
+                    <td class="team-total">${team.total}</td>
+                `;
+                tbody.appendChild(row);
+            });
+        }
+
+        function updateIssuesList() {
+            const issuesList = document.getElementById('issues-list');
+            issuesList.innerHTML = '';
+
+            if (allIssues.length === 0) {
+                issuesList.innerHTML = '<div class="no-issues">No issues available</div>';
+                return;
+            }
+
+            // Populate filter dropdowns
+            const types = [...new Set(allIssues.map(i => i.type))];
+            const statuses = [...new Set(allIssues.map(i => i.status))];
+
+            const typeFilter = document.getElementById('type-filter');
+            const statusFilter = document.getElementById('status-filter');
+
+            types.forEach(type => {
+                const option = document.createElement('option');
+                option.value = type;
+                option.textContent = type;
+                typeFilter.appendChild(option);
+            });
+
+            statuses.forEach(status => {
+                const option = document.createElement('option');
+                option.value = status;
+                option.textContent = status;
+                statusFilter.appendChild(option);
+            });
+
+            typeFilter.addEventListener('change', renderIssues);
+            statusFilter.addEventListener('change', renderIssues);
+
+            renderIssues();
+        }
+
+        function renderIssues() {
+            const issuesList = document.getElementById('issues-list');
+            const typeFilter = document.getElementById('type-filter').value;
+            const statusFilter = document.getElementById('status-filter').value;
+
+            const filtered = allIssues.filter(issue => {
+                const typeMatch = !typeFilter || issue.type === typeFilter;
+                const statusMatch = !statusFilter || issue.status === statusFilter;
+                return typeMatch && statusMatch;
+            });
+
+            issuesList.innerHTML = '';
+
+            if (filtered.length === 0) {
+                issuesList.innerHTML = '<div class="no-issues">No issues match the selected filters</div>';
+                return;
+            }
+
+            filtered.forEach(issue => {
+                const card = document.createElement('div');
+                card.className = 'issue-card';
+
+                const tadStatus = issue.compliance?.tad?.status ? '✓ Compliant' : '✗ Missing';
+                const tadClass = issue.compliance?.tad?.status ? '' : 'missing';
+                const tsStatus = issue.compliance?.ts?.status ? '✓ Compliant' : '✗ Missing';
+                const tsClass = issue.compliance?.ts?.status ? '' : 'missing';
+
+                card.innerHTML = `
+                    <div class="issue-header">
+                        <div>
+                            <span class="issue-key">${issue.key}</span>
+                            <span class="issue-type">${issue.type}</span>
+                        </div>
+                        <span class="issue-status">${issue.status}</span>
+                    </div>
+                    <div class="issue-summary">${issue.summary}</div>
+                    <div class="issue-compliance">
+                        <div class="compliance-item">
+                            <span class="compliance-label">TAD:</span>
+                            <span class="status-badge ${tadClass}">${tadStatus}</span>
+                        </div>
+                        <div class="compliance-item">
+                            <span class="compliance-label">TS:</span>
+                            <span class="status-badge ${tsClass}">${tsStatus}</span>
+                        </div>
+                    </div>
+                    ${issue.assignee ? `<div style="font-size: 0.9rem; color: #8899aa; margin-top: 0.75rem;">Assigned to: ${issue.assignee}</div>` : ''}
+                `;
+
+                issuesList.appendChild(card);
+            });
+        }
+
+        function getComplianceColor(percentage) {
+            if (percentage >= 80) return '#10b981';
+            if (percentage >= 60) return '#f59e0b';
+            if (percentage >= 40) return '#ef5350';
+            return '#d32f2f';
+        }
+
+        // Initialize on load
+        window.addEventListener('load', initDashboard);
+    </script>
+</body>
+</html>

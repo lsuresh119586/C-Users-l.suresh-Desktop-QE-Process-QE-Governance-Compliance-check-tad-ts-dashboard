@@ -1,0 +1,30 @@
+Team Name,Sprint,Jira Ticket,Summary,Type,Status,TAD Present,TS Present,TAD Score,TS Score,Total Score,Total PRs
+T360 Vanguards,26.1.1,GET-67500,"""Invoice Compliance"" section in AI Summary fails to load wit",Bug,New,❌ No,❌ No,0,0,0,0
+T360 Vanguards,26.1.1,GET-64677,Citations - Convert Citations to Interactive Links with Line,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,4
+T360 Vanguards,26.1.1,GET-64675,Citations - Transform Payload Citations into Numbered Refere,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,7
+T360 Vanguards,26.1.1,GET-62908,Invoice AI - Payloads (Budgets & Adjustments)- T360 Web API ,Story,In Progress,✅ Yes,✅ Yes,1,1,2,5
+T360 Vanguards,26.1.1,GET-67493,"""Get AI Summary"" displays static content instead of dynamic ",Bug,New,❌ No,❌ No,0,0,0,0
+T360 Vanguards,26.1.1,GET-67494,Citation styling in AI summary does not match Figma design,Bug,In Progress,❌ No,❌ No,0,0,0,0
+T360 Vanguards,26.1.1,GET-66142,"Password input does not accept Space and Emoji characters, v",Bug,New,❌ No,❌ No,0,0,0,2
+T360 Vanguards,26.1.1,GET-56987,"ASVS-Verify that any printable Unicode character, including ",Story,To Verify,✅ Yes,✅ Yes,1,1,2,8
+Nexus,26.1.1,GET-3928,TEC-301935 - CNA High Priority: Performance: Invoice Search ,Bug,To Verify,✅ Yes,✅ Yes,1,1,2,4
+Nexus,26.1.1,GET-50527,INC3102287 - PRB0057529 Analyze and create missing index sug,Story,To Verify,✅ Yes,✅ Yes,1,1,2,3
+Nexus,26.1.1,GET-63638,LegalCollaborator: Cancel or Update Case Assessment on Compa,Story,In Progress,✅ Yes,✅ Yes,1,1,2,2
+Nexus,26.1.1,GET-64300,CA LegalCollaborator: Enable Corporate Users to Create Case ,Story,In Progress,✅ Yes,✅ Yes,1,1,2,3
+T360 Mavericks,26.1.1,GET-60431,Update Matter AI label,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,3
+T360 Mavericks,26.1.1,GET-62132,Correct AI console Selections issues,Story,In Progress,✅ Yes,✅ Yes,1,1,2,3
+T360 Mavericks,26.1.1,GET-62748,AI console: Add UI for adding AI methods,Story,In Progress,✅ Yes,✅ Yes,1,1,2,3
+T360 Mavericks,26.1.1,GET-61996,[UAT/TST] The spinner keeps on loading while searching with ,Bug,In Progress,✅ Yes,✅ Yes,1,1,2,3
+Matrix,26.1.1,GET-66026,Introduce “Jobs Scheduler” Menu in T360 with Network & Permi,Story,To Verify,✅ Yes,✅ Yes,1,1,2,5
+Matrix,26.1.1,GET-64548,T360.Scheduler.API – CI/CD Setup for NA (Containerized) and ,Story,In Progress,✅ Yes,❌ No,1,0,1,1
+Matrix,26.1.1,GET-66018,Scheduler UI – CI/CD Setup for NA (Containerized) and EU (Te,Story,In Progress,✅ Yes,❌ No,1,0,1,2
+Matrix,26.1.1,GET-64544,Migrate Scheduling Workflows from JAMS to Modern Scheduler P,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,7
+T360 ICD Chubb,26.1.1,GET-22095,TEC-369708: Chubb Group Claims: ITP rule not working correct,Bug,Code Complete,✅ Yes,✅ Yes,1,1,2,3
+T360 ICD Chubb,26.1.1,GET-62060,Predictive Insights: Rescoring a matter in bulk via data exc,Story,To Verify,✅ Yes,✅ Yes,1,1,2,4
+T360 ICD Chubb,26.1.1,GET-58776,Claim Authority Exclusion Secure Action & Permission Setup,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,5
+T360 ICD Chubb,26.1.1,GET-58925,Affiliated Vendor can associate one to many on matters - dat,Story,Code Complete,✅ Yes,✅ Yes,1,1,2,5
+T360 Chargers,26.1.1,GET-67482,Documents in DF is still displayed in Blob after Partial Pur,Bug,New,❌ No,❌ No,0,0,0,0
+T360 Chargers,26.1.1,GET-65633,[Document Modernization]- Dual _Write off ,Story,To Verify,✅ Yes,✅ Yes,1,1,2,8
+T360 Chargers,26.1.1,GET-67272,Email this page and Move document not working in TST - Docum,Bug,In Progress,❌ No,❌ No,0,0,0,0
+T360 Chargers,26.1.1,GET-65980,[T360 Modernization]UUID:UUID: E100F100S100 - Upgrade DDD Te,Story,In Progress,❌ No,❌ No,0,0,0,0
+T360 Chargers,26.1.1,GET-65986,[T360 Modernization] UUID: E100F101-CQRS Template Alignment,Story,In Progress,❌ No,❌ No,0,0,0,0

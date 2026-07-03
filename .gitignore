@@ -58,6 +58,11 @@ reference-source/
 # Docker
 *.tar
 
+# Backup folders and archives
+polaris-elm-dashboard-BACKUP-*/
+*.rar
+polaris-elm-dashboard-DnA-Metrics/
+
 # Temporary files
 tmp/
 temp/

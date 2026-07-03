@@ -17,7 +17,7 @@ PROJECT_ID = 114345
 # You can get your qTest API token from: https://wk.qtestnet.com/user/api-token
 # Set this as an environment variable: QTEST_API_TOKEN
 # Or replace 'YOUR_TOKEN_HERE' with your actual token
-QTEST_API_TOKEN = "d52ca8d3-d69b-40e8-a3bd-dde6e77fe92d"
+QTEST_API_TOKEN = os.environ.get("QTEST_API_TOKEN", "")
 
 def get_headers():
     """Get API headers with authentication"""

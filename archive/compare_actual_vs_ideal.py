@@ -9,10 +9,10 @@ import json
 BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 
 # Fetch actual content from Bitbucket PR #5361
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361/overview"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361/overview"
 api_url = pr_url.replace('/overview', '').replace(
-    'https://bitbucket.wolterskluwer.io/projects/',
-    'https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/'
+    'os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # ',
+    'os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/'
 ).replace('/repos/', '/repos/').replace('/pull-requests/', '/pull-requests/')
 
 headers = {'Authorization': f'Bearer {BITBUCKET_TOKEN}'}

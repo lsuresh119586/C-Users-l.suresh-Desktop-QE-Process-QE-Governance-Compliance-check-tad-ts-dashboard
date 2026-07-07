@@ -19,7 +19,7 @@ session.headers.update({
 
 try:
     r = session.post(
-        'https://jira.wolterskluwer.io/jira/rest/api/2/search',
+        'os.environ.get("JIRA_URL","https://jira.example.com")+"/  # jira/rest/api/2/search',
         json={'jql': 'project=GET AND sprint="T360 Vanguards-26.1.1"', 'maxResults': 1},
         timeout=60
     )

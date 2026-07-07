@@ -3,7 +3,7 @@
 
 import requests
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 
 session = requests.Session()
@@ -65,5 +65,5 @@ else:
 
 print("\n" + "=" * 80)
 print("You can check any issue directly at:")
-print("https://jira.wolterskluwer.io/jira/browse/<ISSUE-KEY>")
+print("os.environ.get("JIRA_URL","https://jira.example.com")+"/  # jira/browse/<ISSUE-KEY>")
 print("=" * 80)

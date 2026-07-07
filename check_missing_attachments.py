@@ -14,7 +14,7 @@ for team_name, team_data in sorted(data['teams'].items()):
         print(f"{team_name} ({len(without_attachments)} missing):")
         for tc in without_attachments:
             # Construct qTest URL
-            qtest_url = f"https://wk.qtestnet.com/p/114345/portal/project#tab=testdesign&object=2&id={tc['qtest_id']}"
+            qtest_url = f"os.environ.get("QTEST_URL","https://qtestnet.example.com")+"/"  # p/114345/portal/project#tab=testdesign&object=2&id={tc['qtest_id']}"
             print(f"  - {tc['id']}: {tc['name']}")
             print(f"    URL: {qtest_url}")
         print()

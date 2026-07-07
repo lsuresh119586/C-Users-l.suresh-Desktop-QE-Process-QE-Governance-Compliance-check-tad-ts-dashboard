@@ -7,13 +7,13 @@ if sys.platform == 'win32':
     os.system('chcp 65001 >nul 2>&1')
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
-BITBUCKET_URL = "https://bitbucket.wolterskluwer.io"
+BITBUCKET_URL = os.environ.get("BITBUCKET_URL", "https://bitbucket.example.com")
 
 # Try to access the specific PR
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361/overview"
-api_url = "https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/TYM/repos/tymetrix360core/pull-requests/5361"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361/overview"
+api_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/TYM/repos/tymetrix360core/pull-requests/5361"
 
 print(f"Attempting to access: {pr_url}\n")
 print(f"API URL: {api_url}\n")

@@ -9,8 +9,8 @@ import re
 BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 
 prs_to_check = [
-    ("Chargers/Mavericks", "https://bitbucket.wolterskluwer.io/projects/TYM/repos/unifiedui/pull-requests/830/overview"),
-    ("Chargers/Mavericks", "https://bitbucket.wolterskluwer.io/projects/DEP/repos/aiconsole/pull-requests/149/overview")
+    ("Chargers/Mavericks", "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/unifiedui/pull-requests/830/overview"),
+    ("Chargers/Mavericks", "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # DEP/repos/aiconsole/pull-requests/149/overview")
 ]
 
 session = requests.Session()
@@ -31,7 +31,7 @@ for team, pr_url in prs_to_check:
     repo = match.group(2)
     pr_id = match.group(3)
     
-    api_url = f"https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/{project}/repos/{repo}/pull-requests/{pr_id}"
+    api_url = f"os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/{project}/repos/{repo}/pull-requests/{pr_id}"
     
     print(f"\nProject: {project}")
     print(f"Repo: {repo}")

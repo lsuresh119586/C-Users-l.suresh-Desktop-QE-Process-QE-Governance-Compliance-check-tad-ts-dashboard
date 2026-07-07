@@ -8,9 +8,9 @@ if sys.platform == 'win32':
     os.system('chcp 65001 >nul 2>&1')
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
-BITBUCKET_URL = "https://bitbucket.wolterskluwer.io"
+BITBUCKET_URL = os.environ.get("BITBUCKET_URL", "https://bitbucket.example.com")
 
 # Get JIRA session
 session = requests.Session()
@@ -20,7 +20,7 @@ session.headers.update({
 })
 
 # Test Bitbucket PR fetch with JIRA session
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/unifiedui/pull-requests/836"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/unifiedui/pull-requests/836"
 
 match = re.search(r'/projects/([^/]+)/repos/([^/]+)/pull-requests/(\d+)', pr_url)
 project_key = match.group(1)

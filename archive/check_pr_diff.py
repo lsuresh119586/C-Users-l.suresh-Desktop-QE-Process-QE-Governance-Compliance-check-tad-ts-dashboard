@@ -11,12 +11,12 @@ BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 BITBUCKET_USERNAME = "l.suresh"
 
 # PR #5361 for GET-56987
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361"
 
 # Convert to API URL
 api_url = pr_url.replace(
-    'https://bitbucket.wolterskluwer.io/projects/',
-    'https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/'
+    'os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # ',
+    'os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/'
 ).replace('/repos/', '/repos/').replace('/pull-requests/', '/pull-requests/')
 
 headers = {'Authorization': f'Bearer {BITBUCKET_TOKEN}'}

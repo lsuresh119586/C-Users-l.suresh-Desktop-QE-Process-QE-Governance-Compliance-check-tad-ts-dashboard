@@ -709,7 +709,7 @@ def generate_standalone_html(month_data):
                                 <tbody>
                                     ${{team.issues.map(issue => `
                                         <tr>
-                                            <td><a href="https://jira.wolterskluwer.io/jira/browse/${{issue.key}}" target="_blank">${{issue.key}}</a></td>
+                                            <td><a href="os.environ.get("JIRA_URL","https://jira.example.com")+"/  # jira/browse/${{issue.key}}" target="_blank">${{issue.key}}</a></td>
                                             <td>${{issue.type}}</td>
                                             <td>${{issue.status}}</td>
                                             <td>${{issue.tadFound ? '<span class="badge success">✓</span>' : '<span class="badge danger">✗</span>'}}</td>

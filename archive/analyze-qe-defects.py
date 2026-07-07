@@ -7,7 +7,7 @@ import requests
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 PROJECT_KEY = "GET"
 

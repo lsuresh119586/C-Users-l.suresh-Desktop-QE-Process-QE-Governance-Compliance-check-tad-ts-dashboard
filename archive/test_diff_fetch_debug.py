@@ -4,14 +4,14 @@ import re
 
 BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361/overview"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361/overview"
 
 match = re.search(r'/projects/([^/]+)/repos/([^/]+)/pull-requests/(\d+)', pr_url)
 project_key = match.group(1)
 repo_slug = match.group(2)
 pr_id = match.group(3)
 
-api_url = f"https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/{project_key}/repos/{repo_slug}/pull-requests/{pr_id}"
+api_url = f"os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/{project_key}/repos/{repo_slug}/pull-requests/{pr_id}"
 
 session = requests.Session()
 session.headers['Authorization'] = f'Bearer {BITBUCKET_TOKEN}'

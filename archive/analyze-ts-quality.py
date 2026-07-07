@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+﻿#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
 Test Strategy Quality Analysis Tool
@@ -20,9 +20,9 @@ from datetime import datetime
 from requests.adapters import HTTPAdapter
 from urllib3.util.retry import Retry
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
-BITBUCKET_URL = "https://bitbucket.wolterskluwer.io"
+BITBUCKET_URL = os.environ.get("BITBUCKET_URL", "https://bitbucket.example.com")
 BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 BITBUCKET_USERNAME = "l.suresh"  # Required for Personal Access Token
 BITBUCKET_ENABLED = True  # Set to True to attempt Bitbucket PR fetching
@@ -148,7 +148,7 @@ def fetch_bitbucket_pr_content(pr_url, jira_session=None):
         
     try:
         # Parse Bitbucket URL to extract project, repo, and PR number
-        # Format: https://bitbucket.wolterskluwer.io/projects/TYM/repos/unifiedui/pull-requests/836/overview
+        # Format: os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/unifiedui/pull-requests/836/overview
         match = re.search(r'/projects/([^/]+)/repos/([^/]+)/pull-requests/(\d+)', pr_url)
         if not match:
             return None
@@ -310,7 +310,7 @@ def extract_ts_content(session, issue_key, issue_data):
             # First check if comments have Bitbucket PR links (processed later)
             has_bitbucket_link = False
             for comment in ts_content['comments']:
-                if comment and 'bitbucket.wolterskluwer.io' in comment.lower():
+                if comment and 'bitbucket.example.com' in comment.lower():
                     has_bitbucket_link = True
                     break
             
@@ -358,7 +358,7 @@ def extract_ts_content(session, issue_key, issue_data):
     bitbucket_pr_links = []
     for comment in ts_content['comments']:
         # Handle both plain URLs and JIRA markdown format [text|url]
-        bitbucket_links = re.findall(r'https://bitbucket\.wolterskluwer\.io/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', comment)
+        bitbucket_links = re.findall(r'https://bitbucket\.example\.com/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', comment)
         for link in bitbucket_links:
             pr_num = link.split('/')[-1]
             bitbucket_pr_links.append(link)
@@ -389,7 +389,7 @@ def extract_ts_content(session, issue_key, issue_data):
     
     # 6. Also check description for Bitbucket links
     if ts_content['description']:
-        bitbucket_links = re.findall(r'https://bitbucket\.wolterskluwer\.io/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', ts_content['description'])
+        bitbucket_links = re.findall(r'https://bitbucket\.example\.com/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', ts_content['description'])
         for link in bitbucket_links:
             if link not in bitbucket_pr_links:
                 pr_num = link.split('/')[-1]

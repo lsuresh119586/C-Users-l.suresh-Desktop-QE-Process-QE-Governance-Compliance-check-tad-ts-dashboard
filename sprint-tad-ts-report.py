@@ -29,7 +29,7 @@ def load_env():
 
 load_env()
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 if not JIRA_API_TOKEN:
     print("ERROR: JIRA_API_TOKEN not set. Please set it in .env file or as environment variable.")

@@ -11,10 +11,10 @@ from datetime import datetime
 from collections import defaultdict
 
 # qTest Configuration
-QTEST_URL = "https://wk.qtestnet.com/api/v3"
+QTEST_URL = "os.environ.get("QTEST_URL","https://qtestnet.example.com")+"/"  # api/v3"
 PROJECT_ID = 114345
 
-# You can get your qTest API token from: https://wk.qtestnet.com/user/api-token
+# You can get your qTest API token from: os.environ.get("QTEST_URL","https://qtestnet.example.com")+"/"  # user/api-token
 # Set this as an environment variable: QTEST_API_TOKEN
 # Or replace 'YOUR_TOKEN_HERE' with your actual token
 QTEST_API_TOKEN = os.environ.get("QTEST_API_TOKEN", "")
@@ -324,7 +324,7 @@ def main():
     
     if QTEST_API_TOKEN == "YOUR_TOKEN_HERE":
         print("ERROR: Please set your qTest API token!")
-        print("Get your token from: https://wk.qtestnet.com/user/api-token")
+        print("Get your token from: os.environ.get("QTEST_URL","https://qtestnet.example.com")+"/"  # user/api-token")
         print("Update QTEST_API_TOKEN in the script or set QTEST_API_TOKEN environment variable")
         sys.exit(1)
     

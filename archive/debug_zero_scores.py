@@ -1,4 +1,4 @@
-"""
+﻿"""
 Debug script: Show actual content fetched for Chargers/Mavericks stories
 """
 
@@ -14,7 +14,7 @@ if sys.platform == 'win32':
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
 # Configure
-JIRA_URL = "https://jira.wolterskluwer.io"
+JIRA_URL = os.environ.get("JIRA_URL","")
 JIRA_PAT = os.environ.get("JIRA_API_TOKEN", "")
 
 session = requests.Session()
@@ -60,7 +60,7 @@ for story_key in stories_to_debug:
             bitbucket_prs = []
             for comment in comment_data:
                 body = comment.get('body', '')
-                links = re.findall(r'https://bitbucket\.wolterskluwer\.io/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', body)
+                links = re.findall(r'https://bitbucket\.example\.com/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/\d+', body)
                 bitbucket_prs.extend(links)
             
             print(f"Bitbucket PRs found: {len(bitbucket_prs)}")
@@ -81,7 +81,7 @@ for story_key in stories_to_debug:
                         repo = match.group(2)
                         pr_id = match.group(3)
                         
-                        api_url = f"https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/{project}/repos/{repo}/pull-requests/{pr_id}"
+                        api_url = f"os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/{project}/repos/{repo}/pull-requests/{pr_id}"
                         
                         bb_session = requests.Session()
                         bb_session.headers['Authorization'] = 'Bearer ***REMOVED***'

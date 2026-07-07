@@ -1,7 +1,7 @@
 import requests
 import json
 
-JIRA_URL = 'https://jira.wolterskluwer.io/jira'
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = '***REMOVED***'
 
 session = requests.Session()

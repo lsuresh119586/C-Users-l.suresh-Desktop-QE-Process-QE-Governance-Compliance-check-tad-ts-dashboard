@@ -6,7 +6,7 @@ Fetch team information for a specific Jira issue
 import requests
 import sys
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 
 def get_issue_team(issue_key):

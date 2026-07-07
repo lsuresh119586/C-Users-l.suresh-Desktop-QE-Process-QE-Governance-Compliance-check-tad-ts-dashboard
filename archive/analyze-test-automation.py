@@ -8,7 +8,7 @@ import json
 from collections import defaultdict
 
 # qTest API Configuration
-QTEST_URL = "https://wk.qtestnet.com/api/v3"
+QTEST_URL = "os.environ.get("QTEST_URL","https://qtestnet.example.com")+"/"  # api/v3"
 PROJECT_ID = 114345
 
 # Get all test cases (pagination)

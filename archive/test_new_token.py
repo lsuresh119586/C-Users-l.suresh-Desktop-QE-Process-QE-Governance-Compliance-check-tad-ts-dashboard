@@ -7,12 +7,12 @@ if sys.platform == 'win32':
     os.system('chcp 65001 >nul 2>&1')
     sys.stdout.reconfigure(encoding='utf-8', errors='replace')
 
-BITBUCKET_URL = "https://bitbucket.wolterskluwer.io"
+BITBUCKET_URL = os.environ.get("BITBUCKET_URL", "https://bitbucket.example.com")
 BITBUCKET_TOKEN = os.environ.get("BITBUCKET_TOKEN", "")
 USERNAME = "l.suresh"  # Try with your username
 
 # Test PR access with new token
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361"
 api_url = f"{BITBUCKET_URL}/rest/api/1.0/projects/TYM/repos/tymetrix360core/pull-requests/5361"
 
 print(f"Testing Bitbucket Token Access")

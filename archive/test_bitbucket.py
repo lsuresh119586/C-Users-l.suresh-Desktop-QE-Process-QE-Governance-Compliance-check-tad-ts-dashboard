@@ -1,10 +1,10 @@
 import requests
 import re
 
-BITBUCKET_URL = "https://bitbucket.wolterskluwer.io"
+BITBUCKET_URL = os.environ.get("BITBUCKET_URL", "https://bitbucket.example.com")
 BITBUCKET_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 
-pr_url = "https://bitbucket.wolterskluwer.io/projects/TYM/repos/unifiedui/pull-requests/836/overview"
+pr_url = "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/unifiedui/pull-requests/836/overview"
 
 # Parse URL
 match = re.search(r'/projects/([^/]+)/repos/([^/]+)/pull-requests/(\d+)', pr_url)

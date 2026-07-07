@@ -7,16 +7,16 @@ BITBUCKET_USERNAME = "l.suresh"
 
 # Test PR URLs from Vanguards team
 test_prs = [
-    ("GET-64677", "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/836/overview"),
-    ("GET-56987", "https://bitbucket.wolterskluwer.io/projects/TYM/repos/tymetrix360core/pull-requests/5361/overview")
+    ("GET-64677", "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/836/overview"),
+    ("GET-56987", "os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # TYM/repos/tymetrix360core/pull-requests/5361/overview")
 ]
 
 def fetch_pr_content(pr_url):
     """Fetch PR content from Bitbucket"""
     try:
         # Convert overview URL to API URL
-        api_url = pr_url.replace('/overview', '').replace('https://bitbucket.wolterskluwer.io/projects/', 
-                                                           'https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/')
+        api_url = pr_url.replace('/overview', '').replace('os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/projects/"  # ', 
+                                                           'os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/')
         api_url = api_url.replace('/repos/', '/repos/').replace('/pull-requests/', '/pull-requests/')
         
         headers = {'Authorization': f'Bearer {BITBUCKET_TOKEN}'}

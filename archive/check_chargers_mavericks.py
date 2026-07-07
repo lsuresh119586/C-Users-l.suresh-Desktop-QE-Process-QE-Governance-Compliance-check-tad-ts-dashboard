@@ -1,4 +1,4 @@
-"""
+﻿"""
 Check Chargers and Mavericks PRs to see why they score 0%
 """
 
@@ -95,7 +95,7 @@ for team, key, summary in stories_to_check:
             print("\n❌ No Bitbucket reference found")
         
         # Look for specific PR links in the content
-        pr_links = re.findall(r'https://bitbucket\.wolterskluwer\.io/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/(\d+)', story_section)
+        pr_links = re.findall(r'https://bitbucket\.example\.com/projects/[^/\s\]|]+/repos/[^/\s\]|]+/pull-requests/(\d+)', story_section)
         if pr_links:
             print(f"\nFound PR links: #{', #'.join(pr_links)}")
             
@@ -104,7 +104,7 @@ for team, key, summary in stories_to_check:
                 # Try to fetch this PR
                 # Need to figure out the repo - let's try common ones
                 for repo in ['tymetrix360core', 'unifiedui', 'tymetrix360']:
-                    test_url = f"https://bitbucket.wolterskluwer.io/rest/api/1.0/projects/TYM/repos/{repo}/pull-requests/{pr_num}"
+                    test_url = f"os.environ.get("BITBUCKET_URL","https://bitbucket.example.com")+"/rest/"  # api/1.0/projects/TYM/repos/{repo}/pull-requests/{pr_num}"
                     
                     session = requests.Session()
                     session.headers['Authorization'] = f'Bearer {BITBUCKET_TOKEN}'

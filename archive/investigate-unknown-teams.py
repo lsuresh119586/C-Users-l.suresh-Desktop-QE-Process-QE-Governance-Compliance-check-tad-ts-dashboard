@@ -6,7 +6,7 @@ Investigate "Unknown Team" issues to see their actual team field values
 import requests
 import json
 
-JIRA_URL = "https://jira.wolterskluwer.io/jira"
+JIRA_URL = os.environ.get("JIRA_URL", "https://jira.example.com/jira")
 JIRA_API_TOKEN = os.environ.get("JIRA_API_TOKEN", "")
 PROJECT_KEY = "ELM"
 
